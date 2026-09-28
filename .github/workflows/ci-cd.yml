@@ -86,6 +86,7 @@ jobs:
           test -n "$DEPLOY_HOST" && test -n "$DEPLOY_PORT" && test -n "$DEPLOY_USER"
           ssh_opts=(-i "$RUNNER_TEMP/ssh/key" -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/ssh/known_hosts" -p "$DEPLOY_PORT")
           remote_root="/home/$DEPLOY_USER/deployments/thecodemunk"
+          # shellcheck disable=SC2029 # validated local path is intentionally sent to the remote shell
           ssh "${ssh_opts[@]}" "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$remote_root/candidates/$GITHUB_SHA'"
           rsync -az --delete -e "ssh ${ssh_opts[*]}" release/ "$DEPLOY_USER@$DEPLOY_HOST:$remote_root/candidates/$GITHUB_SHA/"
 
@@ -99,6 +100,7 @@ jobs:
           ssh_opts=(-i "$RUNNER_TEMP/ssh/key" -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/ssh/known_hosts" -p "$DEPLOY_PORT")
           public_root="/home/$DEPLOY_USER/domains/thecodemunk.in/public_html"
           deploy_root="/home/$DEPLOY_USER/deployments/thecodemunk"
+          # shellcheck disable=SC2029 # validated local arguments are intentionally sent to the remote script
           ssh "${ssh_opts[@]}" "$DEPLOY_USER@$DEPLOY_HOST" \
             "bash -s -- '$deploy_root' '$GITHUB_SHA' '$public_root' 'https://thecodemunk.in'" \
             < scripts/deploy/remote-deploy.sh

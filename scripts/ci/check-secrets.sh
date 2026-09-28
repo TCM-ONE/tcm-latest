@@ -17,13 +17,23 @@ patterns=(
   '(APP_KEY|DB_PASSWORD|MAIL_PASSWORD|GOOGLE_CLIENT_SECRET|FCM_SERVER_KEY|OPENROUTER_API_KEY)[[:space:]]*=[[:space:]]*[^[:space:]#]+'
 )
 
-allowlist='(your[-_]|change[-_]|replace[-_]|example|placeholder|\.env\.example)'
+allowlist='(your[-_]|change[-_]|replace[-_]|example|placeholder)'
 failed=0
 for pattern in "${patterns[@]}"; do
   matches=$(git grep -n -I -E -e "$pattern" -- . ':!scripts/ci/check-secrets.sh' || true)
-  matches=$(printf '%s\n' "$matches" | grep -Eiv "$allowlist" || true)
+  filtered_matches=""
+  while IFS=: read -r file line_number matched_content; do
+    [[ -n "$file" ]] || continue
+    if ! grep -Eiq "$allowlist" <<< "$matched_content"; then
+      filtered_matches+="$file:$line_number:$matched_content"$'\n'
+    fi
+  done <<< "$matches"
+  matches=${filtered_matches%$'\n'}
   if [[ -n "$matches" ]]; then
-    printf 'Potential committed secret matching %s:\n%s\n' "$pattern" "$matches" >&2
+    printf 'Potential committed secret matching %s:\n' "$pattern" >&2
+    while IFS=: read -r file line_number _; do
+      printf '%s:%s\n' "$file" "$line_number" >&2
+    done <<< "$matches"
     failed=1
   fi
 done
