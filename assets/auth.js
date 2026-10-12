@@ -622,7 +622,7 @@
 
     /* ─── Open / Close / Redirect ──────────────────────── */
     function openModal() {
-        window.location.href = 'https://app.thecodemunk.in';
+        window.location.href = 'login.php';
     }
 
     function closeModal() {
@@ -635,7 +635,7 @@
         document.querySelectorAll('.join-btn, [data-auth-trigger], a[href*="/auth/login"], a[href*="/auth/register"], a[href*="/student"], a[href*="/admin"]').forEach(el => {
             el.addEventListener('click', e => {
                 e.preventDefault();
-                window.location.href = 'https://app.thecodemunk.in';
+                window.location.href = 'login.php';
             });
         });
     }
@@ -649,7 +649,7 @@
 
     // Expose globally
     window.TCMAuth = { 
-        open: function() { window.location.href = 'https://app.thecodemunk.in'; }, 
+        open: function() { window.location.href = 'login.php'; }, 
         close: closeModal 
     };
 

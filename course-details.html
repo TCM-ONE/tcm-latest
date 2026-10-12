@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,14 +36,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/site-polish.css">
     <link rel="stylesheet" href="./assets/course-details.css">
     <link rel="stylesheet" href="./assets/skeleton.css">
     <link rel="stylesheet" href="./assets/auth.css">
+    <link rel="stylesheet" href="./assets/tcm-design-system.css">
 </head>
 <body>
 
     <!-- ===================== HEADER ===================== -->
-        <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
             <nav class="navbar navbar-expand-lg p-0">
@@ -75,7 +76,7 @@
                             <a class="nav-link" href="partner.html">Become a Partner</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://app.thecodemunk.in" class="join-btn">Join Now</a>
+                            <a href="login.php" class="join-btn">Join Now</a>
                         </li>
                     </ul>
                 </div>
@@ -207,7 +208,7 @@
                         <p><strong>6 seats left</strong> out of 24</p>
                     </div>
 
-                    <a href="https://app.thecodemunk.in" class="cd-enroll-btn">
+                    <a href="login.php" class="cd-enroll-btn">
                         Enroll Now
                         <i class="bi bi-arrow-right"></i>
                     </a>
@@ -708,54 +709,57 @@
                 <span class="section-badge">FAQ</span>
                 <h2 class="section-header-title">Frequently Asked Questions</h2>
                 <p>Everything you need to know before enrolling.</p>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Testing & Debugging</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Deployment & Final Review</span> <small>Live</small></div>
-                        <div class="cd-lesson cd-project-lesson"><i class="bi bi-folder2-open"></i> <span>Capstone: Full Stack App of Your Choice</span> <small class="project-tag">Major Project</small></div>
-                    </div>
-                </details>
-
-                <!-- Module 11 -->
-                <details class="cd-module">
-                    <summary class="cd-module-header">
-                        <div class="cd-module-left">
-                            <div class="cd-module-num">11</div>
-                            <div>
-                                <h4>Career Preparation</h4>
-                                <span>4 sessions &nbsp;&middot;&nbsp; 6 hours</span>
-                            </div>
-                        </div>
-                        <i class="bi bi-chevron-down cd-module-arrow"></i>
+            <div class="faq-wrapper">
+                <details open>
+                    <summary>
+                        <span>Who is this course suitable for?</span>
+                        <i class="bi bi-plus-lg"></i>
                     </summary>
-                    <div class="cd-module-body">
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Resume Writing for Tech Roles</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>LinkedIn Profile Optimization</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>GitHub Portfolio Setup</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Mock Interviews & Feedback</span> <small>Live</small></div>
+                    <div class="faq-content">
+                        This course is designed for beginners as well as intermediate learners—college students, fresh graduates, and career changers who want structured, industry-aligned practical training.
                     </div>
                 </details>
 
-                <!-- Module 12 -->
-                <details class="cd-module">
-                    <summary class="cd-module-header">
-                        <div class="cd-module-left">
-                            <div class="cd-module-num">12</div>
-                            <div>
-                                <h4>Bonus: Freelancing & DSA Intro</h4>
-                                <span>4 sessions &nbsp;&middot;&nbsp; 6 hours</span>
-                            </div>
-                        </div>
-                        <i class="bi bi-chevron-down cd-module-arrow"></i>
+                <details>
+                    <summary>
+                        <span>Will I get live mentor support and doubt-clearing sessions?</span>
+                        <i class="bi bi-plus-lg"></i>
                     </summary>
-                    <div class="cd-module-body">
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Getting Clients as a Freelancer</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Pricing, Proposals & Project Management</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>DSA Basics &mdash; Arrays, Strings, Searching</span> <small>Live</small></div>
-                        <div class="cd-lesson"><i class="bi bi-play-circle"></i> <span>Common Interview Problems Walkthrough</span> <small>Live</small></div>
+                    <div class="faq-content">
+                        Yes! All classes are conducted live by experienced practitioners. You also get dedicated 24/7 community doubt-solving and regular 1-on-1 mentorship sessions.
                     </div>
                 </details>
 
-            </div><!-- end curriculum-wrapper -->
+                <details>
+                    <summary>
+                        <span>Are recordings available if I miss a live session?</span>
+                        <i class="bi bi-plus-lg"></i>
+                    </summary>
+                    <div class="faq-content">
+                        Yes, recordings of every live class are uploaded to your dashboard within a few hours and remain accessible for revision.
+                    </div>
+                </details>
 
+                <details>
+                    <summary>
+                        <span>Will I receive a verified certificate after completing the course?</span>
+                        <i class="bi bi-plus-lg"></i>
+                    </summary>
+                    <div class="faq-content">
+                        Upon successful completion of the coursework and capstone project evaluation, you will receive an industry-recognized certificate from TCM One and our partner network.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>
+                        <span>What kind of placement assistance is provided?</span>
+                        <i class="bi bi-plus-lg"></i>
+                    </summary>
+                    <div class="faq-content">
+                        We provide resume crafting, LinkedIn/GitHub profile optimization, mock technical & HR interviews, and direct referral opportunities through our hiring partners.
+                    </div>
+                </details>
+            </div>
         </div>
     </section>
 
@@ -805,10 +809,10 @@
 
                         <div class="footer-column">
                             <h4>Ecosystem</h4>
-                            <a href="index.html#verticals">TCM One Tech</a>
-                            <a href="index.html#verticals">TCM One IIT &amp; NEET</a>
-                            <a href="index.html#verticals">TCM One Govt Exams</a>
-                            <a href="index.html#verticals">TCM One Career</a>
+                            <a href="programs.html">Full Stack Web Dev</a>
+                            <a href="programs.html">Data Science &amp; AI</a>
+                            <a href="programs.html">Cloud DevOps</a>
+                            <a href="programs.html">Python &amp; Automation</a>
                         </div>
 
                         <div class="footer-column">
@@ -824,7 +828,7 @@
                             <a href="insights.html">About Us</a>
                             <a href="community.html">Community</a>
                             <a href="contact.html">Contact Us</a>
-                            <a href="https://app.thecodemunk.in">Student Sign In</a>
+                            <a href="login.php">Student Sign In</a>
                         </div>
 
                     </div>
@@ -914,4 +918,5 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
+
 

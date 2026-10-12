@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,44 +16,49 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/site-polish.css">
+    <link rel="stylesheet" href="./assets/tcm-design-system.css">
     <link rel="stylesheet" href="./assets/skeleton.css">
     <link rel="stylesheet" href="./assets/auth.css">
 
     <style>
         .sitemap-hero {
-            padding: 70px 0 40px;
+            padding: 72px 0 44px;
             background: #ffffff;
-            border-bottom: 1px solid #eaecf0;
+            border-bottom: 1px solid #d9d9d9;
         }
         .sitemap-hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: #f8fafc;
-            border: 1px solid #eaecf0;
-            color: #344054;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 50px;
+            background: #f5f5f5;
+            border: 1px solid #d9d9d9;
+            color: #000000;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 12px;
+            border-radius: 0px !important;
             margin-bottom: 16px;
         }
         .sitemap-title {
             font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            color: #101828;
-            letter-spacing: -1px;
+            font-weight: 900;
+            color: #000000;
+            letter-spacing: -0.04em;
             margin-bottom: 12px;
         }
         .sitemap-subtitle {
-            font-size: 16px;
-            color: #475467;
+            font-size: 15px;
+            color: #666666;
             max-width: 680px;
             margin-bottom: 0;
+            line-height: 1.6;
         }
         .sitemap-body {
             padding: 60px 0 80px;
-            background: #fafafa;
+            background: #f5f5f5;
         }
         .sitemap-grid {
             display: grid;
@@ -62,16 +67,16 @@
         }
         .sitemap-card {
             background: #ffffff;
-            border: 1px solid #eaecf0;
-            border-radius: 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 0px !important;
             padding: 28px 24px;
-            box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
-            transition: all 0.2s ease;
+            box-shadow: none !important;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
         }
         .sitemap-card:hover {
-            border-color: #d0d5dd;
-            box-shadow: 0 4px 16px rgba(16, 24, 40, 0.06);
-            transform: translateY(-2px);
+            border-color: #000000;
+            box-shadow: none !important;
+            transform: none !important;
         }
         .sitemap-card-header {
             display: flex;
@@ -79,23 +84,24 @@
             gap: 12px;
             margin-bottom: 20px;
             padding-bottom: 14px;
-            border-bottom: 1px solid #eaecf0;
+            border-bottom: 1px solid #d9d9d9;
         }
         .sitemap-card-icon {
             width: 40px;
             height: 40px;
-            border-radius: 10px;
-            background: #f8fafc;
-            border: 1px solid #eaecf0;
+            border-radius: 0px !important;
+            background: #f5f5f5;
+            border: 1px solid #d9d9d9;
             display: grid;
             place-items: center;
             font-size: 1.1rem;
-            color: #101828;
+            color: #000000;
         }
         .sitemap-card-title {
             font-size: 17px;
-            font-weight: 700;
-            color: #101828;
+            font-weight: 800;
+            color: #000000;
+            letter-spacing: -0.02em;
             margin: 0;
         }
         .sitemap-list {
@@ -104,26 +110,26 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         .sitemap-list li a {
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 14px;
-            font-weight: 500;
-            color: #475467;
+            font-weight: 600;
+            color: #222222;
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            background: #f8fafc;
-            border: 1px solid #eaecf0;
-            transition: all 0.2s ease;
+            padding: 9px 12px;
+            border-radius: 0px !important;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            transition: all 0.15s ease;
         }
         .sitemap-list li a:hover {
-            background: #101828;
+            background: #000000;
             color: #ffffff;
-            border-color: #101828;
+            border-color: #000000;
         }
         .sitemap-list li a i {
             font-size: 12px;
@@ -171,7 +177,7 @@
                             <a class="nav-link" href="partner.html">Become a Partner</a>
                         </li>
                         <li class="nav-item">
-                            <a href="https://app.thecodemunk.in" class="join-btn">Join Now</a>
+                            <a href="login.php" class="join-btn">Join Now</a>
                         </li>
                     </ul>
                 </div>
@@ -236,10 +242,10 @@
                         <h3 class="sitemap-card-title">Ecosystem Verticals</h3>
                     </div>
                     <ul class="sitemap-list">
-                        <li><a href="index.html#verticals"><span>TCM One Tech</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="index.html#verticals"><span>TCM One IIT &amp; NEET</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="index.html#verticals"><span>TCM One Govt Exams</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="index.html#verticals"><span>TCM One Career</span> <i class="bi bi-arrow-right"></i></a></li>
+                        <li><a href="programs.html"><span>Full Stack Web Dev</span> <i class="bi bi-arrow-right"></i></a></li>
+                        <li><a href="programs.html"><span>Data Science &amp; AI</span> <i class="bi bi-arrow-right"></i></a></li>
+                        <li><a href="programs.html"><span>Cloud DevOps &amp; System Design</span> <i class="bi bi-arrow-right"></i></a></li>
+                        <li><a href="programs.html"><span>Python &amp; Automation</span> <i class="bi bi-arrow-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -265,10 +271,10 @@
                         <h3 class="sitemap-card-title">Student App Portal</h3>
                     </div>
                     <ul class="sitemap-list">
-                        <li><a href="https://app.thecodemunk.in"><span>Sign In</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://app.thecodemunk.in"><span>Join Free</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://app.thecodemunk.in"><span>Dashboard</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://app.thecodemunk.in"><span>Certificates</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="login.php"><span>Sign In</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="login.php"><span>Join Free</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="login.php"><span>Dashboard</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
+                        <li><a href="login.php"><span>Certificates</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
                     </ul>
                 </div>
 
@@ -333,10 +339,10 @@
 
                         <div class="footer-column">
                             <h4>Ecosystem</h4>
-                            <a href="index.html#verticals">TCM One Tech</a>
-                            <a href="index.html#verticals">TCM One IIT &amp; NEET</a>
-                            <a href="index.html#verticals">TCM One Govt Exams</a>
-                            <a href="index.html#verticals">TCM One Career</a>
+                            <a href="programs.html">Full Stack Web Dev</a>
+                            <a href="programs.html">Data Science &amp; AI</a>
+                            <a href="programs.html">Cloud DevOps</a>
+                            <a href="programs.html">Python &amp; Automation</a>
                         </div>
 
                         <div class="footer-column">
@@ -352,7 +358,7 @@
                             <a href="insights.html">About Us</a>
                             <a href="community.html">Community</a>
                             <a href="contact.html">Contact Us</a>
-                            <a href="https://app.thecodemunk.in">Student Sign In</a>
+                            <a href="login.php">Student Sign In</a>
                         </div>
 
                     </div>
@@ -419,3 +425,4 @@
     <script src="./assets/tcm-app.js"></script>
 </body>
 </html>
+
