@@ -318,14 +318,64 @@
     }
 
     // index.html course card
-    function courseCardHome(c) {        var price = '<div class="course-price">' + money(c.price) +
+    var allGifs = [
+        "coding-fullstack.gif",
+        "coding-frontend.gif",
+        "coding-python.gif",
+        "coding-database.gif",
+        "coding-algorithm.gif",
+        "coding-monitor.gif",
+        "coding-basics.gif",
+        "coding-webdev.gif",
+        "coding-ai.gif",
+        "coding-career.gif",
+        "coding-automation.gif",
+        "coding-analytics.gif"
+    ];
+    var usedGifs = new Set();
+
+    function getUniqueGifForCourse(slug, index) {
+        var gifMap = {
+            "full-stack-development": "coding-fullstack.gif",
+            "frontend-development": "coding-monitor.gif",
+            "python-development": "coding-python.gif",
+            "database-systems": "coding-database.gif",
+            "dsa-problem-solving": "coding-algorithm.gif",
+            "cloud-fundamentals": "coding-frontend.gif",
+            "computer-basics": "coding-basics.gif",
+            "web-development-basics": "coding-webdev.gif",
+            "ai-tools-mastery": "coding-ai.gif",
+            "career-transition-program": "coding-career.gif",
+            "ai-automation": "coding-automation.gif",
+            "data-analytics": "coding-analytics.gif"
+        };
+        var preferred = gifMap[slug];
+        if (preferred && !usedGifs.has(preferred)) {
+            usedGifs.add(preferred);
+            return preferred;
+        }
+        for (var i = 0; i < allGifs.length; i++) {
+            if (!usedGifs.has(allGifs[i])) {
+                usedGifs.add(allGifs[i]);
+                return allGifs[i];
+            }
+        }
+        // Fallback index-based modulo to guarantee cycling if cards exceed 12
+        var fallbackIdx = (typeof index === 'number' ? index : 0) % allGifs.length;
+        return allGifs[fallbackIdx];
+    }
+
+    function courseCardHome(c, idx) {
+        var price = '<div class="course-price">' + money(c.price) +
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
+        var gifFile = getUniqueGifForCourse(c.slug, idx);
+        var thumb = '<div class="course-card-thumb"><img src="./assets/' + gifFile + '" alt="' + esc(c.title) + '" loading="lazy" data-course-slug="' + esc(c.slug) + '"></div>';
         return '<div class="course-card">' +
-            '<div class="course-icon"><i class="bi ' + esc(c.icon || "bi-journal-code") + '"></i></div>' +
+            thumb +
             price +
             "<h3>" + esc(c.title) + "</h3>" +
             "<p>" + esc(c.subtitle || "") + "</p>" +
-            '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '">Explore Program <i class="bi bi-arrow-right"></i></a>' +
+            '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
             "</div>";
     }
     // index.html event card (with 16-dot seat visual)
@@ -399,8 +449,8 @@
             if (!res || !res.success || !Array.isArray(res.data)) return;
             var items = res.data;
             if (!items.length) return; // keep the designer's sample cards if API empty
-            var html = items.map(function (item) {
-                if (type === "courses") return courseCardHome(item);
+            var html = items.map(function (item, i) {
+                if (type === "courses") return courseCardHome(item, i);
                 if (type === "posts")   return postCard(item);
                 return tpl === "pg" ? eventCardPg(item) : eventCardHome(item);
             }).join("");
@@ -670,11 +720,11 @@
             var btn = card.querySelector('.pg-card-btn');
             if (titleEl && btn && btn.tagName === 'A') {
                 var courseTitle = titleEl.textContent.trim();
-                var msg = "Hello TCM One! I am interested in enrolling in " + courseTitle + " (" + batchLabel + "). Please share program details & fee structure.";
+                var msg = "Hello TCM One! I am interested in getting the roadmap for " + courseTitle + " (" + batchLabel + "). Please share program syllabus & details.";
                 btn.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
                 btn.target = "_blank";
                 btn.rel = "noopener";
-                btn.innerHTML = 'I\'m Interested <i class="bi bi-whatsapp"></i>';
+                btn.innerHTML = 'Get Road Map <i class="bi bi-arrow-right"></i>';
             }
         });
 
@@ -684,11 +734,11 @@
             var btn = card.querySelector('a');
             if (titleEl && btn) {
                 var courseTitle = titleEl.textContent.trim();
-                var msg = "Hello TCM One! I am interested in enrolling in " + courseTitle + " (" + batchLabel + "). Please share program details & fee structure.";
+                var msg = "Hello TCM One! I am interested in getting the roadmap for " + courseTitle + " (" + batchLabel + "). Please share program syllabus & details.";
                 btn.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
                 btn.target = "_blank";
                 btn.rel = "noopener";
-                btn.innerHTML = 'I\'m Interested <i class="bi bi-whatsapp"></i>';
+                btn.innerHTML = 'Get Road Map <i class="bi bi-arrow-right"></i>';
             }
         });
 
@@ -696,12 +746,42 @@
         var cdEnrollBtn = document.querySelector('.cd-enroll-btn');
         if (cdEnrollBtn) {
             var cdTitle = document.querySelector('.cd-hero-content h1') ? document.querySelector('.cd-hero-content h1').textContent.trim() : 'Full Stack Development';
-            var msg = "Hello TCM One! I am interested in enrolling in " + cdTitle + " (" + batchLabel + "). Please share enrollment steps.";
+            var msg = "Hello TCM One! I am interested in getting the roadmap & enrolling in " + cdTitle + " (" + batchLabel + "). Please share enrollment steps.";
             cdEnrollBtn.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
             cdEnrollBtn.target = "_blank";
             cdEnrollBtn.rel = "noopener";
-            cdEnrollBtn.innerHTML = 'I\'m Interested <i class="bi bi-whatsapp"></i>';
+            cdEnrollBtn.innerHTML = 'Get Road Map <i class="bi bi-arrow-right"></i>';
         }
+    }
+
+    // Guarantees zero GIF repetition across all visible/tabbed course cards
+    function deduplicateCourseGifs() {
+        var activeTab = document.querySelector('.course-grid[data-tcm-list="courses"]:not([style*="display: none"])') || document.querySelector('.course-grid');
+        var allCourseCards = document.querySelectorAll('.course-card');
+        var seen = new Set();
+        var poolIdx = 0;
+
+        allCourseCards.forEach(function (card) {
+            var img = card.querySelector('.course-card-thumb img');
+            if (!img) return;
+            var currentSrc = img.getAttribute('src') || '';
+            var filename = currentSrc.split('/').pop().split('?')[0];
+
+            if (seen.has(filename) || !filename.endsWith('.gif')) {
+                // Find next unused GIF from our 12 unique tech GIF collection
+                while (poolIdx < allGifs.length && seen.has(allGifs[poolIdx])) {
+                    poolIdx++;
+                }
+                if (poolIdx < allGifs.length) {
+                    var assigned = allGifs[poolIdx];
+                    img.src = './assets/' + assigned;
+                    seen.add(assigned);
+                    poolIdx++;
+                }
+            } else {
+                seen.add(filename);
+            }
+        });
     }
 
     /* ================= BOOT ============================================ */
@@ -710,6 +790,37 @@
         wireAuthModal();
         wireAuthExtras();
         bindCourseWhatsAppCTA();
+        deduplicateCourseGifs();
+
+        // Sync header height to CSS property for sticky elements on mobile
+        function syncHeaderHeight() {
+            var header = document.querySelector(".header");
+            if (header) {
+                var h = Math.round(header.getBoundingClientRect().height);
+                document.documentElement.style.setProperty("--tcm-header-height", h + "px");
+            }
+        }
+        syncHeaderHeight();
+        window.addEventListener("resize", syncHeaderHeight, { passive: true });
+        window.addEventListener("orientationchange", syncHeaderHeight, { passive: true });
+
+        // Center active tab smoothly on mobile when tapped
+        document.querySelectorAll(".course-tabs .nav-link").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var self = this;
+                setTimeout(function () {
+                    self.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                }, 50);
+            });
+        });
+
+        // Re-run deduplication when user clicks tabs
+        document.querySelectorAll('[data-bs-toggle="pill"], [data-bs-toggle="tab"]').forEach(function (tab) {
+            tab.addEventListener('shown.bs.tab', function () {
+                deduplicateCourseGifs();
+            });
+        });
+
         getJSON(api("/api/me"))
             .then(function (res) { if (res && res.data) ME = Object.assign(ME, res.data); })
             .catch(function () {})
@@ -719,6 +830,7 @@
                 hydrateLists();
                 hydrateDetailPage();
                 bindCourseWhatsAppCTA();
+                deduplicateCourseGifs();
             });
     });
 })();

@@ -1,0 +1,14 @@
+{
+  "name": "tcm-one",
+  "version": "2.0.0",
+  "private": true,
+  "description": "TCM One - Enterprise-grade EdTech platform",
+  "scripts": {
+    "build:css": "npx --yes @tailwindcss/cli -i ./src/css/tcm-theme.css -o ./assets/tcm-design-system.css --minify",
+    "watch:css": "npx --yes @tailwindcss/cli -i ./src/css/tcm-theme.css -o ./assets/tcm-design-system.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

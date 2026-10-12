@@ -25,6 +25,6 @@ uploads/*
 .DS_Store
 Thumbs.db
 *.log
-
 # Local CI release package
 /release/
+node_modules/

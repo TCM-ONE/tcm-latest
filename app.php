@@ -31,6 +31,8 @@ $router->get('/health', static fn () => Response::success(['time' => date('c')],
 // --------------------------------------------------------------------- //
 // Authentication
 // --------------------------------------------------------------------- //
+$router->get('/login', ['TCM\Controllers\AuthController', 'showLogin']);
+$router->post('/login', ['TCM\Controllers\AuthController', 'login']);
 $router->get('/auth/login', ['TCM\Controllers\AuthController', 'showLogin']);
 $router->post('/auth/login', ['TCM\Controllers\AuthController', 'login']);
 $router->get('/auth/register', ['TCM\Controllers\AuthController', 'showRegister']);
