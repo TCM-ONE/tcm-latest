@@ -68,15 +68,65 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="./assets/style.css">
-    <link rel="stylesheet" href="./assets/site-polish.css">
-    <link rel="stylesheet" href="./assets/hero-effects.css">
-    <link rel="stylesheet" href="./assets/intro-video.css">
-    <link rel="stylesheet" href="./assets/skeleton.css">
-    <link rel="stylesheet" href="./assets/auth.css">
-    <link rel="stylesheet" href="./assets/tcm-design-system.css">
-    <link rel="stylesheet" href="./assets/landing-polish.css">
+    <link rel="stylesheet" href="./assets/style.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/site-polish.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/hero-effects.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/intro-video.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/skeleton.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/auth.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.2.0">
+    <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.0">
     <style>
+/* Critical Hero Flank Layout Guarantee */
+.hero {
+    display: block !important;
+    position: relative !important;
+}
+.hero-flank {
+    position: absolute !important;
+    top: 48px !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+.hero-flank-left {
+    left: 0 !important;
+    right: auto !important;
+    align-items: flex-start !important;
+}
+.hero-flank-right {
+    right: 0 !important;
+    left: auto !important;
+    align-items: flex-end !important;
+}
+.hero-flank-img {
+    background: #FFFFFF !important;
+    border: 1px solid #D9D9D9 !important;
+    border-radius: 0px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+    flex-shrink: 0 !important;
+}
+.hero-flank-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+.hero-flank-left .top { width: 205px !important; height: 255px !important; border-left: none !important; }
+.hero-flank-left .bottom { width: 175px !important; height: 215px !important; border-left: none !important; margin-left: 0 !important; }
+.hero-flank-right .top { width: 205px !important; height: 245px !important; border-right: none !important; }
+.hero-flank-right .bottom { width: 175px !important; height: 215px !important; border-right: none !important; margin-right: 0 !important; }
+@media (max-width: 1399px) {
+    .hero-flank-left .top, .hero-flank-right .top { width: 170px !important; height: 210px !important; }
+    .hero-flank-left .bottom, .hero-flank-right .bottom { width: 145px !important; height: 180px !important; }
+}
+@media (max-width: 1199px) {
+    .hero-flank { display: none !important; }
+}
+
 .classroom-section {
     padding: clamp(64px, 8vw, 120px) 0;
     background: #FFFFFF;
@@ -274,7 +324,7 @@
     <section class="hero">
 
         <!-- Flanking Visuals pinned to the screen edges (Left & Right) with Real Human & Aesthetic Imagery -->
-        <div class="hero-flank hero-flank-left d-none d-xl-flex" aria-hidden="true">
+        <div class="hero-flank hero-flank-left d-none d-xl-flex flex-column" aria-hidden="true">
             <div class="hero-flank-img top">
                 <img src="./assets/hero-user-art-1.png" alt="Creative developer workstation" loading="lazy">
             </div>
@@ -283,7 +333,7 @@
             </div>
         </div>
 
-        <div class="hero-flank hero-flank-right d-none d-xl-flex" aria-hidden="true">
+        <div class="hero-flank hero-flank-right d-none d-xl-flex flex-column" aria-hidden="true">
             <div class="hero-flank-img top">
                 <img src="./assets/hero-user-art-3.jpg" alt="Interactive smart AI tech" loading="lazy">
             </div>
