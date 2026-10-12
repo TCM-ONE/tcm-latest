@@ -93,8 +93,8 @@ body{
 
 .hero{
     min-height:calc(100vh - 85px);
-    display:flex;
-    align-items:center;
+    display:block !important;
+    position:relative !important;
     padding:80px 0;
 }
 

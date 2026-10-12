@@ -17,6 +17,8 @@
 }
 
 .hero {
+    display: block !important;
+    position: relative !important;
     padding: 44px 0 24px !important;
     min-height: auto !important;
 }
