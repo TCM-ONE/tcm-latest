@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="./assets/skeleton.css">
     <link rel="stylesheet" href="./assets/auth.css">
     <link rel="stylesheet" href="./assets/tcm-design-system.css">
+    <link rel="stylesheet" href="./assets/tcm-share.css">
 </head>
 <body>
 
@@ -208,10 +209,15 @@
                         <p><strong>6 seats left</strong> out of 24</p>
                     </div>
 
-                    <a href="login.php" class="cd-enroll-btn">
-                        Enroll Now
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <div class="d-flex gap-2 align-items-stretch mb-2">
+                        <a href="login.php" class="cd-enroll-btn flex-grow-1 mb-0">
+                            Enroll Now
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <button type="button" class="tcm-share-btn icon-only" data-share-title="Full Stack Development Course | TCM One" data-share-text="Check out the Full Stack Development course on TCM One. Live classes, projects & mentor guidance." title="Share Course" aria-label="Share Course">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
 
                     <a href="#" class="cd-brochure-btn">
                         <i class="bi bi-download"></i>
@@ -903,6 +909,7 @@
     <script src="./assets/skeleton.js"></script>
     <script src="./assets/auth.js"></script>
     <script src="./assets/tcm-app.js"></script>
+    <script src="./assets/tcm-share.js"></script>
 
 
 <script>

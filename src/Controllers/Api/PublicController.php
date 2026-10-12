@@ -49,8 +49,10 @@ final class PublicController extends Controller
             'featured' => Request::string('featured') ?: null,
         ]);
         foreach ($courses as &$course) {
-            $course['seats_filled']    = Course::seatsFilled($course);
+            $course['seats_filled']     = Course::seatsFilled($course);
             $course['discount_percent'] = Course::discountPercent($course);
+            $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
+            $course['thumbnail']        = $course['thumbnail_url'];
         }
         Response::success($courses, 'Courses fetched.');
     }
@@ -62,9 +64,11 @@ final class PublicController extends Controller
             Response::error('Course not found.', 404);
         }
         // Ensure seats_filled is always available
-        $course['seats_filled'] = Course::seatsFilled($course);
+        $course['seats_filled']     = Course::seatsFilled($course);
         $course['discount_percent'] = Course::discountPercent($course);
-        $course['curriculum'] = Course::curriculum((int) $course['id']);
+        $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
+        $course['thumbnail']        = $course['thumbnail_url'];
+        $course['curriculum']       = Course::curriculum((int) $course['id']);
         $course['reviews'] = Database::all(
             "SELECT cr.rating, cr.comment, cr.created_at, u.name
              FROM course_reviews cr JOIN users u ON u.id = cr.user_id

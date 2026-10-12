@@ -18,10 +18,19 @@
         <?php foreach ($courses as $c): ?>
             <tr>
                 <td>
-                    <div class="d-flex items-center gap-8">
-                        <i class="bi <?= e($c['icon'] ?? 'bi-journal-code') ?>" style="color:var(--tcm-primary-2);"></i>
+                    <div class="d-flex items-center gap-12">
+                        <div style="width:54px;height:42px;border-radius:8px;overflow:hidden;background:#0d1117;flex-shrink:0;border:1px solid #e5e7eb;box-shadow:0 2px 6px rgba(0,0,0,0.06);">
+                            <img src="<?= e(course_thumbnail_url($c['thumbnail'] ?? null, $c['slug'] ?? null)) ?>"
+                                 alt="<?= e($c['title']) ?>"
+                                 loading="lazy"
+                                 style="width:100%;height:100%;object-fit:cover;display:block;"
+                                 onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+                            <div style="display:none;width:100%;height:100%;place-items:center;background:#f5f5f5;">
+                                <i class="bi <?= e($c['icon'] ?? 'bi-journal-code') ?>" style="color:var(--tcm-primary-2);"></i>
+                            </div>
+                        </div>
                         <div>
-                            <div><?= e($c['title']) ?></div>
+                            <div style="font-weight:600;color:#111;"><?= e($c['title']) ?></div>
                             <div class="muted" style="font-size:.78rem;"><?= e($c['subtitle'] ?? '') ?></div>
                         </div>
                     </div>

@@ -247,6 +247,14 @@ $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentC
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);
 
 // --------------------------------------------------------------------- //
+// Public Shareable Pages & Open Graph Previews (Workshops & Courses)
+// --------------------------------------------------------------------- //
+$router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopController', 'index']);
+$router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);
+$router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
+$router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
+
+// --------------------------------------------------------------------- //
 // Public JSON API (consumed by the static marketing site via tcm-app.js)
 // --------------------------------------------------------------------- //
 $router->get('/api/me', ['TCM\Controllers\Api\PublicController', 'me']);

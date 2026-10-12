@@ -23,7 +23,7 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
     </div>
 </div>
 
-<form method="post" action="<?= $action ?>">
+<form method="post" action="<?= $action ?>" enctype="multipart/form-data">
     <?= csrf_field() ?>
 
     <!-- ── Section: Basic Info ── -->
@@ -94,6 +94,176 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
             </div>
         </div>
     </div>
+
+    <!-- ── Section: Course Thumbnail & Animated GIF ── -->
+    <div class="tcm-card" style="margin-bottom:14px;">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+                    color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+            <i class="bi bi-image" style="margin-right:5px;"></i> Course Photo &amp; Animated GIF
+        </div>
+
+        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px;">
+            <!-- Live Visual Preview Box -->
+            <div style="width:200px;flex-shrink:0;">
+                <label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:6px;color:#333;">Current Preview</label>
+                <div style="width:100%;height:130px;background:#0d1117;border:2px dashed #d0d7de;border-radius:12px;overflow:hidden;position:relative;display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+                    <img id="courseThumbPreview"
+                         src="<?= e(course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null)) ?>"
+                         alt="Course Thumbnail"
+                         style="width:100%;height:100%;object-fit:cover;display:block;"
+                         onerror="this.src='<?= base_url('/assets/coding-fullstack.gif') ?>'">
+                </div>
+                <div style="margin-top:6px;font-size:.72rem;color:var(--muted);text-align:center;">
+                    <i class="bi bi-play-circle" style="color:#7c3aed;"></i> Live animated preview
+                </div>
+            </div>
+
+            <!-- Upload Controls & Options -->
+            <div style="flex:1;min-width:260px;">
+                <!-- Option A: File Upload -->
+                <div class="tcm-field" style="margin-bottom:12px;">
+                    <label style="display:flex;align-items:center;justify-content:space-between;">
+                        <span>Upload Custom Photo / GIF</span>
+                        <span style="font-size:.74rem;color:#7c3aed;font-weight:600;"><i class="bi bi-upload"></i> From Device</span>
+                    </label>
+                    <input type="file" name="thumbnail_file" id="thumbFileInput" class="tcm-input"
+                           accept=".gif,.png,.jpg,.jpeg,.webp"
+                           onchange="handleThumbnailFileChange(this)">
+                    <div style="font-size:.74rem;color:var(--muted);margin-top:4px;">
+                        Supports animated <strong>.GIF</strong>, <strong>.PNG</strong>, <strong>.JPG</strong>, <strong>.WebP</strong> up to 10MB. Stored directly to <code>uploads/courses/</code>.
+                    </div>
+                </div>
+
+                <!-- Hidden preset selector field -->
+                <input type="hidden" name="thumbnail_preset" id="thumbnailPresetInput" value="">
+                <input type="hidden" name="remove_thumbnail" id="removeThumbnailInput" value="0">
+
+                <!-- Option B: Custom URL / Asset path -->
+                <div class="tcm-field" style="margin-bottom:6px;">
+                    <label>Or Image / GIF URL / Filename</label>
+                    <div class="d-flex gap-8">
+                        <input class="tcm-input" name="thumbnail_url" id="thumbnailUrlInput"
+                               value="<?= $val('thumbnail') ?>"
+                               placeholder="e.g. coding-fullstack.gif or https://example.com/banner.gif"
+                               oninput="handleThumbnailUrlChange(this.value)">
+                        <?php if (!empty($course['thumbnail'])): ?>
+                            <button type="button" class="tcm-btn sm danger" onclick="clearThumbnail()" title="Remove thumbnail">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option C: Choose from TCM Coding GIFs Gallery -->
+        <div style="margin-top:14px;border-top:1px solid #f0f0f0;padding-top:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <span style="font-size:.82rem;font-weight:700;color:#111;">
+                    <i class="bi bi-collection-play" style="color:#7c3aed;margin-right:5px;"></i>
+                    Select from TCM Preset Coding GIFs (<?= count($presetGifs ?? course_preset_gifs()) ?> available)
+                </span>
+                <span style="font-size:.72rem;color:var(--muted);"><i class="bi bi-hand-index-thumb"></i> Click any GIF to select</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(135px, 1fr));gap:10px;max-height:240px;overflow-y:auto;padding:6px;border:1px solid #eaeaea;border-radius:10px;background:#fafafa;">
+                <?php foreach (($presetGifs ?? course_preset_gifs()) as $gifFile => $gifLabel):
+                    $gifUrl = base_url('/assets/' . $gifFile);
+                    $isSelected = ($course['thumbnail'] ?? '') === $gifFile;
+                ?>
+                <div class="tcm-gif-chip"
+                     data-gif="<?= e($gifFile) ?>"
+                     data-url="<?= e($gifUrl) ?>"
+                     onclick="selectPresetGif('<?= e($gifFile) ?>', '<?= e($gifUrl) ?>', this)"
+                     style="background:#fff;border:<?= $isSelected ? '2px solid #111' : '1.5px solid #e5e7eb' ?>;border-radius:8px;padding:6px;cursor:pointer;text-align:center;transition:all .15s ease;box-shadow:<?= $isSelected ? '0 0 0 2px rgba(17,17,17,0.15)' : 'none' ?>;">
+                    <div style="width:100%;height:68px;border-radius:6px;overflow:hidden;background:#0d1117;margin-bottom:5px;">
+                        <img src="<?= e($gifUrl) ?>" alt="<?= e($gifLabel) ?>"
+                             loading="lazy"
+                             style="width:100%;height:100%;object-fit:cover;display:block;">
+                    </div>
+                    <div style="font-size:.68rem;font-weight:600;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                        <?= e($gifLabel) ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function handleThumbnailFileChange(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var preview = document.getElementById('courseThumbPreview');
+                if (preview) preview.src = e.target.result;
+                document.getElementById('thumbnailPresetInput').value = '';
+                document.getElementById('removeThumbnailInput').value = '0';
+                document.querySelectorAll('.tcm-gif-chip').forEach(function(el) {
+                    el.style.borderColor = '#e5e7eb';
+                    el.style.boxShadow = 'none';
+                });
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function handleThumbnailUrlChange(val) {
+        if (val && val.trim()) {
+            var trimmed = val.trim();
+            var preview = document.getElementById('courseThumbPreview');
+            if (preview) {
+                if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+                    preview.src = trimmed;
+                } else if (trimmed.startsWith('/')) {
+                    preview.src = trimmed;
+                } else {
+                    preview.src = '<?= base_url('/assets/') ?>' + trimmed;
+                }
+            }
+            document.getElementById('thumbnailPresetInput').value = '';
+            document.getElementById('removeThumbnailInput').value = '0';
+            document.querySelectorAll('.tcm-gif-chip').forEach(function(el) {
+                el.style.borderColor = '#e5e7eb';
+                el.style.boxShadow = 'none';
+            });
+        }
+    }
+
+    function selectPresetGif(filename, url, el) {
+        document.getElementById('thumbnailPresetInput').value = filename;
+        document.getElementById('thumbnailUrlInput').value = filename;
+        document.getElementById('removeThumbnailInput').value = '0';
+        var preview = document.getElementById('courseThumbPreview');
+        if (preview) preview.src = url;
+
+        var fi = document.getElementById('thumbFileInput');
+        if (fi) fi.value = '';
+
+        document.querySelectorAll('.tcm-gif-chip').forEach(function(chip) {
+            chip.style.borderColor = '#e5e7eb';
+            chip.style.boxShadow = 'none';
+        });
+        if (el) {
+            el.style.borderColor = '#111';
+            el.style.boxShadow = '0 0 0 2px rgba(17,17,17,0.2)';
+        }
+    }
+
+    function clearThumbnail() {
+        document.getElementById('thumbnailPresetInput').value = '';
+        document.getElementById('thumbnailUrlInput').value = '';
+        document.getElementById('removeThumbnailInput').value = '1';
+        var fi = document.getElementById('thumbFileInput');
+        if (fi) fi.value = '';
+        var preview = document.getElementById('courseThumbPreview');
+        if (preview) preview.src = '<?= base_url('/assets/coding-fullstack.gif') ?>';
+        document.querySelectorAll('.tcm-gif-chip').forEach(function(chip) {
+            chip.style.borderColor = '#e5e7eb';
+            chip.style.boxShadow = 'none';
+        });
+    }
+    </script>
 
     <!-- ── Section: Pricing & Schedule ── -->
     <div class="tcm-card" style="margin-bottom:14px;">
