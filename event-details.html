@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="./assets/skeleton.css">
     <link rel="stylesheet" href="./assets/auth.css">
     <link rel="stylesheet" href="./assets/tcm-design-system.css">
+    <link rel="stylesheet" href="./assets/tcm-share.css">
 </head>
 <body>
 
@@ -117,7 +118,7 @@
 
                 </div>
 
-                <div class="hero-actions">
+                <div class="hero-actions d-flex gap-2 align-items-center">
 
                     <a href="#" class="btn-dark">
                         Register Now
@@ -126,6 +127,11 @@
                     <a href="#" class="btn-light">
                         Download Brochure
                     </a>
+
+                    <button type="button" class="tcm-share-btn" data-share-title="TCM One Live Coding Event" data-share-text="Check out this live coding workshop on TCM One!" title="Share Event" aria-label="Share Event">
+                        <i class="bi bi-share"></i>
+                        <span>Share</span>
+                    </button>
 
                 </div>
 
@@ -637,6 +643,7 @@
     <script src="./assets/skeleton.js"></script>
     <script src="./assets/auth.js"></script>
     <script src="./assets/tcm-app.js"></script>
+    <script src="./assets/tcm-share.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {
