@@ -46,8 +46,49 @@ final class Course extends Model
             $params[] = $like;
         }
 
+        self::ensureThumbnails();
         $sql .= ' ORDER BY c.is_featured DESC, c.id DESC';
-        return Database::all($sql, $params);
+        $rows = Database::all($sql, $params);
+        foreach ($rows as &$row) {
+            $row['thumbnail_url'] = course_thumbnail_url($row['thumbnail'] ?? null, $row['slug'] ?? null);
+        }
+        return $rows;
+    }
+
+    /**
+     * Automatically populate empty thumbnails with preset GIFs.
+     */
+    public static function ensureThumbnails(): void
+    {
+        static $checked = false;
+        if ($checked) {
+            return;
+        }
+        $checked = true;
+
+        try {
+            $presetMap = [
+                'full-stack-development'    => 'coding-fullstack.gif',
+                'frontend-development'      => 'coding-monitor.gif',
+                'python-development'        => 'coding-python.gif',
+                'database-systems'          => 'coding-database.gif',
+                'dsa-problem-solving'       => 'coding-algorithm.gif',
+                'cloud-fundamentals'        => 'coding-frontend.gif',
+                'computer-basics'           => 'coding-basics.gif',
+                'web-development-basics'    => 'coding-webdev.gif',
+                'ai-tools-mastery'          => 'coding-ai.gif',
+                'career-transition-program' => 'coding-career.gif',
+                'ai-automation'             => 'coding-automation.gif',
+                'data-analytics'            => 'coding-analytics.gif',
+            ];
+            $courses = Database::all("SELECT id, slug, thumbnail FROM courses WHERE thumbnail IS NULL OR thumbnail = ''");
+            foreach ($courses as $c) {
+                $gif = $presetMap[$c['slug']] ?? 'coding-fullstack.gif';
+                Database::query("UPDATE courses SET thumbnail = ? WHERE id = ?", [$gif, $c['id']]);
+            }
+        } catch (\Throwable) {
+            // Table or DB might not be ready yet
+        }
     }
 
     /**
@@ -55,12 +96,17 @@ final class Course extends Model
      */
     public static function findBySlug(string $slug): ?array
     {
-        return Database::first(
+        self::ensureThumbnails();
+        $course = Database::first(
             'SELECT c.*, cat.name AS category_name FROM courses c
              LEFT JOIN categories cat ON cat.id = c.category_id
              WHERE c.slug = ? LIMIT 1',
             [$slug]
         );
+        if ($course !== null) {
+            $course['thumbnail_url'] = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
+        }
+        return $course;
     }
 
     /**

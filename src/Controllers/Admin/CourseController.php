@@ -9,6 +9,7 @@ use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\FirebaseNotification;
 use TCM\Core\Request;
+use TCM\Core\Upload;
 use TCM\Models\Category;
 use TCM\Models\Course;
 use TCM\Models\Notification;
@@ -32,6 +33,7 @@ final class CourseController extends Controller
             'title'      => 'New Course',
             'course'     => null,
             'categories' => Category::all('sort_order'),
+            'presetGifs' => course_preset_gifs(),
         ], 'admin');
     }
 
@@ -44,8 +46,9 @@ final class CourseController extends Controller
             'status' => 'in:draft,published,archived',
         ], '/admin/courses/create');
 
-        $slug     = $this->uniqueSlug(slugify($data['title']));
-        $courseId = Course::create($this->payload($slug));
+        $slug      = $this->uniqueSlug(slugify($data['title']));
+        $thumbnail = $this->resolveThumbnail(null, $slug);
+        $courseId  = Course::create($this->payload($slug, $thumbnail));
 
         // 🤖 Auto-generate curriculum via AI (silent — never blocks save)
         try {
@@ -176,6 +179,7 @@ final class CourseController extends Controller
             'course'     => $course,
             'categories' => Category::all('sort_order'),
             'modules'    => Course::curriculum((int) $course['id']),
+            'presetGifs' => course_preset_gifs(),
         ], 'admin');
     }
 
@@ -200,7 +204,8 @@ final class CourseController extends Controller
             $slug = $this->uniqueSlug(slugify(Request::string('title')), $id);
         }
 
-        Course::update($id, $this->payload($slug));
+        $thumbnail = $this->resolveThumbnail($course['thumbnail'] ?? null, $slug);
+        Course::update($id, $this->payload($slug, $thumbnail));
         $this->respond(['id' => $id], 'Course updated.', '/admin/courses/' . $id . '/edit');
     }
 
@@ -263,11 +268,71 @@ final class CourseController extends Controller
     }
 
     /**
+     * Resolve thumbnail from upload, preset, custom URL or fallback.
+     */
+    private function resolveThumbnail(?string $existing = null, ?string $slug = null): ?string
+    {
+        if (Request::string('remove_thumbnail') === '1') {
+            return null;
+        }
+
+        // 1. File upload via form
+        if (Upload::present($_FILES['thumbnail_file'] ?? null)) {
+            $destDir = dirname(__DIR__, 3) . '/uploads/courses';
+            $filename = Upload::store(
+                $_FILES['thumbnail_file'],
+                $destDir,
+                ['gif', 'jpg', 'jpeg', 'png', 'webp'],
+                10 * 1024 * 1024
+            );
+            return 'uploads/courses/' . $filename;
+        }
+
+        // 2. Preset GIF selection
+        $preset = trim(Request::string('thumbnail_preset'));
+        if ($preset !== '') {
+            return $preset;
+        }
+
+        // 3. Custom URL / path
+        $customUrl = trim(Request::string('thumbnail_url'));
+        if ($customUrl !== '') {
+            return $customUrl;
+        }
+
+        // 4. Existing value
+        if ($existing !== null && $existing !== '') {
+            return $existing;
+        }
+
+        // 5. Fallback based on slug or default
+        if ($slug) {
+            $presetMap = [
+                'full-stack-development'    => 'coding-fullstack.gif',
+                'frontend-development'      => 'coding-monitor.gif',
+                'python-development'        => 'coding-python.gif',
+                'database-systems'          => 'coding-database.gif',
+                'dsa-problem-solving'       => 'coding-algorithm.gif',
+                'cloud-fundamentals'        => 'coding-frontend.gif',
+                'computer-basics'           => 'coding-basics.gif',
+                'web-development-basics'    => 'coding-webdev.gif',
+                'ai-tools-mastery'          => 'coding-ai.gif',
+                'career-transition-program' => 'coding-career.gif',
+                'ai-automation'             => 'coding-automation.gif',
+                'data-analytics'            => 'coding-analytics.gif',
+            ];
+            return $presetMap[$slug] ?? 'coding-fullstack.gif';
+        }
+
+        return 'coding-fullstack.gif';
+    }
+
+    /**
      * Build the course column payload from the request.
      *
      * @return array<string,mixed>
      */
-    private function payload(string $slug): array
+    private function payload(string $slug, ?string $thumbnail = null): array
     {
         return [
             'category_id'    => Request::int('category_id') ?: null,
@@ -276,6 +341,7 @@ final class CourseController extends Controller
             'subtitle'       => Request::string('subtitle'),
             'description'    => Request::string('description'),
             'icon'           => Request::string('icon', 'bi-journal-code'),
+            'thumbnail'      => $thumbnail,
             'level'          => Request::string('level', 'beginner'),
             'language'       => Request::string('language', 'Hindi + English'),
             'duration'       => Request::string('duration'),

@@ -68,28 +68,36 @@ $discPct    = ($course['original_price'] ?? 0) > 0
     <a class="tcm-btn" href="<?= base_url('/student/courses') ?>"><i class="bi bi-arrow-left"></i> Back</a>
 </div>
 
-<div class="cds-hero">
-    <div class="cds-badges">
-        <?php if (!empty($course['category_name'])): ?>
-            <span class="cds-badge cat"><i class="bi bi-mortarboard-fill"></i> <?= e($course['category_name']) ?></span>
-        <?php endif; ?>
-        <?php if ((int)($course['is_bestseller'] ?? 0) === 1): ?>
-            <span class="cds-badge best"><i class="bi bi-fire"></i> Bestseller</span>
-        <?php endif; ?>
+<div class="cds-hero" style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;">
+    <div style="flex:1;min-width:280px;">
+        <div class="cds-badges">
+            <?php if (!empty($course['category_name'])): ?>
+                <span class="cds-badge cat"><i class="bi bi-mortarboard-fill"></i> <?= e($course['category_name']) ?></span>
+            <?php endif; ?>
+            <?php if ((int)($course['is_bestseller'] ?? 0) === 1): ?>
+                <span class="cds-badge best"><i class="bi bi-fire"></i> Bestseller</span>
+            <?php endif; ?>
+        </div>
+        <h1><?= e($course['title']) ?></h1>
+        <p class="cds-hero-desc"><?= e($course['description'] ?? '') ?></p>
+        <div class="cds-stats">
+            <div class="cds-stat"><strong><?= e($course['rating'] ?? '—') ?></strong><small><i class="bi bi-star-fill" style="color:#f59e0b;"></i> Rating</small></div>
+            <div class="cds-stat"><strong><?= number_format((int)($course['students_count'] ?? 0)) ?>+</strong><small>Students</small></div>
+            <div class="cds-stat"><strong><?= e($course['duration'] ?? '—') ?></strong><small>Duration</small></div>
+            <div class="cds-stat"><strong><?= e(ucfirst($course['level'] ?? 'All')) ?></strong><small>Level</small></div>
+        </div>
+        <div class="cds-meta">
+            <?php if (!empty($course['starts_at'])): ?><span><i class="bi bi-calendar-event"></i> Starts <?= e(date('d M Y', strtotime($course['starts_at']))) ?></span><?php endif; ?>
+            <?php if (!empty($course['schedule'])): ?><span><i class="bi bi-clock"></i> <?= e($course['schedule']) ?></span><?php endif; ?>
+            <?php if (!empty($course['language'])): ?><span><i class="bi bi-translate"></i> <?= e($course['language']) ?></span><?php endif; ?>
+            <?php if ((int)($course['certificate'] ?? 0)): ?><span><i class="bi bi-patch-check-fill"></i> Certificate</span><?php endif; ?>
+        </div>
     </div>
-    <h1><?= e($course['title']) ?></h1>
-    <p class="cds-hero-desc"><?= e($course['description'] ?? '') ?></p>
-    <div class="cds-stats">
-        <div class="cds-stat"><strong><?= e($course['rating'] ?? '—') ?></strong><small><i class="bi bi-star-fill" style="color:#f59e0b;"></i> Rating</small></div>
-        <div class="cds-stat"><strong><?= number_format((int)($course['students_count'] ?? 0)) ?>+</strong><small>Students</small></div>
-        <div class="cds-stat"><strong><?= e($course['duration'] ?? '—') ?></strong><small>Duration</small></div>
-        <div class="cds-stat"><strong><?= e(ucfirst($course['level'] ?? 'All')) ?></strong><small>Level</small></div>
-    </div>
-    <div class="cds-meta">
-        <?php if (!empty($course['starts_at'])): ?><span><i class="bi bi-calendar-event"></i> Starts <?= e(date('d M Y', strtotime($course['starts_at']))) ?></span><?php endif; ?>
-        <?php if (!empty($course['schedule'])): ?><span><i class="bi bi-clock"></i> <?= e($course['schedule']) ?></span><?php endif; ?>
-        <?php if (!empty($course['language'])): ?><span><i class="bi bi-translate"></i> <?= e($course['language']) ?></span><?php endif; ?>
-        <?php if ((int)($course['certificate'] ?? 0)): ?><span><i class="bi bi-patch-check-fill"></i> Certificate</span><?php endif; ?>
+    <div style="width:260px;flex-shrink:0;border-radius:14px;overflow:hidden;background:#0d1117;box-shadow:0 8px 24px rgba(0,0,0,0.12);border:1px solid #eaeaea;">
+        <img src="<?= e(course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null)) ?>"
+             alt="<?= e($course['title']) ?>"
+             style="width:100%;height:180px;object-fit:cover;display:block;"
+             onerror="this.src='<?= base_url('/assets/coding-fullstack.gif') ?>'">
     </div>
 </div>
 

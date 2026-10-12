@@ -48,68 +48,68 @@ ON DUPLICATE KEY UPDATE
 
 -- ── Courses ─────────────────────────────────────────────────────
 INSERT INTO courses (id, category_id, instructor_id, title, slug, subtitle, description,
-  icon, level, duration, price, original_price, rating, reviews_count, students_count,
+  icon, thumbnail, level, duration, price, original_price, rating, reviews_count, students_count,
   total_seats, seats_left, seats_filled, certificate, schedule, starts_at,
   is_featured, is_bestseller, status) VALUES
 (1,  1, 1, 'Full Stack Development',   'full-stack-development',
  'Frontend, Backend and Deployment with projects',
  'Master frontend, backend and deployment through live sessions, real projects and expert mentorship. Built specifically for college students who want job-ready skills.',
- 'bi-code-slash', 'beginner', '3 Months', 4999.00, 7999.00, 4.9, 238, 1200, 24, 6, 18, 1, '7:00 PM - 8:30 PM', '2026-07-01', 1, 1, 'published'),
+ 'bi-code-slash', 'coding-fullstack.gif', 'beginner', '3 Months', 4999.00, 7999.00, 4.9, 238, 1200, 24, 6, 18, 1, '7:00 PM - 8:30 PM', '2026-07-01', 1, 1, 'published'),
 (2,  1, 1, 'Frontend Development',     'frontend-development',
  'HTML, CSS, JavaScript and React fundamentals',
  'Build beautiful, responsive interfaces with HTML, CSS, JavaScript and React.',
- 'bi-window', 'beginner', '2 Months', 3999.00, 5999.00, 4.8, 156, 820, 24, 12, 12, 1, '8:00 PM - 9:30 PM', '2026-07-05', 1, 0, 'published'),
+ 'bi-window', 'coding-monitor.gif', 'beginner', '2 Months', 3999.00, 5999.00, 4.8, 156, 820, 24, 12, 12, 1, '8:00 PM - 9:30 PM', '2026-07-05', 1, 0, 'published'),
 (3,  1, 1, 'Python Development',       'python-development',
  'Programming, automation and real projects',
  'Learn Python programming, automation and build real-world projects.',
- 'bi-filetype-py', 'beginner', '2 Months', 3499.00, 4999.00, 4.7, 98, 540, 24, 18, 6, 1, '6:00 PM - 7:30 PM', '2026-07-10', 0, 0, 'published'),
+ 'bi-filetype-py', 'coding-python.gif', 'beginner', '2 Months', 3499.00, 4999.00, 4.7, 98, 540, 24, 18, 6, 1, '6:00 PM - 7:30 PM', '2026-07-10', 0, 0, 'published'),
 (4,  1, 1, 'Database Systems',         'database-systems',
  'SQL, MySQL and database design concepts',
  'Understand relational databases, SQL and design scalable schemas.',
- 'bi-database', 'beginner', '1 Month', 2999.00, 4999.00, 4.6, 64, 310, 24, 20, 4, 1, '7:30 PM - 9:00 PM', '2026-07-12', 0, 0, 'published'),
+ 'bi-database', 'coding-database.gif', 'beginner', '1 Month', 2999.00, 4999.00, 4.6, 64, 310, 24, 20, 4, 1, '7:00 PM - 9:00 PM', '2026-07-12', 0, 0, 'published'),
 (5,  1, 1, 'DSA & Problem Solving',    'dsa-problem-solving',
  'Coding logic and interview preparation',
  'Crack coding interviews with data structures, algorithms and problem solving.',
- 'bi-cpu', 'intermediate', '3 Months', 4499.00, 6999.00, 4.9, 142, 700, 24, 9, 15, 1, '9:00 AM - 10:30 AM', '2026-07-15', 0, 1, 'published'),
+ 'bi-cpu', 'coding-algorithm.gif', 'intermediate', '3 Months', 4499.00, 6999.00, 4.9, 142, 700, 24, 9, 15, 1, '9:00 AM - 10:30 AM', '2026-07-15', 0, 1, 'published'),
 (6,  1, 1, 'Cloud Fundamentals',       'cloud-fundamentals',
  'Hosting, deployment and cloud basics',
  'Learn hosting, deployment and the fundamentals of cloud computing.',
- 'bi-cloud', 'beginner', '1 Month', 2999.00, 4999.00, 4.5, 40, 210, 24, 22, 2, 1, '8:00 PM - 9:00 PM', '2026-07-18', 0, 0, 'published')
+ 'bi-cloud', 'coding-frontend.gif', 'beginner', '1 Month', 2999.00, 4999.00, 4.5, 40, 210, 24, 22, 2, 1, '8:00 PM - 9:00 PM', '2026-07-18', 0, 0, 'published')
 ON DUPLICATE KEY UPDATE
   title = VALUES(title), seats_filled = VALUES(seats_filled), status = VALUES(status),
-  price = VALUES(price), seats_left = VALUES(seats_left);
+  price = VALUES(price), seats_left = VALUES(seats_left), thumbnail = VALUES(thumbnail);
 
 INSERT INTO courses (id, category_id, instructor_id, title, slug, subtitle, description,
-  icon, level, duration, price, original_price, rating, reviews_count, students_count,
+  icon, thumbnail, level, duration, price, original_price, rating, reviews_count, students_count,
   total_seats, seats_left, seats_filled, certificate, schedule, starts_at,
   is_featured, is_bestseller, status) VALUES
 (7,  2, 1, 'Computer Basics',          'computer-basics',
  'Start your digital journey from scratch',
  'Everything you need to become comfortable with computers and the web.',
- 'bi-laptop', 'beginner', '1 Month', 1999.00, 3999.00, 4.4, 30, 180, 30, 25, 5, 1, '5:00 PM - 6:00 PM', '2026-07-20', 0, 0, 'published'),
+ 'bi-laptop', 'coding-basics.gif', 'beginner', '1 Month', 1999.00, 3999.00, 4.4, 30, 180, 30, 25, 5, 1, '5:00 PM - 6:00 PM', '2026-07-20', 0, 0, 'published'),
 (8,  2, 1, 'Web Development Basics',   'web-development-basics',
  'Learn website creation without confusion',
  'Create your first websites step by step, no confusion.',
- 'bi-globe', 'beginner', '6 Weeks', 2499.00, 4999.00, 4.6, 52, 260, 30, 19, 11, 1, '6:00 PM - 7:00 PM', '2026-07-22', 0, 0, 'published'),
+ 'bi-globe', 'coding-webdev.gif', 'beginner', '6 Weeks', 2499.00, 4999.00, 4.6, 52, 260, 30, 19, 11, 1, '6:00 PM - 7:00 PM', '2026-07-22', 0, 0, 'published'),
 (9,  2, 1, 'AI Tools Mastery',         'ai-tools-mastery',
  'Use AI tools for productivity and work',
  'Boost productivity using modern AI tools at work and study.',
- 'bi-robot', 'beginner', '4 Weeks', 2999.00, 5999.00, 4.7, 71, 410, 40, 31, 9, 1, '7:00 PM - 8:00 PM', '2026-07-25', 1, 0, 'published'),
+ 'bi-robot', 'coding-ai.gif', 'beginner', '4 Weeks', 2999.00, 5999.00, 4.7, 71, 410, 40, 31, 9, 1, '7:00 PM - 8:00 PM', '2026-07-25', 1, 0, 'published'),
 (10, 3, 1, 'Career Transition Program','career-transition-program',
  'Move into tech with structured guidance',
  'A structured path for professionals switching into a tech career.',
- 'bi-briefcase', 'intermediate', '4 Months', 5999.00, 9999.00, 4.8, 88, 320, 24, 7, 17, 1, '8:30 PM - 10:00 PM', '2026-08-01', 1, 1, 'published'),
+ 'bi-briefcase', 'coding-career.gif', 'intermediate', '4 Months', 5999.00, 9999.00, 4.8, 88, 320, 24, 7, 17, 1, '8:30 PM - 10:00 PM', '2026-08-01', 1, 1, 'published'),
 (11, 3, 1, 'AI & Automation',          'ai-automation',
  'Automate repetitive work using AI',
  'Use AI and scripting to automate repetitive workflows.',
- 'bi-lightning', 'intermediate', '6 Weeks', 4999.00, 7999.00, 4.7, 60, 240, 24, 14, 10, 1, '9:00 PM - 10:30 PM', '2026-08-03', 0, 0, 'published'),
+ 'bi-lightning', 'coding-automation.gif', 'intermediate', '6 Weeks', 4999.00, 7999.00, 4.7, 60, 240, 24, 14, 10, 1, '9:00 PM - 10:30 PM', '2026-08-03', 0, 0, 'published'),
 (12, 3, 1, 'Data Analytics',           'data-analytics',
  'Learn reporting, dashboards and insights',
  'Turn raw data into reports, dashboards and actionable insights.',
- 'bi-graph-up', 'intermediate', '3 Months', 4499.00, 6999.00, 4.6, 75, 300, 24, 11, 13, 1, '8:00 PM - 9:30 PM', '2026-08-05', 0, 0, 'published')
+ 'bi-graph-up', 'coding-analytics.gif', 'intermediate', '3 Months', 4499.00, 6999.00, 4.6, 75, 300, 24, 11, 13, 1, '8:00 PM - 9:30 PM', '2026-08-05', 0, 0, 'published')
 ON DUPLICATE KEY UPDATE
   title = VALUES(title), seats_filled = VALUES(seats_filled), status = VALUES(status),
-  price = VALUES(price), seats_left = VALUES(seats_left);
+  price = VALUES(price), seats_left = VALUES(seats_left), thumbnail = VALUES(thumbnail);
 
 -- ── Course Modules (Full Stack) ─────────────────────────────────
 INSERT INTO course_modules (id, course_id, title, summary, position) VALUES

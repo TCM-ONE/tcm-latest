@@ -83,24 +83,30 @@
             $isOwned = in_array((int)$c['id'], array_map('intval', $owned), true);
             $isPaid  = (float)$c['price'] > 0;
         ?>
-        <div class="tcm-card" style="display:flex;flex-direction:column;gap:0;">
-            <!-- Icon + badge -->
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <div style="width:46px;height:46px;border-radius:12px;background:#f5f5f5;border:1px solid #ececec;display:grid;place-items:center;font-size:1.3rem;color:#111;">
-                    <i class="bi <?= e($c['icon'] ?? 'bi-journal-code') ?>"></i>
-                </div>
-                <div style="display:flex;gap:6px;align-items:center;">
+        <div class="tcm-card" style="display:flex;flex-direction:column;gap:0;overflow:hidden;padding:0;">
+            <!-- Thumbnail / GIF Header -->
+            <div style="width:100%;height:130px;background:#0d1117;position:relative;overflow:hidden;">
+                <img src="<?= e(course_thumbnail_url($c['thumbnail'] ?? null, $c['slug'] ?? null)) ?>"
+                     alt="<?= e($c['title']) ?>"
+                     loading="lazy"
+                     style="width:100%;height:100%;object-fit:cover;display:block;"
+                     onerror="this.src='<?= base_url('/assets/coding-fullstack.gif') ?>'">
+                <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px;align-items:center;">
                     <?php if ($c['original_price'] && $c['original_price'] > $c['price']): ?>
-                        <span class="tcm-badge green"><?= Course::discountPercent($c) ?>% off</span>
+                        <span class="tcm-badge green" style="box-shadow:0 2px 6px rgba(0,0,0,0.25);"><?= Course::discountPercent($c) ?>% off</span>
                     <?php endif; ?>
                     <?php if ($isOwned): ?>
-                        <span class="tcm-badge green"><i class="bi bi-check2"></i> Enrolled</span>
+                        <span class="tcm-badge green" style="box-shadow:0 2px 6px rgba(0,0,0,0.25);"><i class="bi bi-check2"></i> Enrolled</span>
                     <?php endif; ?>
+                </div>
+                <div style="position:absolute;bottom:10px;left:10px;width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.92);backdrop-filter:blur(4px);display:grid;place-items:center;font-size:1.05rem;color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                    <i class="bi <?= e($c['icon'] ?? 'bi-journal-code') ?>"></i>
                 </div>
             </div>
 
-            <h3 style="margin:0 0 5px;font-size:.95rem;font-weight:700;color:#111;"><?= e($c['title']) ?></h3>
-            <p style="color:#888;font-size:.82rem;margin-bottom:12px;flex:1;min-height:36px;line-height:1.5;"><?= e($c['subtitle'] ?? '') ?></p>
+            <div style="padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;">
+                <h3 style="margin:0 0 5px;font-size:.95rem;font-weight:700;color:#111;"><?= e($c['title']) ?></h3>
+                <p style="color:#888;font-size:.82rem;margin-bottom:12px;flex:1;min-height:36px;line-height:1.5;"><?= e($c['subtitle'] ?? '') ?></p>
 
             <!-- Price + rating -->
             <div style="display: flex; justify-content: space-between; margin-bottom: 14px;">
@@ -143,6 +149,7 @@
                     </form>
                 <?php endif; ?>
             </div>
+            </div>
         </div>
         <?php endforeach; ?>
         <?php if ($courses === []): ?>
@@ -174,43 +181,52 @@
             <?php foreach ($enrolledCourses as $c): 
                 $isPaid  = (float)$c['price'] > 0;
             ?>
-            <div class="tcm-card" style="display:flex;flex-direction:column;gap:0;">
-                <!-- Icon + badge -->
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <div style="width:46px;height:46px;border-radius:12px;background:#f5f5f5;border:1px solid #ececec;display:grid;place-items:center;font-size:1.3rem;color:#111;">
+            <div class="tcm-card" style="display:flex;flex-direction:column;gap:0;overflow:hidden;padding:0;">
+                <!-- Thumbnail / GIF Header -->
+                <div style="width:100%;height:130px;background:#0d1117;position:relative;overflow:hidden;">
+                    <img src="<?= e(course_thumbnail_url($c['thumbnail'] ?? null, $c['slug'] ?? null)) ?>"
+                         alt="<?= e($c['title']) ?>"
+                         loading="lazy"
+                         style="width:100%;height:100%;object-fit:cover;display:block;"
+                         onerror="this.src='<?= base_url('/assets/coding-fullstack.gif') ?>'">
+                    <div style="position:absolute;top:10px;right:10px;">
+                        <span class="tcm-badge green" style="box-shadow:0 2px 6px rgba(0,0,0,0.25);"><i class="bi bi-check2"></i> Enrolled</span>
+                    </div>
+                    <div style="position:absolute;bottom:10px;left:10px;width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.92);backdrop-filter:blur(4px);display:grid;place-items:center;font-size:1.05rem;color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
                         <i class="bi <?= e($c['icon'] ?? 'bi-journal-code') ?>"></i>
                     </div>
-                    <span class="tcm-badge green"><i class="bi bi-check2"></i> Enrolled</span>
                 </div>
 
-                <h3 style="margin:0 0 5px;font-size:.95rem;font-weight:700;color:#111;"><?= e($c['title']) ?></h3>
-                <p style="color:#888;font-size:.82rem;margin-bottom:12px;flex:1;min-height:36px;line-height:1.5;"><?= e($c['subtitle'] ?? '') ?></p>
+                <div style="padding:16px 18px 18px;display:flex;flex-direction:column;flex:1;">
+                    <h3 style="margin:0 0 5px;font-size:.95rem;font-weight:700;color:#111;"><?= e($c['title']) ?></h3>
+                    <p style="color:#888;font-size:.82rem;margin-bottom:12px;flex:1;min-height:36px;line-height:1.5;"><?= e($c['subtitle'] ?? '') ?></p>
 
-                <!-- Progress bar -->
-                <?php 
-                $enrollment = array_values(array_filter($enrollments ?? [], function($e) use ($c) {
-                    return (int)$e['course_id'] === (int)$c['id'];
-                }))[0] ?? null;
-                $progress = $enrollment ? (int)$enrollment['progress'] : 0;
-                ?>
-                <div style="margin-bottom: 14px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-size: 0.75rem; color: #888; font-weight: 600;">Progress</span>
-                        <span style="font-size: 0.75rem; color: #111; font-weight: 700;"><?= $progress ?>%</span>
+                    <!-- Progress bar -->
+                    <?php 
+                    $enrollment = array_values(array_filter($enrollments ?? [], function($e) use ($c) {
+                        return (int)$e['course_id'] === (int)$c['id'];
+                    }))[0] ?? null;
+                    $progress = $enrollment ? (int)$enrollment['progress'] : 0;
+                    ?>
+                    <div style="margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 0.75rem; color: #888; font-weight: 600;">Progress</span>
+                            <span style="font-size: 0.75rem; color: #111; font-weight: 700;"><?= $progress ?>%</span>
+                        </div>
+                        <div style="height: 4px; background: #f0f0f0; border-radius: 10px; overflow: hidden;">
+                            <div style="height: 100%; background: #111; border-radius: 10px; width: <?= $progress ?>%; transition: width 0.5s ease;"></div>
+                        </div>
                     </div>
-                    <div style="height: 4px; background: #f0f0f0; border-radius: 10px; overflow: hidden;">
-                        <div style="height: 100%; background: #111; border-radius: 10px; width: <?= $progress ?>%; transition: width 0.5s ease;"></div>
-                    </div>
-                </div>
 
-                <!-- Actions -->
-                <div style="display: flex; gap: 8px;">
-                    <a class="tcm-btn" href="<?= base_url('/student/courses/' . $c['slug']) ?>" style="flex:1;justify-content:center;">
-                        Details
-                    </a>
-                    <a class="tcm-btn primary" href="<?= base_url('/student/learn/' . $c['id']) ?>" style="flex:1;justify-content:center;">
-                        <i class="bi bi-play-fill"></i> Continue Learning
-                    </a>
+                    <!-- Actions -->
+                    <div style="display: flex; gap: 8px;">
+                        <a class="tcm-btn" href="<?= base_url('/student/courses/' . $c['slug']) ?>" style="flex:1;justify-content:center;">
+                            Details
+                        </a>
+                        <a class="tcm-btn primary" href="<?= base_url('/student/learn/' . $c['id']) ?>" style="flex:1;justify-content:center;">
+                            <i class="bi bi-play-fill"></i> Continue Learning
+                        </a>
+                    </div>
                 </div>
             </div>
             <?php endforeach; ?>

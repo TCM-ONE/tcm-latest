@@ -368,8 +368,18 @@
     function courseCardHome(c, idx) {
         var price = '<div class="course-price">' + money(c.price) +
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
-        var gifFile = getUniqueGifForCourse(c.slug, idx);
-        var thumb = '<div class="course-card-thumb"><img src="./assets/' + gifFile + '" alt="' + esc(c.title) + '" loading="lazy" data-course-slug="' + esc(c.slug) + '"></div>';
+        var thumbSrc = '';
+        if (c.thumbnail_url) {
+            thumbSrc = c.thumbnail_url;
+        } else if (c.thumbnail) {
+            thumbSrc = (c.thumbnail.startsWith('http') || c.thumbnail.startsWith('/'))
+                ? c.thumbnail
+                : (c.thumbnail.indexOf('/') !== -1 ? './' + c.thumbnail : './assets/' + c.thumbnail);
+        } else {
+            var gifFile = getUniqueGifForCourse(c.slug, idx);
+            thumbSrc = './assets/' + gifFile;
+        }
+        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" loading="lazy" data-course-slug="' + esc(c.slug) + '" onerror="this.src=\'./assets/coding-fullstack.gif\'"></div>';
         return '<div class="course-card">' +
             thumb +
             price +

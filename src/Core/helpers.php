@@ -184,3 +184,95 @@ if (!function_exists('tcm_avatar')) {
             ">' . e($initial) . '</div>';
     }
 }
+
+if (!function_exists('course_preset_gifs')) {
+    /**
+     * List of preset coding GIFs available in the system.
+     *
+     * @return array<string,string> Filename => Human readable label
+     */
+    function course_preset_gifs(): array
+    {
+        return [
+            'coding-fullstack.gif'  => 'Full Stack Development',
+            'coding-monitor.gif'    => 'Frontend & UI Design',
+            'coding-python.gif'     => 'Python Programming',
+            'coding-database.gif'   => 'Database Systems & SQL',
+            'coding-algorithm.gif'  => 'DSA & Problem Solving',
+            'coding-frontend.gif'   => 'Cloud & Infrastructure',
+            'coding-basics.gif'     => 'Computer Basics',
+            'coding-webdev.gif'     => 'Web Development Basics',
+            'coding-ai.gif'         => 'AI Tools & Prompting',
+            'coding-career.gif'     => 'Career Transition',
+            'coding-automation.gif' => 'AI & Automation',
+            'coding-analytics.gif'  => 'Data Analytics',
+            'coding-cloud-new.gif'  => 'Cloud Systems (Pro)',
+            'coding-dsa.gif'        => 'Data Structures Master',
+            'coding-terminal.gif'   => 'Terminal & DevOps',
+            'coding.gif'            => 'General Coding',
+            'coding-cloud.gif'      => 'Cloud Basics',
+        ];
+    }
+}
+
+if (!function_exists('course_thumbnail_url')) {
+    /**
+     * Resolves a course thumbnail or GIF into a complete, usable public URL.
+     */
+    function course_thumbnail_url(?string $thumbnail, ?string $slug = null): string
+    {
+        $thumb = trim((string)$thumbnail);
+
+        if ($thumb === '') {
+            $presetMap = [
+                'full-stack-development'    => 'coding-fullstack.gif',
+                'frontend-development'      => 'coding-monitor.gif',
+                'python-development'        => 'coding-python.gif',
+                'database-systems'          => 'coding-database.gif',
+                'dsa-problem-solving'       => 'coding-algorithm.gif',
+                'cloud-fundamentals'        => 'coding-frontend.gif',
+                'computer-basics'           => 'coding-basics.gif',
+                'web-development-basics'    => 'coding-webdev.gif',
+                'ai-tools-mastery'          => 'coding-ai.gif',
+                'career-transition-program' => 'coding-career.gif',
+                'ai-automation'             => 'coding-automation.gif',
+                'data-analytics'            => 'coding-analytics.gif',
+            ];
+            $thumb = ($slug && isset($presetMap[$slug])) ? $presetMap[$slug] : 'coding-fullstack.gif';
+        }
+
+        // Full web URL
+        if (str_starts_with($thumb, 'http://') || str_starts_with($thumb, 'https://')) {
+            return $thumb;
+        }
+
+        // Absolute web path
+        if (str_starts_with($thumb, '/')) {
+            return base_url($thumb);
+        }
+
+        // Relative path starting with assets/
+        if (str_starts_with($thumb, 'assets/')) {
+            return base_url('/' . $thumb);
+        }
+
+        // Relative path starting with uploads/
+        if (str_starts_with($thumb, 'uploads/')) {
+            return base_url('/' . $thumb);
+        }
+
+        // Just a filename (e.g. coding-fullstack.gif or upload_123.gif)
+        $courseUploadPath = dirname(__DIR__, 2) . '/uploads/courses/' . $thumb;
+        if (file_exists($courseUploadPath)) {
+            return base_url('/uploads/courses/' . $thumb);
+        }
+
+        $assetsPath = dirname(__DIR__, 2) . '/assets/' . $thumb;
+        if (file_exists($assetsPath)) {
+            return base_url('/assets/' . $thumb);
+        }
+
+        return base_url('/uploads/courses/' . $thumb);
+    }
+}
+
