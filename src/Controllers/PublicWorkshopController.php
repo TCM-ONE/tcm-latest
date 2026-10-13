@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TCM\Controllers;
 
 use TCM\Core\Controller;
+use TCM\Core\Database;
 use TCM\Core\WorkshopData;
 use TCM\Models\Course;
 
@@ -180,5 +181,67 @@ SVG;
             'thumbUrl'   => $thumbUrl,
             'appUrl'     => $appUrl,
         ], null);
+    }
+
+    /**
+     * GET /download-brochure
+     * Public endpoint to download the latest official institute / course brochure.
+     */
+    public function downloadBrochure(): void
+    {
+        $brochureFile = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
+        $brochureName = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_name'");
+
+        $filePath = null;
+        $downloadName = $brochureName ?: 'The-Code-Munk-Official-Brochure.pdf';
+
+        if (!empty($brochureFile)) {
+            $candidate = config('uploads.path') . '/' . $brochureFile;
+            if (is_file($candidate)) {
+                $filePath = $candidate;
+            }
+        }
+
+        // Fallback to default starter brochure if custom brochure not uploaded or missing
+        if ($filePath === null) {
+            $defaultCandidates = [
+                config('uploads.path') . '/brochure/tcm-brochure.pdf',
+                BASE_PATH . '/assets/tcm-brochure.pdf',
+            ];
+            foreach ($defaultCandidates as $candidatePath) {
+                if (is_file($candidatePath)) {
+                    $filePath = $candidatePath;
+                    $downloadName = 'The-Code-Munk-Official-Brochure.pdf';
+                    break;
+                }
+            }
+        }
+
+        if ($filePath === null || !is_file($filePath)) {
+            flash('info', 'Brochure is being updated. You can explore our programs or contact us directly on WhatsApp!');
+            redirect('/programs.html');
+        }
+
+        $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        $mimeTypes = [
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ];
+        $contentType = $mimeTypes[$ext] ?? 'application/octet-stream';
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="' . addslashes((string)$downloadName) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit;
     }
 }

@@ -20,8 +20,8 @@ final class Validator
      * @param array<string,string>     $rules  field => 'rule1|rule2:arg'
      */
     public function __construct(
-        private readonly array $data,
-        private readonly array $rules,
+        private array $data,
+        private array $rules,
     ) {
     }
 

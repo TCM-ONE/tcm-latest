@@ -44,12 +44,21 @@ final class DashboardController extends Controller
              ORDER BY created_at DESC LIMIT 8"
         );
 
+        $brochureRows = Database::all(
+            "SELECT `key`, `value` FROM settings WHERE `key` IN ('brochure_file', 'brochure_name', 'brochure_size', 'brochure_updated_at')"
+        );
+        $brochure = [];
+        foreach ($brochureRows as $row) {
+            $brochure[$row['key']] = $row['value'];
+        }
+
         $this->view('admin/dashboard', [
             'title'          => 'Dashboard',
             'user'           => Auth::user(),
             'stats'          => $stats,
             'recentOrders'   => $recentOrders,
             'recentStudents' => $recentStudents,
+            'brochure'       => $brochure,
         ], 'admin');
     }
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,6 +37,58 @@
     <link rel="stylesheet" href="./assets/skeleton.css">
     <link rel="stylesheet" href="./assets/auth.css">
     <link rel="stylesheet" href="./assets/tcm-design-system.css">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOrganization",
+          "@id": "https://thecodemunk.in/#organization",
+          "name": "TCM One (The Code Munk)",
+          "url": "https://thecodemunk.in",
+          "logo": "https://thecodemunk.in/assets/logo.png",
+          "sameAs": [
+            "https://github.com/tcmone",
+            "https://youtube.com/@tcmoneindia",
+            "https://www.instagram.com/tcmoneindia"
+          ],
+          "description": "Talent & Career Mission — Mentor-led tech education ecosystem partnering with colleges and institutions across India."
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://thecodemunk.in/partner.html#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What partnership models does TCM One offer to colleges?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "TCM One offers two primary models: Referral Partnership (online delivery with 15% to 25% revenue share) and Academic Institutional Partnership (on-campus cohort delivery with 35% to 50% revenue share, lab integration, and co-branded certifications)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How quickly can a partnership batch be launched?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Following MoU signing and lab readiness verification, cohort onboarding typically completes within 7 to 14 days."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does TCM One provide curriculum alignment and faculty training?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. TCM One provides complete outcome-focused curriculum, industry LMS access, Faculty Development Programs (FDP), continuous mentor support, and placement readiness drives."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -72,10 +124,14 @@
                         <li class="nav-item">
                             <a class="nav-link active-nav" href="partner.html">Become a Partner</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="login.php" class="join-btn">Join Now</a>
-                        </li>
                     </ul>
+
+                    <div class="header-right-actions d-flex align-items-center gap-3 ms-lg-3">
+                        <a href="download-partner-proposal" class="nav-link d-inline-flex align-items-center gap-1" download style="font-weight:600;font-size:14px;color:#111;">
+                            <i class="bi bi-file-earmark-pdf"></i> Download Brochure
+                        </a>
+                        <a href="login.php" class="join-btn">Join Now</a>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -96,9 +152,9 @@
                 </div>
                 
                 <p class="partner-hero-desc">
-                    The world of education is changing. Students are no longer looking only for certificates &mdash; they want 
-                    <strong>practical skills, industry exposure, mentorship, projects, career guidance, technology-enabled learning and real opportunities</strong>. 
-                    TCM One offers a <strong>Zero Upfront Investment &amp; High-Profit Partnership Model</strong> for colleges, academies, and training centers &mdash; allowing you to deliver industry-grade tech education and career placement support without capital expenditure.
+                    The world of education is changing. Students are looking beyond certificates &mdash; they demand 
+                    <strong>practical skills, real-world projects, mentor guidance, AI tools, and career pipelines</strong>. 
+                    TCM One offers a <strong>Zero Upfront Software &amp; Curriculum Licensing Model</strong> for colleges, universities, and training institutes &mdash; enabling you to deliver industry-grade tech education without capital expenditure.
                 </p>
 
                 <!-- Ecosystem Formula Bar -->
@@ -116,9 +172,17 @@
                         <span>Become a Partner</span>
                         <i class="bi bi-arrow-right"></i>
                     </a>
-                    <a href="#partnership-application" class="secondary-btn">
+                    <a href="#calculator" class="secondary-btn">
+                        <i class="bi bi-calculator"></i>
+                        <span>Calculate Earnings</span>
+                    </a>
+                    <a href="#book-call" class="secondary-btn">
                         <i class="bi bi-telephone-fill"></i>
-                        <span>Talk to Our Partnership Team</span>
+                        <span>Book a Discovery Call</span>
+                    </a>
+                    <a href="download-partner-proposal" class="secondary-btn" download>
+                        <i class="bi bi-file-earmark-arrow-down"></i>
+                        <span>Download Brochure / Proposal (PDF)</span>
                     </a>
                 </div>
 
@@ -583,54 +647,195 @@
         </div>
     </section>
 
+    <!-- ===== SMART PARTNERSHIP REVENUE CALCULATOR ===== -->
+    <section class="ptr-section" id="calculator">
+        <div class="container">
+            <div class="ptr-header">
+                <span class="ptr-tag">COMMERCIAL PROJECTIONS</span>
+                <h2>Smart Partnership Revenue Calculator</h2>
+                <p>Estimate institutional revenue shares and commercial collections instantly based on student strength, program fees, and delivery models.</p>
+            </div>
+
+            <div class="col-lg-11 mx-auto">
+                <div class="ptr-calc-card">
+                    <div class="ptr-calc-header">
+                        <div>
+                            <div class="ptr-calc-title">Interactive Revenue Estimator</div>
+                            <div class="ptr-calc-subtitle">Simulate student batch economics with transparent, real-time calculation.</div>
+                        </div>
+                        <div class="ptr-model-toggle" role="group" aria-label="Select Partnership Model">
+                            <button type="button" class="ptr-model-toggle-btn active" id="calcModelAcademic">Academic Partnership (30%–50%)</button>
+                            <button type="button" class="ptr-model-toggle-btn" id="calcModelReferral">Referral Model (15%–25%)</button>
+                        </div>
+                    </div>
+
+                    <div class="ptr-calc-grid">
+                        <!-- Inputs Column -->
+                        <div class="ptr-calc-inputs">
+                            <!-- Input 1: Students -->
+                            <div class="ptr-calc-input-group">
+                                <div class="ptr-calc-label-row">
+                                    <label class="ptr-calc-label" for="calcStudentSlider">Expected Students (Per Batch)</label>
+                                    <span class="ptr-calc-val-pill" id="calcStudentVal">40 Students</span>
+                                </div>
+                                <input type="range" class="ptr-slider" id="calcStudentSlider" min="15" max="300" step="5" value="40" aria-label="Students per batch">
+                                <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                                    <span>Min. 15 students</span>
+                                    <span>Max. 300 students</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 2: Fee -->
+                            <div class="ptr-calc-input-group">
+                                <div class="ptr-calc-label-row">
+                                    <label class="ptr-calc-label" for="calcFeeSlider">Course Fee Per Student</label>
+                                    <span class="ptr-calc-val-pill" id="calcFeeVal">&#8377;5,000</span>
+                                </div>
+                                <input type="range" class="ptr-slider" id="calcFeeSlider" min="2500" max="15000" step="500" value="5000" aria-label="Course fee per student">
+                                <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                                    <span>&#8377;2,500</span>
+                                    <span>&#8377;15,000</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 3: Batches -->
+                            <div class="ptr-calc-input-group">
+                                <div class="ptr-calc-label-row">
+                                    <label class="ptr-calc-label" for="calcBatchesSlider">Expected Batches Per Year</label>
+                                    <span class="ptr-calc-val-pill" id="calcBatchesVal">2 Batches</span>
+                                </div>
+                                <input type="range" class="ptr-slider" id="calcBatchesSlider" min="1" max="8" step="1" value="2" aria-label="Batches per year">
+                                <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                                    <span>1 Batch</span>
+                                    <span>8 Batches</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 4: Share Percentage -->
+                            <div class="ptr-calc-input-group">
+                                <div class="ptr-calc-label-row">
+                                    <label class="ptr-calc-label" for="calcPctSlider">Institutional Share / Commission</label>
+                                    <span class="ptr-calc-val-pill" id="calcPctVal">40%</span>
+                                </div>
+                                <input type="range" class="ptr-slider" id="calcPctSlider" min="25" max="50" step="5" value="40" aria-label="Institutional share percentage">
+                                <div class="ptr-pct-presets">
+                                    <button type="button" class="ptr-pct-btn" data-pct="20">20%</button>
+                                    <button type="button" class="ptr-pct-btn" data-pct="30">30%</button>
+                                    <button type="button" class="ptr-pct-btn active" data-pct="40">40%</button>
+                                    <button type="button" class="ptr-pct-btn" data-pct="50">50%</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Outputs Column -->
+                        <div class="ptr-calc-output-box">
+                            <div>
+                                <div class="ptr-calc-hero-metric">
+                                    <div class="metric-tag" id="calcOutModelLabel">Est. Institute Revenue Share</div>
+                                    <div class="metric-num" id="calcOutInstitute">&#8377;1,60,000</div>
+                                    <div class="metric-sub" id="calcOutBatchesCombined">&#8377;1,60,000 across 2 batches</div>
+                                </div>
+
+                                <div class="ptr-calc-breakdown-row">
+                                    <span class="label">Total Student Collections:</span>
+                                    <span class="val" id="calcOutTotal">&#8377;4,00,000</span>
+                                </div>
+                                <div class="ptr-calc-breakdown-row">
+                                    <span class="label">Estimated TCM One Platform &amp; Delivery:</span>
+                                    <span class="val" id="calcOutTcm">&#8377;2,40,000</span>
+                                </div>
+                                <div class="ptr-calc-breakdown-row">
+                                    <span class="label">Estimated Institute Earnings Per Batch:</span>
+                                    <span class="val" id="calcOutPerBatch">&#8377;80,000</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a href="#partnership-application" class="primary-btn w-100 justify-content-center mt-3" id="calcDiscussBtn">
+                                    <span>Discuss This Partnership</span>
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </a>
+                                <div class="ptr-calc-disclaimer">
+                                    <i class="bi bi-info-circle me-1"></i> <strong>Commercial Transparency:</strong> Figures shown above are illustrative projections based on user-entered variables. Commercial percentages, milestone schedules, GST treatment, and student dropout clauses are formalized exclusively in the bilateral Memorandum of Understanding (MoU).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ===== TWO PARTNERSHIP MODELS ===== -->
-    <section class="ptr-section" id="models">
+    <section class="ptr-section ptr-section-alt" id="models">
         <div class="container">
             <div class="ptr-header">
                 <span class="ptr-tag">PARTNERSHIP OPTIONS</span>
                 <h2>Our Partnership Models</h2>
-                <p>Choose the operational model that best fits your institution's goals and resources:</p>
+                <p>Choose the operational model that best fits your institution's infrastructure, faculty bandwidth, and strategic goals:</p>
             </div>
 
             <div class="row g-4">
                 <!-- MODEL 1 -->
                 <div class="col-lg-6">
-                    <div class="ptr-model-card h-100">
-                        <span class="ptr-model-badge">MODEL 1</span>
-                        <h3>Referral Model</h3>
-                        <div class="ptr-model-sub">Refer Students. Create Opportunities. Earn Through Referrals.</div>
-                        <p class="ptr-model-desc">
-                            Designed for institutions that want to introduce TCM One programs to students without taking responsibility for complete course delivery.
-                        </p>
-                        <ul class="ptr-model-list">
-                            <li><i class="bi bi-check2"></i> Low operational involvement</li>
-                            <li><i class="bi bi-check2"></i> Institute promotes &amp; refers students</li>
-                            <li><i class="bi bi-check2"></i> TCM One handles course delivery &amp; AI support</li>
-                            <li><i class="bi bi-check2"></i> Referral benefit on successful enrollments</li>
-                        </ul>
-                        <div class="ptr-model-footer">
-                            Ideal for: Colleges, Coaching Centres &amp; Communities testing TCM One.
+                    <div class="ptr-model-card h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="ptr-model-badge">MODEL 1</span>
+                            <h3>Referral Model</h3>
+                            <div class="ptr-model-sub">Refer Students. Zero Faculty Overhead. Transparent Monthly Payouts.</div>
+                            <p class="ptr-model-desc">
+                                Built for colleges, training centers, and academic organizations that want to offer high-demand career tracks without taking operational responsibility for daily classroom delivery.
+                            </p>
+                            
+                            <div class="p-3 bg-light border mb-3">
+                                <div class="small fw-bold text-dark mb-1"><i class="bi bi-person-check me-1"></i> Who is this model suitable for?</div>
+                                <div class="small text-secondary">Colleges, degree academies, polytechnics, and skill communities wanting to test student demand with zero operational burden.</div>
+                            </div>
+
+                            <ul class="ptr-model-list">
+                                <li><i class="bi bi-check2"></i> <strong>Institute Role:</strong> Promote courses, share verified institutional link, counsel interested students.</li>
+                                <li><i class="bi bi-check2"></i> <strong>TCM One Role:</strong> Complete curriculum, live sessions, 24×7 Ask AI doubt clearing, assignments &amp; certificates.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Referral Tracking:</strong> Dedicated Institutional Partner Code and portal attribution ledger.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Commercial Commission:</strong> 15% – 25% commission per verified, paid student enrollment.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Payout Eligibility:</strong> Monthly automated bank transfer within 30 days of cohort lock date.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-dark btn-sm w-100 fw-bold py-2" data-select-partner-model="Referral">
+                                <i class="bi bi-calculator me-1"></i> Simulate Referral Earnings
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- MODEL 2 -->
                 <div class="col-lg-6">
-                    <div class="ptr-model-card featured h-100">
-                        <span class="ptr-model-badge">MODEL 2 &middot; MOST POPULAR</span>
-                        <h3>Partnership Model</h3>
-                        <div class="ptr-model-sub">Build and Deliver TCM One Programs Together</div>
-                        <p class="ptr-model-desc">
-                            Structured collaboration where the institute and TCM One co-deliver an authorized program to a dedicated student batch (min. 20 students).
-                        </p>
-                        <ul class="ptr-model-list">
-                            <li><i class="bi bi-check2"></i> Choose Institute Mentor or TCM Mentor</li>
-                            <li><i class="bi bi-check2"></i> Structured orientation &amp; mentor training</li>
-                            <li><i class="bi bi-check2"></i> Full access to curriculum, platform &amp; projects</li>
-                            <li><i class="bi bi-check2"></i> Milestone-based commercial structure</li>
-                        </ul>
-                        <div class="ptr-model-footer bg-dark text-white">
-                            Ideal for: Active course partnerships &amp; batch training.
+                    <div class="ptr-model-card featured h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="ptr-model-badge">MODEL 2 &middot; MOST POPULAR</span>
+                            <h3>Academic Partnership Model</h3>
+                            <div class="ptr-model-sub">Co-Deliver Accredited Programs on Campus &middot; 35%–50% Revenue Share</div>
+                            <p class="ptr-model-desc">
+                                A structured institutional collaboration where the institute and TCM One co-deliver full-stack, AI, or data programs to dedicated student cohorts with co-branded recognition.
+                            </p>
+
+                            <div class="p-3 bg-light border mb-3">
+                                <div class="small fw-bold text-dark mb-1"><i class="bi bi-people-fill me-1"></i> Cohort Eligibility &amp; Lab Standards:</div>
+                                <div class="small text-secondary">Minimum batch size: <strong>20 students</strong>. Campus lab requires 1 PC per student, projector, and 20Mbps+ stable broadband.</div>
+                            </div>
+
+                            <ul class="ptr-model-list">
+                                <li><i class="bi bi-check2"></i> <strong>Flexible Mentorship:</strong> Nominated faculty trained by TCM One or dedicated TCM industry mentors.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Institute Role:</strong> Lab scheduling, internal attendance monitoring, and coordinator supervision.</li>
+                                <li><i class="bi bi-check2"></i> <strong>TCM One Role:</strong> Full curriculum, project repositories, LMS access, AI engine, and career placement support.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Revenue-Sharing:</strong> 35% – 50% institutional revenue share based on delivery allocation.</li>
+                                <li><i class="bi bi-check2"></i> <strong>Settlement Process:</strong> Milestone-based ledger with transparent batch enrollment audits and quarterly TDS certificates.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 text-white" data-select-partner-model="Academic">
+                                <i class="bi bi-calculator me-1"></i> Simulate Partnership Share
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -647,28 +852,45 @@
                 <p>Detailed feature matrix across Referral and Partnership models:</p>
             </div>
 
-            <div class="ptr-table-wrap">
+            <div class="ptr-table-scroll-hint">
+                <i class="bi bi-arrows-expand me-1"></i> Swipe horizontally to view full comparison matrix on mobile
+            </div>
+
+            <div class="ptr-table-wrap table-responsive">
                 <table class="ptr-table">
                     <thead>
                         <tr>
-                            <th>Feature</th>
-                            <th>Referral Model</th>
-                            <th>Partnership Model</th>
+                            <th style="min-width:180px;">Feature &amp; Scope</th>
+                            <th style="min-width:160px;">Referral Model</th>
+                            <th style="min-width:180px;">Academic Partnership</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Student Referral</td><td>✅</td><td>✅</td></tr>
-                        <tr><td>TCM One Platform</td><td>✅</td><td>✅</td></tr>
-                        <tr><td>Structured Course</td><td>✅</td><td>✅</td></tr>
-                        <tr><td>AI Learning Support</td><td>As applicable</td><td>✅</td></tr>
-                        <tr><td>Mentor Support</td><td>TCM One</td><td>Institute / TCM One</td></tr>
-                        <tr><td>Mentor Training</td><td>As applicable</td><td>✅</td></tr>
-                        <tr><td>Institute Operational Role</td><td>Low</td><td>Medium</td></tr>
-                        <tr><td>Dedicated Infrastructure</td><td>❌</td><td>As applicable</td></tr>
-                        <tr><td>Multiple Programs</td><td>Limited/As agreed</td><td>✅</td></tr>
-                        <tr><td>Multiple Batches</td><td>As applicable</td><td>✅</td></tr>
-                        <tr><td>Long-Term Integration</td><td>Low</td><td>Medium/High</td></tr>
-                        <tr><td><strong>Best For</strong></td><td>Referrals &amp; Growth</td><td>Course Partnerships</td></tr>
+                        <tr><td>Student Discovery &amp; Referral</td><td>✅ Included</td><td>✅ Included</td></tr>
+                        <tr><td>TCM One Learning Platform</td><td>✅ Included</td><td>✅ Included</td></tr>
+                        <tr><td>Structured Curriculum &amp; Notes</td><td>✅ Included</td><td>✅ Included</td></tr>
+                        <tr><td>24×7 Ask AI Doubt Clearing</td><td>✅ Included</td><td>✅ Included</td></tr>
+                        <tr><td>Live Mentor Support</td><td>TCM One Dedicated</td><td>Institute Faculty / TCM One</td></tr>
+                        <tr><td>Mentor Training &amp; Orientation</td><td>Standard Briefing</td><td>✅ Comprehensive Onboarding</td></tr>
+                        <tr><td>Institute Operational Effort</td><td>Low (Zero Faculty Load)</td><td>Medium (Classroom / Lab Coordination)</td></tr>
+                        <tr><td>Dedicated Campus Lab Setup</td><td>❌ Not Required</td><td>✅ 1 PC/Student, Broadband, Projector</td></tr>
+                        <tr><td>Co-Branded Recognition</td><td>Standard Partner Link</td><td>✅ Accredited Co-Branded Cohort</td></tr>
+                        <tr><td>Minimum Batch Size</td><td>No minimum requirement</td><td>Min. 20 Students / Batch</td></tr>
+                        <tr><td>Revenue Accrual &amp; Payout</td><td>15% – 25% Commission</td><td>35% – 50% Revenue Share</td></tr>
+                        <tr><td><strong>Best For</strong></td><td>Referrals &amp; Growth</td><td>Full Course Delivery &amp; Labs</td></tr>
+                        <tr style="background:#fcfcfc;">
+                            <td><strong>Select &amp; Estimate</strong></td>
+                            <td>
+                                <button type="button" class="btn btn-outline-dark btn-sm w-100 fw-bold py-2" data-select-partner-model="Referral">
+                                    Select Referral Model
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 text-white" data-select-partner-model="Academic">
+                                    Select Academic Partnership
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -676,15 +898,38 @@
             <!-- Selector Guide -->
             <div class="row g-4 mt-4">
                 <div class="col-md-6">
-                    <div class="p-4 bg-white border rounded-4 text-center h-100">
+                    <div class="p-4 bg-white border text-center h-100">
                         <h5 class="fw-bold">Choose Referral Model if:</h5>
-                        <p class="small text-muted mb-0">You want to introduce TCM One to students with minimal operational involvement. <strong>Simple &amp; Flexible.</strong></p>
+                        <p class="small text-muted mb-3">You want to introduce TCM One to students with zero faculty overhead. Simple, flexible, monthly payouts.</p>
+                        <a href="#calculator" class="btn btn-outline-dark btn-sm fw-bold px-3 py-2" data-select-partner-model="Referral">
+                            Calculate Referral Commission <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="p-4 bg-white border border-dark rounded-4 text-center h-100">
-                        <h5 class="fw-bold">Choose Partnership Model if:</h5>
-                        <p class="small text-muted mb-0">You want to run structured programs with active delivery participation. <strong>Balanced &amp; Scalable.</strong></p>
+                    <div class="p-4 bg-white border border-dark text-center h-100">
+                        <h5 class="fw-bold">Choose Academic Partnership if:</h5>
+                        <p class="small text-muted mb-3">You want to deliver structured semester cohorts with dedicated campus labs and high profit shares.</p>
+                        <a href="#calculator" class="btn btn-dark btn-sm fw-bold px-3 py-2 text-white" data-select-partner-model="Academic">
+                            Calculate Partnership Share <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proposal Download Highlight Banner -->
+            <div class="mt-5">
+                <div class="ptr-proposal-card">
+                    <div>
+                        <div class="badge bg-light text-dark fw-bold px-2 py-1 mb-2" style="font-size:11px;">OFFICIAL INSTITUTIONAL PROPOSAL &amp; BROCHURE</div>
+                        <h3>Download TCM One Partnership Brochure &amp; Proposal (PDF)</h3>
+                        <p>Detailed institutional document covering ecosystem overview, curriculum tracks, LMS and AI mentor frameworks, commercial batch examples, and onboarding steps.</p>
+                    </div>
+                    <div>
+                        <a href="download-partner-proposal" class="ptr-btn-download-white" download>
+                            <i class="bi bi-file-earmark-arrow-down-fill fs-5"></i>
+                            <span>Download Brochure (PDF)</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -732,165 +977,435 @@
         </div>
     </section>
 
-    <!-- ===== 10-STEP LIFECYCLE ROADMAP ===== -->
-    <section class="ptr-section ptr-section-alt">
+    <!-- ===== PARTNER DASHBOARD & REPORTING PREVIEW ===== -->
+    <section class="ptr-section ptr-section-alt" id="dashboard-preview">
         <div class="container">
             <div class="ptr-header">
-                <span class="ptr-tag">PARTNERSHIP ROADMAP</span>
-                <h2>10-Step Partnership Lifecycle</h2>
-                <p>From initial discovery to scaling your institutional relationship:</p>
+                <span class="ptr-tag">TRANSPARENT OPERATIONS</span>
+                <h2>Partner Portal &amp; Reporting Preview</h2>
+                <p>Track student enrollments, batch progress, milestone completion, and revenue disbursements through a transparent institutional portal.</p>
             </div>
 
-            <div class="ptr-lifecycle-grid">
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 1</div><h5>Discover</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 2</div><h5>Discuss</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 3</div><h5>Select</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 4</div><h5>Plan</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 5</div><h5>Agree</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 6</div><h5>Onboard</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 7</div><h5>Launch</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 8</div><h5>Monitor</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 9</div><h5>Evaluate</h5></div>
-                <div class="ptr-lifecycle-card"><div class="ptr-lc-num">STEP 10</div><h5>Grow</h5></div>
-            </div>
+            <div class="col-lg-11 mx-auto">
+                <div class="ptr-preview-wrap">
+                    <div class="ptr-preview-head">
+                        <div>
+                            <span class="badge bg-dark text-white fw-bold px-2 py-1 mb-1" style="font-size:11px;">SAMPLE PREVIEW</span>
+                            <h4 class="mb-0 fw-bold">Institutional Partnership Ledger</h4>
+                        </div>
+                        <div class="small text-muted">
+                            <i class="bi bi-shield-check text-success me-1"></i> Live Portal provisioned upon formal MoU execution
+                        </div>
+                    </div>
 
-            <div class="ptr-progression-banner">
-                <h4 class="fw-extrabold mb-1">Start Small. Grow With Us.</h4>
-                <p class="text-muted mb-3">Scale your relationship based on student demand and institutional experience.</p>
-                <div class="ptr-progression-steps">
-                    <div class="ptr-prog-pill">Referral Model</div>
-                    <i class="bi bi-arrow-right fs-4 text-muted"></i>
-                    <div class="ptr-prog-pill">Partnership Model</div>
+                    <!-- Metrics Grid -->
+                    <div class="ptr-preview-metrics">
+                        <div class="ptr-preview-tile">
+                            <div class="tile-lbl">Referred Leads</div>
+                            <div class="tile-num">64</div>
+                            <div class="tile-trend text-muted">Active admissions cycle</div>
+                        </div>
+                        <div class="ptr-preview-tile">
+                            <div class="tile-lbl">Confirmed Enrollments</div>
+                            <div class="tile-num">52</div>
+                            <div class="tile-trend text-dark fw-bold">81.2% Conversion Rate</div>
+                        </div>
+                        <div class="ptr-preview-tile">
+                            <div class="tile-lbl">Active Cohorts</div>
+                            <div class="tile-num">2</div>
+                            <div class="tile-trend text-muted">On-Campus &amp; Live</div>
+                        </div>
+                        <div class="ptr-preview-tile">
+                            <div class="tile-lbl">Total Institute Accrual</div>
+                            <div class="tile-num">&#8377;2,08,000</div>
+                            <div class="tile-trend text-dark fw-bold">&#8377;1,50,000 Disbursed</div>
+                        </div>
+                        <div class="ptr-preview-tile">
+                            <div class="tile-lbl">Pending Settlement</div>
+                            <div class="tile-num">&#8377;58,000</div>
+                            <div class="tile-trend text-muted">Due at Mid-Cohort</div>
+                        </div>
+                    </div>
+
+                    <!-- Sample Batch Ledger Table -->
+                    <div class="table-responsive">
+                        <table class="ptr-preview-table">
+                            <thead>
+                                <tr>
+                                    <th>Cohort Name</th>
+                                    <th>Program Track</th>
+                                    <th>Students</th>
+                                    <th>Model</th>
+                                    <th>Avg. Attendance</th>
+                                    <th>Accrued Share</th>
+                                    <th>Settlement Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cohort 2026-A</strong></td>
+                                    <td>Full Stack Web Development</td>
+                                    <td>28 Students</td>
+                                    <td>Academic Partnership (40%)</td>
+                                    <td><strong>94.2%</strong></td>
+                                    <td>&#8377;1,12,000</td>
+                                    <td><span class="ptr-preview-badge active"><i class="bi bi-check-circle-fill me-1"></i> Disbursed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cohort 2026-B</strong></td>
+                                    <td>Python, AI &amp; Automation</td>
+                                    <td>24 Students</td>
+                                    <td>Academic Partnership (40%)</td>
+                                    <td><strong>89.6%</strong></td>
+                                    <td>&#8377;96,000</td>
+                                    <td><span class="ptr-preview-badge"><i class="bi bi-clock-history me-1"></i> Processing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top flex-wrap gap-2 text-muted small">
+                        <span><i class="bi bi-info-circle me-1"></i> Sample illustrative data. Real cohorts show live student-by-student completion and downloadable payment vouchers.</span>
+                        <a href="partner-policy.html" class="text-dark fw-bold text-decoration-none">Review Settlement Policy &rarr;</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== APPLICATION FORM SECTION ===== -->
+    <!-- ===== 8-STAGE PARTNERSHIP JOURNEY ===== -->
+    <section class="ptr-section" id="journey">
+        <div class="container">
+            <div class="ptr-header">
+                <span class="ptr-tag">PROGRESSION ROADMAP</span>
+                <h2>8-Stage Partnership Journey</h2>
+                <p>A structured, predictable operational roadmap from initial exploration to long-term cohort scaling:</p>
+            </div>
+
+            <div class="ptr-lifecycle-grid">
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 1</div>
+                    <h5>1. Explore Models</h5>
+                    <p class="small text-muted mb-0">Evaluate Referral vs Academic Partnership models based on your campus goals.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 2</div>
+                    <h5>2. Calculate Projections</h5>
+                    <p class="small text-muted mb-0">Simulate cohort student counts, fees, and institutional profit shares with our calculator.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 3</div>
+                    <h5>3. Quick Application</h5>
+                    <p class="small text-muted mb-0">Submit institution details and course preferences via our 2-step form.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 4</div>
+                    <h5>4. Discovery Call</h5>
+                    <p class="small text-muted mb-0">Meet with our Academic Director to review syllabus fit, lab readiness, and dates.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 5</div>
+                    <h5>5. Bilateral MoU</h5>
+                    <p class="small text-muted mb-0">Execute a formal Memorandum of Understanding with clear commercial terms and roles.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 6</div>
+                    <h5>6. Onboard &amp; Train</h5>
+                    <p class="small text-muted mb-0">Nominated faculty receive syllabus orientation, guidelines, and evaluation rubrics.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 7</div>
+                    <h5>7. Cohort Launch</h5>
+                    <p class="small text-muted mb-0">Students access the LMS, Ask AI doubt clearing, projects, and live masterclasses.</p>
+                </div>
+                <div class="ptr-lifecycle-card">
+                    <div class="ptr-lc-num">STAGE 8</div>
+                    <h5>8. Ledger &amp; Scale</h5>
+                    <p class="small text-muted mb-0">Receive automated monthly disbursements, progress audits, and scale into new verticals.</p>
+                </div>
+            </div>
+
+            <div class="ptr-progression-banner mt-5">
+                <h4 class="fw-extrabold mb-1">Start With What Fits. Scale With Confidence.</h4>
+                <p class="text-muted mb-3">Many partners begin with a single trial cohort or referral track, expanding into multiple on-campus batches as student feedback validates the outcomes.</p>
+                <div class="ptr-progression-steps">
+                    <a href="#calculator" class="ptr-prog-pill text-decoration-none">Referral Model</a>
+                    <i class="bi bi-arrow-right fs-4 text-muted"></i>
+                    <a href="#calculator" class="ptr-prog-pill text-decoration-none">Academic Partnership</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BOOK A PARTNERSHIP CONSULTATION ===== -->
+    <section class="ptr-section ptr-section-alt" id="book-call">
+        <div class="container">
+            <div class="ptr-header">
+                <span class="ptr-tag">DIRECT CONSULTATION</span>
+                <h2>Book a Partnership Discovery Call</h2>
+                <p>Discuss curriculum mapping, campus lab requirements, timetable scheduling, and commercial revenue shares directly with our institutional director.</p>
+            </div>
+
+            <div class="col-lg-9 mx-auto">
+                <div class="ptr-meeting-box">
+                    <form id="ptrMeetingForm">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Institution Name *</label>
+                                <input type="text" class="ptr-input" id="ptrMeetInstName" required placeholder="e.g. Government Engineering College">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Contact Person &amp; Title *</label>
+                                <input type="text" class="ptr-input" id="ptrMeetPerson" required placeholder="Dr. Sharma / Principal / HoD">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Official Phone Number *</label>
+                                <input type="tel" class="ptr-input" id="ptrMeetPhone" required placeholder="+91 98765 43210">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Institutional Email *</label>
+                                <input type="email" class="ptr-input" id="ptrMeetEmail" required placeholder="director@college.edu.in">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Preferred Meeting Date *</label>
+                                <input type="date" class="ptr-input" id="ptrMeetingDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase">Preferred Time Slot *</label>
+                                <select class="ptr-select" id="ptrMeetingTime" required>
+                                    <option value="10:00 AM - 11:30 AM">Morning: 10:00 AM - 11:30 AM</option>
+                                    <option value="11:30 AM - 01:00 PM" selected>Mid-Day: 11:30 AM - 01:00 PM</option>
+                                    <option value="02:00 PM - 03:30 PM">Afternoon: 02:00 PM - 03:30 PM</option>
+                                    <option value="04:00 PM - 05:30 PM">Evening: 04:00 PM - 05:30 PM</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold small text-uppercase">Partnership Model of Interest</label>
+                                <select class="ptr-select" id="ptrMeetModel">
+                                    <option value="Academic Partnership">Academic Partnership (On-Campus Delivery &middot; 35%–50% Share)</option>
+                                    <option value="Referral Model">Referral Model (Online Delivery &middot; 15%–25% Commission)</option>
+                                    <option value="Undecided">Undecided / Open to Recommendation</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-uppercase">Topics to Discuss / Specific Goals</label>
+                                <textarea class="ptr-input" id="ptrMeetNotes" rows="2" placeholder="e.g. Planning a Full Stack track for 3rd-year CS students starting next month..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="primary-btn w-100 justify-content-center py-3 fs-6">
+                                <i class="bi bi-calendar2-check me-2"></i>
+                                <span>Request Partnership Meeting</span>
+                            </button>
+                            <p class="small text-muted mt-2 mb-0">Our partnership desk confirms schedules within 24 business hours. No spam, ever.</p>
+                        </div>
+                    </form>
+
+                    <!-- Success State -->
+                    <div id="ptrMeetingSuccess" style="display:none;" class="ptr-success-card">
+                        <div class="ptr-success-icon"><i class="bi bi-check2"></i></div>
+                        <h3 class="fw-extrabold mb-2">Meeting Request Logged</h3>
+                        <p class="text-secondary mb-3">
+                            Thank you! Your consultation request has been submitted. Our institutional director will review your schedule and connect with you.
+                        </p>
+                        <div class="p-3 bg-light border d-inline-block text-start mb-4">
+                            <div><strong>Reference ID:</strong> <span id="ptrMeetingRefCode" class="font-monospace fw-bold">TCM-CALL-LOGGED</span></div>
+                            <div class="small text-muted mt-1">A calendar invitation will be dispatched to your email address.</div>
+                        </div>
+                        <div>
+                            <a href="https://wa.me/917987823907" id="ptrMeetingWaBtn" target="_blank" rel="noopener noreferrer" class="primary-btn d-inline-flex justify-content-center">
+                                <i class="bi bi-whatsapp me-2"></i>
+                                <span>Connect with Partnership Desk on WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TWO-STEP PARTNERSHIP APPLICATION WIZARD ===== -->
     <section class="ptr-section" id="partnership-application">
         <div class="container">
             <div class="ptr-header">
-                <span class="ptr-tag">GET STARTED</span>
-                <h2>Partnership Application Form</h2>
-                <p>Tell us about your institution and let our partnership team recommend the right model for you.</p>
+                <span class="ptr-tag">FORMAL ONBOARDING</span>
+                <h2>Partnership Application Wizard</h2>
+                <p>Provide your institution details in two simple steps to initiate formal accreditation review.</p>
             </div>
 
             <div class="col-lg-10 mx-auto">
                 <div class="ptr-form-card">
+                    <!-- Progress Stepper -->
+                    <div class="ptr-wizard-stepper">
+                        <div class="ptr-step-item active" id="ptrStepIndicator1">
+                            <span class="ptr-step-num">1</span>
+                            <span>Step 1: Institutional Contact</span>
+                        </div>
+                        <div class="ptr-step-item" id="ptrStepIndicator2">
+                            <span class="ptr-step-num">2</span>
+                            <span>Step 2: Operational Scope &amp; Cohort</span>
+                        </div>
+                    </div>
+
                     <form id="tcmPartnerForm">
-                        
-                        <!-- Section 1 -->
-                        <div class="ptr-form-sec-title">1. Institution Information</div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Institution Name *</label>
-                                <input type="text" class="ptr-input" required placeholder="e.g. ABC Institute of Technology">
+                        <!-- ================= STEP 1 ================= -->
+                        <div class="ptr-form-pane active" id="ptrStep1Pane">
+                            <div class="ptr-form-sec-title">1. Institution &amp; Primary Coordinator</div>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrInstName">Institution Name *</label>
+                                    <input type="text" class="ptr-input" id="ptrInstName" required placeholder="e.g. ABC Institute of Technology">
+                                    <div class="ptr-field-error">Please enter the official institution name.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrContactPerson">Contact Person *</label>
+                                    <input type="text" class="ptr-input" id="ptrContactPerson" required placeholder="Dr. / Prof. / Mr. / Ms. Full Name">
+                                    <div class="ptr-field-error">Please provide the coordinator's name.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrDesignation">Designation *</label>
+                                    <input type="text" class="ptr-input" id="ptrDesignation" required placeholder="Director / Principal / HoD / TPO">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrPhone">Direct Mobile / WhatsApp *</label>
+                                    <input type="tel" class="ptr-input" id="ptrPhone" required placeholder="+91 98765 43210">
+                                    <div class="ptr-field-error">Please provide a valid contact number (at least 8 digits).</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrEmail">Institutional Email *</label>
+                                    <input type="email" class="ptr-input" id="ptrEmail" required placeholder="director@institution.edu.in">
+                                    <div class="ptr-field-error">Please enter a valid email address.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrCity">City *</label>
+                                    <input type="text" class="ptr-input" id="ptrCity" required placeholder="e.g. Bilaspur / Raipur / Durg">
+                                    <div class="ptr-field-error">Please enter the institution's city.</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold" for="ptrModelInput">Partnership Model of Interest *</label>
+                                    <select class="ptr-select" id="ptrModelInput" required>
+                                        <option value="Academic Partnership Model" selected>Academic Partnership Model (On-Campus Batch &middot; 35%–50% Share)</option>
+                                        <option value="Referral Model">Referral Model (Online Delivery &middot; 15%–25% Commission)</option>
+                                        <option value="Undecided">Undecided &mdash; Recommend a Model for us</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Institution Type *</label>
-                                <select class="ptr-select" required>
-                                    <option value="">Select Type</option>
-                                    <option>College</option>
-                                    <option>University</option>
-                                    <option>Training Institute</option>
-                                    <option>Coaching Centre</option>
-                                    <option>Skill Centre</option>
-                                    <option>Other</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">City *</label>
-                                <input type="text" class="ptr-input" required placeholder="City">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">State *</label>
-                                <input type="text" class="ptr-input" required placeholder="State">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Website</label>
-                                <input type="url" class="ptr-input" placeholder="https://">
+
+                            <div class="text-end">
+                                <button type="button" class="primary-btn px-4 py-3 justify-content-center" id="ptrToStep2Btn">
+                                    <span>Continue to Step 2: Operational Scope</span>
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Section 2 -->
-                        <div class="ptr-form-sec-title">2. Contact Information</div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Contact Person *</label>
-                                <input type="text" class="ptr-input" required placeholder="Full Name">
+                        <!-- ================= STEP 2 ================= -->
+                        <div class="ptr-form-pane" id="ptrStep2Pane">
+                            <div class="ptr-form-sec-title">2. Infrastructure, Batches &amp; Timelines</div>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold" for="ptrInstType">Institution Type</label>
+                                    <select class="ptr-select" id="ptrInstType">
+                                        <option value="Engineering College">Engineering College</option>
+                                        <option value="University">University / Deemed University</option>
+                                        <option value="Polytechnic / Diploma">Polytechnic / Diploma College</option>
+                                        <option value="Degree College">Degree College (BCA / BSc / MCA)</option>
+                                        <option value="Training Academy">Training Academy / Skill Centre</option>
+                                        <option value="Other">Other Educational Entity</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold" for="ptrState">State</label>
+                                    <input type="text" class="ptr-input" id="ptrState" placeholder="e.g. Chhattisgarh">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold" for="ptrWebsite">Website</label>
+                                    <input type="url" class="ptr-input" id="ptrWebsite" placeholder="https://college.edu.in">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrStudentsInput">Expected Student Count (Per Cohort) *</label>
+                                    <input type="number" class="ptr-input" id="ptrStudentsInput" min="15" max="1000" value="40" required placeholder="Number of students">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrBatchesInput">Expected Batches Per Year</label>
+                                    <input type="number" class="ptr-input" id="ptrBatchesInput" min="1" max="12" value="2" placeholder="e.g. 2">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrMentorsInput">Faculty / Mentorship Arrangement</label>
+                                    <select class="ptr-select" id="ptrMentorsInput">
+                                        <option value="Institute Faculty (TCM One to train)">Institute Faculty (TCM One to train faculty)</option>
+                                        <option value="Dedicated TCM Mentors needed">Need dedicated TCM One mentors for delivery</option>
+                                        <option value="Hybrid mentorship">Hybrid (Faculty + TCM Industry Mentors)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrLabInput">Campus Lab Readiness</label>
+                                    <select class="ptr-select" id="ptrLabInput">
+                                        <option value="Available (1 PC per student + Internet)">Available (1 PC per student + High Speed Internet)</option>
+                                        <option value="Being upgraded">Currently being prepared</option>
+                                        <option value="Online / Remote only">No physical lab (Online Delivery preferred)</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrStartDate">Target Launch Month</label>
+                                    <input type="date" class="ptr-input" id="ptrStartDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="ptrCoursesInput">Courses / Tracks of Interest *</label>
+                                    <input type="text" class="ptr-input" id="ptrCoursesInput" required value="Full Stack Web Development, Python &amp; AI" placeholder="e.g. Full Stack, AI &amp; Python, DSA">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold" for="ptrReqsInput">Specific Objectives or Custom Requirements</label>
+                                    <textarea class="ptr-input" id="ptrReqsInput" rows="3" placeholder="Share any specific syllabus alignment, credit integration, or batch schedule constraints..."></textarea>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Designation *</label>
-                                <input type="text" class="ptr-input" required placeholder="Director / Principal / Head / Coordinator">
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="consentCheck" required>
+                                <label class="form-check-label text-muted small" for="consentCheck">
+                                    I confirm that I am authorized to represent this institution and agree to the <a href="partner-policy.html" target="_blank" class="text-dark fw-bold">TCM One Partnership Policy</a>. I understand this application initiates review and does not constitute a binding contract until a bilateral MoU is signed.
+                                </label>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Phone Number *</label>
-                                <input type="tel" class="ptr-input" required placeholder="+91 98765 43210">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Email Address *</label>
-                                <input type="email" class="ptr-input" required placeholder="email@institution.edu">
+
+                            <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                                <button type="button" class="btn btn-outline-dark fw-bold px-4 py-2" id="ptrBackToStep1Btn">
+                                    <i class="bi bi-arrow-left me-1"></i> Back to Step 1
+                                </button>
+                                <button type="submit" class="primary-btn px-5 py-3 justify-content-center" id="ptrSubmitBtn">
+                                    <span>Submit Partnership Application</span>
+                                    <i class="bi bi-send-fill ms-2"></i>
+                                </button>
                             </div>
                         </div>
-
-                        <!-- Section 3 -->
-                        <div class="ptr-form-sec-title">3. Partnership Interest</div>
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Which model are you interested in? *</label>
-                                <select class="ptr-select" required>
-                                    <option value="">Select Model</option>
-                                    <option>Referral Model</option>
-                                    <option>Partnership Model</option>
-                                    <option>Not sure — Recommend a model</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Expected Student Strength *</label>
-                                <input type="number" class="ptr-input" min="1" required placeholder="Number of students">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Expected Number of Batches</label>
-                                <input type="number" class="ptr-input" min="1" placeholder="e.g. 2">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Do you have your own mentors?</label>
-                                <select class="ptr-select">
-                                    <option>Yes</option>
-                                    <option>No</option>
-                                    <option>Partially</option>
-                                    <option>Need TCM One mentor support</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Expected Start Date</label>
-                                <input type="date" class="ptr-input">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Programs/Courses of Interest *</label>
-                                <input type="text" class="ptr-input" required placeholder="e.g. Full Stack Web Dev, Python, DSA, Frontend">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Tell us about your requirements</label>
-                                <textarea class="ptr-input" rows="3" placeholder="Share specific goals, infrastructure details, or questions..."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="consentCheck" required>
-                            <label class="form-check-label text-muted small" for="consentCheck">
-                                I agree to be contacted by TCM One regarding partnership opportunities and understand that submission of this form does not itself create a partnership agreement.
-                            </label>
-                        </div>
-
-                        <div class="text-center">
-                            <button type="submit" class="primary-btn px-5 py-3 w-100 fs-6 justify-content-center">
-                                <span>Submit Partnership Request</span>
-                                <i class="bi bi-send-fill ms-2"></i>
-                            </button>
-                        </div>
-
                     </form>
+
+                    <!-- Success Card (Hidden until successful server response) -->
+                    <div id="ptrSuccessCard" style="display:none;" class="ptr-success-card">
+                        <div class="ptr-success-icon"><i class="bi bi-patch-check"></i></div>
+                        <h2 class="fw-extrabold mb-2">Application Received Successfully</h2>
+                        <p class="text-secondary mb-3 max-w-600 mx-auto">
+                            Thank you! Your institutional partnership application has been securely recorded. Our Academic Director will review your campus profile and follow up within 24 business hours.
+                        </p>
+                        <div class="p-3 bg-light border d-inline-block text-start mb-4">
+                            <div><strong>Assigned Reference ID:</strong> <span id="ptrSuccessRefCode" class="font-monospace fw-bold fs-5 text-dark">TCM-PTR-RECORDED</span></div>
+                            <div class="small text-muted mt-1">Please quote this reference in any correspondence with the partnership desk.</div>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="https://wa.me/917987823907" id="ptrSuccessWaBtn" target="_blank" rel="noopener noreferrer" class="primary-btn">
+                                <i class="bi bi-whatsapp me-2"></i>
+                                <span>Immediate WhatsApp Coordination</span>
+                            </a>
+                            <a href="download-partner-proposal" class="secondary-btn" download>
+                                <i class="bi bi-file-earmark-arrow-down me-2"></i>
+                                <span>Download Partnership Brochure</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -899,8 +1414,9 @@
                 <h2>Your Students. Your Institution. Our Ecosystem.</h2>
                 <p>Together, let's turn learning into skills, skills into opportunities, and opportunities into careers.</p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="#partnership-application" class="btn btn-light fw-semibold text-dark px-3 py-2 rounded-2 small">Become a Partner</a>
-                    <a href="#partnership-application" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-2 small">Talk to Our Team</a>
+                    <a href="#partnership-application" class="btn btn-light fw-semibold text-dark px-3 py-2 rounded-0 small">Become a Partner</a>
+                    <a href="#book-call" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-0 small">Book a Discovery Call</a>
+                    <a href="download-partner-proposal" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-0 small" download>Download Brochure</a>
                 </div>
                 <div class="mt-4 text-white-50 small fw-bold">TCM ONE &middot; TALENT &amp; CAREER MISSION &middot; LEARN. BUILD. GROW.</div>
             </div>
@@ -962,7 +1478,8 @@
                             <a href="privacy.html">Privacy Policy</a>
                             <a href="terms.html">Terms &amp; Conditions</a>
                             <a href="sitemap.html">Site Map</a>
-                            <a href="partner.html">Partnership Policy</a>
+                            <a href="partner-policy.html">Partnership Policy</a>
+                            <a href="download-partner-proposal" download><i class="bi bi-file-earmark-pdf me-1"></i> Download Brochure</a>
                         </div>
 
                         <div class="footer-column">
@@ -1036,13 +1553,7 @@
     <script src="./assets/skeleton.js"></script>
     <script src="./assets/auth.js"></script>
     <script src="./assets/tcm-app.js"></script>
-    <script>
-        document.getElementById('tcmPartnerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you! Your TCM One partnership request has been submitted successfully. Our partnership team will review your application and contact you shortly.');
-            this.reset();
-        });
-    </script>
+    <script src="./assets/partner-upgrade.js"></script>
 </body>
 
 </html>

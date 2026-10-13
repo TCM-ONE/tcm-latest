@@ -197,6 +197,7 @@
                     <span class="logo-text">TCM <span class="logo-one">One</span></span>
                 </a>
                 <div class="ms-auto d-flex gap-8 align-items-center">
+                    <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" download style="border:1.5px solid #111;font-weight:700;"><i class="bi bi-download"></i> Brochure</a>
                     <a href="<?= base_url('/workshops') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">All Workshops</a>
                     <a href="<?= base_url('/programs.html') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">Programs</a>
                 </div>
@@ -230,13 +231,17 @@
                             <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">Full curriculum access &middot; Projects & Lifetime resources</div>
                         </div>
 
-                        <div class="d-flex align-items-center gap-10">
+                        <div class="d-flex align-items-center gap-10 flex-wrap">
                             <?php
                                 $waCourseMsg = "Hi TCM One! I'm interested in enrolling in the {$course['title']} course. Please guide me.";
                                 $waCourseUrl = "https://wa.me/917987823907?text=" . rawurlencode($waCourseMsg);
                             ?>
                             <a href="<?= $waCourseUrl ?>" target="_blank" rel="noopener noreferrer" class="ws-btn-join">
                                 <i class="bi bi-whatsapp"></i> Enroll via WhatsApp
+                            </a>
+
+                            <a href="<?= base_url('/download-brochure') ?>" class="ws-btn-brochure" download style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;color:#111111;font-size:0.95rem;font-weight:700;padding:14px 22px;text-decoration:none;border:1.5px solid #ffffff;cursor:pointer;transition:all 0.15s ease;">
+                                <i class="bi bi-download"></i> Download Brochure
                             </a>
 
                             <!-- Minimalist Share Button -->
