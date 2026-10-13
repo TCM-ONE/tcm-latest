@@ -86,13 +86,26 @@
     <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.1">
     <style>
 /* Critical Hard Horizontal Scroll Lock */
+*, *::before, *::after {
+    box-sizing: border-box !important;
+}
 html, body {
+    width: 100% !important;
     max-width: 100% !important;
     overflow-x: hidden !important;
     overflow-x: clip !important;
     position: relative !important;
 }
 section, header, footer, main, .container, .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+body > * {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+}
+img, svg, video, canvas {
     max-width: 100% !important;
 }
 /* Critical Hero Flank Layout Guarantee */
@@ -154,19 +167,23 @@ section, header, footer, main, .container, .container-fluid {
 
 .classroom-layout {
     display: grid;
-    grid-template-columns: 420px 1fr;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
     gap: 24px;
     align-items: stretch;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .classroom-side {
     display: grid;
     gap: 24px;
+    min-width: 0;
 }
 
 .classroom-card {
     position: relative;
     overflow: hidden;
+    min-width: 0;
     border-radius: 0px !important;
     border: 1px solid #D9D9D9;
     cursor: pointer;
@@ -299,34 +316,65 @@ section, header, footer, main, .container, .container-fluid {
         background: #fbfbfb;
         border-top: 1px solid #e5e5e5;
         border-bottom: 1px solid #e5e5e5;
+        overflow-x: clip;
+    }
+    .workshops-section .container {
+        max-width: 1180px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+    .workshops-section .row {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+    .workshops-section .row > [class*="col-"] {
+        width: 100% !important;
+        max-width: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        min-width: 0 !important;
     }
     .workshop-card {
+        position: relative;
+        overflow: hidden;
         background: #ffffff;
-        border: 1px solid #e0e0e0;
+        border: 1px solid #111111;
         border-radius: 0px !important;
         display: flex;
         flex-direction: column;
         height: 100%;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        min-width: 0;
+        box-shadow: none;
+        transition: border-color 0.2s ease, transform 0.2s ease;
     }
     .workshop-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        transform: translateY(-3px);
+        box-shadow: none;
         border-color: #111111;
     }
     .workshop-card-media {
         position: relative;
-        height: 220px;
+        height: 230px;
+        width: 100%;
         background: #000000;
         overflow: hidden;
         border-radius: 0px !important;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px solid #111111;
+        flex-shrink: 0;
     }
     .workshop-card-media img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.9;
+        object-position: center;
+        opacity: 1;
+        display: block;
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
     .workshop-card:hover .workshop-card-media img {
@@ -339,6 +387,8 @@ section, header, footer, main, .container, .container-fluid {
         left: 14px;
         right: 14px;
         display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         justify-content: space-between;
         align-items: center;
         z-index: 2;
@@ -382,6 +432,7 @@ section, header, footer, main, .container, .container-fluid {
         display: flex;
         flex-direction: column;
         flex: 1;
+        min-width: 0;
     }
     .workshop-title {
         font-size: 20px;
@@ -407,8 +458,8 @@ section, header, footer, main, .container, .container-fluid {
     }
     .workshop-meta-strip {
         display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
+        flex-direction: column;
+        gap: 8px;
         padding: 12px 0;
         margin-bottom: 18px;
         border-top: 1px dashed #e5e5e5;
@@ -420,6 +471,7 @@ section, header, footer, main, .container, .container-fluid {
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        min-width: 0;
     }
     .workshop-meta-item i {
         color: #111111;
@@ -427,6 +479,7 @@ section, header, footer, main, .container, .container-fluid {
     }
     .workshop-pricing-row {
         display: flex;
+        flex-wrap: wrap;
         align-items: baseline;
         gap: 8px;
         margin-bottom: 18px;
@@ -445,14 +498,17 @@ section, header, footer, main, .container, .container-fluid {
     .workshop-actions-row {
         display: flex;
         gap: 10px;
+        align-items: stretch;
     }
     .btn-ws-primary {
         flex: 1;
+        min-width: 0;
         background: #000000;
         color: #ffffff !important;
         border: 1.5px solid #000000;
         border-radius: 0px !important;
-        padding: 8px 14px;
+        min-height: 42px;
+        padding: 10px 14px;
         font-size: 12.5px;
         font-weight: 700;
         letter-spacing: -0.01em;
@@ -470,11 +526,13 @@ section, header, footer, main, .container, .container-fluid {
         border-color: #222222;
     }
     .btn-ws-outline {
+        flex: 0 0 auto;
         background: #ffffff;
         color: #111111 !important;
         border: 1.5px solid #111111;
         border-radius: 0px !important;
-        padding: 8px 12px;
+        min-height: 42px;
+        padding: 10px 12px;
         font-size: 12.5px;
         font-weight: 700;
         letter-spacing: -0.01em;
@@ -489,6 +547,29 @@ section, header, footer, main, .container, .container-fluid {
     }
     .btn-ws-outline:hover {
         background: #f4f4f4;
+    }
+    @media (max-width: 991px) {
+        .workshops-section .row {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    @media (max-width: 575px) {
+        .workshops-section {
+            padding: 56px 0;
+        }
+        .workshops-section .container {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+        .workshop-card-media {
+            height: 190px;
+        }
+        .workshop-actions-row {
+            flex-direction: column;
+        }
+        .btn-ws-outline {
+            width: 100%;
+        }
     }
 
     /* Modal Styling */
