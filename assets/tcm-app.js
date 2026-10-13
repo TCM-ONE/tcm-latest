@@ -400,7 +400,7 @@
             "<h3>" + esc(c.title) + "</h3>" +
             "<p>" + esc(c.subtitle || "") + "</p>" +
             '<div class="course-card-actions">' +
-                '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
+                '<a href="' + api('/courses/' + encodeURIComponent(c.slug)) + '" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
                 '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>' +
             '</div>' +
             "</div>";

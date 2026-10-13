@@ -22,6 +22,8 @@ Disallow: /database/
 Disallow: /storage/
 Disallow: /bin/
 Disallow: /*.php$
+Disallow: /course-details.html
+Disallow: /event-details.html
 
 # Allow public portfolio pages
 Allow: /portfolio/

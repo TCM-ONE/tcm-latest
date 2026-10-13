@@ -255,6 +255,10 @@ $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentC
 // Lead capture + WhatsApp hand-off (used by the static site CTAs and dashboards)
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);
 
+// Legacy Programs redirection to Workshops
+$router->get('/programs',      static fn () => Response::redirect('/workshops'));
+$router->get('/programs.html', static fn () => Response::redirect('/workshops'));
+
 // --------------------------------------------------------------------- //
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)
 // --------------------------------------------------------------------- //

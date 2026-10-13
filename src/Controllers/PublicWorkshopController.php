@@ -27,7 +27,7 @@ final class PublicWorkshopController extends Controller
 
         $this->view('public/workshops/index', [
             'title'       => 'Live Coding Workshops — TCM One',
-            'description' => 'Fast-track your tech skills with 7-day live online coding workshops starting at ₹999. Web Development, Python, AI, and DSA.',
+            'description' => 'Explore beginner-friendly live workshops in Python, frontend web development, AI tools and tech career planning from TCM One.',
             'canonical'   => $appUrl . '/workshops',
             'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
             'workshops'   => $workshops,
@@ -158,7 +158,7 @@ SVG;
         $slug   = (string) ($params['slug'] ?? '');
         $course = Course::findBySlug($slug);
 
-        if ($course === null) {
+        if ($course === null || ($course['status'] ?? '') !== 'published') {
             http_response_code(404);
             $this->view('errors/404', [
                 'title'   => 'Course Not Found — TCM One',
@@ -171,16 +171,29 @@ SVG;
         $curriculum = Course::curriculum((int) $course['id']);
         $thumbUrl = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug']);
         $canonical = $appUrl . '/courses/' . rawurlencode($course['slug']);
+        $desc = $this->metaDescription((string) ($course['subtitle'] ?: $course['description']));
 
         $this->view('public/courses/show', [
             'course'     => $course,
             'curriculum' => $curriculum,
-            'title'      => $course['title'] . ' | TCM One Live Course',
-            'desc'       => $course['subtitle'] ?: $course['description'],
+            'title'      => $course['title'] . ' | Live Tech Course | TCM One',
+            'desc'       => $desc,
             'canonical'  => $canonical,
             'thumbUrl'   => $thumbUrl,
             'appUrl'     => $appUrl,
         ], null);
+    }
+
+    private function metaDescription(string $text): string
+    {
+        $text = trim(preg_replace('/\s+/', ' ', $text) ?? '');
+        if ($text === '') {
+            return 'Explore this TCM One live technology course with practical projects, mentor support, curriculum details, fees and enrollment guidance.';
+        }
+        if (mb_strlen($text) <= 155) {
+            return $text;
+        }
+        return rtrim(mb_substr($text, 0, 152), " \t\n\r\0\x0B.,;:") . '...';
     }
 
     /**

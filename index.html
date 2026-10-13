@@ -620,7 +620,7 @@
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav me-auto align-items-lg-center">
                         <li class="nav-item">
-                            <a class="nav-link" href="programs.html">Programs</a>
+                            <a class="nav-link" href="workshops">Workshops</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="insights.html">TCM Insights</a>
@@ -778,7 +778,13 @@
                 <ul class="nav nav-pills justify-content-center course-tabs" role="tablist">
 
                     <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#college" type="button">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#all-courses" type="button">
+                            All Programs
+                        </button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#college" type="button">
                             College Special
                         </button>
                     </li>
@@ -803,10 +809,61 @@
             <div class="tab-content">
 
                 <!-- ================================= -->
+                <!-- All Courses -->
+                <!-- ================================= -->
+
+                <div class="tab-pane fade show active" id="all-courses">
+
+                    <div class="course-grid" data-tcm-list="courses">
+
+                        <div class="course-card" data-course-slug="full-stack-web-development" data-course-title="Full Stack Web Development (MERN)">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-fullstack.gif" alt="Full Stack Web Development" data-course-slug="full-stack-web-development" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;12,999 <span>&#8377;19,999</span></div>
+                            <h3>Full Stack Web Development (MERN)</h3>
+                            <p>MongoDB, Express.js, React &amp; Node.js with Live Production Deployments.</p>
+                            <div class="course-card-actions">
+                                <a href="course-details.html?course=full-stack-web-development" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="full-stack-web-development" data-course-title="Full Stack Web Development (MERN)"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="python-programming-automation" data-course-title="Python Programming &amp; Automation">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-python.gif" alt="Python Programming &amp; Automation" data-course-slug="python-programming-automation" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;5,999 <span>&#8377;8,999</span></div>
+                            <h3>Python Programming &amp; Automation</h3>
+                            <p>From Syntax Foundations to Workflow Automation &amp; Scripting.</p>
+                            <div class="course-card-actions">
+                                <a href="course-details.html?course=python-programming-automation" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="python-programming-automation" data-course-title="Python Programming &amp; Automation"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="generative-ai-ai-agent-engineering" data-course-title="Generative AI &amp; AI Agent Engineering">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-ai.gif" alt="Generative AI &amp; AI Agent Engineering" data-course-slug="generative-ai-ai-agent-engineering" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;12,999 <span>&#8377;19,999</span></div>
+                            <h3>Generative AI &amp; AI Agent Engineering</h3>
+                            <p>LLM App Development, RAG Pipelines, Multi-Agent Systems &amp; Gemini API.</p>
+                            <div class="course-card-actions">
+                                <a href="course-details.html?course=generative-ai-ai-agent-engineering" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="generative-ai-ai-agent-engineering" data-course-title="Generative AI &amp; AI Agent Engineering"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ================================= -->
                 <!-- College -->
                 <!-- ================================= -->
 
-                <div class="tab-pane fade show active" id="college">
+                <div class="tab-pane fade" id="college">
 
                     <div class="course-grid" data-tcm-list="courses" data-audience="college">
 
