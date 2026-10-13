@@ -255,6 +255,7 @@ $router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopCo
 $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
+$router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
 $router->get('/download-brochure',            ['TCM\Controllers\PublicWorkshopController', 'downloadBrochure']);
 $router->get('/download-partner-proposal',    ['TCM\Controllers\PartnerController', 'downloadProposal']);
 
@@ -264,6 +265,7 @@ $router->get('/download-partner-proposal',    ['TCM\Controllers\PartnerControlle
 $router->get('/api/me', ['TCM\Controllers\Api\PublicController', 'me']);
 $router->get('/api/courses', ['TCM\Controllers\Api\PublicController', 'courses']);
 $router->get('/api/courses/{slug}', ['TCM\Controllers\Api\PublicController', 'course']);
+$router->post('/api/courses/brochure-lead', ['TCM\Controllers\Api\PublicController', 'courseBrochureLead']);
 $router->get('/api/events', ['TCM\Controllers\Api\PublicController', 'events']);
 $router->get('/api/events/{slug}', ['TCM\Controllers\Api\PublicController', 'event']);
 $router->get('/api/programs', ['TCM\Controllers\Api\PublicController', 'programs']);

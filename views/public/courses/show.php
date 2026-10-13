@@ -28,6 +28,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?= base_url('/assets/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('/assets/landing-polish.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/assets/site-polish.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/assets/tcm-share.css') ?>">
@@ -198,7 +199,7 @@
                     <span class="logo-text">TCM <span class="logo-one">One</span></span>
                 </a>
                 <div class="ms-auto d-flex gap-8 align-items-center">
-                    <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" download style="border:1.5px solid #111;font-weight:700;"><i class="bi bi-download"></i> Brochure</a>
+                    <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="tcm-btn sm ghost ws-btn-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="border:1.5px solid #111;font-weight:700;"><i class="bi bi-download"></i> Brochure</a>
                     <a href="<?= base_url('/workshops') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">All Workshops</a>
                     <a href="<?= base_url('/programs.html') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">Programs</a>
                 </div>
@@ -241,7 +242,7 @@
                                 <i class="bi bi-whatsapp"></i> Enroll via WhatsApp
                             </a>
 
-                            <a href="<?= base_url('/download-brochure') ?>" class="ws-btn-brochure" download style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;color:#111111;font-size:0.95rem;font-weight:700;padding:14px 22px;text-decoration:none;border:1.5px solid #ffffff;cursor:pointer;transition:all 0.15s ease;">
+                            <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="ws-btn-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;color:#111111;font-size:0.95rem;font-weight:700;padding:14px 22px;text-decoration:none;border:1.5px solid #ffffff;cursor:pointer;transition:all 0.15s ease;">
                                 <i class="bi bi-download"></i> Download Brochure
                             </a>
 
@@ -377,5 +378,6 @@
 
     <!-- Scripts -->
     <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
+    <script src="<?= base_url('/assets/tcm-app.js') ?>"></script>
 </body>
 </html>

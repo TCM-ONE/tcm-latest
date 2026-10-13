@@ -263,7 +263,68 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
             chip.style.boxShadow = 'none';
         });
     }
+
+    function removeCourseBrochure() {
+        if (confirm('Are you sure you want to remove the custom brochure for this course?')) {
+            document.getElementById('removeBrochureInput').value = '1';
+            var fileBox = document.getElementById('activeBrochureBox');
+            if (fileBox) fileBox.style.display = 'none';
+        }
+    }
     </script>
+
+    <!-- ── Section: Course Brochure PDF (User Downloadable) ── -->
+    <div class="tcm-card" style="margin-bottom:14px;">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+                    color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;">
+            <i class="bi bi-file-earmark-pdf" style="margin-right:5px;color:#dc2626;"></i> Course Brochure PDF (Downloadable)
+        </div>
+
+        <input type="hidden" name="remove_brochure" id="removeBrochureInput" value="0">
+
+        <?php if (!empty($course['brochure_file'])): ?>
+            <div id="activeBrochureBox" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:40px;height:40px;background:#fee2e2;color:#dc2626;border-radius:8px;display:grid;place-items:center;font-size:1.3rem;">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                    </div>
+                    <div>
+                        <div style="font-size:.88rem;font-weight:700;color:#111;">
+                            <?= e($course['brochure_name'] ?? basename($course['brochure_file'])) ?>
+                            <span style="font-size:.65rem;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:50px;font-weight:700;margin-left:6px;">Active Custom Brochure</span>
+                        </div>
+                        <div style="font-size:.74rem;color:#64748b;margin-top:2px;">
+                            Students downloading brochure on this course's card or details page will receive this file.
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" target="_blank" class="tcm-btn sm ghost" download style="font-size:.78rem;">
+                        <i class="bi bi-download"></i> Test Download
+                    </a>
+                    <button type="button" class="tcm-btn sm danger" onclick="removeCourseBrochure()" style="font-size:.78rem;" title="Remove this brochure file">
+                        <i class="bi bi-trash"></i> Remove
+                    </button>
+                </div>
+            </div>
+        <?php else: ?>
+            <div style="background:#fffbeb;border:1px dashed #f59e0b;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:.78rem;color:#92400e;display:flex;align-items:center;gap:8px;">
+                <i class="bi bi-info-circle-fill" style="color:#d97706;font-size:1rem;"></i>
+                <span>No custom brochure uploaded yet. Students downloading brochure will receive the general institute brochure automatically.</span>
+            </div>
+        <?php endif; ?>
+
+        <div class="tcm-field" style="margin-bottom:0;">
+            <label style="display:flex;align-items:center;justify-content:space-between;">
+                <span><?= !empty($course['brochure_file']) ? 'Replace Course Brochure (PDF)' : 'Upload Course Brochure (PDF)' ?></span>
+                <span style="font-size:.74rem;color:#dc2626;font-weight:600;"><i class="bi bi-file-earmark-arrow-up"></i> PDF only (Max 25MB)</span>
+            </label>
+            <input type="file" name="brochure_file" id="brochureFileInput" class="tcm-input" accept=".pdf,.doc,.docx" style="padding:8px 12px;background:#fff;">
+            <div style="font-size:.74rem;color:var(--muted);margin-top:5px;">
+                When a student clicks <strong>"View Brochure" / "Download Brochure"</strong>, enters their details (Name, Email, Phone), this specific course syllabus/brochure PDF will be automatically downloaded.
+            </div>
+        </div>
+    </div>
 
     <!-- ── Section: Pricing & Schedule ── -->
     <div class="tcm-card" style="margin-bottom:14px;">

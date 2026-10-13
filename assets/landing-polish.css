@@ -2164,3 +2164,252 @@ body {
     }
 }
 
+/* ==========================================================================
+   COURSE CARD ACTIONS (Roadmap + View Brochure)
+   ========================================================================== */
+.course-card-actions {
+    display: flex !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: auto !important;
+}
+
+.course-card-actions a,
+.course-card-actions button {
+    flex: 1 1 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    min-height: 38px !important;
+    padding: 8px 10px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    border-radius: 0px !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+}
+
+.course-card-actions .btn-roadmap {
+    background: #000000 !important;
+    color: #FFFFFF !important;
+    border: 1.5px solid #000000 !important;
+}
+.course-card-actions .btn-roadmap:hover {
+    background: #262626 !important;
+    border-color: #262626 !important;
+}
+
+.course-card-actions .btn-brochure {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1.5px solid #000000 !important;
+}
+.course-card-actions .btn-brochure:hover {
+    background: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   MONOCHROME BROCHURE LEAD MODAL
+   ========================================================================== */
+.tcm-brochure-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tcm-brochure-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.tcm-brochure-modal {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    border-radius: 0px !important;
+    box-shadow: 8px 8px 0px #000000;
+    padding: 24px 22px;
+    animation: tcmModalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tcmModalPop {
+    from {
+        transform: translateY(12px) scale(0.98);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.tcm-brochure-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0px !important;
+    color: #000000;
+    font-size: 1.3rem;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tcm-brochure-modal-close:hover {
+    background: #000000;
+    color: #FFFFFF;
+}
+
+.tcm-brochure-modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #000000;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    border-radius: 0px !important;
+    margin-bottom: 10px;
+}
+
+.tcm-brochure-modal h3 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #000000;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.tcm-brochure-modal p.course-sub {
+    font-size: 0.85rem;
+    color: #555555;
+    margin: 0 0 16px;
+    line-height: 1.4;
+}
+
+.tcm-brochure-modal .form-group {
+    margin-bottom: 12px;
+}
+
+.tcm-brochure-modal label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #111111;
+    margin-bottom: 5px;
+}
+
+.tcm-brochure-modal input.form-control {
+    width: 100%;
+    height: 42px;
+    padding: 8px 12px;
+    font-size: 13.5px;
+    color: #000000;
+    background: #FAFAFA;
+    border: 1.5px solid #000000;
+    border-radius: 0px !important;
+    outline: none;
+    transition: all 0.15s ease;
+    box-shadow: none !important;
+}
+
+.tcm-brochure-modal input.form-control:focus {
+    background: #FFFFFF;
+    border-color: #000000;
+    box-shadow: 2px 2px 0px #000000 !important;
+}
+
+.tcm-brochure-modal-submit {
+    width: 100%;
+    height: 44px;
+    margin-top: 14px;
+    background: #000000;
+    color: #FFFFFF;
+    border: 1.5px solid #000000;
+    border-radius: 0px !important;
+    font-size: 13.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.18s ease;
+}
+
+.tcm-brochure-modal-submit:hover:not(:disabled) {
+    background: #262626;
+    color: #FFFFFF;
+}
+
+.tcm-brochure-modal-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.tcm-brochure-modal-feedback {
+    display: none;
+    padding: 10px 12px;
+    margin-top: 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1.5px solid #000000;
+    border-radius: 0px !important;
+}
+
+.tcm-brochure-modal-feedback.success {
+    display: block;
+    background: #F0FDF4;
+    color: #166534;
+    border-color: #166534;
+}
+
+.tcm-brochure-modal-feedback.error {
+    display: block;
+    background: #FEF2F2;
+    color: #991B1B;
+    border-color: #991B1B;
+}
+
+.tcm-brochure-modal-security {
+    font-size: 11px;
+    color: #777777;
+    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+

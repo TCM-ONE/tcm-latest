@@ -187,4 +187,82 @@ final class PublicController extends Controller
         );
         Response::success(null, 'Subscribed! Watch your inbox for updates.');
     }
+
+    /**
+     * POST /api/courses/brochure-lead
+     * Capture student lead (name, email, phone) before downloading course brochure.
+     */
+    public function courseBrochureLead(): void
+    {
+        $name  = trim(Request::string('name'));
+        $email = trim(Request::string('email'));
+        $phone = trim(Request::string('phone'));
+        $slug  = trim(Request::string('course_slug'));
+
+        if ($name === '') {
+            Response::error('Please enter your full name.', 422);
+        }
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Response::error('Please enter a valid email address.', 422);
+        }
+        // Normalize phone: strip non-digits
+        $cleanPhone = preg_replace('/[^\d]/', '', $phone) ?? '';
+        if (strlen($cleanPhone) < 10) {
+            Response::error('Please enter a valid 10-digit phone number.', 422);
+        }
+
+        $course = !empty($slug) ? Course::findBySlug($slug) : null;
+        $courseTitle = $course['title'] ?? ($slug !== '' ? ucwords(str_replace('-', ' ', $slug)) : 'General Course');
+        $courseId = $course['id'] ?? null;
+
+        // Capture lead in database
+        $user = Auth::user();
+        $leadId = Lead::capture([
+            'user_id'        => $user['id'] ?? null,
+            'name'           => $name,
+            'email'          => $email,
+            'phone'          => $phone,
+            'interest_type'  => 'course',
+            'interest_id'    => $courseId,
+            'interest_title' => $courseTitle,
+            'message'        => 'Requested Course Brochure PDF for ' . $courseTitle,
+            'source'         => 'course_brochure_modal',
+        ]);
+
+        // Send email alert to admin if configured
+        try {
+            $adminEmail = (string) config('mail.admin_email');
+            if ($adminEmail !== '') {
+                Mailer::send(
+                    $adminEmail,
+                    'Brochure Download Lead: ' . $name . ' (' . $courseTitle . ')',
+                    Mailer::template(
+                        'New Brochure Download Lead',
+                        sprintf(
+                            '<p>A student requested the brochure for <strong>%s</strong>:</p>' .
+                            '<ul><li><strong>Name:</strong> %s</li><li><strong>Email:</strong> %s</li><li><strong>Phone:</strong> %s</li></ul>',
+                            e($courseTitle),
+                            e($name),
+                            e($email),
+                            e($phone)
+                        )
+                    )
+                );
+            }
+        } catch (\Throwable) {
+            // Non-blocking
+        }
+
+        // Return download URL
+        $downloadUrl = !empty($slug)
+            ? base_url('/courses/' . rawurlencode($slug) . '/brochure')
+            : base_url('/download-brochure');
+
+        Response::success([
+            'lead_id'      => $leadId,
+            'course_title' => $courseTitle,
+            'download_url' => $downloadUrl,
+        ], 'Thank you! Your brochure download will start automatically.');
+    }
 }
+
