@@ -272,7 +272,332 @@
     .card-content h3 {
         font-size: 18px;
     }
-}
+    /* ===== TCM ONE FEATURED WORKSHOPS & REGISTRATION MODAL ===== */
+    .workshops-section {
+        padding: 80px 0;
+        background: #fbfbfb;
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .workshop-card {
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 0px !important;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .workshop-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        border-color: #111111;
+    }
+    .workshop-card-media {
+        position: relative;
+        height: 220px;
+        background: #000000;
+        overflow: hidden;
+        border-radius: 0px !important;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .workshop-card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.9;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .workshop-card:hover .workshop-card-media img {
+        transform: scale(1.03);
+        opacity: 1;
+    }
+    .workshop-badge-row {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        right: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 2;
+    }
+    .ws-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border-radius: 0px !important;
+    }
+    .ws-pill-dark {
+        background: #000000;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+    }
+    .ws-pill-live {
+        background: #ffffff;
+        color: #000000;
+        border: 1px solid #000000;
+    }
+    .ws-pill-live::before {
+        content: "";
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        background: #e11d48;
+        border-radius: 50% !important;
+        animation: ws-pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes ws-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    .workshop-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .workshop-title {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #111111;
+        margin: 0 0 6px 0;
+    }
+    .workshop-subtitle {
+        font-size: 13px;
+        font-weight: 600;
+        color: #666666;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .workshop-desc {
+        font-size: 14px;
+        line-height: 1.55;
+        color: #4b5563;
+        margin-bottom: 20px;
+        flex: 1;
+    }
+    .workshop-meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 0;
+        margin-bottom: 18px;
+        border-top: 1px dashed #e5e5e5;
+        border-bottom: 1px dashed #e5e5e5;
+        font-size: 12.5px;
+        color: #374151;
+    }
+    .workshop-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .workshop-meta-item i {
+        color: #111111;
+        font-size: 14px;
+    }
+    .workshop-pricing-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+    .workshop-price-current {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #000000;
+    }
+    .workshop-price-tag {
+        font-size: 12px;
+        color: #6b7280;
+        font-weight: 500;
+    }
+    .workshop-actions-row {
+        display: flex;
+        gap: 10px;
+    }
+    .btn-ws-primary {
+        flex: 1;
+        background: #000000;
+        color: #ffffff !important;
+        border: 1.5px solid #000000;
+        border-radius: 0px !important;
+        padding: 11px 16px;
+        font-size: 13.5px;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+    }
+    .btn-ws-primary:hover {
+        background: #222222;
+        border-color: #222222;
+    }
+    .btn-ws-outline {
+        background: #ffffff;
+        color: #111111 !important;
+        border: 1.5px solid #111111;
+        border-radius: 0px !important;
+        padding: 11px 14px;
+        font-size: 13.5px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+    .btn-ws-outline:hover {
+        background: #f4f4f4;
+    }
+
+    /* Modal Styling */
+    .tcm-ws-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        backdrop-filter: blur(4px);
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+    .tcm-ws-modal-overlay.active {
+        display: flex;
+    }
+    .tcm-ws-modal {
+        background: #ffffff;
+        border: 1.5px solid #000000;
+        border-radius: 0px !important;
+        width: 100%;
+        max-width: 480px;
+        padding: 28px 24px 24px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .tcm-ws-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        background: transparent;
+        border: none;
+        font-size: 26px;
+        line-height: 1;
+        color: #000000;
+        cursor: pointer;
+        padding: 4px;
+    }
+    .tcm-ws-modal h3 {
+        font-size: 21px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px 0;
+        color: #111111;
+    }
+    .tcm-ws-modal .ws-modal-sub {
+        font-size: 13.5px;
+        color: #4b5563;
+        margin-bottom: 20px;
+        line-height: 1.45;
+    }
+    .tcm-ws-price-badge {
+        display: inline-block;
+        background: #000000;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
+        border-radius: 0px !important;
+    }
+    .tcm-ws-field {
+        margin-bottom: 14px;
+    }
+    .tcm-ws-field label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #111111;
+        margin-bottom: 5px;
+    }
+    .tcm-ws-field input, .tcm-ws-field select {
+        width: 100%;
+        height: 42px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 0px !important;
+        background: #ffffff;
+        color: #111111;
+        outline: none;
+        transition: border-color 0.15s;
+    }
+    .tcm-ws-field input:focus, .tcm-ws-field select:focus {
+        border-color: #000000;
+    }
+    .tcm-ws-submit-btn {
+        width: 100%;
+        background: #000000;
+        color: #ffffff;
+        border: 1.5px solid #000000;
+        border-radius: 0px !important;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 18px;
+        transition: background 0.2s;
+    }
+    .tcm-ws-submit-btn:hover {
+        background: #222222;
+    }
+    .tcm-ws-feedback {
+        font-size: 13px;
+        padding: 10px 12px;
+        margin-top: 12px;
+        display: none;
+        border-radius: 0px !important;
+    }
+    .tcm-ws-feedback.error {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #f87171;
+    }
+    .tcm-ws-feedback.success {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #4ade80;
+    }
     </style>
 </head>
 
@@ -829,6 +1154,99 @@
 
         </div>
 
+    </section>
+
+    <!-- ===== FEATURED LIVE WORKSHOPS SECTION ===== -->
+    <section class="workshops-section" id="live-workshops">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="badge border px-3 py-1.5 fw-semibold mb-2 small text-uppercase" style="letter-spacing: 1px; color: #000000; border-color: #d9d9d9 !important; background: #ffffff !important; border-radius: 0px !important;">
+                    TCM ONE / LIVE WORKSHOPS
+                </span>
+                <h2 class="section-title">
+                    Learn Something Real. Start from &#8377;99.
+                </h2>
+                <p class="section-description mx-auto" style="max-width: 680px;">
+                    Practical live cohort sessions where you build genuine mini-projects under expert mentorship. Guaranteed certificate &amp; starter codebase included.
+                </p>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Workshop 1: Python Starter Workshop (₹99) -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="workshop-card" data-workshop-id="10" data-workshop-slug="python-starter-workshop" data-workshop-title="Python Starter Workshop" data-workshop-price="99">
+                        <div class="workshop-card-media">
+                            <img src="./assets/coding-python.gif" alt="Python Starter Workshop Animation" loading="lazy" onerror="this.onerror=null;this.src='./assets/coding-python.gif';">
+                            <div class="workshop-badge-row">
+                                <span class="ws-pill ws-pill-live">Live Cohort</span>
+                                <span class="ws-pill ws-pill-dark">Beginner Friendly</span>
+                            </div>
+                        </div>
+                        <div class="workshop-body">
+                            <div class="workshop-subtitle">3 Days &middot; Hands-on Live Sessions</div>
+                            <h3 class="workshop-title">Python Starter Workshop</h3>
+                            <p class="workshop-desc">
+                                Start your coding journey with Python. Understand syntax, control logic, data structures, and build your very first automation utility from scratch with live mentor feedback.
+                            </p>
+                            <div class="workshop-meta-strip">
+                                <div class="workshop-meta-item"><i class="bi bi-clock-history"></i> <strong>3 Days</strong> (1.5 hrs/day)</div>
+                                <div class="workshop-meta-item"><i class="bi bi-calendar-event"></i> <strong>Next Cohort:</strong> Starts this weekend</div>
+                                <div class="workshop-meta-item"><i class="bi bi-patch-check"></i> Verified Certificate</div>
+                            </div>
+                            <div class="workshop-pricing-row">
+                                <div class="workshop-price-current">&#8377;99</div>
+                                <div class="workshop-price-tag">One-time registration &middot; Limited 50 seats</div>
+                            </div>
+                            <div class="workshop-actions-row">
+                                <button type="button" class="btn-ws-primary btn-register-workshop" data-workshop-id="10" data-workshop-slug="python-starter-workshop" data-workshop-title="Python Starter Workshop" data-workshop-price="99">
+                                    Reserve Seat for &#8377;99 <i class="bi bi-arrow-right"></i>
+                                </button>
+                                <a href="course-details.html?course=python-development" class="btn-ws-outline" title="View details">
+                                    Curriculum
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workshop 2: 7-Day Frontend Website Challenge (₹999) -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="workshop-card" data-workshop-id="11" data-workshop-slug="frontend-website-challenge-7-days" data-workshop-title="7-Day Frontend Website Challenge" data-workshop-price="999">
+                        <div class="workshop-card-media">
+                            <img src="./assets/coding-frontend.gif" alt="Frontend Website Challenge Animation" loading="lazy" onerror="this.onerror=null;this.src='./assets/coding-frontend.gif';">
+                            <div class="workshop-badge-row">
+                                <span class="ws-pill ws-pill-live">Live Sprint</span>
+                                <span class="ws-pill ws-pill-dark">Hands-on Challenge</span>
+                            </div>
+                        </div>
+                        <div class="workshop-body">
+                            <div class="workshop-subtitle">7 Days &middot; Daily Live Build &amp; Deploy</div>
+                            <h3 class="workshop-title">7-Day Frontend Website Challenge</h3>
+                            <p class="workshop-desc">
+                                Master HTML, modern CSS and core JavaScript by actually building. Ship a responsive personal portfolio and a functional web app live on GitHub by the 7th day.
+                            </p>
+                            <div class="workshop-meta-strip">
+                                <div class="workshop-meta-item"><i class="bi bi-clock-history"></i> <strong>7 Days</strong> Intensive Sprint</div>
+                                <div class="workshop-meta-item"><i class="bi bi-github"></i> <strong>GitHub Deployment:</strong> Included</div>
+                                <div class="workshop-meta-item"><i class="bi bi-people"></i> Peer Code Reviews</div>
+                            </div>
+                            <div class="workshop-pricing-row">
+                                <div class="workshop-price-current">&#8377;999</div>
+                                <div class="workshop-price-tag">Full access + Certificate + Project reviews</div>
+                            </div>
+                            <div class="workshop-actions-row">
+                                <button type="button" class="btn-ws-primary btn-register-workshop" data-workshop-id="11" data-workshop-slug="frontend-website-challenge-7-days" data-workshop-title="7-Day Frontend Website Challenge" data-workshop-price="999">
+                                    Join 7-Day Challenge (&#8377;999) <i class="bi bi-arrow-right"></i>
+                                </button>
+                                <a href="course-details.html?course=frontend-development" class="btn-ws-outline" title="View details">
+                                    Curriculum
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- ===== EXPLORE TCM ONE VERTICALS ===== -->
@@ -2604,6 +3022,69 @@
 
 
 
+
+    <!-- ===== WORKSHOP REGISTRATION MODAL ===== -->
+    <div id="tcmWsModalOverlay" class="tcm-ws-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="tcmWsModalTitle">
+        <div class="tcm-ws-modal">
+            <button type="button" class="tcm-ws-modal-close" id="tcmWsModalCloseBtn" aria-label="Close modal">&times;</button>
+            <div id="tcmWsPriceBadge" class="tcm-ws-price-badge">&#8377;99 Live Workshop</div>
+            <h3 id="tcmWsModalTitle">Reserve Your Seat</h3>
+            <p class="ws-modal-sub" id="tcmWsModalSub">Limited to 50 active learners. Fill in your details below to secure your spot.</p>
+            
+            <form id="tcmWsRegistrationForm" novalidate>
+                <input type="hidden" id="tcmWsSlug" name="workshop_slug" value="">
+                <input type="hidden" id="tcmWsId" name="workshop_id" value="">
+                
+                <div class="tcm-ws-field">
+                    <label for="tcmWsFullName">Your Full Name *</label>
+                    <input type="text" id="tcmWsFullName" name="full_name" placeholder="e.g. Rahul Sharma" required>
+                </div>
+
+                <div class="tcm-ws-field">
+                    <label for="tcmWsEmail">Email Address *</label>
+                    <input type="email" id="tcmWsEmail" name="email" placeholder="e.g. rahul@example.com" required>
+                </div>
+
+                <div class="tcm-ws-field">
+                    <label for="tcmWsPhone">WhatsApp Number *</label>
+                    <input type="tel" id="tcmWsPhone" name="phone" placeholder="e.g. 9876543210" maxlength="14" required>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="tcm-ws-field">
+                            <label for="tcmWsStatus">Current Status</label>
+                            <select id="tcmWsStatus" name="current_status">
+                                <option value="student">College Student</option>
+                                <option value="working">Working Professional</option>
+                                <option value="other">Other / Freelancer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tcm-ws-field">
+                            <label for="tcmWsCity">City</label>
+                            <input type="text" id="tcmWsCity" name="city" placeholder="e.g. Bhopal, Indore">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tcm-ws-field">
+                    <label for="tcmWsCollege">College / Organisation</label>
+                    <input type="text" id="tcmWsCollege" name="college" placeholder="e.g. LNCT, MANIT, RGPV">
+                </div>
+
+                <div id="tcmWsFeedback" class="tcm-ws-feedback"></div>
+
+                <button type="submit" class="tcm-ws-submit-btn" id="tcmWsSubmitBtn">
+                    <span>Reserve Workshop Seat</span> <i class="bi bi-arrow-right"></i>
+                </button>
+                <div class="text-center mt-2" style="font-size:11.5px;color:#6b7280;">
+                    <i class="bi bi-shield-lock"></i> Instant WhatsApp &amp; Email reservation confirmation
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         if ('serviceWorker' in navigator) {

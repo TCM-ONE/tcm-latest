@@ -18,6 +18,8 @@ use TCM\Models\Lead;
 use TCM\Models\Post;
 use TCM\Models\Program;
 use TCM\Models\Testimonial;
+use TCM\Models\WorkshopLead;
+use TCM\Models\Batch;
 
 /**
  * Read-only + lightweight write endpoints consumed by the public static site.
@@ -263,6 +265,137 @@ final class PublicController extends Controller
             'course_title' => $courseTitle,
             'download_url' => $downloadUrl,
         ], 'Thank you! Your brochure download will start automatically.');
+    }
+
+    /**
+     * GET /api/workshops/featured
+     * Fetch active featured workshops (e.g. Python Starter & 7-Day Frontend) with active batch and seat info.
+     */
+    public function featuredWorkshops(): void
+    {
+        $workshops = Database::all(
+            "SELECT * FROM events 
+             WHERE is_featured_home = 1 AND status != 'cancelled'
+             ORDER BY home_sort_order ASC, id ASC"
+        );
+
+        $result = [];
+        foreach ($workshops as $ws) {
+            $batch = Batch::activeFor('workshop', (int)$ws['id']);
+            $seatsLeft = $batch ? (int)($batch['seats_left'] ?? 0) : Event::seatsLeft($ws);
+            $totalSeats = $batch ? (int)($batch['capacity'] ?? 50) : (int)($ws['total_seats'] ?? 50);
+
+            $result[] = [
+                'id'              => (int)$ws['id'],
+                'slug'            => $ws['slug'],
+                'title'           => $ws['title'],
+                'subtitle'        => $ws['subtitle'] ?? '',
+                'description'     => $ws['description'] ?? '',
+                'price'           => (float)$ws['price'],
+                'formatted_price' => '₹' . number_format((float)$ws['price']),
+                'duration'        => $ws['duration'] ?? 'Live Workshop',
+                'level'           => ucfirst((string)($ws['level'] ?? 'Beginner')),
+                'event_date'      => $ws['event_date'],
+                'event_time'      => $ws['event_time'],
+                'batch'           => $batch,
+                'seats_left'      => $seatsLeft,
+                'total_seats'     => $totalSeats,
+                'is_filling_fast' => $seatsLeft > 0 && $seatsLeft <= 15,
+                'is_sold_out'     => $seatsLeft <= 0,
+            ];
+        }
+
+        Response::success($result, 'Featured workshops fetched.');
+    }
+
+    /**
+     * POST /api/workshops/register
+     * Process instant workshop registration lead with duplicate prevention and validation.
+     */
+    public function registerWorkshop(): void
+    {
+        $fullName = trim(Request::string('full_name') ?: Request::string('name'));
+        $email    = strtolower(trim(Request::string('email')));
+        $phone    = trim(Request::string('phone'));
+        $slug     = trim(Request::string('workshop_slug'));
+
+        if ($fullName === '') {
+            Response::error('Please enter your full name.', 422);
+        }
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Response::error('Please enter a valid email address.', 422);
+        }
+
+        $cleanPhone = preg_replace('/[^\d]/', '', $phone) ?? '';
+        if (strlen($cleanPhone) < 10) {
+            Response::error('Please enter a valid 10-digit mobile number.', 422);
+        }
+
+        $workshop = Event::findBySlug($slug);
+        if (!$workshop && is_numeric($slug)) {
+            $workshop = Event::find((int)$slug);
+        }
+
+        $workshopTitle = $workshop['title'] ?? ($slug !== '' ? ucwords(str_replace('-', ' ', $slug)) : 'Live Workshop');
+        $workshopId    = $workshop['id'] ?? null;
+        $workshopPrice = isset($workshop['price']) ? (float)$workshop['price'] : 0.0;
+
+        $leadResult = WorkshopLead::capture([
+            'workshop_id'             => $workshopId,
+            'workshop_slug'           => $slug,
+            'workshop_title'          => $workshopTitle,
+            'full_name'               => $fullName,
+            'email'                   => $email,
+            'phone'                   => $phone,
+            'current_status'          => Request::string('current_status', 'student'),
+            'college'                 => Request::string('college'),
+            'city'                    => Request::string('city'),
+            'learning_goal'           => Request::string('learning_goal'),
+            'selected_workshop_price' => $workshopPrice,
+            'utm_source'              => Request::string('utm_source'),
+            'utm_medium'              => Request::string('utm_medium'),
+            'utm_campaign'            => Request::string('utm_campaign'),
+            'utm_content'             => Request::string('utm_content'),
+            'landing_page'            => Request::string('landing_page', '/index.html'),
+            'referrer'                => Request::string('referrer', $_SERVER['HTTP_REFERER'] ?? ''),
+        ]);
+
+        // Send email alert to admin if configured
+        try {
+            $adminEmail = (string) config('mail.admin_email');
+            if ($adminEmail !== '') {
+                Mailer::send(
+                    $adminEmail,
+                    'New Workshop Lead: ' . $fullName . ' (' . $workshopTitle . ')',
+                    Mailer::template(
+                        'Workshop Registration Lead',
+                        sprintf(
+                            '<p>New registration received for <strong>%s</strong> (₹%s):</p>' .
+                            '<ul><li><strong>Name:</strong> %s</li><li><strong>Email:</strong> %s</li><li><strong>Phone:</strong> %s</li><li><strong>College/City:</strong> %s</li></ul>',
+                            e($workshopTitle),
+                            e((string)$workshopPrice),
+                            e($fullName),
+                            e($email),
+                            e($phone),
+                            e(trim(Request::string('college') . ' ' . Request::string('city')))
+                        )
+                    )
+                );
+            }
+        } catch (\Throwable) {
+            // Non-blocking
+        }
+
+        $message = $leadResult['is_duplicate']
+            ? 'We already received your request recently! Our team will contact you shortly.'
+            : 'Seat reservation received! You will receive confirmation on WhatsApp & Email.';
+
+        Response::success([
+            'lead_id'        => $leadResult['id'],
+            'is_duplicate'   => $leadResult['is_duplicate'],
+            'workshop_title' => $workshopTitle,
+            'price'          => $workshopPrice,
+        ], $message);
     }
 }
 

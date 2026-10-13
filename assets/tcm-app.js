@@ -1077,6 +1077,189 @@
 
             openBrochureModal(slug, title);
         });
+    /* ================= FEATURED WORKSHOP REGISTRATION MODAL ============ */
+    function wireWorkshopModal() {
+        var overlay = document.getElementById('tcmWsModalOverlay');
+        var closeBtn = document.getElementById('tcmWsModalCloseBtn');
+        var form = document.getElementById('tcmWsRegistrationForm');
+        var titleEl = document.getElementById('tcmWsModalTitle');
+        var badgeEl = document.getElementById('tcmWsPriceBadge');
+        var slugInput = document.getElementById('tcmWsSlug');
+        var idInput = document.getElementById('tcmWsId');
+        var nameInput = document.getElementById('tcmWsFullName');
+        var emailInput = document.getElementById('tcmWsEmail');
+        var phoneInput = document.getElementById('tcmWsPhone');
+        var feedback = document.getElementById('tcmWsFeedback');
+        var submitBtn = document.getElementById('tcmWsSubmitBtn');
+
+        // Extract and remember UTM parameters from current URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var utmSource = urlParams.get('utm_source') || '';
+        var utmMedium = urlParams.get('utm_medium') || '';
+        var utmCampaign = urlParams.get('utm_campaign') || '';
+        var utmContent = urlParams.get('utm_content') || '';
+
+        function openModal(slug, id, title, price) {
+            if (!overlay) return;
+            if (slugInput) slugInput.value = slug || '';
+            if (idInput) idInput.value = id || '';
+            if (titleEl) titleEl.textContent = 'Reserve Seat: ' + (title || 'Live Workshop');
+            if (badgeEl) badgeEl.textContent = '₹' + (price || '99') + ' Live Cohort';
+
+            if (feedback) {
+                feedback.className = 'tcm-ws-feedback';
+                feedback.textContent = '';
+                feedback.style.display = 'none';
+            }
+
+            // Autofill known user details
+            if (ME && ME.authenticated) {
+                if (nameInput && !nameInput.value) nameInput.value = ME.name || '';
+                if (emailInput && !emailInput.value) emailInput.value = ME.email || '';
+            }
+            try {
+                var sName = localStorage.getItem('tcm_lead_name');
+                var sEmail = localStorage.getItem('tcm_lead_email');
+                var sPhone = localStorage.getItem('tcm_lead_phone');
+                if (sName && nameInput && !nameInput.value) nameInput.value = sName;
+                if (sEmail && emailInput && !emailInput.value) emailInput.value = sEmail;
+                if (sPhone && phoneInput && !phoneInput.value) phoneInput.value = sPhone;
+            } catch (e) {}
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function () {
+                var target = (nameInput && !nameInput.value) ? nameInput : (phoneInput && !phoneInput.value ? phoneInput : emailInput);
+                if (target) target.focus();
+            }, 100);
+        }
+
+        function closeModal() {
+            if (!overlay) return;
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (overlay) {
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) closeModal();
+            });
+        }
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Delegate clicks on all .btn-register-workshop buttons
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.btn-register-workshop');
+            if (!btn) return;
+            e.preventDefault();
+
+            var slug = btn.getAttribute('data-workshop-slug') || '';
+            var id = btn.getAttribute('data-workshop-id') || '';
+            var title = btn.getAttribute('data-workshop-title') || '';
+            var price = btn.getAttribute('data-workshop-price') || '99';
+
+            openModal(slug, id, title, price);
+        });
+
+        // Form submission
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var fullName = (nameInput ? nameInput.value : '').trim();
+                var email = (emailInput ? emailInput.value : '').trim();
+                var phone = (phoneInput ? phoneInput.value : '').trim();
+                var statusInput = document.getElementById('tcmWsStatus');
+                var cityInput = document.getElementById('tcmWsCity');
+                var collegeInput = document.getElementById('tcmWsCollege');
+
+                function showError(msg) {
+                    if (!feedback) return;
+                    feedback.className = 'tcm-ws-feedback error';
+                    feedback.textContent = msg;
+                    feedback.style.display = 'block';
+                }
+
+                if (!fullName) {
+                    showError('Please enter your full name.');
+                    if (nameInput) nameInput.focus();
+                    return;
+                }
+                if (!email || !email.includes('@')) {
+                    showError('Please enter a valid email address.');
+                    if (emailInput) emailInput.focus();
+                    return;
+                }
+                var cleanPhone = phone.replace(/[^\d]/g, '');
+                if (cleanPhone.length < 10) {
+                    showError('Please enter a valid 10-digit mobile number.');
+                    if (phoneInput) phoneInput.focus();
+                    return;
+                }
+
+                // Cache credentials locally
+                try {
+                    localStorage.setItem('tcm_lead_name', fullName);
+                    localStorage.setItem('tcm_lead_email', email);
+                    localStorage.setItem('tcm_lead_phone', phone);
+                } catch (err) {}
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" style="width:14px;height:14px;border-width:2px;"></span> Reserving Seat...';
+                }
+
+                postJSON(api('/api/workshops/register'), {
+                    full_name: fullName,
+                    email: email,
+                    phone: phone,
+                    workshop_slug: slugInput ? slugInput.value : '',
+                    workshop_id: idInput ? idInput.value : '',
+                    current_status: statusInput ? statusInput.value : 'student',
+                    city: cityInput ? cityInput.value : '',
+                    college: collegeInput ? collegeInput.value : '',
+                    utm_source: utmSource,
+                    utm_medium: utmMedium,
+                    utm_campaign: utmCampaign,
+                    utm_content: utmContent,
+                    landing_page: window.location.pathname
+                }).then(function (res) {
+                    if (res && res.success) {
+                        if (feedback) {
+                            feedback.className = 'tcm-ws-feedback success';
+                            feedback.innerHTML = '<i class="bi bi-check-circle"></i> ' + (res.message || 'Seat reserved successfully! Check WhatsApp & Email.');
+                            feedback.style.display = 'block';
+                        }
+                        if (submitBtn) {
+                            submitBtn.innerHTML = '<i class="bi bi-check2"></i> Seat Confirmed';
+                        }
+                        setTimeout(function () {
+                            closeModal();
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.innerHTML = '<span>Reserve Workshop Seat</span> <i class="bi bi-arrow-right"></i>';
+                            }
+                        }, 2200);
+                    } else {
+                        showError((res && res.message) ? res.message : 'Unable to reserve seat. Please try again.');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<span>Reserve Workshop Seat</span> <i class="bi bi-arrow-right"></i>';
+                        }
+                    }
+                }).catch(function () {
+                    showError('Connection error. Please try again or reach out directly on WhatsApp.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<span>Reserve Workshop Seat</span> <i class="bi bi-arrow-right"></i>';
+                    }
+                });
+            });
+        }
     }
 
     /* ================= BOOT ============================================ */
@@ -1086,6 +1269,7 @@
         wireAuthExtras();
         ensureBrochureModal();
         wireBrochureTriggers();
+        wireWorkshopModal();
         bindCourseWhatsAppCTA();
         deduplicateCourseGifs();
 
