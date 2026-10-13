@@ -416,7 +416,7 @@
         var price = '<div class="course-price">' + money(c.price) +
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
         var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
-        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" onerror="this.onerror=null;this.src=\'' + esc(api('/assets/coding-fullstack.gif')) + '\';"></div>';
+        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + esc(api('/assets/coding-fullstack.gif')) + '\';"></div>';
         return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '">' +
             thumb +
             price +
@@ -834,6 +834,8 @@
                 this.onerror = null;
                 this.src = api('/assets/coding-fullstack.gif');
             };
+            if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+            if (!img.getAttribute('decoding')) img.setAttribute('decoding', 'async');
             var currentSrc = img.getAttribute('src') || '';
             if (!currentSrc || currentSrc.trim() === '' || (!currentSrc.includes('.gif') && !currentSrc.includes('.png') && !currentSrc.includes('.jpg') && !currentSrc.includes('.webp') && !currentSrc.includes('.svg'))) {
                 var slug = img.getAttribute('data-course-slug') || '';
@@ -1062,9 +1064,9 @@
     }
 
     function wireBrochureTriggers() {
-        // Global click delegation for all brochure triggers across any cards or detail pages
+        // Global click delegation for all brochure triggers across any cards, nav, hero, or detail pages
         document.addEventListener('click', function (e) {
-            var trigger = e.target.closest('.btn-trigger-brochure, .cd-brochure-btn, .ws-btn-brochure');
+            var trigger = e.target.closest('.btn-trigger-brochure, .cd-brochure-btn, .ws-btn-brochure, a[href*="download-brochure"], [data-trigger-brochure]');
             if (!trigger) return;
 
             e.preventDefault();
