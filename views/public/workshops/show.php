@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($desc ?? $workshop['description'] ?? '') ?>">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -23,6 +24,33 @@
     <meta name="twitter:title" content="<?= e($title) ?>">
     <meta name="twitter:description" content="<?= e($desc ?? $workshop['description'] ?? '') ?>">
     <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+    <?php
+        $webPageSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebPage',
+            'name' => $workshop['title'],
+            'description' => $desc ?? ($workshop['description'] ?? ''),
+            'url' => $canonical,
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'TCM One',
+                'url' => $appUrl,
+                'logo' => $appUrl . '/assets/logo.png',
+            ],
+        ];
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $appUrl . '/'],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $appUrl . '/workshops'],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $workshop['title'], 'item' => $canonical],
+            ],
+        ];
+    ?>
+    <script type="application/ld+json"><?= json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -196,9 +224,27 @@
                     <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="logo-img">
                     <span class="logo-text">TCM <span class="logo-one">One</span></span>
                 </a>
-                <div class="ms-auto d-flex gap-8 align-items-center">
-                    <a href="<?= base_url('/workshops') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">All Workshops</a>
-                    <a href="<?= base_url('/programs.html') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">Programs</a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+                    <ul class="navbar-nav align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="<?= base_url('/workshops') ?>" style="font-weight:700;color:#000;">Workshops</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/insights.html') ?>">TCM Insights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/community.html') ?>">Community</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/contact.html') ?>">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/partner.html') ?>">Become a Partner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('/login.php') ?>" class="join-btn" style="border-radius:0px !important;">Join Now</a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
@@ -225,7 +271,7 @@
                         <div>
                             <span class="ws-price-hero">&#8377;<?= number_format((float)$workshop['price'], 0) ?></span>
                             <span class="ws-price-orig">&#8377;<?= number_format((float)$workshop['original_price'], 0) ?></span>
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">One-time fee &middot; All 7 live sessions included</div>
+                            <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">One-time fee &middot; Live sessions included</div>
                         </div>
 
                         <div class="d-flex align-items-center gap-10">
@@ -275,7 +321,7 @@
                 <div class="col-lg-8">
                     <!-- Day by Day Curriculum -->
                     <div class="ws-card-box">
-                        <h2>7-Day Live Curriculum Breakdown</h2>
+                        <h2><?= e($workshop['duration']) ?> Live Curriculum Breakdown</h2>
                         <div class="ws-curriculum-list">
                             <?php foreach ($workshop['curriculum'] as $day): ?>
                             <div class="ws-day-item">

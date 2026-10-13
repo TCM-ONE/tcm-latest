@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -23,6 +24,56 @@
     <meta name="twitter:title" content="<?= e($title) ?>">
     <meta name="twitter:description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
     <meta name="twitter:image" content="<?= e($thumbUrl) ?>">
+
+    <?php
+        $courseSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Course',
+            'name' => $course['title'],
+            'description' => $desc ?? ($course['description'] ?? ''),
+            'url' => $canonical,
+            'image' => $thumbUrl,
+            'provider' => [
+                '@type' => 'Organization',
+                'name' => 'TCM One',
+                'url' => $appUrl,
+                'logo' => $appUrl . '/assets/logo.png',
+            ],
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string) ((float) ($course['price'] ?? 0)),
+                'priceCurrency' => 'INR',
+                'availability' => 'https://schema.org/InStock',
+                'url' => $canonical,
+            ],
+        ];
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Home',
+                    'item' => $appUrl . '/',
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => 'Courses',
+                    'item' => $appUrl . '/programs.html',
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 3,
+                    'name' => $course['title'],
+                    'item' => $canonical,
+                ],
+            ],
+        ];
+    ?>
+    <script type="application/ld+json"><?= json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -212,12 +263,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <span class="ws-badge-white"><?= e($course['category'] ?? 'Full Stack Development') ?> &middot; <?= e($course['level'] ?? 'Beginner to Advanced') ?></span>
+                    <span class="ws-badge-white"><?= e($course['category_name'] ?? 'Technology Course') ?> &middot; <?= e($course['level'] ?? 'Beginner to Advanced') ?></span>
                     <h1><?= e($course['title']) ?></h1>
                     <p class="tagline"><?= e($course['subtitle'] ?: ($course['description'] ?? 'Comprehensive career-ready engineering course from TCM One.')) ?></p>
 
                     <div class="d-flex flex-wrap">
-                        <span class="ws-stat-chip"><i class="bi bi-clock"></i> <?= e($course['duration_weeks'] ? $course['duration_weeks'] . ' Weeks' : 'Comprehensive') ?></span>
+                        <span class="ws-stat-chip"><i class="bi bi-clock"></i> <?= e($course['duration'] ?: 'Comprehensive') ?></span>
                         <span class="ws-stat-chip"><i class="bi bi-person-video3"></i> Mentored Cohort</span>
                         <span class="ws-stat-chip"><i class="bi bi-patch-check"></i> Certificate Included</span>
                         <span class="ws-stat-chip"><i class="bi bi-broadcast"></i> Live & Self-Paced</span>

@@ -65,7 +65,7 @@ return $GLOBALS['__TCM_CONFIG'] = [
         'debug'     => (bool) env('APP_DEBUG', true),
         // Base URL path where the app is served, e.g. "" or "/tcm-2.0/backend/public"
         'base_path' => rtrim((string) env('APP_BASE_PATH', ''), '/'),
-        'url'       => env('APP_URL', 'https://www.thecodemunk.in'),
+        'url'       => env('APP_URL', 'https://thecodemunk.in'),
         'timezone'  => env('APP_TIMEZONE', 'Asia/Kolkata'),
         'key'       => env('APP_KEY', 'change-this-secret-key-in-production'),
     ],

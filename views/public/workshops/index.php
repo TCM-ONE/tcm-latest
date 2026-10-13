@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($description) ?>">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -23,6 +24,33 @@
     <meta name="twitter:title" content="<?= e($title) ?>">
     <meta name="twitter:description" content="<?= e($description) ?>">
     <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+    <?php
+        $itemList = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ItemList',
+            'itemListElement' => [],
+        ];
+        $position = 1;
+        foreach ($workshops as $w) {
+            $itemList['itemListElement'][] = [
+                '@type' => 'ListItem',
+                'position' => $position++,
+                'url' => $appUrl . '/workshops/' . rawurlencode($w['slug']),
+                'name' => $w['title'],
+            ];
+        }
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $appUrl . '/'],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $canonical],
+            ],
+        ];
+    ?>
+    <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -177,9 +205,27 @@
                     <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="logo-img">
                     <span class="logo-text">TCM <span class="logo-one">One</span></span>
                 </a>
-                <div class="ms-auto d-flex gap-8 align-items-center">
-                    <a href="<?= base_url('/programs.html') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #111;font-weight:700;">Programs</a>
-                    <a href="<?= base_url('/login.php') ?>" class="tcm-btn sm dark" style="background:#111;color:#fff;font-weight:700;">Join Now</a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+                    <ul class="navbar-nav align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="<?= base_url('/workshops') ?>" style="font-weight:700;color:#000;">Workshops</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/insights.html') ?>">TCM Insights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/community.html') ?>">Community</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/contact.html') ?>">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= base_url('/partner.html') ?>">Become a Partner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('/login.php') ?>" class="join-btn" style="border-radius:0px !important;">Join Now</a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
@@ -188,9 +234,9 @@
     <!-- Hero Section -->
     <section class="ws-hero">
         <div class="container">
-            <span class="ws-badge">Live Cohorts &middot; 7-Day Intensive</span>
+            <span class="ws-badge">Live Cohorts &middot; Beginner Friendly</span>
             <h1>TCM One Workshops</h1>
-            <p>Practical, mentor-led live coding bootcamps for college students and beginners. Built for real skills, fast progress and portfolio deployment.</p>
+            <p>Practical, mentor-led workshops for college students and beginners. Build useful skills through focused live sessions, guided exercises and clear next steps.</p>
         </div>
     </section>
 
