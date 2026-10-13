@@ -18,6 +18,19 @@ echo "=== TCM One Master Seeder: 24 Courses + 4 Workshops ===\n";
 try {
     $pdo = Database::connection();
 
+    $ensureColumn = static function (\PDO $pdo, string $table, string $column, string $definition): void {
+        $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
+        $stmt->execute([$column]);
+        if (!$stmt->fetchColumn()) {
+            $pdo->exec("ALTER TABLE `$table` ADD COLUMN $definition");
+            echo "✓ Added missing column {$table}.{$column}\n";
+        }
+    };
+
+    // Production compatibility: admin course forms can save custom brochures.
+    $ensureColumn($pdo, 'courses', 'brochure_file', "brochure_file VARCHAR(255) DEFAULT NULL AFTER thumbnail");
+    $ensureColumn($pdo, 'courses', 'brochure_name', "brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file");
+
     // -------------------------------------------------------------
     // 1. Ensure Categories
     // -------------------------------------------------------------
@@ -642,15 +655,15 @@ try {
         [
             'title' => 'Python Starter Workshop',
             'slug' => 'python-starter-workshop',
-            'subtitle' => 'Build Your First Python Program',
+            'subtitle' => 'Advanced Python, Web Scraping & Automation',
             'price' => 99.00,
             'duration' => '3 Days',
-            'level' => 'beginner',
+            'level' => 'intermediate',
             'type' => 'paid',
             'status' => 'upcoming',
             'is_featured_home' => 1,
             'home_sort_order' => 1,
-            'desc' => 'Start your programming journey with Python. Learn core concepts through practical live sessions and build your first mini-project. Beginner-friendly guided live sessions.'
+            'desc' => 'Master Advanced Python, Web Scraping with BeautifulSoup, REST APIs, and automated data pipelines. Build real-world data harvesting bots from scratch with live mentor feedback.'
         ],
         [
             'title' => '7-Day Frontend Website Challenge',
@@ -708,7 +721,7 @@ try {
                 is_featured_home = ?, home_sort_order = ?, event_date = ?, event_time = ? 
                 WHERE id = ?")
                 ->execute([
-                    $ws->title ?? $ws['title'], $ws['subtitle'], $ws['desc'], $ws['price'],
+                    $ws['title'], $ws['subtitle'], $ws['desc'], $ws['price'],
                     $ws['duration'], $ws['level'], $ws['type'], $ws['status'],
                     $ws['is_featured_home'], $ws['home_sort_order'], $wsDate, $wsTime,
                     $wsId
@@ -751,6 +764,10 @@ try {
         }
     }
     echo "✓ All 4 Workshops seeded with live batches.\n";
+
+    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '24') ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)")
+        ->execute();
+    echo "✓ Site settings updated for 24-course catalogue.\n";
 
     echo "\n=== Seeding Completed Successfully! ===\n";
 

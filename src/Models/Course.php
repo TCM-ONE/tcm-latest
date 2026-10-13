@@ -11,6 +11,39 @@ final class Course extends Model
     protected static string $table = 'courses';
 
     /**
+     * @return array<string,mixed>|null
+     */
+    public static function find(int $id): ?array
+    {
+        self::ensureThumbnails();
+        self::ensureBrochureColumns();
+        $course = parent::find($id);
+        if ($course !== null) {
+            $course['thumbnail_url'] = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
+            $course['brochure_url']  = self::brochureUrl($course['brochure_file'] ?? null, $course['slug'] ?? null);
+        }
+        return $course;
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     */
+    public static function create(array $data): int
+    {
+        self::ensureBrochureColumns();
+        return parent::create($data);
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     */
+    public static function update(int $id, array $data): int
+    {
+        self::ensureBrochureColumns();
+        return parent::update($id, $data);
+    }
+
+    /**
      * List courses with their category name, optionally filtered.
      *
      * @param array<string,mixed> $filters status, category_id, audience, search, featured
@@ -71,11 +104,11 @@ final class Course extends Model
         try {
             $cols = Database::all("SHOW COLUMNS FROM courses LIKE 'brochure_file'");
             if (empty($cols)) {
-                Database::query("ALTER TABLE courses ADD COLUMN brochure_file VARCHAR(255) DEFAULT NULL AFTER thumbnail");
+                Database::run("ALTER TABLE courses ADD COLUMN brochure_file VARCHAR(255) DEFAULT NULL AFTER thumbnail");
             }
             $colsName = Database::all("SHOW COLUMNS FROM courses LIKE 'brochure_name'");
             if (empty($colsName)) {
-                Database::query("ALTER TABLE courses ADD COLUMN brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file");
+                Database::run("ALTER TABLE courses ADD COLUMN brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file");
             }
         } catch (\Throwable) {
             // Table or DB might not be ready
@@ -125,7 +158,7 @@ final class Course extends Model
             $courses = Database::all("SELECT id, slug, thumbnail FROM courses WHERE thumbnail IS NULL OR thumbnail = ''");
             foreach ($courses as $c) {
                 $gif = $presetMap[$c['slug']] ?? 'coding-fullstack.gif';
-                Database::query("UPDATE courses SET thumbnail = ? WHERE id = ?", [$gif, $c['id']]);
+                Database::run("UPDATE courses SET thumbnail = ? WHERE id = ?", [$gif, $c['id']]);
             }
         } catch (\Throwable) {
             // Table or DB might not be ready yet
