@@ -24,8 +24,10 @@
 
 html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
-    max-width: 100%;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+    max-width: 100% !important;
+    width: 100% !important;
 }
 
 body {
@@ -35,9 +37,16 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.01em;
-    overflow-x: hidden;
-    max-width: 100%;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+    max-width: 100% !important;
+    width: 100% !important;
     position: relative;
+}
+
+header, nav, section, footer, main, .header, .hero, .courses-section, .workshops-section, .showcase-section, .tech-stack-section, .classroom-section, .career-path-section, .why-tcm-section, .reviews-section, .transformation-section, .career-consultation-section, .faq-section, .footer {
+    max-width: 100% !important;
+    overflow-x: clip !important;
 }
 
 .header {

@@ -85,10 +85,34 @@
     <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.2.1">
     <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.1">
     <style>
+/* Critical Hard Horizontal Scroll Lock */
+*, *::before, *::after {
+    box-sizing: border-box !important;
+}
+html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+    position: relative !important;
+}
+section, header, footer, main, .container, .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+body > * {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+}
+img, svg, video, canvas {
+    max-width: 100% !important;
+}
 /* Critical Hero Flank Layout Guarantee */
 .hero {
     display: block !important;
     position: relative !important;
+    overflow: hidden !important;
 }
 .hero-flank {
     position: absolute !important;
@@ -143,19 +167,23 @@
 
 .classroom-layout {
     display: grid;
-    grid-template-columns: 420px 1fr;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
     gap: 24px;
     align-items: stretch;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .classroom-side {
     display: grid;
     gap: 24px;
+    min-width: 0;
 }
 
 .classroom-card {
     position: relative;
     overflow: hidden;
+    min-width: 0;
     border-radius: 0px !important;
     border: 1px solid #D9D9D9;
     cursor: pointer;
@@ -280,40 +308,73 @@
     .card-content h3 {
         font-size: 18px;
     }
+}
+
     /* ===== TCM ONE FEATURED WORKSHOPS & REGISTRATION MODAL ===== */
     .workshops-section {
         padding: 80px 0;
         background: #fbfbfb;
         border-top: 1px solid #e5e5e5;
         border-bottom: 1px solid #e5e5e5;
+        overflow-x: clip;
+    }
+    .workshops-section .container {
+        max-width: 1180px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+    .workshops-section .row {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+    }
+    .workshops-section .row > [class*="col-"] {
+        width: 100% !important;
+        max-width: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        min-width: 0 !important;
     }
     .workshop-card {
+        position: relative;
+        overflow: hidden;
         background: #ffffff;
-        border: 1px solid #e0e0e0;
+        border: 1px solid #111111;
         border-radius: 0px !important;
         display: flex;
         flex-direction: column;
         height: 100%;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        min-width: 0;
+        box-shadow: none;
+        transition: border-color 0.2s ease, transform 0.2s ease;
     }
     .workshop-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        transform: translateY(-3px);
+        box-shadow: none;
         border-color: #111111;
     }
     .workshop-card-media {
         position: relative;
-        height: 220px;
+        height: 230px;
+        width: 100%;
         background: #000000;
         overflow: hidden;
         border-radius: 0px !important;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px solid #111111;
+        flex-shrink: 0;
     }
     .workshop-card-media img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.9;
+        object-position: center;
+        opacity: 1;
+        display: block;
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
     .workshop-card:hover .workshop-card-media img {
@@ -326,6 +387,8 @@
         left: 14px;
         right: 14px;
         display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         justify-content: space-between;
         align-items: center;
         z-index: 2;
@@ -369,6 +432,7 @@
         display: flex;
         flex-direction: column;
         flex: 1;
+        min-width: 0;
     }
     .workshop-title {
         font-size: 20px;
@@ -394,8 +458,8 @@
     }
     .workshop-meta-strip {
         display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
+        flex-direction: column;
+        gap: 8px;
         padding: 12px 0;
         margin-bottom: 18px;
         border-top: 1px dashed #e5e5e5;
@@ -407,6 +471,7 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        min-width: 0;
     }
     .workshop-meta-item i {
         color: #111111;
@@ -414,6 +479,7 @@
     }
     .workshop-pricing-row {
         display: flex;
+        flex-wrap: wrap;
         align-items: baseline;
         gap: 8px;
         margin-bottom: 18px;
@@ -432,14 +498,17 @@
     .workshop-actions-row {
         display: flex;
         gap: 10px;
+        align-items: stretch;
     }
     .btn-ws-primary {
         flex: 1;
+        min-width: 0;
         background: #000000;
         color: #ffffff !important;
         border: 1.5px solid #000000;
         border-radius: 0px !important;
-        padding: 8px 14px;
+        min-height: 42px;
+        padding: 10px 14px;
         font-size: 12.5px;
         font-weight: 700;
         letter-spacing: -0.01em;
@@ -457,11 +526,13 @@
         border-color: #222222;
     }
     .btn-ws-outline {
+        flex: 0 0 auto;
         background: #ffffff;
         color: #111111 !important;
         border: 1.5px solid #111111;
         border-radius: 0px !important;
-        padding: 8px 12px;
+        min-height: 42px;
+        padding: 10px 12px;
         font-size: 12.5px;
         font-weight: 700;
         letter-spacing: -0.01em;
@@ -476,6 +547,29 @@
     }
     .btn-ws-outline:hover {
         background: #f4f4f4;
+    }
+    @media (max-width: 991px) {
+        .workshops-section .row {
+            grid-template-columns: 1fr !important;
+        }
+    }
+    @media (max-width: 575px) {
+        .workshops-section {
+            padding: 56px 0;
+        }
+        .workshops-section .container {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+        }
+        .workshop-card-media {
+            height: 190px;
+        }
+        .workshop-actions-row {
+            flex-direction: column;
+        }
+        .btn-ws-outline {
+            width: 100%;
+        }
     }
 
     /* Modal Styling */
@@ -647,7 +741,7 @@
                     </ul>
 
                     <div class="header-right-actions d-flex align-items-center gap-3">
-                        <a href="/download-brochure" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download style="font-weight:600;font-size:14px;color:#111;">
+                        <a href="/download-brochure" class="nav-link d-none d-sm-inline-flex align-items-center gap-1 btn-trigger-brochure" data-trigger-brochure="true" style="font-weight:600;font-size:14px;color:#111;">
                             <i class="bi bi-download"></i> Brochure
                         </a>
                         <a href="login.php" class="nav-login-link d-none d-md-inline-block">Log in</a>
@@ -723,7 +817,7 @@
                     <a href="#heroVideoWrapper" id="heroWatchIntroBtn" class="secondary-btn hero-cta-secondary">
                         <i class="bi bi-play-circle-fill"></i> Watch Intro Video
                     </a>
-                    <a href="/download-brochure" class="secondary-btn hero-cta-secondary" download>
+                    <a href="/download-brochure" class="secondary-btn hero-cta-secondary btn-trigger-brochure" data-trigger-brochure="true">
                         <i class="bi bi-download"></i> Download Brochure
                     </a>
                 </div>
@@ -828,7 +922,7 @@
 
                         <div class="course-card" data-course-slug="full-stack-web-development" data-course-title="Full Stack Web Development (MERN)">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-fullstack.gif" alt="Full Stack Web Development (MERN)" data-course-slug="full-stack-web-development" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-fullstack.gif" alt="Full Stack Web Development (MERN)" data-course-slug="full-stack-web-development" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹19,999</span></div>
                             <h3>Full Stack Web Development (MERN)</h3>
@@ -841,7 +935,7 @@
 
                         <div class="course-card" data-course-slug="frontend-development-with-react" data-course-title="Frontend Development with React">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-frontend.gif" alt="Frontend Development with React" data-course-slug="frontend-development-with-react" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-frontend.gif" alt="Frontend Development with React" data-course-slug="frontend-development-with-react" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;6,999 <span>₹9,999</span></div>
                             <h3>Frontend Development with React</h3>
@@ -854,7 +948,7 @@
 
                         <div class="course-card" data-course-slug="python-programming-automation" data-course-title="Python Programming &amp; Automation">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-python.gif" alt="Python Programming &amp; Automation" data-course-slug="python-programming-automation" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-python.gif" alt="Python Programming &amp; Automation" data-course-slug="python-programming-automation" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Python Programming &amp; Automation</h3>
@@ -867,7 +961,7 @@
 
                         <div class="course-card" data-course-slug="sql-database-fundamentals" data-course-title="SQL &amp; Database Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/sql-database-fundamentals.svg" alt="SQL &amp; Database Fundamentals" data-course-slug="sql-database-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/sql-database-fundamentals.svg" alt="SQL &amp; Database Fundamentals" data-course-slug="sql-database-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;3,499 <span>₹4,999</span></div>
                             <h3>SQL &amp; Database Fundamentals</h3>
@@ -880,7 +974,7 @@
 
                         <div class="course-card" data-course-slug="dsa-problem-solving-java" data-course-title="DSA &amp; Problem Solving with Java">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-dsa.gif" alt="DSA &amp; Problem Solving with Java" data-course-slug="dsa-problem-solving-java" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-dsa.gif" alt="DSA &amp; Problem Solving with Java" data-course-slug="dsa-problem-solving-java" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>DSA &amp; Problem Solving with Java</h3>
@@ -893,7 +987,7 @@
 
                         <div class="course-card" data-course-slug="aws-cloud-deployment-fundamentals" data-course-title="AWS Cloud &amp; Deployment Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-cloud.gif" alt="AWS Cloud &amp; Deployment Fundamentals" data-course-slug="aws-cloud-deployment-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-cloud.gif" alt="AWS Cloud &amp; Deployment Fundamentals" data-course-slug="aws-cloud-deployment-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>AWS Cloud &amp; Deployment Fundamentals</h3>
@@ -906,7 +1000,7 @@
 
                         <div class="course-card" data-course-slug="digital-skills-computer-fundamentals" data-course-title="Digital Skills &amp; Computer Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-basics.gif" alt="Digital Skills &amp; Computer Fundamentals" data-course-slug="digital-skills-computer-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-basics.gif" alt="Digital Skills &amp; Computer Fundamentals" data-course-slug="digital-skills-computer-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;1,999 <span>₹3,499</span></div>
                             <h3>Digital Skills &amp; Computer Fundamentals</h3>
@@ -919,7 +1013,7 @@
 
                         <div class="course-card" data-course-slug="build-your-first-website" data-course-title="Build Your First Website">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-webdev.gif" alt="Build Your First Website" data-course-slug="build-your-first-website" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-webdev.gif" alt="Build Your First Website" data-course-slug="build-your-first-website" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;2,499 <span>₹3,999</span></div>
                             <h3>Build Your First Website</h3>
@@ -932,7 +1026,7 @@
 
                         <div class="course-card" data-course-slug="ai-tools-for-study-work" data-course-title="AI Tools for Study &amp; Work">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-ai.gif" alt="AI Tools for Study &amp; Work" data-course-slug="ai-tools-for-study-work" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-ai.gif" alt="AI Tools for Study &amp; Work" data-course-slug="ai-tools-for-study-work" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;1,999 <span>₹3,499</span></div>
                             <h3>AI Tools for Study &amp; Work</h3>
@@ -945,7 +1039,7 @@
 
                         <div class="course-card" data-course-slug="tech-career-launchpad" data-course-title="Tech Career Launchpad">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-career.gif" alt="Tech Career Launchpad" data-course-slug="tech-career-launchpad" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-career.gif" alt="Tech Career Launchpad" data-course-slug="tech-career-launchpad" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Tech Career Launchpad</h3>
@@ -958,7 +1052,7 @@
 
                         <div class="course-card" data-course-slug="ai-automation-nocode-tools" data-course-title="AI Automation with No-Code Tools">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-automation.gif" alt="AI Automation with No-Code Tools" data-course-slug="ai-automation-nocode-tools" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-automation.gif" alt="AI Automation with No-Code Tools" data-course-slug="ai-automation-nocode-tools" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;6,999 <span>₹9,999</span></div>
                             <h3>AI Automation with No-Code Tools</h3>
@@ -971,7 +1065,7 @@
 
                         <div class="course-card" data-course-slug="data-analytics-excel-sql-powerbi" data-course-title="Data Analytics with Excel, SQL &amp; Power BI">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-analytics.gif" alt="Data Analytics with Excel, SQL &amp; Power BI" data-course-slug="data-analytics-excel-sql-powerbi" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-analytics.gif" alt="Data Analytics with Excel, SQL &amp; Power BI" data-course-slug="data-analytics-excel-sql-powerbi" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>Data Analytics with Excel, SQL &amp; Power BI</h3>
@@ -984,7 +1078,7 @@
 
                         <div class="course-card" data-course-slug="react-nextjs-frontend-engineering" data-course-title="React &amp; Next.js Frontend Engineering">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-monitor.gif" alt="React &amp; Next.js Frontend Engineering" data-course-slug="react-nextjs-frontend-engineering" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-monitor.gif" alt="React &amp; Next.js Frontend Engineering" data-course-slug="react-nextjs-frontend-engineering" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>React &amp; Next.js Frontend Engineering</h3>
@@ -997,7 +1091,7 @@
 
                         <div class="course-card" data-course-slug="backend-development-nodejs-apis" data-course-title="Backend Development with Node.js &amp; APIs">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-terminal.gif" alt="Backend Development with Node.js &amp; APIs" data-course-slug="backend-development-nodejs-apis" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-terminal.gif" alt="Backend Development with Node.js &amp; APIs" data-course-slug="backend-development-nodejs-apis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>Backend Development with Node.js &amp; APIs</h3>
@@ -1010,7 +1104,7 @@
 
                         <div class="course-card" data-course-slug="mobile-app-development-react-native" data-course-title="Mobile App Development with React Native">
                             <div class="course-card-thumb">
-                                <img src="./assets/react-native-app.svg" alt="Mobile App Development with React Native" data-course-slug="mobile-app-development-react-native" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/react-native-app.svg" alt="Mobile App Development with React Native" data-course-slug="mobile-app-development-react-native" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>Mobile App Development with React Native</h3>
@@ -1023,7 +1117,7 @@
 
                         <div class="course-card" data-course-slug="generative-ai-agent-engineering" data-course-title="Generative AI &amp; AI Agent Engineering">
                             <div class="course-card-thumb">
-                                <img src="./assets/genai-ai-agents.svg" alt="Generative AI &amp; AI Agent Engineering" data-course-slug="generative-ai-agent-engineering" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/genai-ai-agents.svg" alt="Generative AI &amp; AI Agent Engineering" data-course-slug="generative-ai-agent-engineering" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹19,999</span></div>
                             <h3>Generative AI &amp; AI Agent Engineering</h3>
@@ -1036,7 +1130,7 @@
 
                         <div class="course-card" data-course-slug="docker-devops-cicd-essentials" data-course-title="Docker, DevOps &amp; CI/CD Essentials">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-cloud-new.gif" alt="Docker, DevOps &amp; CI/CD Essentials" data-course-slug="docker-devops-cicd-essentials" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-cloud-new.gif" alt="Docker, DevOps &amp; CI/CD Essentials" data-course-slug="docker-devops-cicd-essentials" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;8,999 <span>₹12,999</span></div>
                             <h3>Docker, DevOps &amp; CI/CD Essentials</h3>
@@ -1049,7 +1143,7 @@
 
                         <div class="course-card" data-course-slug="ui-ux-design-with-figma" data-course-title="UI/UX Design with Figma">
                             <div class="course-card-thumb">
-                                <img src="./assets/uiux-figma.svg" alt="UI/UX Design with Figma" data-course-slug="ui-ux-design-with-figma" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/uiux-figma.svg" alt="UI/UX Design with Figma" data-course-slug="ui-ux-design-with-figma" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>UI/UX Design with Figma</h3>
@@ -1062,7 +1156,7 @@
 
                         <div class="course-card" data-course-slug="software-testing-qa-playwright" data-course-title="Software Testing &amp; QA with Playwright">
                             <div class="course-card-thumb">
-                                <img src="./assets/qa-playwright.svg" alt="Software Testing &amp; QA with Playwright" data-course-slug="software-testing-qa-playwright" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/qa-playwright.svg" alt="Software Testing &amp; QA with Playwright" data-course-slug="software-testing-qa-playwright" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Software Testing &amp; QA with Playwright</h3>
@@ -1075,7 +1169,7 @@
 
                         <div class="course-card" data-course-slug="digital-marketing-seo-analytics" data-course-title="Digital Marketing, SEO &amp; Analytics">
                             <div class="course-card-thumb">
-                                <img src="./assets/digital-marketing-seo.svg" alt="Digital Marketing, SEO &amp; Analytics" data-course-slug="digital-marketing-seo-analytics" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/digital-marketing-seo.svg" alt="Digital Marketing, SEO &amp; Analytics" data-course-slug="digital-marketing-seo-analytics" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Digital Marketing, SEO &amp; Analytics</h3>
@@ -1088,7 +1182,7 @@
 
                         <div class="course-card" data-course-slug="core-java-object-oriented-programming" data-course-title="Core Java &amp; Object-Oriented Programming">
                             <div class="course-card-thumb">
-                                <img src="./assets/core-java-oop.svg" alt="Core Java &amp; Object-Oriented Programming" data-course-slug="core-java-object-oriented-programming" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/core-java-oop.svg" alt="Core Java &amp; Object-Oriented Programming" data-course-slug="core-java-object-oriented-programming" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;4,999 <span>₹7,499</span></div>
                             <h3>Core Java &amp; Object-Oriented Programming</h3>
@@ -1101,7 +1195,7 @@
 
                         <div class="course-card" data-course-slug="data-science-machine-learning-foundations" data-course-title="Data Science &amp; Machine Learning Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-algorithm.gif" alt="Data Science &amp; Machine Learning Foundations" data-course-slug="data-science-machine-learning-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-algorithm.gif" alt="Data Science &amp; Machine Learning Foundations" data-course-slug="data-science-machine-learning-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹18,999</span></div>
                             <h3>Data Science &amp; Machine Learning Foundations</h3>
@@ -1114,7 +1208,7 @@
 
                         <div class="course-card" data-course-slug="system-design-microservices-foundations" data-course-title="System Design &amp; Microservices Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-database.gif" alt="System Design &amp; Microservices Foundations" data-course-slug="system-design-microservices-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-database.gif" alt="System Design &amp; Microservices Foundations" data-course-slug="system-design-microservices-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>System Design &amp; Microservices Foundations</h3>
@@ -1127,7 +1221,7 @@
 
                         <div class="course-card" data-course-slug="cybersecurity-ethical-security-foundations" data-course-title="Cybersecurity &amp; Ethical Security Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding.gif" alt="Cybersecurity &amp; Ethical Security Foundations" data-course-slug="cybersecurity-ethical-security-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding.gif" alt="Cybersecurity &amp; Ethical Security Foundations" data-course-slug="cybersecurity-ethical-security-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>Cybersecurity &amp; Ethical Security Foundations</h3>
@@ -1153,7 +1247,7 @@
 
                         <div class="course-card" data-course-slug="full-stack-web-development" data-course-title="Full Stack Web Development (MERN)">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-fullstack.gif" alt="Full Stack Web Development (MERN)" data-course-slug="full-stack-web-development" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-fullstack.gif" alt="Full Stack Web Development (MERN)" data-course-slug="full-stack-web-development" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹19,999</span></div>
                             <h3>Full Stack Web Development (MERN)</h3>
@@ -1166,7 +1260,7 @@
 
                         <div class="course-card" data-course-slug="frontend-development-with-react" data-course-title="Frontend Development with React">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-frontend.gif" alt="Frontend Development with React" data-course-slug="frontend-development-with-react" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-frontend.gif" alt="Frontend Development with React" data-course-slug="frontend-development-with-react" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;6,999 <span>₹9,999</span></div>
                             <h3>Frontend Development with React</h3>
@@ -1179,7 +1273,7 @@
 
                         <div class="course-card" data-course-slug="sql-database-fundamentals" data-course-title="SQL &amp; Database Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/sql-database-fundamentals.svg" alt="SQL &amp; Database Fundamentals" data-course-slug="sql-database-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/sql-database-fundamentals.svg" alt="SQL &amp; Database Fundamentals" data-course-slug="sql-database-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;3,499 <span>₹4,999</span></div>
                             <h3>SQL &amp; Database Fundamentals</h3>
@@ -1192,7 +1286,7 @@
 
                         <div class="course-card" data-course-slug="dsa-problem-solving-java" data-course-title="DSA &amp; Problem Solving with Java">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-dsa.gif" alt="DSA &amp; Problem Solving with Java" data-course-slug="dsa-problem-solving-java" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-dsa.gif" alt="DSA &amp; Problem Solving with Java" data-course-slug="dsa-problem-solving-java" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>DSA &amp; Problem Solving with Java</h3>
@@ -1205,7 +1299,7 @@
 
                         <div class="course-card" data-course-slug="build-your-first-website" data-course-title="Build Your First Website">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-webdev.gif" alt="Build Your First Website" data-course-slug="build-your-first-website" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-webdev.gif" alt="Build Your First Website" data-course-slug="build-your-first-website" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;2,499 <span>₹3,999</span></div>
                             <h3>Build Your First Website</h3>
@@ -1218,7 +1312,7 @@
 
                         <div class="course-card" data-course-slug="tech-career-launchpad" data-course-title="Tech Career Launchpad">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-career.gif" alt="Tech Career Launchpad" data-course-slug="tech-career-launchpad" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-career.gif" alt="Tech Career Launchpad" data-course-slug="tech-career-launchpad" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Tech Career Launchpad</h3>
@@ -1231,7 +1325,7 @@
 
                         <div class="course-card" data-course-slug="data-analytics-excel-sql-powerbi" data-course-title="Data Analytics with Excel, SQL &amp; Power BI">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-analytics.gif" alt="Data Analytics with Excel, SQL &amp; Power BI" data-course-slug="data-analytics-excel-sql-powerbi" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-analytics.gif" alt="Data Analytics with Excel, SQL &amp; Power BI" data-course-slug="data-analytics-excel-sql-powerbi" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>Data Analytics with Excel, SQL &amp; Power BI</h3>
@@ -1244,7 +1338,7 @@
 
                         <div class="course-card" data-course-slug="react-nextjs-frontend-engineering" data-course-title="React &amp; Next.js Frontend Engineering">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-monitor.gif" alt="React &amp; Next.js Frontend Engineering" data-course-slug="react-nextjs-frontend-engineering" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-monitor.gif" alt="React &amp; Next.js Frontend Engineering" data-course-slug="react-nextjs-frontend-engineering" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>React &amp; Next.js Frontend Engineering</h3>
@@ -1257,7 +1351,7 @@
 
                         <div class="course-card" data-course-slug="backend-development-nodejs-apis" data-course-title="Backend Development with Node.js &amp; APIs">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-terminal.gif" alt="Backend Development with Node.js &amp; APIs" data-course-slug="backend-development-nodejs-apis" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-terminal.gif" alt="Backend Development with Node.js &amp; APIs" data-course-slug="backend-development-nodejs-apis" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>Backend Development with Node.js &amp; APIs</h3>
@@ -1270,7 +1364,7 @@
 
                         <div class="course-card" data-course-slug="mobile-app-development-react-native" data-course-title="Mobile App Development with React Native">
                             <div class="course-card-thumb">
-                                <img src="./assets/react-native-app.svg" alt="Mobile App Development with React Native" data-course-slug="mobile-app-development-react-native" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/react-native-app.svg" alt="Mobile App Development with React Native" data-course-slug="mobile-app-development-react-native" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>Mobile App Development with React Native</h3>
@@ -1283,7 +1377,7 @@
 
                         <div class="course-card" data-course-slug="software-testing-qa-playwright" data-course-title="Software Testing &amp; QA with Playwright">
                             <div class="course-card-thumb">
-                                <img src="./assets/qa-playwright.svg" alt="Software Testing &amp; QA with Playwright" data-course-slug="software-testing-qa-playwright" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/qa-playwright.svg" alt="Software Testing &amp; QA with Playwright" data-course-slug="software-testing-qa-playwright" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Software Testing &amp; QA with Playwright</h3>
@@ -1296,7 +1390,7 @@
 
                         <div class="course-card" data-course-slug="data-science-machine-learning-foundations" data-course-title="Data Science &amp; Machine Learning Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-algorithm.gif" alt="Data Science &amp; Machine Learning Foundations" data-course-slug="data-science-machine-learning-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-algorithm.gif" alt="Data Science &amp; Machine Learning Foundations" data-course-slug="data-science-machine-learning-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹18,999</span></div>
                             <h3>Data Science &amp; Machine Learning Foundations</h3>
@@ -1309,7 +1403,7 @@
 
                         <div class="course-card" data-course-slug="system-design-microservices-foundations" data-course-title="System Design &amp; Microservices Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-database.gif" alt="System Design &amp; Microservices Foundations" data-course-slug="system-design-microservices-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-database.gif" alt="System Design &amp; Microservices Foundations" data-course-slug="system-design-microservices-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;9,999 <span>₹14,999</span></div>
                             <h3>System Design &amp; Microservices Foundations</h3>
@@ -1335,7 +1429,7 @@
 
                         <div class="course-card" data-course-slug="python-programming-automation" data-course-title="Python Programming &amp; Automation">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-python.gif" alt="Python Programming &amp; Automation" data-course-slug="python-programming-automation" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-python.gif" alt="Python Programming &amp; Automation" data-course-slug="python-programming-automation" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Python Programming &amp; Automation</h3>
@@ -1348,7 +1442,7 @@
 
                         <div class="course-card" data-course-slug="digital-skills-computer-fundamentals" data-course-title="Digital Skills &amp; Computer Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-basics.gif" alt="Digital Skills &amp; Computer Fundamentals" data-course-slug="digital-skills-computer-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-basics.gif" alt="Digital Skills &amp; Computer Fundamentals" data-course-slug="digital-skills-computer-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;1,999 <span>₹3,499</span></div>
                             <h3>Digital Skills &amp; Computer Fundamentals</h3>
@@ -1361,7 +1455,7 @@
 
                         <div class="course-card" data-course-slug="ui-ux-design-with-figma" data-course-title="UI/UX Design with Figma">
                             <div class="course-card-thumb">
-                                <img src="./assets/uiux-figma.svg" alt="UI/UX Design with Figma" data-course-slug="ui-ux-design-with-figma" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/uiux-figma.svg" alt="UI/UX Design with Figma" data-course-slug="ui-ux-design-with-figma" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>UI/UX Design with Figma</h3>
@@ -1374,7 +1468,7 @@
 
                         <div class="course-card" data-course-slug="digital-marketing-seo-analytics" data-course-title="Digital Marketing, SEO &amp; Analytics">
                             <div class="course-card-thumb">
-                                <img src="./assets/digital-marketing-seo.svg" alt="Digital Marketing, SEO &amp; Analytics" data-course-slug="digital-marketing-seo-analytics" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/digital-marketing-seo.svg" alt="Digital Marketing, SEO &amp; Analytics" data-course-slug="digital-marketing-seo-analytics" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>Digital Marketing, SEO &amp; Analytics</h3>
@@ -1387,7 +1481,7 @@
 
                         <div class="course-card" data-course-slug="core-java-object-oriented-programming" data-course-title="Core Java &amp; Object-Oriented Programming">
                             <div class="course-card-thumb">
-                                <img src="./assets/core-java-oop.svg" alt="Core Java &amp; Object-Oriented Programming" data-course-slug="core-java-object-oriented-programming" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/core-java-oop.svg" alt="Core Java &amp; Object-Oriented Programming" data-course-slug="core-java-object-oriented-programming" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;4,999 <span>₹7,499</span></div>
                             <h3>Core Java &amp; Object-Oriented Programming</h3>
@@ -1413,7 +1507,7 @@
 
                         <div class="course-card" data-course-slug="aws-cloud-deployment-fundamentals" data-course-title="AWS Cloud &amp; Deployment Fundamentals">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-cloud.gif" alt="AWS Cloud &amp; Deployment Fundamentals" data-course-slug="aws-cloud-deployment-fundamentals" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-cloud.gif" alt="AWS Cloud &amp; Deployment Fundamentals" data-course-slug="aws-cloud-deployment-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;5,999 <span>₹8,999</span></div>
                             <h3>AWS Cloud &amp; Deployment Fundamentals</h3>
@@ -1426,7 +1520,7 @@
 
                         <div class="course-card" data-course-slug="ai-tools-for-study-work" data-course-title="AI Tools for Study &amp; Work">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-ai.gif" alt="AI Tools for Study &amp; Work" data-course-slug="ai-tools-for-study-work" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-ai.gif" alt="AI Tools for Study &amp; Work" data-course-slug="ai-tools-for-study-work" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;1,999 <span>₹3,499</span></div>
                             <h3>AI Tools for Study &amp; Work</h3>
@@ -1439,7 +1533,7 @@
 
                         <div class="course-card" data-course-slug="ai-automation-nocode-tools" data-course-title="AI Automation with No-Code Tools">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-automation.gif" alt="AI Automation with No-Code Tools" data-course-slug="ai-automation-nocode-tools" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-automation.gif" alt="AI Automation with No-Code Tools" data-course-slug="ai-automation-nocode-tools" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;6,999 <span>₹9,999</span></div>
                             <h3>AI Automation with No-Code Tools</h3>
@@ -1452,7 +1546,7 @@
 
                         <div class="course-card" data-course-slug="generative-ai-agent-engineering" data-course-title="Generative AI &amp; AI Agent Engineering">
                             <div class="course-card-thumb">
-                                <img src="./assets/genai-ai-agents.svg" alt="Generative AI &amp; AI Agent Engineering" data-course-slug="generative-ai-agent-engineering" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/genai-ai-agents.svg" alt="Generative AI &amp; AI Agent Engineering" data-course-slug="generative-ai-agent-engineering" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;12,999 <span>₹19,999</span></div>
                             <h3>Generative AI &amp; AI Agent Engineering</h3>
@@ -1465,7 +1559,7 @@
 
                         <div class="course-card" data-course-slug="docker-devops-cicd-essentials" data-course-title="Docker, DevOps &amp; CI/CD Essentials">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding-cloud-new.gif" alt="Docker, DevOps &amp; CI/CD Essentials" data-course-slug="docker-devops-cicd-essentials" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding-cloud-new.gif" alt="Docker, DevOps &amp; CI/CD Essentials" data-course-slug="docker-devops-cicd-essentials" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;8,999 <span>₹12,999</span></div>
                             <h3>Docker, DevOps &amp; CI/CD Essentials</h3>
@@ -1478,7 +1572,7 @@
 
                         <div class="course-card" data-course-slug="cybersecurity-ethical-security-foundations" data-course-title="Cybersecurity &amp; Ethical Security Foundations">
                             <div class="course-card-thumb">
-                                <img src="./assets/coding.gif" alt="Cybersecurity &amp; Ethical Security Foundations" data-course-slug="cybersecurity-ethical-security-foundations" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                                <img src="./assets/coding.gif" alt="Cybersecurity &amp; Ethical Security Foundations" data-course-slug="cybersecurity-ethical-security-foundations" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
                             </div>
                             <div class="course-price">&#8377;7,999 <span>₹11,999</span></div>
                             <h3>Cybersecurity &amp; Ethical Security Foundations</h3>
@@ -1520,7 +1614,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="workshop-card" data-workshop-id="10" data-workshop-slug="python-starter-workshop" data-workshop-title="Python Starter Workshop" data-workshop-price="99">
                         <div class="workshop-card-media">
-                            <img src="./assets/coding-python.gif" alt="Python Starter Workshop Animation" loading="lazy" onerror="this.onerror=null;this.src='./assets/coding-python.gif';">
+                            <img src="./assets/coding-python.gif" alt="Python Starter Workshop Animation" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-python.gif';">
                             <div class="workshop-badge-row">
                                 <span class="ws-pill ws-pill-live">Live Cohort</span>
                                 <span class="ws-pill ws-pill-dark">Beginner Friendly</span>
@@ -1557,7 +1651,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="workshop-card" data-workshop-id="11" data-workshop-slug="frontend-website-challenge-7-days" data-workshop-title="7-Day Frontend Website Challenge" data-workshop-price="999">
                         <div class="workshop-card-media">
-                            <img src="./assets/coding-frontend.gif" alt="Frontend Website Challenge Animation" loading="lazy" onerror="this.onerror=null;this.src='./assets/coding-frontend.gif';">
+                            <img src="./assets/coding-frontend.gif" alt="Frontend Website Challenge Animation" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-frontend.gif';">
                             <div class="workshop-badge-row">
                                 <span class="ws-pill ws-pill-live">Live Sprint</span>
                                 <span class="ws-pill ws-pill-dark">Hands-on Challenge</span>
@@ -3230,7 +3324,7 @@
                             <a href="insights.html">About Us</a>
                             <a href="community.html">Community</a>
                             <a href="contact.html">Contact Us</a>
-                            <a href="/download-brochure" download><i class="bi bi-download"></i> Download Brochure</a>
+                            <a href="/download-brochure" class="btn-trigger-brochure" data-trigger-brochure="true"><i class="bi bi-download"></i> Download Brochure</a>
                             <a href="login.php">Student Sign In</a>
                         </div>
 
@@ -3284,7 +3378,7 @@
                         <a href="privacy.html">Privacy Policy</a>
                         <a href="terms.html">Terms of Service</a>
                         <a href="sitemap.html">Sitemap</a>
-                        <a href="/download-brochure" download><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
+                        <a href="/download-brochure" class="btn-trigger-brochure" data-trigger-brochure="true"><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
                         <a href="contact.html">Contact</a>
                         <a href="insights.html">About</a>
                     </div>
