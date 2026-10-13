@@ -24,6 +24,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -33,6 +35,9 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.01em;
+    overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
 }
 
 .header {
@@ -2157,9 +2162,9 @@ body {
         z-index: 1030 !important;
         background: #FFFFFF !important;
         border-bottom: 1px solid var(--lp-line, #D9D9D9) !important;
-        margin-left: -12px !important;
-        margin-right: -12px !important;
-        padding: 10px 14px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 10px 0 !important;
         margin-bottom: 24px !important;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
         transition: top 0.2s ease !important;
