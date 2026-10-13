@@ -552,14 +552,44 @@
             var pop = qs(".cd-badge-popular");
             if (pop) pop.style.display = (parseInt(c.is_bestseller, 10) === 1) ? "" : "none";
 
-            // enroll buttons
-            var enrollUrl = (c.slug ? BASE + "/student/courses/" + encodeURIComponent(c.slug) : "#");
-            qsa(".cd-enroll-btn").forEach(function (btn) { btn.setAttribute("href", enrollUrl); });
-            // also wire quick-action "Enroll" link
-            qsa(".action-btn").forEach(function (btn) {
-                if ((btn.textContent || "").trim().toLowerCase() === "enroll") {
-                    btn.setAttribute("href", enrollUrl);
+            // Course GIF thumbnail
+            var thumbImg = qs("#cdCourseThumbImg") || qs(".cd-course-thumb img");
+            if (thumbImg) {
+                var gifSrc = c.thumbnail_url || c.thumbnail || "";
+                if (!gifSrc || gifSrc.indexOf(".gif") === -1) {
+                    gifSrc = "./assets/" + getUniqueGifForCourse(c.slug || "", 0);
                 }
+                thumbImg.src = gifSrc;
+                thumbImg.alt = c.title || "Course GIF";
+            }
+
+            // Share buttons
+            var shareBtns = qsa(".tcm-share-btn");
+            shareBtns.forEach(function (sBtn) {
+                sBtn.setAttribute("data-share-title", (c.title || "Course") + " | TCM One");
+                sBtn.setAttribute("data-share-text", c.subtitle || c.description || ("Check out the " + (c.title || "") + " course on TCM One!"));
+                sBtn.setAttribute("data-share-url", window.location.href);
+            });
+
+            // enroll buttons (WhatsApp I'm Interested)
+            var batchMonth = ["January","February","March","April","May","June","July","August","September","October","November","December"][(new Date()).getMonth()];
+            var batchYear = (new Date()).getFullYear();
+            var waCourseText = "Hello TCM One! I am interested in enrolling in " + (c.title || "this course") + " (" + batchMonth + " Batch " + batchYear + "). Please share syllabus & enrollment details.";
+            var phoneNum = "917987823907";
+            var waHref = "https://wa.me/" + phoneNum + "?text=" + encodeURIComponent(waCourseText);
+
+            qsa(".cd-enroll-btn").forEach(function (btn) {
+                btn.setAttribute("href", waHref);
+                btn.setAttribute("target", "_blank");
+                btn.setAttribute("rel", "noopener");
+                btn.innerHTML = 'I\'m Interested <i class="bi bi-whatsapp"></i>';
+            });
+
+            // wire quick action Enroll link
+            qsa(".action-card.primary-action .action-btn").forEach(function (btn) {
+                btn.setAttribute("href", waHref);
+                btn.setAttribute("target", "_blank");
+                btn.setAttribute("rel", "noopener");
             });
 
             // curriculum
@@ -760,7 +790,7 @@
             cdEnrollBtn.href = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
             cdEnrollBtn.target = "_blank";
             cdEnrollBtn.rel = "noopener";
-            cdEnrollBtn.innerHTML = 'Get Road Map <i class="bi bi-arrow-right"></i>';
+            cdEnrollBtn.innerHTML = 'I\'m Interested <i class="bi bi-whatsapp"></i>';
         }
     }
 
