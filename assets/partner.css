@@ -1364,12 +1364,13 @@
     gap: 8px;
     background: #ffffff;
     color: #111111;
-    font-weight: 800;
-    font-size: 13.5px;
-    padding: 12px 24px;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 16px;
     text-decoration: none;
     border: 1.5px solid #ffffff;
     transition: all 0.15s ease;
+    line-height: 1.2;
 }
 
 .ptr-btn-download-white:hover {
@@ -1378,6 +1379,37 @@
     border-color: #ffffff;
 }
 
+/* Compact button modifier */
+.ptr-btn-sm {
+    padding: 7px 14px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+/* Navbar Brochure Pill Button */
+.ptr-nav-brochure-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 13px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #111111;
+    background: #ffffff;
+    border: 1.5px solid #111111;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    line-height: 1.2;
+}
+
+.ptr-nav-brochure-btn:hover {
+    background: #111111;
+    color: #ffffff;
+}
 /* 6. Success Modal & Feedback */
 .ptr-success-card {
     background: #ffffff;

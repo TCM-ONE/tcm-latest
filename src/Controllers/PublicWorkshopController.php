@@ -184,11 +184,27 @@ SVG;
     }
 
     /**
+     * GET /courses/{slug}/brochure
+     * Public endpoint to download a specific course's brochure PDF (with fallback).
+     */
+    public function showCourseBrochure(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $this->downloadCourseBrochureBySlug($slug);
+    }
+
+    /**
      * GET /download-brochure
      * Public endpoint to download the latest official institute / course brochure.
      */
     public function downloadBrochure(): void
     {
+        $courseSlug = Request::string('course');
+        if ($courseSlug !== '') {
+            $this->downloadCourseBrochureBySlug($courseSlug);
+            return;
+        }
+
         $brochureFile = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
         $brochureName = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_name'");
 
@@ -217,6 +233,71 @@ SVG;
             }
         }
 
+        $this->streamFile($filePath, $downloadName);
+    }
+
+    /**
+     * Helper to download course brochure by slug with graceful fallbacks.
+     */
+    private function downloadCourseBrochureBySlug(string $slug): void
+    {
+        $course = Course::findBySlug($slug);
+        $filePath = null;
+        $downloadName = null;
+
+        if ($course !== null) {
+            $titleSlug = slugify((string)($course['title'] ?? 'Course'));
+            if (!empty($course['brochure_file'])) {
+                $candidate = dirname(__DIR__, 2) . '/' . ltrim((string)$course['brochure_file'], '/');
+                if (is_file($candidate)) {
+                    $filePath = $candidate;
+                    $downloadName = !empty($course['brochure_name'])
+                        ? $course['brochure_name']
+                        : $titleSlug . '-Brochure.pdf';
+                }
+            }
+            if ($downloadName === null) {
+                $downloadName = $titleSlug . '-Brochure.pdf';
+            }
+        }
+
+        // Fallback 1: Global brochure in settings
+        if ($filePath === null) {
+            $globalFile = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
+            if (!empty($globalFile)) {
+                $candidate = config('uploads.path') . '/' . $globalFile;
+                if (is_file($candidate)) {
+                    $filePath = $candidate;
+                }
+            }
+        }
+
+        // Fallback 2: Default static brochure
+        if ($filePath === null) {
+            $defaultCandidates = [
+                config('uploads.path') . '/brochure/tcm-brochure.pdf',
+                BASE_PATH . '/assets/tcm-brochure.pdf',
+            ];
+            foreach ($defaultCandidates as $cand) {
+                if (is_file($cand)) {
+                    $filePath = $cand;
+                    break;
+                }
+            }
+        }
+
+        if ($downloadName === null) {
+            $downloadName = 'The-Code-Munk-Official-Brochure.pdf';
+        }
+
+        $this->streamFile($filePath, $downloadName);
+    }
+
+    /**
+     * Stream a file to the browser with standard download headers.
+     */
+    private function streamFile(?string $filePath, string $downloadName): void
+    {
         if ($filePath === null || !is_file($filePath)) {
             flash('info', 'Brochure is being updated. You can explore our programs or contact us directly on WhatsApp!');
             redirect('/programs.html');

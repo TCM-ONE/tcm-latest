@@ -47,12 +47,53 @@ final class Course extends Model
         }
 
         self::ensureThumbnails();
+        self::ensureBrochureColumns();
         $sql .= ' ORDER BY c.is_featured DESC, c.id DESC';
         $rows = Database::all($sql, $params);
         foreach ($rows as &$row) {
             $row['thumbnail_url'] = course_thumbnail_url($row['thumbnail'] ?? null, $row['slug'] ?? null);
+            $row['brochure_url']  = self::brochureUrl($row['brochure_file'] ?? null, $row['slug'] ?? null);
         }
         return $rows;
+    }
+
+    /**
+     * Automatically ensure brochure columns exist on courses table.
+     */
+    public static function ensureBrochureColumns(): void
+    {
+        static $checked = false;
+        if ($checked) {
+            return;
+        }
+        $checked = true;
+
+        try {
+            $cols = Database::all("SHOW COLUMNS FROM courses LIKE 'brochure_file'");
+            if (empty($cols)) {
+                Database::query("ALTER TABLE courses ADD COLUMN brochure_file VARCHAR(255) DEFAULT NULL AFTER thumbnail");
+            }
+            $colsName = Database::all("SHOW COLUMNS FROM courses LIKE 'brochure_name'");
+            if (empty($colsName)) {
+                Database::query("ALTER TABLE courses ADD COLUMN brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file");
+            }
+        } catch (\Throwable) {
+            // Table or DB might not be ready
+        }
+    }
+
+    /**
+     * Resolve brochure download URL for a course.
+     */
+    public static function brochureUrl(?string $file, ?string $slug = null): string
+    {
+        if (!empty($slug)) {
+            return base_url('/courses/' . rawurlencode($slug) . '/brochure');
+        }
+        if (!empty($file)) {
+            return base_url('/' . ltrim($file, '/'));
+        }
+        return base_url('/download-brochure');
     }
 
     /**
@@ -97,6 +138,7 @@ final class Course extends Model
     public static function findBySlug(string $slug): ?array
     {
         self::ensureThumbnails();
+        self::ensureBrochureColumns();
         $course = Database::first(
             'SELECT c.*, cat.name AS category_name FROM courses c
              LEFT JOIN categories cat ON cat.id = c.category_id
@@ -105,6 +147,7 @@ final class Course extends Model
         );
         if ($course !== null) {
             $course['thumbnail_url'] = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
+            $course['brochure_url']  = self::brochureUrl($course['brochure_file'] ?? null, $course['slug'] ?? null);
         }
         return $course;
     }

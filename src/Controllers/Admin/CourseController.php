@@ -48,7 +48,8 @@ final class CourseController extends Controller
 
         $slug      = $this->uniqueSlug(slugify($data['title']));
         $thumbnail = $this->resolveThumbnail(null, $slug);
-        $courseId  = Course::create($this->payload($slug, $thumbnail));
+        $brochure  = $this->resolveBrochure(null, null, $slug);
+        $courseId  = Course::create($this->payload($slug, $thumbnail, $brochure['file'], $brochure['name']));
 
         // 🤖 Auto-generate curriculum via AI (silent — never blocks save)
         try {
@@ -205,7 +206,8 @@ final class CourseController extends Controller
         }
 
         $thumbnail = $this->resolveThumbnail($course['thumbnail'] ?? null, $slug);
-        Course::update($id, $this->payload($slug, $thumbnail));
+        $brochure  = $this->resolveBrochure($course['brochure_file'] ?? null, $course['brochure_name'] ?? null, $slug);
+        Course::update($id, $this->payload($slug, $thumbnail, $brochure['file'], $brochure['name']));
         $this->respond(['id' => $id], 'Course updated.', '/admin/courses/' . $id . '/edit');
     }
 
@@ -328,11 +330,47 @@ final class CourseController extends Controller
     }
 
     /**
+     * Resolve brochure PDF file and name from upload, remove flag, or existing.
+     *
+     * @return array{file: ?string, name: ?string}
+     */
+    private function resolveBrochure(?string $existingFile = null, ?string $existingName = null, ?string $slug = null): array
+    {
+        if (Request::string('remove_brochure') === '1') {
+            return ['file' => null, 'name' => null];
+        }
+
+        // File upload via form
+        if (Upload::present($_FILES['brochure_file'] ?? null)) {
+            $destDir = dirname(__DIR__, 3) . '/uploads/courses/brochures';
+            if (!is_dir($destDir)) {
+                @mkdir($destDir, 0775, true);
+            }
+            $origName = $_FILES['brochure_file']['name'] ?? 'course-brochure.pdf';
+            $filename = Upload::store(
+                $_FILES['brochure_file'],
+                $destDir,
+                ['pdf', 'doc', 'docx'],
+                25 * 1024 * 1024
+            );
+            return [
+                'file' => 'uploads/courses/brochures/' . $filename,
+                'name' => $origName,
+            ];
+        }
+
+        return [
+            'file' => $existingFile,
+            'name' => $existingName,
+        ];
+    }
+
+    /**
      * Build the course column payload from the request.
      *
      * @return array<string,mixed>
      */
-    private function payload(string $slug, ?string $thumbnail = null): array
+    private function payload(string $slug, ?string $thumbnail = null, ?string $brochureFile = null, ?string $brochureName = null): array
     {
         return [
             'category_id'    => Request::int('category_id') ?: null,
@@ -342,6 +380,8 @@ final class CourseController extends Controller
             'description'    => Request::string('description'),
             'icon'           => Request::string('icon', 'bi-journal-code'),
             'thumbnail'      => $thumbnail,
+            'brochure_file'  => $brochureFile,
+            'brochure_name'  => $brochureName,
             'level'          => Request::string('level', 'beginner'),
             'language'       => Request::string('language', 'Hindi + English'),
             'duration'       => Request::string('duration'),

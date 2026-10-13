@@ -394,12 +394,15 @@
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
         var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
         var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" onerror="this.onerror=null;this.src=\'./assets/coding-fullstack.gif\';"></div>';
-        return '<div class="course-card">' +
+        return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '">' +
             thumb +
             price +
             "<h3>" + esc(c.title) + "</h3>" +
             "<p>" + esc(c.subtitle || "") + "</p>" +
-            '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
+            '<div class="course-card-actions">' +
+                '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
+                '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>' +
+            '</div>' +
             "</div>";
     }
     // index.html event card (with 16-dot seat visual)
@@ -775,7 +778,7 @@
         // 2. index.html course cards
         document.querySelectorAll('.course-card').forEach(function (card) {
             var titleEl = card.querySelector('h3');
-            var btn = card.querySelector('a');
+            var btn = card.querySelector('.btn-roadmap') || card.querySelector('a:not(.btn-brochure)');
             if (titleEl && btn) {
                 var courseTitle = titleEl.textContent.trim();
                 var msg = "Hello TCM One! I am interested in getting the roadmap for " + courseTitle + " (" + batchLabel + "). Please share program syllabus & details.";
@@ -816,11 +819,273 @@
         });
     }
 
+    /* ================= COURSE BROCHURE LEAD MODAL ===================== */
+    function ensureBrochureModal() {
+        if (document.getElementById('tcmBrochureModalOverlay')) return;
+
+        var overlay = document.createElement('div');
+        overlay.id = 'tcmBrochureModalOverlay';
+        overlay.className = 'tcm-brochure-modal-overlay';
+        overlay.innerHTML =
+            '<div class="tcm-brochure-modal" role="dialog" aria-modal="true" aria-labelledby="tcmBrochureModalTitle">' +
+                '<button type="button" class="tcm-brochure-modal-close" id="tcmBrochureModalCloseBtn" aria-label="Close modal">&times;</button>' +
+                '<div class="tcm-brochure-modal-badge"><i class="bi bi-file-earmark-pdf"></i> Official Curriculum</div>' +
+                '<h3 id="tcmBrochureModalTitle">Download Syllabus &amp; Brochure</h3>' +
+                '<p class="course-sub" id="tcmBrochureModalSub">Fill in your details below to instantly download the detailed course curriculum, projects &amp; roadmap.</p>' +
+                '<form id="tcmBrochureLeadForm" novalidate>' +
+                    '<input type="hidden" id="tcmBrochureCourseSlug" name="course_slug" value="">' +
+                    '<div class="form-group">' +
+                        '<label for="tcmBrochureName">Your Full Name *</label>' +
+                        '<input type="text" class="form-control" id="tcmBrochureName" name="name" placeholder="e.g. Rahul Sharma" required>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="tcmBrochureEmail">Email Address *</label>' +
+                        '<input type="email" class="form-control" id="tcmBrochureEmail" name="email" placeholder="e.g. rahul@example.com" required>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label for="tcmBrochurePhone">WhatsApp / Mobile Number *</label>' +
+                        '<input type="tel" class="form-control" id="tcmBrochurePhone" name="phone" placeholder="e.g. 9876543210" maxlength="14" required>' +
+                    '</div>' +
+                    '<div id="tcmBrochureFeedback" class="tcm-brochure-modal-feedback"></div>' +
+                    '<button type="submit" class="tcm-brochure-modal-submit" id="tcmBrochureSubmitBtn">' +
+                        '<i class="bi bi-download"></i> Download Brochure PDF' +
+                    '</button>' +
+                    '<div class="tcm-brochure-modal-security">' +
+                        '<i class="bi bi-shield-check"></i> 100% spam-free &middot; Direct PDF download starts instantly' +
+                    '</div>' +
+                '</form>' +
+            '</div>';
+        document.body.appendChild(overlay);
+
+        // Close handlers
+        var closeBtn = document.getElementById('tcmBrochureModalCloseBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeBrochureModal);
+        }
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closeBrochureModal();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeBrochureModal();
+            }
+        });
+
+        // Form submission
+        var form = document.getElementById('tcmBrochureLeadForm');
+        if (form) {
+            form.addEventListener('submit', handleBrochureFormSubmit);
+        }
+    }
+
+    function openBrochureModal(slug, title) {
+        ensureBrochureModal();
+        var overlay = document.getElementById('tcmBrochureModalOverlay');
+        var titleEl = document.getElementById('tcmBrochureModalTitle');
+        var subEl = document.getElementById('tcmBrochureModalSub');
+        var slugInput = document.getElementById('tcmBrochureCourseSlug');
+        var feedback = document.getElementById('tcmBrochureFeedback');
+
+        if (slugInput) slugInput.value = slug || '';
+        if (titleEl) {
+            titleEl.textContent = title ? title + ' Brochure' : 'Download Course Brochure';
+        }
+        if (subEl) {
+            subEl.textContent = title
+                ? 'Enter your details to instantly receive the complete curriculum, projects & syllabus for ' + title + '.'
+                : 'Enter your details to instantly download the official program syllabus and roadmap.';
+        }
+        if (feedback) {
+            feedback.className = 'tcm-brochure-modal-feedback';
+            feedback.textContent = '';
+            feedback.style.display = 'none';
+        }
+
+        // Autofill if user already logged in or stored
+        var nameInput = document.getElementById('tcmBrochureName');
+        var emailInput = document.getElementById('tcmBrochureEmail');
+        var phoneInput = document.getElementById('tcmBrochurePhone');
+        if (ME && ME.authenticated) {
+            if (nameInput && !nameInput.value) nameInput.value = ME.name || '';
+            if (emailInput && !emailInput.value) emailInput.value = ME.email || '';
+        }
+        try {
+            var savedName = localStorage.getItem('tcm_lead_name');
+            var savedEmail = localStorage.getItem('tcm_lead_email');
+            var savedPhone = localStorage.getItem('tcm_lead_phone');
+            if (savedName && nameInput && !nameInput.value) nameInput.value = savedName;
+            if (savedEmail && emailInput && !emailInput.value) emailInput.value = savedEmail;
+            if (savedPhone && phoneInput && !phoneInput.value) phoneInput.value = savedPhone;
+        } catch (e) {}
+
+        if (overlay) {
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function () {
+                var firstInput = (nameInput && !nameInput.value) ? nameInput : (phoneInput && !phoneInput.value ? phoneInput : emailInput);
+                if (firstInput) firstInput.focus();
+            }, 100);
+        }
+    }
+
+    function closeBrochureModal() {
+        var overlay = document.getElementById('tcmBrochureModalOverlay');
+        if (overlay) {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    function handleBrochureFormSubmit(e) {
+        e.preventDefault();
+        var nameInput = document.getElementById('tcmBrochureName');
+        var emailInput = document.getElementById('tcmBrochureEmail');
+        var phoneInput = document.getElementById('tcmBrochurePhone');
+        var slugInput = document.getElementById('tcmBrochureCourseSlug');
+        var submitBtn = document.getElementById('tcmBrochureSubmitBtn');
+        var feedback = document.getElementById('tcmBrochureFeedback');
+
+        var name = (nameInput ? nameInput.value : '').trim();
+        var email = (emailInput ? emailInput.value : '').trim();
+        var phone = (phoneInput ? phoneInput.value : '').trim();
+        var slug = (slugInput ? slugInput.value : '').trim();
+
+        function showError(msg) {
+            if (!feedback) return;
+            feedback.className = 'tcm-brochure-modal-feedback error';
+            feedback.textContent = msg;
+            feedback.style.display = 'block';
+        }
+
+        if (!name) {
+            showError('Please enter your full name.');
+            if (nameInput) nameInput.focus();
+            return;
+        }
+        if (!email || !email.includes('@') || !email.includes('.')) {
+            showError('Please enter a valid email address.');
+            if (emailInput) emailInput.focus();
+            return;
+        }
+        var cleanPhone = phone.replace(/[^\d]/g, '');
+        if (cleanPhone.length < 10) {
+            showError('Please enter a valid 10-digit mobile number.');
+            if (phoneInput) phoneInput.focus();
+            return;
+        }
+
+        // Save locally for quick autofill next time
+        try {
+            localStorage.setItem('tcm_lead_name', name);
+            localStorage.setItem('tcm_lead_email', email);
+            localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="width:14px;height:14px;border-width:2px;"></span> Generating Download...';
+        }
+
+        postJSON(api('/api/courses/brochure-lead'), {
+            name: name,
+            email: email,
+            phone: phone,
+            course_slug: slug
+        }).then(function (res) {
+            if (res && res.success && res.data && res.data.download_url) {
+                if (feedback) {
+                    feedback.className = 'tcm-brochure-modal-feedback success';
+                    feedback.innerHTML = '<i class="bi bi-check-circle"></i> Success! Starting brochure download now...';
+                    feedback.style.display = 'block';
+                }
+
+                // Trigger file download via invisible link
+                var downloadLink = document.createElement('a');
+                downloadLink.href = res.data.download_url;
+                downloadLink.setAttribute('download', '');
+                downloadLink.target = '_blank';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                setTimeout(function () {
+                    if (downloadLink.parentNode) downloadLink.parentNode.removeChild(downloadLink);
+                }, 1000);
+
+                setTimeout(function () {
+                    closeBrochureModal();
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="bi bi-download"></i> Download Brochure PDF';
+                    }
+                }, 1600);
+            } else {
+                showError((res && res.message) ? res.message : 'Unable to initiate download. Please try again.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="bi bi-download"></i> Download Brochure PDF';
+                }
+            }
+        }).catch(function (err) {
+            showError('Network error. Please check your connection and try again.');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-download"></i> Download Brochure PDF';
+            }
+        });
+    }
+
+    function wireBrochureTriggers() {
+        // Global click delegation for all brochure triggers across any cards or detail pages
+        document.addEventListener('click', function (e) {
+            var trigger = e.target.closest('.btn-trigger-brochure, .cd-brochure-btn, .ws-btn-brochure');
+            if (!trigger) return;
+
+            e.preventDefault();
+
+            // Extract course slug and title
+            var slug = trigger.getAttribute('data-course-slug') || '';
+            var title = trigger.getAttribute('data-course-title') || '';
+
+            if (!slug) {
+                // Try from closest course-card
+                var card = trigger.closest('.course-card');
+                if (card) {
+                    slug = card.getAttribute('data-course-slug') || '';
+                    if (!title) {
+                        var h3 = card.querySelector('h3');
+                        if (h3) title = h3.textContent.trim();
+                    }
+                }
+            }
+
+            // If on course-details.html or show.php without explicit slug attribute
+            if (!slug) {
+                var urlParams = new URLSearchParams(window.location.search);
+                slug = urlParams.get('course') || '';
+                if (!slug) {
+                    var pathParts = window.location.pathname.split('/').filter(Boolean);
+                    var cIdx = pathParts.indexOf('courses');
+                    if (cIdx !== -1 && pathParts[cIdx + 1]) {
+                        slug = pathParts[cIdx + 1];
+                    }
+                }
+            }
+
+            if (!title) {
+                var heroH1 = document.querySelector('.cd-hero-content h1, .ws-detail-hero h1');
+                if (heroH1) title = heroH1.textContent.trim();
+            }
+
+            openBrochureModal(slug, title);
+        });
+    }
+
     /* ================= BOOT ============================================ */
     ready(function () {
         wireContactForm();
         wireAuthModal();
         wireAuthExtras();
+        ensureBrochureModal();
+        wireBrochureTriggers();
         bindCourseWhatsAppCTA();
         deduplicateCourseGifs();
 
@@ -846,8 +1111,8 @@
             });
         });
 
-        // Ensure all brochure download links respect base path
-        document.querySelectorAll('a[href="/download-brochure"], a[href="download-brochure"]').forEach(function (el) {
+        // Ensure generic static brochure download links (outside course cards/detail) respect base path
+        document.querySelectorAll('a[href="/download-brochure"]:not(.cd-brochure-btn):not(.ws-btn-brochure), a[href="download-brochure"]:not(.cd-brochure-btn):not(.ws-btn-brochure)').forEach(function (el) {
             el.setAttribute("href", api("/download-brochure"));
         });
 
