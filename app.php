@@ -93,6 +93,13 @@ $router->post('/admin/leads/{id}/status', ['TCM\Controllers\Admin\LeadController
 $router->post('/admin/leads/{id}/convert', ['TCM\Controllers\Admin\LeadController', 'convert']);
 $router->post('/admin/leads/{id}/delete', ['TCM\Controllers\Admin\LeadController', 'destroy']);
 
+// Workshop Leads & Admissions
+$router->get('/admin/workshop-leads', ['TCM\Controllers\Admin\WorkshopLeadController', 'index']);
+$router->get('/admin/workshop-leads/export', ['TCM\Controllers\Admin\WorkshopLeadController', 'exportCsv']);
+$router->post('/admin/workshop-leads/{id}/status', ['TCM\Controllers\Admin\WorkshopLeadController', 'updateStatus']);
+$router->post('/admin/workshop-leads/{id}/payment', ['TCM\Controllers\Admin\WorkshopLeadController', 'updatePayment']);
+$router->post('/admin/workshop-leads/{id}/delete', ['TCM\Controllers\Admin\WorkshopLeadController', 'destroy']);
+
 $router->get('/admin/posts', ['TCM\Controllers\Admin\PostController', 'index']);
 $router->get('/admin/posts/create', ['TCM\Controllers\Admin\PostController', 'create']);
 $router->post('/admin/posts', ['TCM\Controllers\Admin\PostController', 'store']);
@@ -268,6 +275,8 @@ $router->get('/api/courses/{slug}', ['TCM\Controllers\Api\PublicController', 'co
 $router->post('/api/courses/brochure-lead', ['TCM\Controllers\Api\PublicController', 'courseBrochureLead']);
 $router->get('/api/events', ['TCM\Controllers\Api\PublicController', 'events']);
 $router->get('/api/events/{slug}', ['TCM\Controllers\Api\PublicController', 'event']);
+$router->get('/api/workshops/featured', ['TCM\Controllers\Api\PublicController', 'featuredWorkshops']);
+$router->post('/api/workshops/register', ['TCM\Controllers\Api\PublicController', 'registerWorkshop']);
 $router->get('/api/programs', ['TCM\Controllers\Api\PublicController', 'programs']);
 $router->get('/api/posts', ['TCM\Controllers\Api\PublicController', 'posts']);
 $router->get('/api/testimonials', ['TCM\Controllers\Api\PublicController', 'testimonials']);
