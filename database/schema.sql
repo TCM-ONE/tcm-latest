@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS courses (
     description     TEXT            DEFAULT NULL,
     icon            VARCHAR(60)     DEFAULT NULL,
     thumbnail       VARCHAR(255)    DEFAULT NULL,
+    brochure_file   VARCHAR(255)    DEFAULT NULL,
+    brochure_name   VARCHAR(255)    DEFAULT NULL,
     level           ENUM('beginner','intermediate','advanced') NOT NULL DEFAULT 'beginner',
     language        VARCHAR(60)     DEFAULT 'Hindi + English',
     duration        VARCHAR(60)     DEFAULT NULL,    -- e.g. "3 Months"

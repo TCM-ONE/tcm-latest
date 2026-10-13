@@ -20,11 +20,11 @@ final class WorkshopData
         return [
             'python-starter-workshop' => [
                 'slug'              => 'python-starter-workshop',
-                'title'             => 'Python Starter Workshop | 3-Day Live Coding',
+                'title'             => 'Python Starter Workshop | Advanced Live Coding & Web Scraping',
                 'short_title'       => 'Python Starter Workshop',
-                'tagline'           => 'Start Python programming with practical beginner-friendly live sessions.',
-                'description'       => 'Join the 3-day Python Starter Workshop from TCM One for ₹99. Learn Python basics, logic building, and your first practical mini-project.',
-                'full_description'  => 'Start your programming journey with Python through three practical live sessions. Learn variables, control flow, functions, and simple problem-solving with guided mentor support.',
+                'tagline'           => 'Master Advanced Python, Web Scraping with BeautifulSoup, API Integration & Automation Scripts.',
+                'description'       => 'Join the 3-day Python Workshop from TCM One for ₹99. Master advanced Python logic, Web Scraping with BeautifulSoup, REST APIs, and automated data extraction.',
+                'full_description'  => 'Take your Python skills beyond the basics. Master object-oriented programming, live REST API integration, web scraping with BeautifulSoup, pagination handling, and automated data pipelines with live mentor support.',
                 'price'             => 99.00,
                 'original_price'    => 499.00,
                 'duration'          => '3 Days',
@@ -33,48 +33,54 @@ final class WorkshopData
                 'mode'              => 'Live Online Cohort',
                 'category'          => 'Python Programming',
                 'icon'              => 'bi-filetype-py',
-                'badge'             => 'Beginner Workshop',
+                'badge'             => 'Advanced & Hands-on',
                 'curriculum'        => [
                     [
                         'day' => 'Day 01',
-                        'title' => 'Python Environment Setup, Core Syntax & Variables',
+                        'title' => 'Advanced Python Essentials, OOP & REST API Integration',
                         'topics' => [
-                            'Installing Python 3.12 & VS Code setup with essential extensions',
-                            'Mental models of Python execution and script running',
-                            'Variables, primitive data types (int, float, string, boolean)',
-                            'User inputs, type casting and formatted string outputs (f-strings)',
-                            'Hands-on Lab: Build an interactive terminal currency & unit converter'
+                            'Advanced Python Constructs: List & Dict comprehensions, lambda expressions, *args/**kwargs, and generators',
+                            'Object-Oriented Programming (OOP): Classes, methods, encapsulation, dataclasses, and modular code architecture',
+                            'Working with External APIs: Mastering the requests library, HTTP GET/POST, headers, query params & status codes',
+                            'Robust Error Handling & Defensive Coding: try-except-finally blocks, custom exceptions, and JSON data parsing',
+                            'Hands-on Lab: Build an Automated Real-Time Weather & Currency Rate Extractor via Live REST APIs'
                         ]
                     ],
                     [
                         'day' => 'Day 02',
-                        'title' => 'Control Flow, Logic Building & Iteration Loops',
+                        'title' => 'Web Scraping Mastery with BeautifulSoup & Data Harvesting',
                         'topics' => [
-                            'Comparison and logical operators (if, elif, else conditions)',
-                            'While loops and For loops with range() iterations',
-                            'Python Lists & Dictionaries — storing and accessing collections',
-                            'Defensive input handling, string transformations, and clean code principles',
-                            'Hands-on Lab: Build a multi-round Number Guessing & Logic Game'
+                            'Web Architecture & Scraping Fundamentals: Inspecting DOM trees, HTML tags, CSS Selectors, and XPath patterns',
+                            'Parsing HTML with BeautifulSoup4: Navigating elements, extracting nested attributes, text, and tables',
+                            'Overcoming Real-World Scraping Barriers: Custom User-Agents, request throttling, and session management',
+                            'Multi-Page Crawling & Pagination: Automating pagination loops to harvest multi-page catalogs cleanly',
+                            'Hands-on Lab: Build an Automated E-Commerce / Tech Job Scraper exporting structured datasets into CSV & JSON'
                         ]
                     ],
                     [
                         'day' => 'Day 03',
-                        'title' => 'Functions, Automation Scripts & Next Steps',
+                        'title' => 'Dynamic Scraping Concepts, Data Pipelines & Automated Alert Bots',
                         'topics' => [
-                            'Defining custom functions with arguments, default parameters and return values',
-                            'Working with standard libraries (os, sys, time, random)',
-                            'File handling: Reading, parsing, and writing text/CSV files on disk',
-                            'Capstone Project: Build an automated desktop file organizer script',
-                            'Career roadmap: Python for Web (Django/FastAPI) vs Data Science & AI'
+                            'Handling Dynamic & JavaScript-Heavy Sites: Inspecting hidden Network XHR/Fetch endpoints & Selenium/Playwright overview',
+                            'Data Cleaning & Pipeline: Cleaning scraped raw records with Python & Pandas, handling missing data, and file exports',
+                            'Automated Script Scheduling & Alerts: Automating scrapers and dispatching real-time Telegram / Discord / Email alerts',
+                            'Capstone Project: Build a Production-Ready Price Tracker & Stock Alert Bot that monitors live websites and triggers alerts',
+                            'Next Steps & Ecosystem: Introduction to Scrapy, async scraping with aiohttp, and building a high-value freelance portfolio'
                         ]
                     ],
                 ],
                 'highlights'        => [
-                    '3 practical live beginner sessions with 1-on-1 mentor guidance',
-                    'Learn Python syntax step-by-step through guided coding exercises',
-                    'Build 2 real terminal utilities and an automated desktop file organizer',
-                    'Zero prior coding experience required — starts with fundamental mental models',
+                    '3 intensive live coding sessions covering Advanced Python, APIs & Web Scraping',
+                    'Hands-on web scraping with BeautifulSoup4 — extract live data from real-world websites',
+                    'Reverse-engineer web APIs and scrape multi-page dynamic catalogs cleanly',
+                    'Capstone Project: Build an automated live Price Tracker and alert bot',
+                    'Export structured data into CSV/Excel pipelines with Pandas and standard libraries',
                     'Verified Certificate of Completion & GitHub repository code reviews',
+                ],
+                'target_audience'   => [
+                    'College Students & Developers: Wanting to master Advanced Python, Web Automation & Scraping for real projects.',
+                    'Aspiring Data & Backend Engineers: Learn how to harvest web data, parse APIs, and build automated data pipelines.',
+                    'Freelancers & Automation Enthusiasts: Extract real-world leads, prices, and catalogs with production-ready scraping bots.',
                 ],
             ],
 

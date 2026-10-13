@@ -377,9 +377,29 @@
                     <div class="ws-card-box">
                         <h2>Who Is This Workshop For?</h2>
                         <ul class="ws-check-list">
-                            <li><strong>College Students:</strong> Looking to build real-world project portfolios before campus recruitment drives.</li>
-                            <li><strong>Beginners & Non-IT Career Changers:</strong> Zero coding experience needed; we start from basic mental models.</li>
-                            <li><strong>Self-Taught Learners:</strong> Need structured live accountability, debugging help, and direct mentor access.</li>
+                            <?php if (!empty($workshop['target_audience'])): ?>
+                                <?php foreach ($workshop['target_audience'] as $audienceItem): ?>
+                                    <?php
+                                        if (is_array($audienceItem)) {
+                                            $audTitle = $audienceItem['title'] ?? '';
+                                            $audDesc = $audienceItem['desc'] ?? '';
+                                        } elseif (str_contains((string)$audienceItem, ':')) {
+                                            [$audTitle, $audDesc] = explode(':', (string)$audienceItem, 2);
+                                        } else {
+                                            $audTitle = '';
+                                            $audDesc = (string)$audienceItem;
+                                        }
+                                    ?>
+                                    <li>
+                                        <?php if ($audTitle !== ''): ?><strong><?= e(trim($audTitle)) ?>:</strong> <?php endif; ?>
+                                        <?= e(trim($audDesc)) ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li><strong>College Students:</strong> Looking to build real-world project portfolios before campus recruitment drives.</li>
+                                <li><strong>Beginners & Non-IT Career Changers:</strong> Zero coding experience needed; we start from basic mental models.</li>
+                                <li><strong>Self-Taught Learners:</strong> Need structured live accountability, debugging help, and direct mentor access.</li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
