@@ -100,19 +100,20 @@
         }
 
         .ws-content-section {
-            padding: 60px 0;
+            padding: 48px 0;
         }
         .ws-card-box {
             background: #ffffff;
             border: 1.5px solid #111111;
-            padding: 32px;
-            margin-bottom: 30px;
+            padding: 24px 20px; /* Reduced left-right padding */
+            margin-bottom: 24px;
+            box-shadow: 4px 4px 0px #111111;
         }
         .ws-card-box h2 {
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 900;
             letter-spacing: -0.02em;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border-bottom: 1.5px solid #111111;
             padding-bottom: 12px;
             text-transform: uppercase;
