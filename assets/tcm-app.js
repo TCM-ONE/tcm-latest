@@ -395,10 +395,10 @@
 
     function normalizeThumbnailUrl(url, slug, idx) {
         if (slug && courseMediaMap[slug]) {
-            return './assets/' + courseMediaMap[slug];
+            return api('/assets/' + courseMediaMap[slug]);
         }
         if (!url || typeof url !== 'string' || url.trim() === '') {
-            return './assets/' + getUniqueGifForCourse(slug, idx);
+            return api('/assets/' + getUniqueGifForCourse(slug, idx));
         }
         var clean = url.trim();
         if (clean.startsWith('http://') || clean.startsWith('https://')) {
@@ -409,17 +409,14 @@
             var uploadPath = clean.substring(clean.indexOf('uploads/'));
             return api('/' + uploadPath);
         }
-        if (clean.startsWith('./') || clean.startsWith('../')) {
-            return clean;
-        }
-        return './assets/' + filename;
+        return api('/assets/' + filename);
     }
 
     function courseCardHome(c, idx) {
         var price = '<div class="course-price">' + money(c.price) +
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
         var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
-        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" onerror="this.onerror=null;this.src=\'./assets/coding-fullstack.gif\';"></div>';
+        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" onerror="this.onerror=null;this.src=\'' + esc(api('/assets/coding-fullstack.gif')) + '\';"></div>';
         return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '">' +
             thumb +
             price +
@@ -835,12 +832,12 @@
             if (!img) return;
             img.onerror = function () {
                 this.onerror = null;
-                this.src = './assets/coding-fullstack.gif';
+                this.src = api('/assets/coding-fullstack.gif');
             };
             var currentSrc = img.getAttribute('src') || '';
-            if (!currentSrc || currentSrc.trim() === '' || (!currentSrc.includes('.gif') && !currentSrc.includes('.png') && !currentSrc.includes('.jpg') && !currentSrc.includes('.webp'))) {
+            if (!currentSrc || currentSrc.trim() === '' || (!currentSrc.includes('.gif') && !currentSrc.includes('.png') && !currentSrc.includes('.jpg') && !currentSrc.includes('.webp') && !currentSrc.includes('.svg'))) {
                 var slug = img.getAttribute('data-course-slug') || '';
-                img.src = './assets/' + getUniqueGifForCourse(slug, idx);
+                img.src = api('/assets/' + getUniqueGifForCourse(slug, idx));
             }
         });
     }

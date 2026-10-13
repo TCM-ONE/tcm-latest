@@ -213,8 +213,13 @@
                     <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="logo-img">
                     <span class="logo-text">TCM <span class="logo-one">One</span></span>
                 </a>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
-                    <ul class="navbar-nav align-items-lg-center">
+                <button class="navbar-toggler border-0 shadow-none d-lg-none ms-auto" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <ul class="navbar-nav me-auto align-items-lg-center">
                         <li class="nav-item">
                             <a class="nav-link active" href="<?= base_url('/workshops') ?>" style="font-weight:700;color:#000;">Workshops</a>
                         </li>
@@ -230,10 +235,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<?= base_url('/partner.html') ?>">Become a Partner</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('/login.php') ?>" class="join-btn" style="border-radius:0px !important;">Join Now</a>
-                        </li>
                     </ul>
+
+                    <div class="header-right-actions d-flex align-items-center gap-3">
+                        <a href="<?= base_url('/download-brochure') ?>" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download style="font-weight:600;font-size:14px;color:#111;">
+                            <i class="bi bi-download"></i> Brochure
+                        </a>
+                        <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
+                        <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -295,21 +305,92 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer style="background:#111;color:#fff;padding:40px 0;border-top:2px solid #111;">
-        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-12">
-            <div>
-                <strong>TCM One</strong> &middot; The Code Munk &copy; <?= date('Y') ?>. All rights reserved.
-            </div>
-            <div class="d-flex gap-16">
-                <a href="<?= base_url('/terms.html') ?>" style="color:rgba(255,255,255,0.7);text-decoration:none;">Terms</a>
-                <a href="<?= base_url('/privacy.html') ?>" style="color:rgba(255,255,255,0.7);text-decoration:none;">Privacy</a>
-                <a href="<?= base_url('/contact.html') ?>" style="color:rgba(255,255,255,0.7);text-decoration:none;">Contact</a>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-card">
+                <div class="footer-top">
+
+                    <!-- Brand Column -->
+                    <div class="footer-brand">
+                        <a href="<?= base_url('/') ?>" class="footer-logo">TCM <span class="logo-one">One</span></a>
+                        <p>
+                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
+                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
+                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
+                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
+                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
+                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
+                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
+                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        </div>
+                        <div class="footer-tag">
+                            <i class="bi bi-patch-check-fill text-success"></i>
+                            Student-Focused Learning Platform
+                        </div>
+                    </div>
+
+                    <!-- Navigation Links Columns -->
+                    <div class="footer-links">
+
+                        <div class="footer-column">
+                            <h4>Learn &amp; Programs</h4>
+                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
+                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
+                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
+                            <a href="<?= base_url('/workshops') ?>">Live Workshops</a>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Ecosystem</h4>
+                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
+                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
+                            <a href="<?= base_url('/programs.html') ?>">Cloud DevOps</a>
+                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Legal &amp; Policy</h4>
+                            <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
+                            <a href="<?= base_url('/terms.html') ?>">Terms &amp; Conditions</a>
+                            <a href="<?= base_url('/sitemap.html') ?>">Site Map</a>
+                            <a href="<?= base_url('/partner.html') ?>">Partnership Policy</a>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Company &amp; Help</h4>
+                            <a href="<?= base_url('/insights.html') ?>">About Us</a>
+                            <a href="<?= base_url('/community.html') ?>">Community</a>
+                            <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
+                            <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-download"></i> Download Brochure</a>
+                            <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer Bottom Strip -->
+                <div class="footer-bottom">
+                    <p>&copy; <?= date('Y') ?> The Code Munk. All rights reserved.</p>
+                    <div class="footer-bottom-links">
+                        <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
+                        <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
+                        <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
+                        <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
+                        <a href="<?= base_url('/contact.html') ?>">Contact</a>
+                        <a href="<?= base_url('/insights.html') ?>">About</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
 </body>
 </html>

@@ -801,14 +801,12 @@ body {
     height: 100% !important;
     object-fit: cover !important;
     object-position: center !important;
-    filter: grayscale(100%) contrast(110%) !important;
     display: block !important;
-    transition: transform 0.35s ease, filter 0.35s ease !important;
+    transition: transform 0.35s ease !important;
 }
 
 .course-card:hover .course-card-thumb img {
     transform: scale(1.04) !important;
-    filter: grayscale(100%) contrast(125%) !important;
 }
 
 .course-icon {
