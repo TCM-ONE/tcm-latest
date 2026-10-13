@@ -252,7 +252,7 @@
             if (heroInner) skeletonize(heroInner, templates.hero);
 
             document.querySelectorAll('.event-card:not(.hidden-event)').forEach(c => skeletonize(c, templates.eventCard));
-            document.querySelectorAll('.course-card').forEach((c, i) => { if (i < 6) skeletonize(c, templates.courseCard); });
+            // Course cards are pre-rendered with permanent GIFs — do not skeletonize to avoid destroying images
         }
 
         /* ---- PROGRAMS ---- */

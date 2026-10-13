@@ -365,21 +365,35 @@
         return allGifs[fallbackIdx];
     }
 
+    function normalizeThumbnailUrl(url, slug, idx) {
+        if (!url || typeof url !== 'string' || url.trim() === '') {
+            return './assets/' + getUniqueGifForCourse(slug, idx);
+        }
+        var clean = url.trim();
+        if (clean.startsWith('http://') || clean.startsWith('https://')) {
+            return clean;
+        }
+        var filename = clean.split('/').pop().split('?')[0];
+        // If it points to one of our tech GIF presets or any .gif in assets
+        if (allGifs.indexOf(filename) !== -1 || (filename.endsWith('.gif') && clean.indexOf('uploads/') === -1)) {
+            return './assets/' + filename;
+        }
+        // If it is an uploaded course thumbnail/image
+        if (clean.indexOf('uploads/') !== -1) {
+            var uploadPath = clean.substring(clean.indexOf('uploads/'));
+            return api('/' + uploadPath);
+        }
+        if (clean.startsWith('./') || clean.startsWith('../')) {
+            return clean;
+        }
+        return api(clean.startsWith('/') ? clean : '/' + clean);
+    }
+
     function courseCardHome(c, idx) {
         var price = '<div class="course-price">' + money(c.price) +
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
-        var thumbSrc = '';
-        if (c.thumbnail_url) {
-            thumbSrc = c.thumbnail_url;
-        } else if (c.thumbnail) {
-            thumbSrc = (c.thumbnail.startsWith('http') || c.thumbnail.startsWith('/'))
-                ? c.thumbnail
-                : (c.thumbnail.indexOf('/') !== -1 ? './' + c.thumbnail : './assets/' + c.thumbnail);
-        } else {
-            var gifFile = getUniqueGifForCourse(c.slug, idx);
-            thumbSrc = './assets/' + gifFile;
-        }
-        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" loading="lazy" data-course-slug="' + esc(c.slug) + '" onerror="this.src=\'./assets/coding-fullstack.gif\'"></div>';
+        var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
+        var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" onerror="this.onerror=null;this.src=\'./assets/coding-fullstack.gif\';"></div>';
         return '<div class="course-card">' +
             thumb +
             price +
@@ -554,10 +568,11 @@
             // Course GIF thumbnail
             var thumbImg = qs("#cdCourseThumbImg") || qs(".cd-course-thumb img");
             if (thumbImg) {
-                var gifSrc = c.thumbnail_url || c.thumbnail || "";
-                if (!gifSrc || gifSrc.indexOf(".gif") === -1) {
-                    gifSrc = "./assets/" + getUniqueGifForCourse(c.slug || "", 0);
-                }
+                var gifSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug || "", 0);
+                thumbImg.onerror = function () {
+                    this.onerror = null;
+                    this.src = './assets/coding-fullstack.gif';
+                };
                 thumbImg.src = gifSrc;
                 thumbImg.alt = c.title || "Course GIF";
             }
@@ -793,32 +808,20 @@
         }
     }
 
-    // Guarantees zero GIF repetition across all visible/tabbed course cards
+    // Safeguards course card thumbnails so GIFs are never broken or missing
     function deduplicateCourseGifs() {
-        var activeTab = document.querySelector('.course-grid[data-tcm-list="courses"]:not([style*="display: none"])') || document.querySelector('.course-grid');
         var allCourseCards = document.querySelectorAll('.course-card');
-        var seen = new Set();
-        var poolIdx = 0;
-
-        allCourseCards.forEach(function (card) {
+        allCourseCards.forEach(function (card, idx) {
             var img = card.querySelector('.course-card-thumb img');
             if (!img) return;
+            img.onerror = function () {
+                this.onerror = null;
+                this.src = './assets/coding-fullstack.gif';
+            };
             var currentSrc = img.getAttribute('src') || '';
-            var filename = currentSrc.split('/').pop().split('?')[0];
-
-            if (seen.has(filename) || !filename.endsWith('.gif')) {
-                // Find next unused GIF from our 12 unique tech GIF collection
-                while (poolIdx < allGifs.length && seen.has(allGifs[poolIdx])) {
-                    poolIdx++;
-                }
-                if (poolIdx < allGifs.length) {
-                    var assigned = allGifs[poolIdx];
-                    img.src = './assets/' + assigned;
-                    seen.add(assigned);
-                    poolIdx++;
-                }
-            } else {
-                seen.add(filename);
+            if (!currentSrc || currentSrc.trim() === '' || (!currentSrc.includes('.gif') && !currentSrc.includes('.png') && !currentSrc.includes('.jpg') && !currentSrc.includes('.webp'))) {
+                var slug = img.getAttribute('data-course-slug') || '';
+                img.src = './assets/' + getUniqueGifForCourse(slug, idx);
             }
         });
     }
@@ -853,11 +856,9 @@
             });
         });
 
-        // Re-run deduplication when user clicks tabs
-        document.querySelectorAll('[data-bs-toggle="pill"], [data-bs-toggle="tab"]').forEach(function (tab) {
-            tab.addEventListener('shown.bs.tab', function () {
-                deduplicateCourseGifs();
-            });
+        // Ensure all brochure download links respect base path
+        document.querySelectorAll('a[href="/download-brochure"], a[href="download-brochure"]').forEach(function (el) {
+            el.setAttribute("href", api("/download-brochure"));
         });
 
         getJSON(api("/api/me"))

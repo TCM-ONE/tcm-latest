@@ -117,6 +117,8 @@ $router->post('/admin/messages/{id}/delete', ['TCM\Controllers\Admin\ContentCont
 
 $router->get('/admin/settings', ['TCM\Controllers\Admin\ContentController', 'settings']);
 $router->post('/admin/settings', ['TCM\Controllers\Admin\ContentController', 'saveSettings']);
+$router->post('/admin/brochure/upload', ['TCM\Controllers\Admin\ContentController', 'uploadBrochure']);
+$router->post('/admin/brochure/delete', ['TCM\Controllers\Admin\ContentController', 'deleteBrochure']);
 
 // Live class links
 $router->get('/admin/live-class',           ['TCM\Controllers\Admin\LiveClassController', 'index']);
@@ -253,6 +255,7 @@ $router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopCo
 $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
+$router->get('/download-brochure',            ['TCM\Controllers\PublicWorkshopController', 'downloadBrochure']);
 
 // --------------------------------------------------------------------- //
 // Public JSON API (consumed by the static marketing site via tcm-app.js)

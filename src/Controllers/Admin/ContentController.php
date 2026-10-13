@@ -8,6 +8,7 @@ use TCM\Core\Auth;
 use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\Request;
+use TCM\Core\Upload;
 use TCM\Models\Testimonial;
 
 /**
@@ -138,6 +139,125 @@ final class ContentController extends Controller
                 [$key, $value]
             );
         }
+
+        // Handle optional brochure upload if provided in settings form
+        if (Upload::present($_FILES['brochure'] ?? null)) {
+            try {
+                $destDir = config('uploads.path') . '/brochure';
+                $filename = Upload::store(
+                    $_FILES['brochure'],
+                    $destDir,
+                    ['pdf', 'doc', 'docx'],
+                    20 * 1024 * 1024
+                );
+                $oldBrochure = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
+                if (!empty($oldBrochure)) {
+                    $oldPath = config('uploads.path') . '/' . $oldBrochure;
+                    if (is_file($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+                $origName = basename((string)($_FILES['brochure']['name'] ?? 'brochure.pdf'));
+                $fileSize = (int)($_FILES['brochure']['size'] ?? 0);
+                $sizeStr = $fileSize > 1048576
+                    ? number_format($fileSize / 1048576, 2) . ' MB'
+                    : number_format($fileSize / 1024, 1) . ' KB';
+                $now = date('Y-m-d H:i:s');
+                $entries = [
+                    'brochure_file'       => 'brochure/' . $filename,
+                    'brochure_name'       => $origName,
+                    'brochure_size'       => $sizeStr,
+                    'brochure_updated_at' => $now,
+                ];
+                foreach ($entries as $k => $v) {
+                    Database::run(
+                        'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+                         ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                        [$k, $v]
+                    );
+                }
+            } catch (\Throwable $e) {
+                $this->respond('Settings saved, but brochure upload failed: ' . $e->getMessage(), null, '/admin/settings');
+                return;
+            }
+        }
+
         $this->respond(null, 'Settings saved.', '/admin/settings');
+    }
+
+    public function uploadBrochure(): void
+    {
+        Auth::require('admin');
+
+        $file = $_FILES['brochure'] ?? null;
+        $redirectUrl = Request::string('redirect_to') ?: '/admin#admBrochureCard';
+
+        if (!Upload::present($file)) {
+            $this->respond('Please choose a valid PDF, DOC or DOCX brochure file to upload.', null, $redirectUrl);
+            return;
+        }
+
+        try {
+            $destDir = config('uploads.path') . '/brochure';
+            $filename = Upload::store(
+                $file,
+                $destDir,
+                ['pdf', 'doc', 'docx'],
+                20 * 1024 * 1024 // 20 MB limit
+            );
+
+            // Fetch old brochure to remove it cleanly
+            $oldBrochure = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
+            if (!empty($oldBrochure)) {
+                $oldPath = config('uploads.path') . '/' . $oldBrochure;
+                if (is_file($oldPath)) {
+                    @unlink($oldPath);
+                }
+            }
+
+            $origName = basename((string)($file['name'] ?? 'brochure.pdf'));
+            $fileSize = (int)($file['size'] ?? 0);
+            $sizeStr = $fileSize > 1048576
+                ? number_format($fileSize / 1048576, 2) . ' MB'
+                : number_format($fileSize / 1024, 1) . ' KB';
+            $now = date('Y-m-d H:i:s');
+
+            $entries = [
+                'brochure_file'       => 'brochure/' . $filename,
+                'brochure_name'       => $origName,
+                'brochure_size'       => $sizeStr,
+                'brochure_updated_at' => $now,
+            ];
+
+            foreach ($entries as $k => $v) {
+                Database::run(
+                    'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+                     ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [$k, $v]
+                );
+            }
+
+            $this->respond(null, 'Brochure uploaded successfully.', $redirectUrl);
+        } catch (\Throwable $e) {
+            $this->respond('Upload failed: ' . $e->getMessage(), null, $redirectUrl);
+        }
+    }
+
+    public function deleteBrochure(): void
+    {
+        Auth::require('admin');
+
+        $redirectUrl = Request::string('redirect_to') ?: '/admin#admBrochureCard';
+        $oldBrochure = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
+        if (!empty($oldBrochure)) {
+            $oldPath = config('uploads.path') . '/' . $oldBrochure;
+            if (is_file($oldPath)) {
+                @unlink($oldPath);
+            }
+        }
+
+        Database::run("DELETE FROM settings WHERE `key` IN ('brochure_file', 'brochure_name', 'brochure_size', 'brochure_updated_at')");
+
+        $this->respond(null, 'Brochure deleted successfully.', $redirectUrl);
     }
 }
