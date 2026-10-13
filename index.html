@@ -85,10 +85,21 @@
     <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.2.1">
     <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.1">
     <style>
+/* Critical Hard Horizontal Scroll Lock */
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+    position: relative !important;
+}
+section, header, footer, main, .container, .container-fluid {
+    max-width: 100% !important;
+}
 /* Critical Hero Flank Layout Guarantee */
 .hero {
     display: block !important;
     position: relative !important;
+    overflow: hidden !important;
 }
 .hero-flank {
     position: absolute !important;
