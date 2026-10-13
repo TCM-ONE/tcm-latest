@@ -60,6 +60,7 @@ $pendingPayments = $stats['pending_payments'] ?? 0;
         <a href="<?= base_url('/admin/courses/create') ?>" class="adm-hero-btn white"><i class="bi bi-plus-lg"></i> Add Course</a>
         <a href="<?= base_url('/admin/events/create') ?>" class="adm-hero-btn outline"><i class="bi bi-calendar-plus"></i> Add Event</a>
         <a href="<?= base_url('/admin/leads') ?>" class="adm-hero-btn outline"><i class="bi bi-megaphone"></i> Leads</a>
+        <a href="#admBrochureCard" class="adm-hero-btn outline"><i class="bi bi-file-earmark-pdf"></i> Brochure</a>
     </div>
 </div>
 
@@ -127,15 +128,96 @@ $pendingPayments = $stats['pending_payments'] ?? 0;
     ['/admin/programs','bi-stack','Programs',false],
     ['/admin/internships','bi-file-earmark-person','Internships',false],
     ['/admin/posts','bi-newspaper','Blog Posts',false],
+    ['#admBrochureCard','bi-file-earmark-pdf','Brochure',false],
     ['/admin/settings','bi-gear','Settings',false],
 ];
 foreach($quick as [$href,$icon,$label,$alert]): ?>
-    <a href="<?= base_url($href) ?>" class="adm-quick-item <?= $alert?'highlight':'' ?>">
+    <a href="<?= str_starts_with($href, '#') ? $href : base_url($href) ?>" class="adm-quick-item <?= $alert?'highlight':'' ?>">
         <div class="adm-quick-icon"><i class="bi <?= e($icon) ?>"></i></div>
         <span class="adm-quick-label"><?= e($label) ?></span>
         <?php if($alert&&$pendingPayments>0): ?><span class="adm-quick-badge"><?= $pendingPayments ?></span><?php endif; ?>
     </a>
 <?php endforeach; ?>
+</div>
+
+<!-- Brochure Management Card -->
+<div class="tcm-card" id="admBrochureCard" style="margin-bottom:20px;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;padding:0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;background:#fafafa;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:#fee2e2;color:#dc2626;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0;">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+            <div>
+                <h3 style="font-size:.95rem;font-weight:700;color:#111;margin:0;">Prospectus &amp; Course Brochure</h3>
+                <p style="font-size:.78rem;color:#666;margin:2px 0 0;">Upload or update the official brochure. Connected to all "Download Brochure" buttons on the frontend.</p>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <a href="<?= base_url('/download-brochure') ?>" target="_blank" class="tcm-btn sm ghost" style="border:1.5px solid #ddd;font-weight:600;">
+                <i class="bi bi-box-arrow-up-right"></i> Live Download Test
+            </a>
+        </div>
+    </div>
+    
+    <div style="padding:22px;">
+        <?php if (!empty($brochure['brochure_file'])): ?>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:44px;height:44px;border-radius:8px;background:#dc2626;color:#fff;display:grid;place-items:center;font-size:1rem;font-weight:800;letter-spacing:1px;">
+                        PDF
+                    </div>
+                    <div>
+                        <div style="font-size:.9rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;">
+                            <?= e($brochure['brochure_name'] ?? 'The-Code-Munk-Brochure.pdf') ?>
+                            <span style="font-size:.68rem;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:50px;font-weight:700;">Active on Website</span>
+                        </div>
+                        <div style="font-size:.75rem;color:#64748b;margin-top:3px;">
+                            Size: <strong><?= e($brochure['brochure_size'] ?? 'N/A') ?></strong> &middot; Last updated: <?= e(!empty($brochure['brochure_updated_at']) ? date('d M Y, h:i A', strtotime($brochure['brochure_updated_at'])) : 'Recently') ?>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #cbd5e1;background:#fff;" download>
+                        <i class="bi bi-download"></i> Download
+                    </a>
+                    <form method="post" action="<?= base_url('/admin/brochure/delete') ?>" onsubmit="return confirm('Are you sure you want to delete this brochure? The site will fallback to default starter brochure.');" style="margin:0;">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="redirect_to" value="/admin#admBrochureCard">
+                        <button type="submit" class="tcm-btn sm ghost" style="color:#dc2626;border-color:#fecaca;background:#fff;">
+                            <i class="bi bi-trash3"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <?php else: ?>
+            <div style="background:#fffbeb;border:1px dashed #f59e0b;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+                <i class="bi bi-info-circle-fill" style="color:#d97706;font-size:1.1rem;"></i>
+                <div style="font-size:.82rem;color:#92400e;">
+                    <strong>No custom brochure uploaded yet.</strong> Visitors clicking "Download Brochure" currently download the starter brochure template. Upload your new brochure below!
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Upload Form -->
+        <form method="post" action="<?= base_url('/admin/brochure/upload') ?>" enctype="multipart/form-data" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+            <?= csrf_field() ?>
+            <input type="hidden" name="redirect_to" value="/admin#admBrochureCard">
+            <div style="flex:1;min-width:260px;">
+                <label style="display:block;font-size:.78rem;font-weight:700;color:#334155;margin-bottom:6px;">
+                    <?= !empty($brochure['brochure_file']) ? 'Replace Brochure with New File' : 'Upload New Brochure File' ?>
+                </label>
+                <input type="file" name="brochure" accept=".pdf,.doc,.docx" required class="tcm-input" style="padding:7px 12px;font-size:.82rem;background:#fff;">
+            </div>
+            <div style="padding-top:22px;">
+                <button type="submit" class="tcm-btn primary" style="padding:10px 22px;">
+                    <i class="bi bi-cloud-arrow-up-fill"></i> Upload Brochure
+                </button>
+            </div>
+        </form>
+        <div style="font-size:.72rem;color:#94a3b8;margin-top:8px;">
+            Supports PDF, DOC, DOCX files up to 20MB. Automatically optimized for fast student downloads.
+        </div>
+    </div>
 </div>
 
 <!-- Tables -->

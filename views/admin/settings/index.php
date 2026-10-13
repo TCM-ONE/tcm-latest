@@ -21,7 +21,7 @@
     <div><h2>Settings</h2><p>Site, contact and payment configuration.</p></div>
 </div>
 
-<form method="post" action="<?= base_url('/admin/settings') ?>" style="max-width:720px;">
+<form method="post" action="<?= base_url('/admin/settings') ?>" enctype="multipart/form-data" style="max-width:720px;">
     <?= csrf_field() ?>
 
     <!-- ── General ── -->
@@ -94,6 +94,47 @@
                 <div class="tcm-field">
                     <label>WhatsApp Message Prefix</label>
                     <input class="tcm-input" name="whatsapp_message" value="<?= e($settings['whatsapp_message'] ?? 'Hi The Code Munk! I am interested in') ?>">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Brochure ── -->
+    <div class="set-section" id="brochureSection">
+        <div class="set-section-head">
+            <div class="set-section-icon" style="background:#fee2e2;color:#dc2626;">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+            </div>
+            <div>
+                <h3>Official Brochure / Prospectus</h3>
+                <p>Upload the official syllabus/brochure PDF linked to frontend downloads</p>
+            </div>
+        </div>
+        <div class="set-body">
+            <?php if (!empty($settings['brochure_file'])): ?>
+                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                    <div>
+                        <div style="font-size:.85rem;font-weight:700;color:#111;">
+                            <?= e($settings['brochure_name'] ?? 'The-Code-Munk-Brochure.pdf') ?>
+                            <span style="font-size:.65rem;background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:50px;font-weight:700;margin-left:6px;">Active</span>
+                        </div>
+                        <div style="font-size:.72rem;color:#64748b;margin-top:2px;">
+                            Size: <?= e($settings['brochure_size'] ?? '') ?> &middot; Updated: <?= e(!empty($settings['brochure_updated_at']) ? date('d M Y, h:i A', strtotime($settings['brochure_updated_at'])) : 'Recently') ?>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" download>
+                            <i class="bi bi-download"></i> View / Download
+                        </a>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="tcm-field" style="margin-bottom:0;">
+                <label><?= !empty($settings['brochure_file']) ? 'Replace Brochure File (PDF, DOC, DOCX - Max 20MB)' : 'Upload Brochure File (PDF, DOC, DOCX - Max 20MB)' ?></label>
+                <input class="tcm-input" type="file" name="brochure" accept=".pdf,.doc,.docx" style="padding:7px 12px;background:#fff;">
+                <div style="font-size:.71rem;color:#888;margin-top:4px;">
+                    Students and site visitors downloading the brochure from the website will receive this file.
                 </div>
             </div>
         </div>
