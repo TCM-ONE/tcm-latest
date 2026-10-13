@@ -753,7 +753,7 @@ body {
     height: 100% !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important;
     box-shadow: none !important;
     transition: border-color 0.2s ease !important;
 }
@@ -764,18 +764,40 @@ body {
     box-shadow: none !important;
 }
 
-.course-card h3 {
+.course-price {
     font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 8px !important;
+    line-height: 1.2 !important;
+}
+
+.course-price span {
+    font-size: 0.9375rem !important;
+    color: #888888 !important;
+    text-decoration: line-through !important;
+    font-weight: 400 !important;
+}
+
+.course-card h3 {
+    font-size: 1.15rem !important;
     font-weight: 700 !important;
     letter-spacing: -0.025em !important;
     color: #000000 !important;
-    margin-bottom: 10px !important;
+    line-height: 1.35 !important;
+    min-height: 52px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
 }
 
 .course-card p {
-    color: #666666 !important;
-    font-size: 0.9375rem !important;
-    line-height: 1.55 !important;
+    display: none !important;
 }
 
 .course-card-thumb {

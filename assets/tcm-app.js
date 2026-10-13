@@ -384,7 +384,6 @@
             thumb +
             price +
             "<h3>" + esc(c.title) + "</h3>" +
-            "<p>" + esc(c.subtitle || "") + "</p>" +
             '<a href="course-details.html?course=' + encodeURIComponent(c.slug) + '">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
             "</div>";
     }

@@ -200,7 +200,7 @@
 .sk-course-icon  { width: 52px; height: 52px; border-radius: 14px; }
 .sk-course-price { height: 28px; width: 100px; }
 .sk-course-title { height: 22px; width: 80%; }
-.sk-course-desc  { height: 14px; width: 90%; }
+.sk-course-desc  { display: none !important; }
 .sk-course-link  { height: 16px; width: 110px; }
 
 /* ---- Skeleton section header ---- */
