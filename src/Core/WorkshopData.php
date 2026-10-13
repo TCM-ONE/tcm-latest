@@ -35,16 +35,46 @@ final class WorkshopData
                 'icon'              => 'bi-filetype-py',
                 'badge'             => 'Beginner Workshop',
                 'curriculum'        => [
-                    ['day' => 'Day 01', 'title' => 'Python setup, variables, data types and input/output'],
-                    ['day' => 'Day 02', 'title' => 'Conditions, loops and beginner logic-building exercises'],
-                    ['day' => 'Day 03', 'title' => 'Functions, mini-project build and next learning roadmap'],
+                    [
+                        'day' => 'Day 01',
+                        'title' => 'Python Environment Setup, Core Syntax & Variables',
+                        'topics' => [
+                            'Installing Python 3.12 & VS Code setup with essential extensions',
+                            'Mental models of Python execution and script running',
+                            'Variables, primitive data types (int, float, string, boolean)',
+                            'User inputs, type casting and formatted string outputs (f-strings)',
+                            'Hands-on Lab: Build an interactive terminal currency & unit converter'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 02',
+                        'title' => 'Control Flow, Logic Building & Iteration Loops',
+                        'topics' => [
+                            'Comparison and logical operators (if, elif, else conditions)',
+                            'While loops and For loops with range() iterations',
+                            'Python Lists & Dictionaries — storing and accessing collections',
+                            'Defensive input handling, string transformations, and clean code principles',
+                            'Hands-on Lab: Build a multi-round Number Guessing & Logic Game'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 03',
+                        'title' => 'Functions, Automation Scripts & Next Steps',
+                        'topics' => [
+                            'Defining custom functions with arguments, default parameters and return values',
+                            'Working with standard libraries (os, sys, time, random)',
+                            'File handling: Reading, parsing, and writing text/CSV files on disk',
+                            'Capstone Project: Build an automated desktop file organizer script',
+                            'Career roadmap: Python for Web (Django/FastAPI) vs Data Science & AI'
+                        ]
+                    ],
                 ],
                 'highlights'        => [
-                    '3 practical live beginner sessions',
-                    'Learn Python syntax through guided exercises',
-                    'Build your first small Python project',
-                    'Mentor support for common beginner doubts',
-                    'Certificate guidance after participation',
+                    '3 practical live beginner sessions with 1-on-1 mentor guidance',
+                    'Learn Python syntax step-by-step through guided coding exercises',
+                    'Build 2 real terminal utilities and an automated desktop file organizer',
+                    'Zero prior coding experience required — starts with fundamental mental models',
+                    'Verified Certificate of Completion & GitHub repository code reviews',
                 ],
             ],
 
@@ -65,20 +95,83 @@ final class WorkshopData
                 'icon'              => 'bi-window',
                 'badge'             => 'Project Challenge',
                 'curriculum'        => [
-                    ['day' => 'Day 01', 'title' => 'How the Web Works, HTML5 Skeleton & Semantic Tags'],
-                    ['day' => 'Day 02', 'title' => 'Typography, Forms, Inputs & User Experience Basics'],
-                    ['day' => 'Day 03', 'title' => 'CSS Fundamentals, Box Model, Borders & Spacing'],
-                    ['day' => 'Day 04', 'title' => 'Responsive Design, Media Queries & Flexbox Mastery'],
-                    ['day' => 'Day 05', 'title' => 'Modern UI Polish, Hero Sections & Navigation Bars'],
-                    ['day' => 'Day 06', 'title' => 'Capstone Project: Complete Responsive Personal Website'],
-                    ['day' => 'Day 07', 'title' => 'Custom Domain, Git Setup & Live Cloud Deployment'],
+                    [
+                        'day' => 'Day 01',
+                        'title' => 'How the Web Works & Semantic HTML5 Architecture',
+                        'topics' => [
+                            'Client-Server request-response cycle and browser DOM parsing',
+                            'HTML5 document structure: header, nav, main, section, article, footer',
+                            'SEO fundamentals: Meta tags, Open Graph previews, and accessible headings',
+                            'Hands-on Lab: Structuring an accessible developer portfolio skeleton'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 02',
+                        'title' => 'Forms, Media Elements & Interactive Web Inputs',
+                        'topics' => [
+                            'Form inputs, labels, placeholders, pattern validations, and accessibility attributes',
+                            'Embedding images, responsive SVGs, and audio/video players',
+                            'Table design and structured data presentation',
+                            'Hands-on Lab: Crafting a high-converting lead capture & feedback form'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 03',
+                        'title' => 'CSS3 Fundamentals, Box Model & Modern Typography',
+                        'topics' => [
+                            'CSS Selectors, specificity hierarchy, and cascading inheritance rules',
+                            'The Box Model: Content, padding, border, and margin collapse rules',
+                            'Google Fonts, fluid font sizing, line-heights, and visual hierarchy',
+                            'Hands-on Lab: Styling a sleek, high-contrast monochrome design system'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 04',
+                        'title' => 'Flexbox Layouts & Responsive Media Queries',
+                        'topics' => [
+                            'CSS Flexbox: justify-content, align-items, flex-wrap, and gap properties',
+                            'Mobile-first responsive design strategies and viewport meta settings',
+                            'Custom breakpoints for mobile phones, tablets, and desktop displays',
+                            'Hands-on Lab: Building a fluid, mobile-responsive navbar and multi-column grid'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 05',
+                        'title' => 'CSS Grid, Transitions & Micro-Interactions',
+                        'topics' => [
+                            'CSS Grid: repeat(), minmax(), grid-template-columns, and card layouts',
+                            'Smooth CSS transitions, transforms (hover states, scale, translate)',
+                            'Accessible focus rings, active states, and custom UI components',
+                            'Hands-on Lab: Building interactive pricing tables and project showcase cards'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 06',
+                        'title' => 'JavaScript DOM Manipulation & Dynamic Interactivity',
+                        'topics' => [
+                            'Connecting JavaScript to HTML: querySelector, addEventListener, and classList',
+                            'Building an interactive mobile hamburger navigation drawer',
+                            'Form validation with real-time feedback and modal popup triggers',
+                            'Hands-on Lab: Wiring interactive modals and dark/light mode toggles'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 07',
+                        'title' => 'Git Version Control, Cloud Deployment & Live URL Launch',
+                        'topics' => [
+                            'Git essentials: git init, git add, git commit, and pushing to GitHub',
+                            'Deploying to live production hosting via Vercel / GitHub Pages',
+                            'Setting up custom domain records and testing mobile responsiveness live',
+                            'Capstone Deliverable: Live portfolio URL published to show recruiters'
+                        ]
+                    ],
                 ],
                 'highlights'        => [
-                    '7 practical live frontend sessions',
-                    'Build and publish a responsive website',
-                    'Beginner-friendly HTML, CSS and JavaScript practice',
-                    'Portfolio-ready final project',
-                    'Private cohort support and mentor Q&A',
+                    '7 intensive live evening sessions with real-time code reviews',
+                    'Build, test, and launch a complete responsive website from scratch',
+                    'Master semantic HTML5, modern CSS3 Flexbox/Grid, and core JavaScript DOM',
+                    'Publish live to GitHub Pages / Vercel with your own live shareable link',
+                    'Private cohort Discord/WhatsApp group with daily doubt clearing',
                 ],
             ],
 
@@ -99,14 +192,32 @@ final class WorkshopData
                 'icon'              => 'bi-robot',
                 'badge'             => 'Coming Soon',
                 'curriculum'        => [
-                    ['day' => 'Day 01', 'title' => 'AI basics, prompt writing, research and study workflows'],
-                    ['day' => 'Day 02', 'title' => 'Document, presentation, coding and productivity examples'],
+                    [
+                        'day' => 'Day 01',
+                        'title' => 'Generative AI Foundations, Prompt Engineering & Research Workflows',
+                        'topics' => [
+                            'How Large Language Models (LLMs) work: Tokens, context windows, and hallucination guardrails',
+                            'Chain-of-Thought prompting, persona framing, and few-shot instruction templates',
+                            'Synthesizing dense research papers, technical documentation, and textbook chapters',
+                            'Hands-on Lab: Crafting custom prompt frameworks for fast study notes & exam preparation'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 02',
+                        'title' => 'Workplace Productivity, Code Generation & Automated Workflows',
+                        'topics' => [
+                            'Automating professional communications: Crisp emails, proposal drafting, and executive summaries',
+                            'AI coding assistants (Claude, ChatGPT, GitHub Copilot) for debugging and writing regex/SQL',
+                            'Data analysis and visualization from raw spreadsheets using AI assistants',
+                            'Hands-on Lab: Building a repeatable personal daily workflow pipeline'
+                        ]
+                    ],
                 ],
                 'highlights'        => [
-                    'Practical workflows for students and professionals',
-                    'Prompt writing patterns for repeatable results',
-                    'Examples for research, documents and coding help',
-                    'Guidance on responsible and accurate AI use',
+                    '2 actionable live sessions covering practical modern AI workflows',
+                    'Prompt templates and frameworks for repeatable, high-accuracy results',
+                    'Live demonstrations for literature review, coding assistance, and spreadsheets',
+                    'Essential principles for verifying AI accuracy and avoiding costly hallucination errors',
                 ],
             ],
 
@@ -127,13 +238,22 @@ final class WorkshopData
                 'icon'              => 'bi-compass',
                 'badge'             => 'Coming Soon',
                 'curriculum'        => [
-                    ['day' => 'Session', 'title' => 'Career paths, skills, project examples and beginner roadmap planning'],
+                    [
+                        'day' => 'Session 01',
+                        'title' => 'Landscape of Modern Tech Careers: Web, Data, Cloud & AI',
+                        'topics' => [
+                            'Full Stack Web vs Data Analytics vs Cloud DevOps: Skills, daily tasks, and market demand',
+                            'Why DSA matters for product companies and how to structure problem-solving practice',
+                            'Building portfolio proof: Why GitHub repositories beat resume bullet points',
+                            'Interactive Q&A: 1-on-1 path recommendation based on your year of study & background'
+                        ]
+                    ],
                 ],
                 'highlights'        => [
-                    'Compare major tech learning paths clearly',
-                    'Understand beginner prerequisites for each path',
-                    'See examples of projects and portfolio direction',
-                    'Choose next steps based on your current level',
+                    'Clear, non-biased breakdown of major tech tracks and hiring expectations',
+                    'Understand prerequisites and realistic timelines for each specialization',
+                    'Live review of industry-standard student portfolio examples',
+                    'Personalized question-and-answer session with industry engineering mentors',
                 ],
             ],
         ];
