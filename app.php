@@ -263,6 +263,7 @@ $router->get('/programs.html', static fn () => Response::redirect('/workshops'))
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)
 // --------------------------------------------------------------------- //
 $router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopController', 'index']);
+$router->get('/workshops.html',               ['TCM\Controllers\PublicWorkshopController', 'index']);
 $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);

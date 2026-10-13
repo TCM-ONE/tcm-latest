@@ -113,10 +113,10 @@
 
         calcElements.modelReferralBtn.addEventListener('click', function () {
             calcState.model = 'Referral';
-            calcState.percent = 20; // default referral commission
-            calcElements.pctSlider.value = 20;
+            calcState.percent = 15; // approved referral commission
+            calcElements.pctSlider.value = 15;
             calcElements.pctSlider.min = 15;
-            calcElements.pctSlider.max = 30;
+            calcElements.pctSlider.max = 15;
             calcElements.modelReferralBtn.classList.add('active');
             calcElements.modelAcademicBtn.classList.remove('active');
             updateCalculator();
@@ -125,10 +125,10 @@
 
         calcElements.modelAcademicBtn.addEventListener('click', function () {
             calcState.model = 'Academic Partnership';
-            calcState.percent = 40; // default academic partnership
+            calcState.percent = 40; // approved academic partnership
             calcElements.pctSlider.value = 40;
-            calcElements.pctSlider.min = 25;
-            calcElements.pctSlider.max = 50;
+            calcElements.pctSlider.min = 40;
+            calcElements.pctSlider.max = 40;
             calcElements.modelAcademicBtn.classList.add('active');
             calcElements.modelReferralBtn.classList.remove('active');
             updateCalculator();
@@ -278,7 +278,7 @@
                 formWizard.stepIndicator2.classList.add('active');
             }
 
-            trackPartnerEvent('partnership_form_started', {
+            trackPartnerEvent('partner_application_started', {
                 institution: (document.getElementById('ptrInstName') || {}).value,
                 model: (document.getElementById('ptrModelInput') || {}).value
             });
@@ -362,7 +362,7 @@
                     var refCode = (data.data && data.data.ref_code) ? data.data.ref_code : 'TCM-PTR-RECORDED';
                     var waUrl = (data.data && data.data.whatsapp_url) ? data.data.whatsapp_url : 'https://wa.me/917987823907';
 
-                    trackPartnerEvent('partnership_form_submitted', {
+                    trackPartnerEvent('partner_application_submitted', {
                         ref_code: refCode,
                         institution: payload.institution_name,
                         model: payload.partnership_model
@@ -502,7 +502,7 @@
         initFormWizard();
         initConsultationMeeting();
         initMatrixHooks();
-        trackPartnerEvent('partnership_page_view', { path: window.location.pathname });
+        trackPartnerEvent('partner_page_view', { path: window.location.pathname });
     });
 
 })();

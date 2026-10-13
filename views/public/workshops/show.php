@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-19F749QEBF');
+    </script>
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($desc ?? $workshop['description'] ?? '') ?>">
     <meta name="robots" content="index, follow">
@@ -51,6 +59,14 @@
     ?>
     <script type="application/ld+json"><?= json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
     <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script>
+      gtag('event', 'workshop_view', {
+        workshop_slug: <?= json_encode((string) $workshop['slug']) ?>,
+        workshop_title: <?= json_encode((string) $workshop['title']) ?>,
+        value: <?= json_encode((float) ($workshop['price'] ?? 0)) ?>,
+        currency: 'INR'
+      });
+    </script>
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -400,5 +416,6 @@
 
     <!-- Scripts -->
     <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
+    <script src="<?= base_url('/assets/tcm-app.js') ?>"></script>
 </body>
 </html>

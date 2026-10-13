@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-19F749QEBF');
+    </script>
+    <title>Live Coding Workshops — TCM One</title>
+    <meta name="description" content="Explore beginner-friendly live workshops in Python, frontend web development, AI tools and tech career planning from TCM One.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://thecodemunk.in/workshops">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thecodemunk.in/workshops">
+    <meta property="og:title" content="Live Coding Workshops — TCM One">
+    <meta property="og:description" content="Explore beginner-friendly live workshops in Python, frontend web development, AI tools and tech career planning from TCM One.">
+    <meta property="og:image" content="https://thecodemunk.in/assets/tcm-og-share.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="TCM One">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://thecodemunk.in/workshops">
+    <meta name="twitter:title" content="Live Coding Workshops — TCM One">
+    <meta name="twitter:description" content="Explore beginner-friendly live workshops in Python, frontend web development, AI tools and tech career planning from TCM One.">
+    <meta name="twitter:image" content="https://thecodemunk.in/assets/tcm-og-share.png">
+
+        <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://thecodemunk.in/workshops/python-starter-workshop","name":"Python Starter Workshop | 3-Day Live Coding"},{"@type":"ListItem","position":2,"url":"https://thecodemunk.in/workshops/frontend-website-challenge-7-days","name":"7-Day Frontend Website Challenge | TCM One"},{"@type":"ListItem","position":3,"url":"https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop","name":"AI Tools for Everyday Work | TCM One Workshop"},{"@type":"ListItem","position":4,"url":"https://thecodemunk.in/workshops/find-your-tech-career-path-workshop","name":"Find Your Tech Career Path | TCM One Workshop"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://thecodemunk.in/"},{"@type":"ListItem","position":2,"name":"Workshops","item":"https://thecodemunk.in/workshops"}]}</script>
+
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/site-polish.css">
+    <link rel="stylesheet" href="/assets/tcm-design-system.css">
+    <link rel="stylesheet" href="/assets/tcm-share.css">
+
+    <style>
+        *, *::before, *::after { border-radius: 0 !important; }
+        body { background: #fafafa; color: #111111; }
+        .ws-hero {
+            background: #111111;
+            color: #ffffff;
+            padding: 80px 0 60px;
+            border-bottom: 2px solid #111111;
+        }
+        .ws-badge {
+            display: inline-block;
+            background: #ffffff;
+            color: #111111;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            margin-bottom: 16px;
+        }
+        .ws-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            margin-bottom: 14px;
+            line-height: 1.15;
+        }
+        .ws-hero p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 620px;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+        .ws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            padding: 60px 0 80px;
+        }
+        .ws-card {
+            background: #ffffff;
+            border: 2px solid #111111;
+            box-shadow: 6px 6px 0px #111111;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .ws-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #111111;
+        }
+        .ws-card-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #666666;
+            margin-bottom: 10px;
+        }
+        .ws-card h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            color: #111111;
+        }
+        .ws-card p {
+            font-size: 0.88rem;
+            color: #555555;
+            line-height: 1.55;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .ws-meta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #222222;
+            padding: 12px 0;
+            border-top: 1px solid #eeeeee;
+            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 20px;
+        }
+        .ws-meta-row span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .ws-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .ws-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #111111;
+        }
+        .ws-original {
+            font-size: 0.95rem;
+            color: #888888;
+            text-decoration: line-through;
+        }
+        .ws-cta-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+        .ws-btn-primary {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            background: #111111;
+            color: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-decoration: none;
+            border: 2px solid #111111;
+            transition: background 0.15s ease;
+        }
+        .ws-btn-primary:hover {
+            background: #333333;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header" style="background:#fff;border-bottom:2px solid #111;">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg p-0">
+                <a class="navbar-brand logo" href="">
+                    <img src="/assets/logo.png" alt="TCM One Logo" class="logo-img">
+                    <span class="logo-text">TCM <span class="logo-one">One</span></span>
+                </a>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+                    <ul class="navbar-nav align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="workshops.html" style="font-weight:700;color:#000;">Workshops</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/insights.html">TCM Insights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/community.html">Community</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact.html">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/partner.html">Become a Partner</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/login.php" class="join-btn" style="border-radius:0px !important;">Join Now</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="ws-hero">
+        <div class="container">
+            <span class="ws-badge">Live Cohorts &middot; Beginner Friendly</span>
+            <h1>TCM One Workshops</h1>
+            <p>Practical, mentor-led workshops for college students and beginners. Build useful skills through focused live sessions, guided exercises and clear next steps.</p>
+        </div>
+    </section>
+
+    <!-- Workshop Cards Grid -->
+    <main class="container">
+        <div class="ws-grid">
+                        <article class="ws-card">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="ws-card-tag">Python Programming</span>
+                        <span style="font-size:.72rem;font-weight:800;background:#111;color:#fff;padding:2px 8px;">Beginner Workshop</span>
+                    </div>
+                    <h3>Python Starter Workshop</h3>
+                    <p>Start Python programming with practical beginner-friendly live sessions.</p>
+
+                    <div class="ws-meta-row">
+                        <span><i class="bi bi-clock"></i> 3 Days</span>
+                        <span><i class="bi bi-calendar3"></i> Next Batch Coming Soon</span>
+                        <span><i class="bi bi-broadcast"></i> Live Online</span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ws-price-row">
+                        <span class="ws-price">&#8377;99</span>
+                        <span class="ws-original">&#8377;499</span>
+                    </div>
+                    <div class="ws-cta-row">
+                        <a href="https://thecodemunk.in/workshops/python-starter-workshop" class="ws-btn-primary">
+                            View Workshop &rarr;
+                        </a>
+                        <button type="button"
+                                class="tcm-share-btn icon-only"
+                                data-share-url="https://thecodemunk.in/workshops/python-starter-workshop"
+                                data-share-title="Python Starter Workshop | 3-Day Live Coding"
+                                data-share-text="Join the 3-day Python Starter Workshop from TCM One for ₹99. Learn Python basics, logic building, and your first practical mini-project."
+                                title="Share Workshop"
+                                aria-label="Share Workshop">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+                        <article class="ws-card">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="ws-card-tag">Frontend Development</span>
+                        <span style="font-size:.72rem;font-weight:800;background:#111;color:#fff;padding:2px 8px;">Project Challenge</span>
+                    </div>
+                    <h3>7-Day Frontend Website Challenge</h3>
+                    <p>Build and publish a responsive website with HTML, CSS and JavaScript.</p>
+
+                    <div class="ws-meta-row">
+                        <span><i class="bi bi-clock"></i> 7 Days</span>
+                        <span><i class="bi bi-calendar3"></i> Next Batch Coming Soon</span>
+                        <span><i class="bi bi-broadcast"></i> Live Online</span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ws-price-row">
+                        <span class="ws-price">&#8377;999</span>
+                        <span class="ws-original">&#8377;1,999</span>
+                    </div>
+                    <div class="ws-cta-row">
+                        <a href="https://thecodemunk.in/workshops/frontend-website-challenge-7-days" class="ws-btn-primary">
+                            View Workshop &rarr;
+                        </a>
+                        <button type="button"
+                                class="tcm-share-btn icon-only"
+                                data-share-url="https://thecodemunk.in/workshops/frontend-website-challenge-7-days"
+                                data-share-title="7-Day Frontend Website Challenge | TCM One"
+                                data-share-text="Join the 7-Day Frontend Website Challenge from TCM One for ₹999. Build a responsive website with HTML, CSS, JavaScript and mentor guidance."
+                                title="Share Workshop"
+                                aria-label="Share Workshop">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+                        <article class="ws-card">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="ws-card-tag">AI Tools</span>
+                        <span style="font-size:.72rem;font-weight:800;background:#111;color:#fff;padding:2px 8px;">Coming Soon</span>
+                    </div>
+                    <h3>AI Tools for Everyday Work</h3>
+                    <p>Use modern AI tools for study, productivity, research and daily work.</p>
+
+                    <div class="ws-meta-row">
+                        <span><i class="bi bi-clock"></i> 2 Days</span>
+                        <span><i class="bi bi-calendar3"></i> Next Batch Coming Soon</span>
+                        <span><i class="bi bi-broadcast"></i> Live Online</span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ws-price-row">
+                        <span class="ws-price">&#8377;199</span>
+                        <span class="ws-original">&#8377;499</span>
+                    </div>
+                    <div class="ws-cta-row">
+                        <a href="https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop" class="ws-btn-primary">
+                            View Workshop &rarr;
+                        </a>
+                        <button type="button"
+                                class="tcm-share-btn icon-only"
+                                data-share-url="https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop"
+                                data-share-title="AI Tools for Everyday Work | TCM One Workshop"
+                                data-share-text="Learn practical AI tools for everyday study and work with TCM One. Beginner-friendly workshop covering prompting, research and productivity workflows."
+                                title="Share Workshop"
+                                aria-label="Share Workshop">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+                        <article class="ws-card">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="ws-card-tag">Career Guidance</span>
+                        <span style="font-size:.72rem;font-weight:800;background:#111;color:#fff;padding:2px 8px;">Coming Soon</span>
+                    </div>
+                    <h3>Find Your Tech Career Path</h3>
+                    <p>Understand web, data, AI, cloud and DSA paths before choosing a course.</p>
+
+                    <div class="ws-meta-row">
+                        <span><i class="bi bi-clock"></i> 1 Day</span>
+                        <span><i class="bi bi-calendar3"></i> Next Batch Coming Soon</span>
+                        <span><i class="bi bi-broadcast"></i> Live Online</span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ws-price-row">
+                        <span class="ws-price">&#8377;0</span>
+                        <span class="ws-original">&#8377;499</span>
+                    </div>
+                    <div class="ws-cta-row">
+                        <a href="https://thecodemunk.in/workshops/find-your-tech-career-path-workshop" class="ws-btn-primary">
+                            View Workshop &rarr;
+                        </a>
+                        <button type="button"
+                                class="tcm-share-btn icon-only"
+                                data-share-url="https://thecodemunk.in/workshops/find-your-tech-career-path-workshop"
+                                data-share-title="Find Your Tech Career Path | TCM One Workshop"
+                                data-share-text="A beginner-friendly TCM One workshop to help students compare tech career paths and choose the right learning roadmap."
+                                title="Share Workshop"
+                                aria-label="Share Workshop">
+                            <i class="bi bi-share"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+                    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background:#111;color:#fff;padding:40px 0;border-top:2px solid #111;">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-12">
+            <div>
+                <strong>TCM One</strong> &middot; The Code Munk &copy; 2026. All rights reserved.
+            </div>
+            <div class="d-flex gap-16">
+                <a href="/terms.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Terms</a>
+                <a href="/privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Privacy</a>
+                <a href="/contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/tcm-share.js"></script>
+</body>
+</html>
