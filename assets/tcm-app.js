@@ -63,6 +63,14 @@
             body: JSON.stringify(data),
         }).then(function (r) { return r.json().catch(function () { return { success: false, message: "Unexpected response." }; }); });
     }
+    function trackEvent(name, data) {
+        try {
+            if (typeof window.gtag !== "function") return;
+            var payload = data || {};
+            payload.page_location = window.location.href;
+            window.gtag("event", name, payload);
+        } catch (err) {}
+    }
 
     /* ---- formatting helpers ------------------------------------------- */
     var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -276,7 +284,19 @@
             postJSON(api("/api/contact"), payload)
                 .then(function (res) {
                     contactNotice(form, res.success, res.message || (res.success ? "Sent!" : "Something went wrong."));
-                    if (res.success) form.reset();
+                    if (res.success) {
+                        trackEvent("contact_lead_created", {
+                            subject: payload.subject || "contact",
+                            method: "contact_form"
+                        });
+                        if ((payload.subject || "").toLowerCase().indexOf("course") !== -1) {
+                            trackEvent("course_enquiry", {
+                                source: "contact_form",
+                                enquiry_type: payload.subject
+                            });
+                        }
+                        form.reset();
+                    }
                 })
                 .catch(function () { contactNotice(form, false, "Network error. Please try again."); })
                 .finally(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
@@ -317,7 +337,7 @@
         '</div>';
     }
 
-    // index.html course card
+    // index.html course card & distinct media mapping for all 24 courses
     var allGifs = [
         "coding-fullstack.gif",
         "coding-frontend.gif",
@@ -330,42 +350,53 @@
         "coding-ai.gif",
         "coding-career.gif",
         "coding-automation.gif",
-        "coding-analytics.gif"
+        "coding-analytics.gif",
+        "coding-cloud.gif",
+        "coding-cloud-new.gif",
+        "coding-dsa.gif",
+        "coding-terminal.gif",
+        "coding.gif"
     ];
-    var usedGifs = new Set();
+
+    var courseMediaMap = {
+        "full-stack-web-development": "coding-fullstack.gif",
+        "frontend-development-with-react": "coding-frontend.gif",
+        "python-programming-automation": "coding-python.gif",
+        "sql-database-fundamentals": "sql-database-fundamentals.svg",
+        "dsa-problem-solving-java": "coding-dsa.gif",
+        "aws-cloud-deployment-fundamentals": "coding-cloud.gif",
+        "digital-skills-computer-fundamentals": "coding-basics.gif",
+        "build-your-first-website": "coding-webdev.gif",
+        "ai-tools-for-study-work": "coding-ai.gif",
+        "tech-career-launchpad": "coding-career.gif",
+        "ai-automation-nocode-tools": "coding-automation.gif",
+        "data-analytics-excel-sql-powerbi": "coding-analytics.gif",
+        "react-nextjs-frontend-engineering": "coding-monitor.gif",
+        "backend-development-nodejs-apis": "coding-terminal.gif",
+        "mobile-app-development-react-native": "react-native-app.svg",
+        "generative-ai-agent-engineering": "genai-ai-agents.svg",
+        "docker-devops-cicd-essentials": "coding-cloud-new.gif",
+        "ui-ux-design-with-figma": "uiux-figma.svg",
+        "software-testing-qa-playwright": "qa-playwright.svg",
+        "digital-marketing-seo-analytics": "digital-marketing-seo.svg",
+        "core-java-object-oriented-programming": "core-java-oop.svg",
+        "data-science-machine-learning-foundations": "coding-algorithm.gif",
+        "system-design-microservices-foundations": "coding-database.gif",
+        "cybersecurity-ethical-security-foundations": "coding.gif"
+    };
 
     function getUniqueGifForCourse(slug, index) {
-        var gifMap = {
-            "full-stack-development": "coding-fullstack.gif",
-            "frontend-development": "coding-monitor.gif",
-            "python-development": "coding-python.gif",
-            "database-systems": "coding-database.gif",
-            "dsa-problem-solving": "coding-algorithm.gif",
-            "cloud-fundamentals": "coding-frontend.gif",
-            "computer-basics": "coding-basics.gif",
-            "web-development-basics": "coding-webdev.gif",
-            "ai-tools-mastery": "coding-ai.gif",
-            "career-transition-program": "coding-career.gif",
-            "ai-automation": "coding-automation.gif",
-            "data-analytics": "coding-analytics.gif"
-        };
-        var preferred = gifMap[slug];
-        if (preferred && !usedGifs.has(preferred)) {
-            usedGifs.add(preferred);
-            return preferred;
+        if (slug && courseMediaMap[slug]) {
+            return courseMediaMap[slug];
         }
-        for (var i = 0; i < allGifs.length; i++) {
-            if (!usedGifs.has(allGifs[i])) {
-                usedGifs.add(allGifs[i]);
-                return allGifs[i];
-            }
-        }
-        // Fallback index-based modulo to guarantee cycling if cards exceed 12
         var fallbackIdx = (typeof index === 'number' ? index : 0) % allGifs.length;
         return allGifs[fallbackIdx];
     }
 
     function normalizeThumbnailUrl(url, slug, idx) {
+        if (slug && courseMediaMap[slug]) {
+            return './assets/' + courseMediaMap[slug];
+        }
         if (!url || typeof url !== 'string' || url.trim() === '') {
             return './assets/' + getUniqueGifForCourse(slug, idx);
         }
@@ -374,11 +405,6 @@
             return clean;
         }
         var filename = clean.split('/').pop().split('?')[0];
-        // If it points to one of our tech GIF presets or any .gif in assets
-        if (allGifs.indexOf(filename) !== -1 || (filename.endsWith('.gif') && clean.indexOf('uploads/') === -1)) {
-            return './assets/' + filename;
-        }
-        // If it is an uploaded course thumbnail/image
         if (clean.indexOf('uploads/') !== -1) {
             var uploadPath = clean.substring(clean.indexOf('uploads/'));
             return api('/' + uploadPath);
@@ -386,7 +412,7 @@
         if (clean.startsWith('./') || clean.startsWith('../')) {
             return clean;
         }
-        return api(clean.startsWith('/') ? clean : '/' + clean);
+        return './assets/' + filename;
     }
 
     function courseCardHome(c, idx) {
@@ -993,6 +1019,11 @@
             course_slug: slug
         }).then(function (res) {
             if (res && res.success && res.data && res.data.download_url) {
+                trackEvent("course_enquiry", {
+                    course_slug: slug,
+                    source: "brochure_download",
+                    method: "lead_form"
+                });
                 if (feedback) {
                     feedback.className = 'tcm-brochure-modal-feedback success';
                     feedback.innerHTML = '<i class="bi bi-check-circle"></i> Success! Starting brochure download now...';
@@ -1077,6 +1108,8 @@
 
             openBrochureModal(slug, title);
         });
+    }
+
     /* ================= FEATURED WORKSHOP REGISTRATION MODAL ============ */
     function wireWorkshopModal() {
         var overlay = document.getElementById('tcmWsModalOverlay');
@@ -1164,6 +1197,13 @@
             var price = btn.getAttribute('data-workshop-price') || '99';
 
             openModal(slug, id, title, price);
+            trackEvent("workshop_registration_started", {
+                workshop_slug: slug,
+                workshop_id: id,
+                workshop_title: title,
+                value: Number(price || 0),
+                currency: "INR"
+            });
         });
 
         // Form submission
@@ -1229,6 +1269,11 @@
                     landing_page: window.location.pathname
                 }).then(function (res) {
                     if (res && res.success) {
+                        trackEvent("workshop_lead_created", {
+                            workshop_slug: slugInput ? slugInput.value : '',
+                            workshop_id: idInput ? idInput.value : '',
+                            source: "workshop_registration_form"
+                        });
                         if (feedback) {
                             feedback.className = 'tcm-ws-feedback success';
                             feedback.innerHTML = '<i class="bi bi-check-circle"></i> ' + (res.message || 'Seat reserved successfully! Check WhatsApp & Email.');
