@@ -326,24 +326,348 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
     padding: 8px 10px !important;
 }
 
-/* Mobile & Tablet Navbar Collapsed Menu (below 1200px) */
-@media (max-width: 1199px) {
+/* Header Top Row & Mobile Action Locking */
+.header-nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    flex-wrap: nowrap !important;
+}
+
+/* Desktop Header (>= 1200px) */
+/* ==========================================================================
+   TCM ONE — 2-TIER DESKTOP HEADER & SINGLE-LINE MOBILE HEADER
+   ========================================================================== */
+
+.header {
+    background: transparent !important;
+    border-bottom: none !important;
+    padding: 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* Tier 1: Desktop Top Utility Bar */
+.header-top-bar {
+    background: #F8F8F8 !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    padding: 6px 0 !important;
+    font-size: 12.5px !important;
+    color: #444444 !important;
+}
+
+.header-top-kicker {
+    font-weight: 600 !important;
+    color: #222222 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.header-top-kicker i {
+    color: #000000 !important;
+    font-size: 13px !important;
+}
+
+.header-top-divider {
+    color: #CCCCCC !important;
+    margin: 0 4px !important;
+}
+
+.header-top-brochure {
+    color: #111111 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    transition: color 0.15s ease !important;
+}
+
+.header-top-brochure:hover {
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
+.header-top-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.header-top-login {
+    color: #111111 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 12.5px !important;
+    transition: color 0.15s ease !important;
+}
+
+.header-top-login:hover {
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
+.header-top-bar .desktop-lang-picker .desktop-lang-toggle {
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 8px !important;
+    border: 1px solid #DCDCDC !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    border-radius: 2px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+}
+
+.header-top-bar .desktop-lang-picker .desktop-lang-toggle:hover {
+    background: #F3F3F3 !important;
+    border-color: #000000 !important;
+}
+
+/* Tier 2: Main Navigation Bar */
+.header-main-bar {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    padding: 10px 0 !important;
+}
+
+/* Desktop Header (>= 1200px) */
+@media (min-width: 1200px) {
+    .header-main-bar {
+        padding: 12px 0 !important;
+    }
+
+    .header .navbar {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .header-nav-top {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 20px !important;
+    }
+
+    /* Column 1 (Left): Brand Logo + Primary Nav */
+    .header-nav-left {
+        display: flex !important;
+        align-items: center !important;
+        gap: 36px !important;
+        flex-shrink: 0 !important;
+    }
+
     .navbar-brand.logo {
-        margin-right: 8px !important;
+        display: inline-flex !important;
+        align-items: center !important;
         gap: 0 !important;
-        min-width: max-content;
+        text-decoration: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .navbar-brand.logo .logo-img {
+        width: 32px !important;
+        height: 32px !important;
+        object-fit: contain !important;
     }
 
     .navbar-brand.logo .logo-text {
         display: inline-flex !important;
-        align-items: center;
+        align-items: center !important;
         color: #000000 !important;
-        font-size: 18px !important;
+        font-size: 17px !important;
         font-weight: 900 !important;
         letter-spacing: 0.01em !important;
-        line-height: 1;
-        margin-left: 8px;
-        text-transform: uppercase;
+        line-height: 1 !important;
+        margin-left: 7px !important;
+        text-transform: uppercase !important;
+        transform: translateY(1px);
+    }
+
+    .navbar-brand.logo .logo-main {
+        color: #000000 !important;
+        font-weight: 950 !important;
+    }
+
+    /* PURE BLACK TEXT FOR "ONE", NO BLACK BACKGROUND BOX */
+    .navbar-brand.logo .logo-one {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        background: transparent !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        margin-left: 4px !important;
+        font-size: 17px !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.01em !important;
+        line-height: 1 !important;
+        border-radius: 0 !important;
+        text-transform: uppercase !important;
+    }
+
+    .header-desktop-links {
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .header-desktop-links .navbar-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px !important;
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .header-desktop-links .nav-item {
+        width: auto !important;
+    }
+
+    .header-desktop-links .nav-link {
+        padding: 7px 12px !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #111111 !important;
+        white-space: nowrap !important;
+        text-decoration: none !important;
+        border-radius: 2px !important;
+        transition: all 0.15s ease !important;
+    }
+
+    .header-desktop-links .nav-link:hover,
+    .header-desktop-links .nav-link.active,
+    .header-desktop-links .nav-link.active-nav {
+        color: #000000 !important;
+        background: #F3F3F3 !important;
+        font-weight: 700 !important;
+    }
+
+    /* Column 2 (Right): Book a Demo Button (Will NEVER cut off!) */
+    .header-desktop-actions {
+        display: flex !important;
+        align-items: center !important;
+        margin-left: auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    .header-desktop-actions .join-btn {
+        background: #000000 !important;
+        color: #FFFFFF !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.02em !important;
+        padding: 9px 22px !important;
+        border: 1px solid #000000 !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap !important;
+        min-height: 38px !important;
+    }
+
+    .header-desktop-actions .join-btn:hover {
+        background: #222222 !important;
+        color: #FFFFFF !important;
+        transform: translateY(-1px);
+    }
+
+    /* Elements hidden on Desktop */
+    .header-mobile-right {
+        display: none !important;
+    }
+
+    .header .navbar-collapse {
+        display: none !important;
+    }
+}
+
+/* Mobile & Tablet Header (< 1200px) */
+@media (max-width: 1199.98px) {
+    .header-top-bar {
+        display: none !important;
+    }
+
+    .header-main-bar {
+        padding: 8px 0 !important;
+    }
+
+    .header .navbar {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+    }
+
+    .header-desktop-links,
+    .header-desktop-actions {
+        display: none !important;
+    }
+
+    .header-nav-top {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-wrap: nowrap !important;
+        gap: 4px !important;
+    }
+
+    .header-nav-left {
+        display: flex !important;
+        align-items: center !important;
+        min-width: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .navbar-brand.logo {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        text-decoration: none !important;
+        flex-shrink: 0 !important;
+    }
+
+    .navbar-brand.logo .logo-img {
+        width: 28px !important;
+        height: 28px !important;
+        object-fit: contain !important;
+    }
+
+    .navbar-brand.logo .logo-text {
+        display: inline-flex !important;
+        align-items: center !important;
+        color: #000000 !important;
+        font-size: 15px !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.01em !important;
+        line-height: 1 !important;
+        margin-left: 6px !important;
+        text-transform: uppercase !important;
         transform: translateY(1px);
     }
 
@@ -353,122 +677,266 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
     }
 
     .navbar-brand.logo .logo-one {
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-        background: #000000 !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        background: transparent !important;
         display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-        padding: 3px 6px 2px;
-        margin-left: 4px;
-        font-size: 11px;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        margin-left: 3px !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
-        letter-spacing: 0.03em;
-        line-height: 1;
-        border-radius: 2px;
-        text-transform: uppercase;
+        letter-spacing: 0.01em !important;
+        line-height: 1 !important;
+        border-radius: 0 !important;
+        text-transform: uppercase !important;
     }
 
-    .navbar-brand.logo .logo-img {
-        width: 34px !important;
-        height: 34px !important;
-        object-fit: contain !important;
-    }
-
-    .mobile-header-actions {
+    /* Mobile Header Right: strictly Language + Book a Demo + Hamburger */
+    .header-mobile-right {
         display: inline-flex !important;
-        align-items: center;
-        gap: 5px;
-        margin-left: auto;
-        margin-right: 6px;
-        min-width: 0;
+        align-items: center !important;
+        gap: 5px !important;
+        margin-left: auto !important;
+        flex-shrink: 0 !important;
+        flex-wrap: nowrap !important;
     }
 
-    .mobile-header-actions .mobile-head-btn {
-        max-width: 142px;
+    .mobile-lang-picker {
+        position: relative !important;
+        display: inline-flex !important;
+    }
+
+    .mobile-lang-picker .mobile-lang-toggle {
+        height: 32px !important;
+        min-height: 32px !important;
+        padding: 0 7px !important;
+        border: 1px solid #EAEAEA !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 3px !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+
+    .mobile-lang-code {
+        font-size: 10px !important;
+        font-weight: 900 !important;
+        color: #111111 !important;
+    }
+
+    .mobile-demo-btn {
+        height: 32px !important;
+        min-height: 32px !important;
+        padding: 0 10px !important;
+        background: #000000 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #000000 !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.01em !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        transition: all 0.15s ease !important;
+    }
+
+    .mobile-demo-btn:hover,
+    .mobile-demo-btn:active {
+        background: #222222 !important;
+        color: #FFFFFF !important;
     }
 
     .navbar-toggler {
-        width: 36px !important;
-        height: 36px !important;
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
         display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
+        border: 1px solid rgba(0, 0, 0, 0.16) !important;
+        background: #FFFFFF !important;
+        border-radius: 2px !important;
+        font-size: 19px !important;
+        color: #000000 !important;
+        margin-left: 1px !important;
+        cursor: pointer !important;
     }
 
-    @media (max-width: 390px) {
-        .mobile-download-word {
-            display: none;
-        }
-
-        .mobile-head-text {
-            font-size: 9px;
-        }
-
-        .mobile-header-actions {
-            gap: 4px;
-            margin-right: 4px;
-        }
-
-        .mobile-header-actions .mobile-head-btn {
-            padding-left: 6px !important;
-            padding-right: 6px !important;
-        }
-
-        .navbar-brand.logo .logo-text {
-            font-size: 15px !important;
-            margin-left: 5px;
-        }
-
-        .navbar-brand.logo .logo-one {
-            padding: 2px 4px;
-            margin-left: 2px;
-            font-size: 10px;
-        }
-    }
-
+    /* Mobile Collapsible Drawer Menu (< 1200px) */
     .header .navbar-collapse {
-        margin-top: 10px;
-        padding: 16px 18px;
+        margin-top: 10px !important;
+        padding: 16px 18px !important;
         background: #FFFFFF !important;
         border: 1px solid var(--lp-line) !important;
         border-radius: 0px !important;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+        width: 100% !important;
     }
 
-    .header .nav-item {
-        width: 100%;
+    .header .navbar-collapse .navbar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
     }
 
-    .header .nav-link {
+    .header .navbar-collapse .nav-item {
+        width: 100% !important;
+    }
+
+    .header .navbar-collapse .nav-link {
         padding: 10px 12px !important;
-        border-bottom: 1px solid #F0F0F0;
-        text-align: left;
+        border-bottom: 1px solid #F0F0F0 !important;
+        text-align: left !important;
         font-size: 14px !important;
-    }
-
-    .header .header-right-actions {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-        margin-top: 14px;
-        gap: 10px;
-    }
-
-    .header .nav-login-link {
-        width: 100%;
-        text-align: center;
-        padding: 10px !important;
-        border: 1px solid #DCDCDC;
-        background: #FAFAFA;
+        font-weight: 600 !important;
+        color: #111111 !important;
         display: block !important;
+        width: 100% !important;
+        text-decoration: none !important;
     }
 
-    .header .join-btn {
+    .header-drawer-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        margin-top: 14px !important;
+        gap: 8px !important;
+    }
+
+    .drawer-brochure-link {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 10px !important;
+        border: 1px solid #DCDCDC !important;
+        background: #FAFAFA !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #111111 !important;
+        text-decoration: none !important;
+        border-radius: 2px !important;
+    }
+
+    .drawer-login-link {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 10px !important;
+        border: 1px solid #DCDCDC !important;
+        background: #FAFAFA !important;
+        display: block !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #111111 !important;
+        text-decoration: none !important;
+        border-radius: 2px !important;
+    }
+
+    .drawer-demo-btn {
         width: 100% !important;
         padding: 12px !important;
-        justify-content: center;
+        justify-content: center !important;
         font-size: 14px !important;
+        font-weight: 700 !important;
+        background: #000000 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #000000 !important;
+        display: inline-flex !important;
+        border-radius: 2px !important;
+        cursor: pointer !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .header .container {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .navbar-brand.logo .logo-img {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    .navbar-brand.logo .logo-text {
+        font-size: 14px !important;
+        margin-left: 5px !important;
+    }
+
+    .navbar-brand.logo .logo-one {
+        font-size: 14px !important;
+        margin-left: 3px !important;
+    }
+
+    .header-mobile-right {
+        gap: 4px !important;
+    }
+
+    .mobile-lang-picker .mobile-lang-toggle {
+        height: 30px !important;
+        min-height: 30px !important;
+        padding: 0 6px !important;
+        font-size: 10.5px !important;
+    }
+
+    .mobile-demo-btn {
+        height: 30px !important;
+        min-height: 30px !important;
+        padding: 0 8px !important;
+        font-size: 10.5px !important;
+    }
+
+    .navbar-toggler {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .header .container {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+
+    .header-mobile-right {
+        gap: 3px !important;
+    }
+
+    .mobile-lang-picker .mobile-lang-toggle {
+        padding: 0 4px !important;
+        font-size: 9.5px !important;
+    }
+
+    .mobile-demo-btn {
+        padding: 0 6px !important;
+        font-size: 9.5px !important;
+        letter-spacing: -0.2px !important;
+    }
+
+    .navbar-brand.logo .logo-text {
+        font-size: 13px !important;
     }
 }
 
