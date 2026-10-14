@@ -163,6 +163,7 @@ try {
     foreach ($data['courses'] as $course) {
         $slug = (string) $course['slug'];
         $legacySlug = $legacySlugs[$slug] ?? null;
+        $publicSlug = $legacySlug ?? $slug;
         $title = (string) $course['title'];
         $category = (string) $course['category'];
         $catId = $catIds[$category] ?? null;
@@ -176,8 +177,8 @@ try {
             $lookupParams[] = $legacySlug;
         }
         $lookupSql .= ' ORDER BY FIELD(slug, ?, ?) DESC, id ASC LIMIT 1';
+        $lookupParams[] = $publicSlug;
         $lookupParams[] = $slug;
-        $lookupParams[] = $legacySlug ?? $slug;
 
         $stmt = $pdo->prepare($lookupSql);
         $stmt->execute($lookupParams);
@@ -186,7 +187,7 @@ try {
         $payload = [
             'category_id' => $catId,
             'title' => $title,
-            'slug' => $slug,
+            'slug' => $publicSlug,
             'subtitle' => (string) $course['card_description'],
             'description' => (string) $course['full_description'],
             'icon' => $icons[$category] ?? 'bi-journal-code',

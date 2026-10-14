@@ -424,7 +424,7 @@
             "<p>" + esc(c.subtitle || "") + "</p>" +
             '<div class="course-card-actions">' +
                 '<a href="' + api('/courses/' + encodeURIComponent(c.slug)) + '" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
-                '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Brochure</button>' +
+                '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>' +
             '</div>' +
             "</div>";
     }
@@ -1032,7 +1032,7 @@
                 // Trigger file download via invisible link
                 var downloadLink = document.createElement('a');
                 downloadLink.href = res.data.download_url;
-                downloadLink.setAttribute('download', '');
+                downloadLink.setAttribute('download', (slug || 'TCM-One-Course') + '-Brochure.pdf');
                 downloadLink.target = '_blank';
                 document.body.appendChild(downloadLink);
                 downloadLink.click();

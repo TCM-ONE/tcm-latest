@@ -14,6 +14,7 @@
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($desc ?? $workshop['description'] ?? '') ?>">
     <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -22,6 +23,7 @@
     <meta property="og:title" content="<?= e($title) ?>">
     <meta property="og:description" content="<?= e($desc ?? $workshop['description'] ?? '') ?>">
     <meta property="og:image" content="<?= e($ogImage) ?>">
+    <meta property="og:image:alt" content="<?= e($workshop['title']) ?> live workshop by TCM One">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="TCM One">
@@ -47,6 +49,28 @@
                 'logo' => $appUrl . '/assets/logo.png',
             ],
         ];
+        $eventSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'EducationEvent',
+            'name' => $workshop['title'],
+            'description' => $desc ?? ($workshop['description'] ?? ''),
+            'url' => $canonical,
+            'image' => $ogImage,
+            'eventAttendanceMode' => 'https://schema.org/OnlineEventAttendanceMode',
+            'eventStatus' => 'https://schema.org/EventScheduled',
+            'organizer' => [
+                '@type' => 'EducationalOrganization',
+                'name' => 'TCM One',
+                'url' => $appUrl,
+            ],
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string) ((float) ($workshop['price'] ?? 0)),
+                'priceCurrency' => 'INR',
+                'availability' => 'https://schema.org/InStock',
+                'url' => $canonical,
+            ],
+        ];
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
@@ -58,6 +82,7 @@
         ];
     ?>
     <script type="application/ld+json"><?= json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script type="application/ld+json"><?= json_encode($eventSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
     <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
     <script>
       gtag('event', 'workshop_view', {
@@ -130,6 +155,21 @@
             border: 1.5px solid rgba(255, 255, 255, 0.2);
             padding: 24px;
             margin-top: 24px;
+            align-items: center;
+            column-gap: 24px;
+            row-gap: 18px;
+        }
+        .ws-hero-price-block {
+            flex: 1 1 230px;
+            min-width: 0;
+        }
+        .ws-hero-actions {
+            display: flex;
+            align-items: stretch;
+            justify-content: flex-end;
+            flex: 1 1 360px;
+            gap: 10px;
+            min-width: 0;
         }
         .ws-price-hero {
             font-size: 2.2rem;
@@ -226,10 +266,47 @@
             cursor: pointer;
             transition: opacity 0.15s ease;
             letter-spacing: -0.01em;
+            min-height: 52px;
+            text-align: center;
+            white-space: nowrap;
         }
         .ws-btn-join:hover {
             color: #ffffff;
             opacity: 0.92;
+        }
+        .ws-hero-actions .ws-btn-join {
+            flex: 1 1 220px;
+        }
+        .ws-hero-actions .tcm-share-btn {
+            flex: 0 0 auto;
+            min-height: 52px;
+            padding-inline: 18px;
+            white-space: nowrap;
+        }
+        @media (max-width: 1199px) {
+            .ws-hero-actions {
+                flex: 1 1 100%;
+                justify-content: flex-start;
+            }
+        }
+        @media (max-width: 575px) {
+            .ws-detail-hero {
+                padding: 48px 0 38px;
+            }
+            .ws-detail-hero h1 {
+                font-size: 2rem;
+            }
+            .ws-hero-cta-box {
+                padding: 18px;
+            }
+            .ws-hero-actions {
+                flex-direction: column;
+            }
+            .ws-hero-actions .ws-btn-join,
+            .ws-hero-actions .tcm-share-btn {
+                width: 100%;
+                flex-basis: auto;
+            }
         }
     </style>
 </head>
@@ -268,8 +345,8 @@
                     </ul>
 
                     <div class="header-right-actions d-flex align-items-center gap-3">
-                        <a href="<?= base_url('/download-brochure') ?>" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download style="font-weight:600;font-size:14px;color:#111;">
-                            <i class="bi bi-download"></i> Brochure
+                        <a href="<?= base_url('/download-brochure') ?>" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download="TCM-One-Course-Brochure.pdf" style="font-weight:600;font-size:14px;color:#111;">
+                            <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </a>
                         <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
                         <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
@@ -297,13 +374,13 @@
 
                     <!-- Hero CTA & Share Row -->
                     <div class="ws-hero-cta-box d-flex flex-wrap align-items-center justify-content-between gap-16">
-                        <div>
+                        <div class="ws-hero-price-block">
                             <span class="ws-price-hero">&#8377;<?= number_format((float)$workshop['price'], 0) ?></span>
                             <span class="ws-price-orig">&#8377;<?= number_format((float)$workshop['original_price'], 0) ?></span>
                             <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">One-time fee &middot; Live sessions included</div>
                         </div>
 
-                        <div class="d-flex align-items-center gap-10">
+                        <div class="ws-hero-actions">
                             <?php
                                 $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
                                 $waUrl = "https://wa.me/917987823907?text=" . rawurlencode($waMsg);
@@ -505,7 +582,7 @@
                             <a href="<?= base_url('/insights.html') ?>">About Us</a>
                             <a href="<?= base_url('/community.html') ?>">Community</a>
                             <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
-                            <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-download"></i> Download Brochure</a>
+                            <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF</a>
                             <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
                         </div>
 
@@ -519,7 +596,7 @@
                         <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
                         <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
                         <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
-                        <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
+                        <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF</a>
                         <a href="<?= base_url('/contact.html') ?>">Contact</a>
                         <a href="<?= base_url('/insights.html') ?>">About</a>
                     </div>

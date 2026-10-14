@@ -14,6 +14,7 @@
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
     <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -22,6 +23,7 @@
     <meta property="og:title" content="<?= e($title) ?>">
     <meta property="og:description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
     <meta property="og:image" content="<?= e($thumbUrl) ?>">
+    <meta property="og:image:alt" content="<?= e($course['title']) ?> course by TCM One">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="TCM One">
@@ -41,6 +43,10 @@
             'description' => $desc ?? ($course['description'] ?? ''),
             'url' => $canonical,
             'image' => $thumbUrl,
+            'inLanguage' => 'en-IN',
+            'educationalLevel' => $course['level'] ?? 'Beginner',
+            'teaches' => $course['category_name'] ?? $course['title'],
+            'courseMode' => 'online',
             'provider' => [
                 '@type' => 'Organization',
                 'name' => 'TCM One',
@@ -153,6 +159,21 @@
             border: 1.5px solid rgba(255, 255, 255, 0.2);
             padding: 24px;
             margin-top: 24px;
+            align-items: center;
+            column-gap: 24px;
+            row-gap: 18px;
+        }
+        .ws-hero-price-block {
+            flex: 1 1 230px;
+            min-width: 0;
+        }
+        .ws-hero-actions {
+            display: flex;
+            align-items: stretch;
+            justify-content: flex-end;
+            flex: 1 1 420px;
+            gap: 10px;
+            min-width: 0;
         }
         .ws-price-hero {
             font-size: 2.2rem;
@@ -250,10 +271,68 @@
             cursor: pointer;
             transition: opacity 0.15s ease;
             letter-spacing: -0.01em;
+            min-height: 52px;
+            text-align: center;
+            white-space: nowrap;
         }
         .ws-btn-join:hover {
             color: #ffffff;
             opacity: 0.92;
+        }
+        .ws-btn-brochure,
+        .ws-hero-actions .tcm-share-btn {
+            min-height: 52px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .ws-btn-brochure {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #111111;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 14px 20px;
+            text-decoration: none;
+            border: 1.5px solid #ffffff;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .ws-hero-actions .ws-btn-join,
+        .ws-hero-actions .ws-btn-brochure {
+            flex: 1 1 190px;
+        }
+        .ws-hero-actions .tcm-share-btn {
+            flex: 0 0 auto;
+            padding-inline: 18px;
+        }
+        @media (max-width: 1199px) {
+            .ws-hero-actions {
+                flex: 1 1 100%;
+                justify-content: flex-start;
+            }
+        }
+        @media (max-width: 575px) {
+            .ws-detail-hero {
+                padding: 48px 0 38px;
+            }
+            .ws-detail-hero h1 {
+                font-size: 2rem;
+            }
+            .ws-hero-cta-box {
+                padding: 18px;
+            }
+            .ws-hero-actions {
+                flex-direction: column;
+            }
+            .ws-hero-actions .ws-btn-join,
+            .ws-hero-actions .ws-btn-brochure,
+            .ws-hero-actions .tcm-share-btn {
+                width: 100%;
+                flex-basis: auto;
+            }
         }
     </style>
 </head>
@@ -293,7 +372,7 @@
 
                     <div class="header-right-actions d-flex align-items-center gap-3">
                         <button type="button" class="nav-link d-none d-sm-inline-flex align-items-center gap-1 btn-trigger-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="background:none;border:none;font-weight:600;font-size:14px;color:#111;cursor:pointer;padding:0;">
-                            <i class="bi bi-download"></i> Brochure
+                            <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </button>
                         <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
                         <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
@@ -321,7 +400,7 @@
 
                     <!-- Hero CTA & Share Row -->
                     <div class="ws-hero-cta-box d-flex flex-wrap align-items-center justify-content-between gap-16">
-                        <div>
+                        <div class="ws-hero-price-block">
                             <span class="ws-price-hero">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?></span>
                             <?php if (!empty($course['original_price']) && (float)$course['original_price'] > (float)$course['price']): ?>
                                 <span class="ws-price-orig">&#8377;<?= number_format((float)$course['original_price'], 0) ?></span>
@@ -329,7 +408,7 @@
                             <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">Full curriculum access &middot; Projects & Lifetime resources</div>
                         </div>
 
-                        <div class="d-flex align-items-center gap-10 flex-wrap">
+                        <div class="ws-hero-actions">
                             <?php
                                 $waCourseMsg = "Hi TCM One! I'm interested in enrolling in the {$course['title']} course. Please guide me.";
                                 $waCourseUrl = "https://wa.me/917987823907?text=" . rawurlencode($waCourseMsg);
@@ -338,8 +417,8 @@
                                 <i class="bi bi-whatsapp"></i> Enroll via WhatsApp
                             </a>
 
-                            <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="ws-btn-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="display:inline-flex;align-items:center;gap:8px;background:#ffffff;color:#111111;font-size:0.95rem;font-weight:700;padding:14px 22px;text-decoration:none;border:1.5px solid #ffffff;cursor:pointer;transition:all 0.15s ease;">
-                                <i class="bi bi-download"></i> Download Brochure
+                            <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="ws-btn-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>">
+                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
                             </a>
 
                             <!-- Minimalist Share Button -->
@@ -518,7 +597,7 @@
                             <a href="<?= base_url('/insights.html') ?>">About Us</a>
                             <a href="<?= base_url('/community.html') ?>">Community</a>
                             <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
-                            <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-download"></i> Download Brochure</a>
+                            <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF</a>
                             <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
                         </div>
 
@@ -532,7 +611,7 @@
                         <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
                         <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
                         <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
-                        <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
+                        <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF</a>
                         <a href="<?= base_url('/contact.html') ?>">Contact</a>
                         <a href="<?= base_url('/insights.html') ?>">About</a>
                     </div>
