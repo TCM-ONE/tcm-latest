@@ -336,21 +336,93 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
     flex-wrap: nowrap !important;
 }
 
+/* Desktop Header (>= 1200px) */
 @media (min-width: 1200px) {
     .header-nav-top {
         display: contents !important;
     }
+
+    .header-mobile-right {
+        display: none !important;
+    }
+
+    .header .navbar {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+
+    .header .navbar-brand.logo {
+        margin-right: 24px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .header .navbar-collapse {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-grow: 1 !important;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .header .navbar-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 4px !important;
+        margin-right: auto !important;
+        width: auto !important;
+    }
+
+    .header .nav-item {
+        width: auto !important;
+    }
+
+    .header .nav-link {
+        padding: 8px 12px !important;
+        border-bottom: 0 !important;
+        text-align: inherit !important;
+        font-size: 13.5px !important;
+        white-space: nowrap !important;
+        color: #111111 !important;
+    }
+
+    .header .header-right-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        width: auto !important;
+        margin-top: 0 !important;
+        gap: 12px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .header .nav-login-link {
+        width: auto !important;
+        display: inline-block !important;
+        border: 0 !important;
+        background: transparent !important;
+        padding: 8px 10px !important;
+        font-size: 13.5px !important;
+        color: #111111 !important;
+    }
+
+    .header .join-btn {
+        width: auto !important;
+        display: inline-flex !important;
+        padding: 9px 18px !important;
+        font-size: 13px !important;
+    }
 }
 
-.header-mobile-right {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    margin-left: auto !important;
-    flex-shrink: 0 !important;
-}
-
-/* Mobile & Tablet Navbar Collapsed Menu (below 1200px) */
+/* Mobile & Tablet Header (< 1200px) */
 @media (max-width: 1199.98px) {
     .header .navbar {
         display: flex !important;
@@ -364,6 +436,7 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
         align-items: center !important;
         justify-content: space-between !important;
         width: 100% !important;
+        min-width: 0 !important;
         flex-wrap: nowrap !important;
     }
 
@@ -374,15 +447,21 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
         flex-shrink: 0 !important;
     }
 
+    .navbar-brand.logo .logo-img {
+        width: 28px !important;
+        height: 28px !important;
+        object-fit: contain !important;
+    }
+
     .navbar-brand.logo .logo-text {
         display: inline-flex !important;
         align-items: center;
         color: #000000 !important;
-        font-size: 18px !important;
+        font-size: 15px !important;
         font-weight: 900 !important;
         letter-spacing: 0.01em !important;
         line-height: 1;
-        margin-left: 8px;
+        margin-left: 6px;
         text-transform: uppercase;
         transform: translateY(1px);
     }
@@ -399,9 +478,9 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        padding: 3px 6px 2px;
-        margin-left: 4px;
-        font-size: 11px;
+        padding: 2px 5px !important;
+        margin-left: 3px;
+        font-size: 10px !important;
         font-weight: 900 !important;
         letter-spacing: 0.03em;
         line-height: 1;
@@ -409,124 +488,79 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
         text-transform: uppercase;
     }
 
-    .navbar-brand.logo .logo-img {
-        width: 34px !important;
-        height: 34px !important;
-        object-fit: contain !important;
-    }
-
     .header-mobile-right {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 4px !important;
+        margin-left: auto !important;
         flex-shrink: 0 !important;
+        flex-wrap: nowrap !important;
     }
 
     .mobile-header-actions {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 4px !important;
         min-width: 0 !important;
+        flex-wrap: nowrap !important;
     }
 
-    .mobile-header-actions .mobile-head-btn {
-        max-width: 142px;
+    .mobile-head-btn {
+        height: 32px !important;
+        min-height: 32px !important;
+        padding: 0 6px !important;
+        border: 1px solid #EAEAEA !important;
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 3px !important;
+        font-size: 12px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* BOTH "Download" AND "Lang" MUST ALWAYS BE VISIBLE */
+    .mobile-download-word {
+        display: inline !important;
+    }
+
+    .mobile-lang-word {
+        display: inline !important;
+    }
+
+    .mobile-head-text {
+        font-size: 10.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.15px !important;
+        white-space: nowrap !important;
+    }
+
+    .mobile-lang-code {
+        font-size: 9.5px !important;
+        font-weight: 900 !important;
+        color: #555555 !important;
+        margin-left: 1px !important;
     }
 
     .navbar-toggler {
-        width: 36px !important;
-        height: 36px !important;
+        width: 32px !important;
+        height: 32px !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         flex-shrink: 0 !important;
         padding: 0 !important;
-        border: 1px solid rgba(0, 0, 0, 0.14) !important;
+        border: 1px solid rgba(0, 0, 0, 0.16) !important;
         background: #FFFFFF !important;
         border-radius: 0 !important;
-        font-size: 22px !important;
+        font-size: 19px !important;
         color: #000000 !important;
+        margin-left: 2px !important;
     }
 
-    /* On all tablets and phones (< 1200px), hide redundant "Download" prefix */
-    .mobile-download-word {
-        display: none !important;
-    }
-
-    /* Hide redundant "Lang" text prefix */
-    .mobile-lang-word {
-        display: none !important;
-    }
-}
-
-@media (max-width: 576px) {
-    .header .container {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-
-    .navbar-brand.logo .logo-img {
-        width: 30px !important;
-        height: 30px !important;
-    }
-
-    .navbar-brand.logo .logo-text {
-        font-size: 16px !important;
-        margin-left: 6px !important;
-    }
-
-    .navbar-brand.logo .logo-one {
-        font-size: 10px !important;
-        padding: 2px 4px !important;
-    }
-
-    .header-mobile-right {
-        gap: 5px !important;
-    }
-
-    .mobile-header-actions {
-        gap: 5px !important;
-    }
-
-    .mobile-head-btn {
-        height: 34px !important;
-        padding: 0 7px !important;
-        font-size: 13px !important;
-        gap: 4px !important;
-        border: 1px solid #EBEBEB !important;
-    }
-
-    .mobile-head-text {
-        font-size: 11px !important;
-        font-weight: 700 !important;
-    }
-
-    .navbar-toggler {
-        width: 34px !important;
-        height: 34px !important;
-        font-size: 20px !important;
-    }
-}
-
-@media (max-width: 375px) {
-    .btn-trigger-brochure .mobile-head-text {
-        display: none !important; /* On small screens, show PDF icon */
-    }
-
-    .mobile-head-btn {
-        min-width: 32px !important;
-        padding: 0 6px !important;
-    }
-
-    .header-mobile-right {
-        gap: 4px !important;
-    }
-
-    .mobile-header-actions {
-        gap: 4px !important;
-    }
-}
-
+    /* Collapsible Drawer Menu (only applies < 1200px) */
     .header .navbar-collapse {
         margin-top: 10px;
         padding: 16px 18px;
@@ -537,38 +571,115 @@ header, nav, section, footer, main, .header, .hero, .courses-section, .workshops
     }
 
     .header .nav-item {
-        width: 100%;
+        width: 100% !important;
     }
 
     .header .nav-link {
         padding: 10px 12px !important;
-        border-bottom: 1px solid #F0F0F0;
-        text-align: left;
+        border-bottom: 1px solid #F0F0F0 !important;
+        text-align: left !important;
         font-size: 14px !important;
     }
 
     .header .header-right-actions {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-        margin-top: 14px;
-        gap: 10px;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        margin-top: 14px !important;
+        gap: 10px !important;
     }
 
     .header .nav-login-link {
-        width: 100%;
-        text-align: center;
+        width: 100% !important;
+        text-align: center !important;
         padding: 10px !important;
-        border: 1px solid #DCDCDC;
-        background: #FAFAFA;
+        border: 1px solid #DCDCDC !important;
+        background: #FAFAFA !important;
         display: block !important;
     }
 
     .header .join-btn {
         width: 100% !important;
         padding: 12px !important;
-        justify-content: center;
+        justify-content: center !important;
         font-size: 14px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .header .container {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .navbar-brand.logo {
+        margin-right: 4px !important;
+    }
+
+    .navbar-brand.logo .logo-img {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    .navbar-brand.logo .logo-text {
+        font-size: 14px !important;
+        margin-left: 5px !important;
+    }
+
+    .navbar-brand.logo .logo-one {
+        font-size: 9.5px !important;
+        padding: 1px 4px !important;
+        margin-left: 2px !important;
+    }
+
+    .header-mobile-right {
+        gap: 3px !important;
+    }
+
+    .mobile-header-actions {
+        gap: 3px !important;
+    }
+
+    .mobile-head-btn {
+        height: 30px !important;
+        min-height: 30px !important;
+        padding: 0 5px !important;
+        gap: 2px !important;
+    }
+
+    .mobile-head-text {
+        font-size: 10px !important;
+        letter-spacing: -0.2px !important;
+    }
+
+    .mobile-lang-code {
+        font-size: 9px !important;
+    }
+
+    .navbar-toggler {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .header .container {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+
+    .mobile-head-btn {
+        padding: 0 4px !important;
+    }
+
+    .mobile-head-text {
+        font-size: 9.5px !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    .navbar-brand.logo .logo-text {
+        font-size: 13px !important;
     }
 }
 
