@@ -35,6 +35,12 @@ $approvedCourseSlugs = [
     'system-design-microservices-foundations',
     'cybersecurity-ethical-security-foundations',
     'artificial-intelligence-machine-learning',
+    'ai-machine-learning-fundamentals',
+    'prompt-engineering-generative-ai',
+    'python-for-ai-ml',
+    'ai-agents-workflow-automation',
+    'chatgpt-gemini-ai-productivity-tools',
+    'machine-learning-python-projects',
 ];
 
 $workshopSlugs = [

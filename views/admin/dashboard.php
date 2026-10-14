@@ -206,7 +206,7 @@ foreach($quick as [$href,$icon,$label,$alert]): ?>
                 <label style="display:block;font-size:.78rem;font-weight:700;color:#334155;margin-bottom:6px;">
                     <?= !empty($brochure['brochure_file']) ? 'Replace Brochure with New File' : 'Upload New Brochure File' ?>
                 </label>
-                <input type="file" name="brochure" accept=".pdf,.doc,.docx" required class="tcm-input" style="padding:7px 12px;font-size:.82rem;background:#fff;">
+                <input type="file" name="brochure" accept=".pdf,application/pdf" required class="tcm-input" style="padding:7px 12px;font-size:.82rem;background:#fff;">
             </div>
             <div style="padding-top:22px;">
                 <button type="submit" class="tcm-btn primary" style="padding:10px 22px;">
@@ -215,7 +215,7 @@ foreach($quick as [$href,$icon,$label,$alert]): ?>
             </div>
         </form>
         <div style="font-size:.72rem;color:#94a3b8;margin-top:8px;">
-            Supports PDF, DOC, DOCX files up to 20MB. Automatically optimized for fast student downloads.
+            Supports PDF files up to 20MB. Automatically optimized for fast student downloads.
         </div>
     </div>
 </div>

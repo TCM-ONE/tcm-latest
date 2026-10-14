@@ -651,7 +651,17 @@ CARD
     color:#111;
 }
 
-.course-price span{
+.course-price .price-val,
+.course-price strong.price-val,
+.course-price span.price-val{
+    font-size:24px;
+    font-weight:700;
+    color:#111;
+    text-decoration:none !important;
+}
+
+.course-price .course-price-orig,
+.course-price span:not(.price-val):not(.course-price-usd-tag):not(.course-price-inr-tag){
     font-size:14px;
     font-weight:500;
     color:#999;

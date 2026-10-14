@@ -34,6 +34,11 @@
                 <td>
                     <span class="tcm-badge purple"><?= e($l['interest_type']) ?></span>
                     <div class="muted" style="font-size:.8rem;"><?= e($l['interest_title'] ?? '—') ?></div>
+                    <?php if (!empty($l['message'])): ?>
+                        <div class="muted" style="font-size:.74rem;margin-top:4px;max-width:340px;white-space:normal;">
+                            <?= nl2br(e($l['message'])) ?>
+                        </div>
+                    <?php endif; ?>
                 </td>
                 <td class="muted" style="font-size:.8rem;"><?= e($l['source']) ?></td>
                 <td>

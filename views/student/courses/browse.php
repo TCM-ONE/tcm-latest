@@ -111,7 +111,7 @@
             <!-- Price + rating -->
             <div style="display: flex; justify-content: space-between; margin-bottom: 14px;">
                 <div>
-                    <strong style="font-size:1.05rem;color:#111;"><?= $isPaid ? money($c['price']) : '<span style="color:#16a34a;font-weight:700;">Free</span>' ?></strong>
+                    <strong style="font-size:1.05rem;color:#111;"><?= $isPaid ? money($c['price']) . ' <small style="color:#2563eb;font-weight:700;font-size:0.8rem;">(' . money_usd($c['price']) . ' USD)</small>' : '<span style="color:#16a34a;font-weight:700;">Free</span>' ?></strong>
                     <?php if ($c['original_price'] && $isPaid): ?>
                         <span style="color:#bbb;text-decoration:line-through;font-size:.8rem;margin-left:5px;"><?= money($c['original_price']) ?></span>
                     <?php endif; ?>

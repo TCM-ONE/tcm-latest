@@ -55,6 +55,8 @@ final class PublicController extends Controller
             $course['discount_percent'] = Course::discountPercent($course);
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['thumbnail']        = $course['thumbnail_url'];
+            $course['price_usd']        = round(((float)($course['price'] ?? 0)) / 83.5);
+            $course['original_price_usd'] = !empty($course['original_price']) ? round(((float)$course['original_price']) / 83.5) : 0;
         }
         Response::success($courses, 'Courses fetched.');
     }
@@ -70,6 +72,8 @@ final class PublicController extends Controller
         $course['discount_percent'] = Course::discountPercent($course);
         $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
         $course['thumbnail']        = $course['thumbnail_url'];
+        $course['price_usd']        = round(((float)($course['price'] ?? 0)) / 83.5);
+        $course['original_price_usd'] = !empty($course['original_price']) ? round(((float)$course['original_price']) / 83.5) : 0;
         $course['curriculum']       = Course::curriculum((int) $course['id']);
         $course['reviews'] = Database::all(
             "SELECT cr.rating, cr.comment, cr.created_at, u.name
@@ -265,6 +269,96 @@ final class PublicController extends Controller
             'course_title' => $courseTitle,
             'download_url' => $downloadUrl,
         ], 'Thank you! Your brochure download will start automatically.');
+    }
+
+    /**
+     * POST /api/demo-lead
+     * Capture a free demo request for premium courses only.
+     */
+    public function demoLead(): void
+    {
+        $name      = trim(Request::string('name'));
+        $email     = trim(Request::string('email'));
+        $phone     = trim(Request::string('phone'));
+        $slug      = trim(Request::string('course_slug'));
+        $slot      = trim(Request::string('preferred_slot'));
+        $goal      = trim(Request::string('goal'));
+
+        if ($name === '') {
+            Response::error('Please enter your full name.', 422);
+        }
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            Response::error('Please enter a valid email address.', 422);
+        }
+        $cleanPhone = preg_replace('/[^\d]/', '', $phone) ?? '';
+        if (strlen($cleanPhone) < 10) {
+            Response::error('Please enter a valid 10-digit phone number.', 422);
+        }
+        if ($slug === '') {
+            Response::error('Please choose a course for your demo.', 422);
+        }
+
+        $course = Course::findBySlug($slug);
+        if ($course === null) {
+            Response::error('Selected course was not found.', 404);
+        }
+
+        $price = (float)($course['price'] ?? 0);
+
+        $courseTitle = (string)($course['title'] ?? ucwords(str_replace('-', ' ', $slug)));
+        $messageParts = [
+            'Requested free demo for ' . $courseTitle,
+            'Course price: ₹' . number_format($price, 0),
+        ];
+        if ($slot !== '') {
+            $messageParts[] = 'Preferred slot: ' . $slot;
+        }
+        if ($goal !== '') {
+            $messageParts[] = 'Goal: ' . $goal;
+        }
+
+        $user = Auth::user();
+        $leadId = Lead::capture([
+            'user_id'        => $user['id'] ?? null,
+            'name'           => $name,
+            'email'          => $email,
+            'phone'          => $phone,
+            'interest_type'  => 'course',
+            'interest_id'    => (int)($course['id'] ?? 0),
+            'interest_title' => $courseTitle,
+            'message'        => implode("\n", $messageParts),
+            'source'         => 'free_demo_modal',
+        ]);
+
+        try {
+            $adminEmail = (string) config('mail.admin_email');
+            if ($adminEmail !== '') {
+                Mailer::send(
+                    $adminEmail,
+                    'Free Demo Request: ' . $name . ' (' . $courseTitle . ')',
+                    Mailer::template(
+                        'New Free Demo Request',
+                        sprintf(
+                            '<p><strong>%s</strong> requested a free demo for <strong>%s</strong>.</p>' .
+                            '<ul><li><strong>Email:</strong> %s</li><li><strong>Phone:</strong> %s</li><li><strong>Preferred slot:</strong> %s</li><li><strong>Goal:</strong> %s</li></ul>',
+                            e($name),
+                            e($courseTitle),
+                            e($email),
+                            e($phone),
+                            e($slot ?: 'Not specified'),
+                            e($goal ?: 'Not specified')
+                        )
+                    )
+                );
+            }
+        } catch (\Throwable) {
+            // Non-blocking
+        }
+
+        Response::success([
+            'lead_id'      => $leadId,
+            'course_title' => $courseTitle,
+        ], 'Thanks! Your demo request has been received.');
     }
 
     /**

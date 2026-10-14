@@ -414,7 +414,7 @@
                             <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </button>
                         <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
-                        <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
+                        <button type="button" class="join-btn demo-trigger">Get a Free Demo</button>
                     </div>
                 </div>
             </nav>
@@ -442,6 +442,7 @@
                         <div class="ws-hero-price-block">
                             <div class="ws-price-hero-wrap">
                                 <span class="ws-price-hero">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?></span>
+                                <span class="ws-price-usd" style="font-size:1.15rem;font-weight:700;color:#60a5fa;margin-left:8px;">($<?= number_format(round(((float)($course['price'] ?? 0)) / 83.5), 0) ?> USD)</span>
                                 <?php if (!empty($course['original_price']) && (float)$course['original_price'] > (float)$course['price']): 
                                     $origPrice = (float)$course['original_price'];
                                     $currPrice = (float)($course['price'] ?? 0);
@@ -558,7 +559,7 @@
                         <div style="background:#fafafa;border:1px solid #e0e0e0;padding:16px;margin-bottom:20px;">
                             <div class="d-flex justify-content-between mb-2">
                                 <span style="font-size:0.85rem;color:#666;">Course Fee</span>
-                                <strong style="font-size:1.1rem;color:#111;">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?></strong>
+                                <strong style="font-size:1.05rem;color:#111;">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?> <span style="font-size:0.85rem;color:#2563eb;font-weight:600;">($<?= number_format(round(((float)($course['price'] ?? 0)) / 83.5), 0) ?> USD)</span></strong>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span style="font-size:0.85rem;color:#666;">Access</span>
@@ -678,6 +679,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
-    <script src="<?= base_url('/assets/tcm-app.js') ?>"></script>
+    <script src="<?= base_url('/assets/tcm-app.js?v=2.2.4') ?>"></script>
 </body>
 </html>

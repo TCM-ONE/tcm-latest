@@ -253,7 +253,7 @@
                             <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </a>
                         <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
-                        <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
+                        <button type="button" class="join-btn demo-trigger">Get a Free Demo</button>
                     </div>
                 </div>
             </nav>
@@ -403,5 +403,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
+    <script src="<?= base_url('/assets/tcm-app.js?v=2.2.4') ?>"></script>
 </body>
 </html>

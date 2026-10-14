@@ -319,7 +319,7 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
                 <span><?= !empty($course['brochure_file']) ? 'Replace Course Brochure (PDF)' : 'Upload Course Brochure (PDF)' ?></span>
                 <span style="font-size:.74rem;color:#dc2626;font-weight:600;"><i class="bi bi-file-earmark-arrow-up"></i> PDF only (Max 25MB)</span>
             </label>
-            <input type="file" name="brochure_file" id="brochureFileInput" class="tcm-input" accept=".pdf,.doc,.docx" style="padding:8px 12px;background:#fff;">
+            <input type="file" name="brochure_file" id="brochureFileInput" class="tcm-input" accept=".pdf,application/pdf" style="padding:8px 12px;background:#fff;">
             <div style="font-size:.74rem;color:var(--muted);margin-top:5px;">
                 When a student clicks <strong>"View Brochure" / "Download Brochure"</strong>, enters their details (Name, Email, Phone), this specific course syllabus/brochure PDF will be automatically downloaded.
             </div>
