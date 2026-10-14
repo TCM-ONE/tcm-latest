@@ -32,18 +32,112 @@ body {
 
 /* Header & Nav */
 .header {
-    background: #FFFFFF !important;
-    border-bottom: 1px solid var(--site-line);
+    background: transparent !important;
+    border-bottom: none !important;
     box-shadow: none !important;
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 10px 0;
+    padding: 0 !important;
+}
+
+/* Tier 1: Desktop Top Utility Bar */
+.header-top-bar {
+    background: #F8F8F8 !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    padding: 6px 0 !important;
+    font-size: 12.5px !important;
+    color: #444444 !important;
+}
+
+.header-top-kicker {
+    font-weight: 600 !important;
+    color: #222222 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.header-top-kicker i {
+    color: #000000 !important;
+    font-size: 13px !important;
+}
+
+.header-top-divider {
+    color: #CCCCCC !important;
+    margin: 0 4px !important;
+}
+
+.header-top-brochure {
+    color: #111111 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    transition: color 0.15s ease !important;
+}
+
+.header-top-brochure:hover {
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
+.header-top-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.header-top-login {
+    color: #111111 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 12.5px !important;
+    transition: color 0.15s ease !important;
+}
+
+.header-top-login:hover {
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
+.header-top-bar .desktop-lang-picker .desktop-lang-toggle {
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 8px !important;
+    border: 1px solid #DCDCDC !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    border-radius: 2px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    white-space: nowrap !important;
+}
+
+.header-top-bar .desktop-lang-picker .desktop-lang-toggle:hover {
+    background: #F3F3F3 !important;
+    border-color: #000000 !important;
+}
+
+/* Tier 2: Main Navigation Bar */
+.header-main-bar {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    padding: 10px 0 !important;
 }
 
 /* Desktop Header (>= 1200px): Clean Two-Column Layout */
 @media (min-width: 1200px) {
-    .header {
+    .header-main-bar {
         padding: 12px 0 !important;
     }
 
@@ -63,7 +157,7 @@ body {
     .header-nav-left {
         display: flex !important;
         align-items: center !important;
-        gap: 32px !important;
+        gap: 36px !important;
         flex-shrink: 0 !important;
     }
 
@@ -76,7 +170,7 @@ body {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
         list-style: none !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -104,66 +198,17 @@ body {
     .header-desktop-actions {
         display: flex !important;
         align-items: center !important;
-        gap: 14px !important;
         margin-left: auto !important;
         flex-shrink: 0 !important;
-    }
-
-    .header-desktop-actions .btn-trigger-brochure {
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        color: #111111 !important;
-        text-decoration: none !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        padding: 6px 10px !important;
-        border: 1px solid transparent !important;
-        border-radius: 2px !important;
-        transition: all 0.15s ease !important;
-        white-space: nowrap !important;
-    }
-
-    .header-desktop-actions .btn-trigger-brochure:hover {
-        background: #F5F5F5 !important;
-        border-color: #EAEAEA !important;
-    }
-
-    .header-desktop-actions .desktop-lang-picker .desktop-lang-toggle {
-        height: 34px !important;
-        padding: 0 10px !important;
-        border: 1px solid #D9D9D9 !important;
-        background: #FFFFFF !important;
-        color: #000000 !important;
-        font-size: 12.5px !important;
-        font-weight: 600 !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-        cursor: pointer !important;
-        border-radius: 2px !important;
-        transition: all 0.15s ease !important;
-        white-space: nowrap !important;
-    }
-
-    .header-desktop-actions .nav-login-link {
-        color: #111111 !important;
-        font-size: 13.5px !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        padding: 6px 10px !important;
-        border-radius: 2px !important;
-        transition: color 0.15s ease !important;
-        white-space: nowrap !important;
     }
 
     .header-desktop-actions .join-btn {
         background: #000000 !important;
         color: #FFFFFF !important;
-        font-size: 13px !important;
+        font-size: 13.5px !important;
         font-weight: 700 !important;
         letter-spacing: 0.02em !important;
-        padding: 8px 18px !important;
+        padding: 9px 22px !important;
         border: 1px solid #000000 !important;
         border-radius: 2px !important;
         cursor: pointer !important;
@@ -173,7 +218,7 @@ body {
         justify-content: center !important;
         transition: all 0.15s ease !important;
         white-space: nowrap !important;
-        min-height: 36px !important;
+        min-height: 38px !important;
     }
 
     .header-desktop-actions .join-btn:hover {
@@ -193,7 +238,11 @@ body {
 
 /* Mobile & Tablet Header (< 1200px) */
 @media (max-width: 1199.98px) {
-    .header {
+    .header-top-bar {
+        display: none !important;
+    }
+
+    .header-main-bar {
         padding: 8px 0 !important;
     }
 
@@ -422,18 +471,19 @@ body {
 }
 
 .logo-one {
-    color: #FFFFFF !important;
-    background: #000000 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    background: transparent !important;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    padding: 2px 5px !important;
+    padding: 0 !important;
     margin-left: 3px;
-    font-size: 10.5px !important;
+    font-size: 16.5px !important;
     font-weight: 900 !important;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
     line-height: 1;
-    border-radius: 2px;
+    border-radius: 0 !important;
     text-transform: uppercase;
 }
 
