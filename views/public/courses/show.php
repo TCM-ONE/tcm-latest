@@ -377,49 +377,11 @@
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header class="header" style="background:#fff;border-bottom:2px solid #111;">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg p-0">
-                <a class="navbar-brand logo" href="<?= base_url('/') ?>">
-                    <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="logo-img">
-                    <span class="logo-text">TCM <span class="logo-one">One</span></span>
-                </a>
-                <button class="navbar-toggler border-0 shadow-none d-lg-none ms-auto" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarMenu">
-                    <ul class="navbar-nav me-auto align-items-lg-center">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('/workshops') ?>">Workshops</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('/insights.html') ?>">TCM Insights</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('/community.html') ?>">Community</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('/contact.html') ?>">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('/partner.html') ?>">Become a Partner</a>
-                        </li>
-                    </ul>
-
-                    <div class="header-right-actions d-flex align-items-center gap-3">
-                        <button type="button" class="nav-link d-none d-sm-inline-flex align-items-center gap-1 btn-trigger-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="background:none;border:none;font-weight:600;font-size:14px;color:#111;cursor:pointer;padding:0;">
-                            <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
-                        </button>
-                        <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
-                        <button type="button" class="join-btn demo-trigger">Get a Free Demo</button>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <!-- Reusable Header Navigation -->
+    <?php
+    $activePage = 'courses';
+    require __DIR__ . '/../../partials/header.php';
+    ?>
 
     <!-- Hero Section -->
     <section class="ws-detail-hero">
