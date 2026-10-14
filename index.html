@@ -112,7 +112,7 @@
     <link rel="stylesheet" href="./assets/skeleton.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/auth.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.2.2">
-    <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.5">
+    <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.6">
     <style>
 /* Critical Hard Horizontal Scroll Lock */
 *, *::before, *::after {
@@ -740,58 +740,62 @@ img, svg, video, canvas {
     <header class="header">
         <div class="container">
             <nav class="navbar navbar-expand-xl p-0">
-                <a class="navbar-brand logo" href="index.html">
-                    <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                    <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">One</span></span>
-                </a>
-
-                <div class="mobile-header-actions d-xl-none">
-                    <a href="/download-brochure"
-                       class="mobile-head-btn btn-trigger-brochure"
-                       data-trigger-brochure="true"
-                       aria-label="Download Course Brochure PDF">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                        <span class="mobile-head-text"><span class="mobile-download-word">Download </span>Brochure</span>
+                <div class="header-nav-top">
+                    <a class="navbar-brand logo" href="index.html">
+                        <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
+                        <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">One</span></span>
                     </a>
-                    <div class="mobile-lang-picker">
-                        <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                            <i class="bi bi-translate"></i>
-                            <span class="mobile-head-text">Lang</span>
-                            <span class="mobile-lang-code">EN</span>
-                        </button>
-                        <div class="mobile-lang-menu" role="menu">
-                            <button type="button" data-lang="en" role="menuitem">English</button>
-                            <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                            <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                            <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                            <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                            <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                            <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                            <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                            <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                            <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                            <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                            <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                            <button type="button" data-lang="fr" role="menuitem">French</button>
-                            <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                            <button type="button" data-lang="de" role="menuitem">German</button>
-                            <button type="button" data-lang="it" role="menuitem">Italian</button>
-                            <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                            <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                            <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                            <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                            <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                            <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                            <button type="button" data-lang="th" role="menuitem">Thai</button>
-                            <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
+
+                    <div class="header-mobile-right d-xl-none">
+                        <div class="mobile-header-actions">
+                            <a href="/download-brochure"
+                               class="mobile-head-btn btn-trigger-brochure"
+                               data-trigger-brochure="true"
+                               aria-label="Download Course Brochure PDF">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                <span class="mobile-head-text"><span class="mobile-download-word">Download </span>Brochure</span>
+                            </a>
+                            <div class="mobile-lang-picker">
+                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
+                                    <i class="bi bi-translate"></i>
+                                    <span class="mobile-head-text mobile-lang-word">Lang </span>
+                                    <span class="mobile-lang-code">EN</span>
+                                </button>
+                                <div class="mobile-lang-menu" role="menu">
+                                    <button type="button" data-lang="en" role="menuitem">English</button>
+                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
+                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
+                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
+                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
+                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
+                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
+                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
+                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
+                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
+                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
+                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
+                                    <button type="button" data-lang="fr" role="menuitem">French</button>
+                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
+                                    <button type="button" data-lang="de" role="menuitem">German</button>
+                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
+                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
+                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
+                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
+                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
+                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
+                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
+                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
+                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
+                                </div>
+                            </div>
                         </div>
+
+                        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="bi bi-list"></i>
+                        </button>
                     </div>
                 </div>
-
-                <button class="navbar-toggler border-0 shadow-none d-xl-none" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
-                </button>
 
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav me-auto align-items-xl-center">
@@ -3712,7 +3716,7 @@ img, svg, video, canvas {
             document.dispatchEvent(new Event('tcm:translate-ready'));
         };
     </script>
-    <script src="./assets/tcm-app.js?v=2.2.5"></script>
+    <script src="./assets/tcm-app.js?v=2.2.6"></script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="./assets/hero-liquid.js"></script>
     <script src="./assets/intro-video.js"></script>
