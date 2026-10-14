@@ -34,6 +34,7 @@ $approvedCourseSlugs = [
     'data-science-machine-learning-foundations',
     'system-design-microservices-foundations',
     'cybersecurity-ethical-security-foundations',
+    'artificial-intelligence-machine-learning',
 ];
 
 $workshopSlugs = [

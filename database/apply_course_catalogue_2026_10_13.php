@@ -76,6 +76,7 @@ $thumbnails = [
     'data-science-machine-learning' => 'coding-datascience.gif',
     'system-design-microservices' => 'coding-backend.gif',
     'cybersecurity-essentials' => 'coding-terminal.gif',
+    'artificial-intelligence-machine-learning' => 'ai-machine-learning.svg',
 ];
 
 $icons = [

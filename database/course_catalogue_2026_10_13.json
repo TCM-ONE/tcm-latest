@@ -514,6 +514,27 @@
       "delivery": "Instructor-led live online + assignments + project review (subject to scheduled batch)",
       "source": "https://thecodemunk.in/; https://thecodemunk.in/programs.html",
       "pricing_note": "Proposed fee only. Confirm trainer, schedule, deliverables, refund terms, applicable taxes and checkout total before publishing. No automatic discounts or placement guarantees."
+    },
+    {
+      "slug": "artificial-intelligence-machine-learning",
+      "title": "Artificial Intelligence & Machine Learning (AI & ML) Masterclass",
+      "category": "AI & Automation",
+      "level": "Intermediate",
+      "duration_weeks": 16,
+      "estimated_live_hours": 120,
+      "proposed_fee_inr": 14999,
+      "current_homepage_fee_inr": 14999,
+      "priority": "P0",
+      "display_status": "Publish after batch verification",
+      "target_audience": "College students, software engineers, data analysts & working professionals aiming for AI/ML engineering roles",
+      "card_description": "Master Python, Math, Supervised/Unsupervised ML, Deep Learning, CV, NLP, Generative AI & MLOps.",
+      "full_description": "Master end-to-end Artificial Intelligence and Machine Learning engineering. Build strong foundations in Python and mathematics, train supervised and unsupervised ML algorithms, architect deep neural networks with PyTorch, build Computer Vision & NLP applications with Transformers, implement Retrieval-Augmented Generation (RAG) agents, and deploy production ML systems with FastAPI and Docker.",
+      "modules": "Python for AI; Math & Statistics; Supervised ML; Unsupervised Learning; Deep Learning with PyTorch; Computer Vision; NLP & Transformers; Generative AI & RAG; MLOps & FastAPI Deployment",
+      "capstone_or_outcome": "Deploy an end-to-end production-ready AI Assistant and predictive ML service",
+      "prerequisites": "Basic programming fundamentals",
+      "delivery": "Instructor-led live online + assignments + project review (subject to scheduled batch)",
+      "source": "https://thecodemunk.in/; https://thecodemunk.in/programs.html",
+      "pricing_note": "Proposed fee only. Confirm trainer, schedule, deliverables, refund terms, applicable taxes and checkout total before publishing. No automatic discounts or placement guarantees."
     }
   ],
   "workshops": [

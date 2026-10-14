@@ -382,7 +382,8 @@
         "core-java-object-oriented-programming": "core-java-oop.svg",
         "data-science-machine-learning-foundations": "coding-algorithm.gif",
         "system-design-microservices-foundations": "coding-database.gif",
-        "cybersecurity-ethical-security-foundations": "coding.gif"
+        "cybersecurity-ethical-security-foundations": "coding.gif",
+        "artificial-intelligence-machine-learning": "ai-machine-learning.svg"
     };
 
     function getUniqueGifForCourse(slug, index) {
@@ -417,7 +418,8 @@
             (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
         var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
         var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + esc(api('/assets/coding-fullstack.gif')) + '\';"></div>';
-        return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '">' +
+        var track = inferCourseTrack(c.slug, c.title, c.category_name || c.category || "");
+        return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '" data-course-track="' + esc(track) + '">' +
             thumb +
             price +
             "<h3>" + esc(c.title) + "</h3>" +
@@ -427,6 +429,178 @@
                 '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>' +
             '</div>' +
             "</div>";
+    }
+
+    var courseTrackLabels = {
+        all: "All learning tracks",
+        web: "Web & App Development",
+        ai: "AI, ML & Automation",
+        data: "Data & Analytics",
+        cloud: "Cloud, DevOps & Security",
+        career: "Career, DSA & Foundations",
+        design: "Design, QA & Marketing"
+    };
+    var activeCourseTrack = "all";
+
+    function inferCourseTrack(slug, title, category) {
+        var hay = ((slug || "") + " " + (title || "") + " " + (category || "")).toLowerCase();
+        if (/ui|ux|figma|testing|qa|playwright|marketing|seo/.test(hay)) return "design";
+        if (/cloud|aws|devops|docker|cicd|security|cyber/.test(hay)) return "cloud";
+        if (/data|analytics|sql|powerbi|database/.test(hay)) return "data";
+        if (/ai|machine|learning|automation|genai|generative|agent|prompt|openai|llm/.test(hay)) return "ai";
+        if (/full-stack|frontend|backend|react|node|mobile|website|web/.test(hay)) return "web";
+        if (/dsa|career|java|python|digital|computer|foundation|fundamental/.test(hay)) return "career";
+        return "web";
+    }
+
+    function shuffleArray(items) {
+        for (var i = items.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = items[i];
+            items[i] = items[j];
+            items[j] = tmp;
+        }
+        return items;
+    }
+
+    function shuffleStaticCourseCards() {
+        document.querySelectorAll(".courses-section .course-grid").forEach(function (grid) {
+            var cards = Array.prototype.slice.call(grid.querySelectorAll(":scope > .course-card"));
+            if (cards.length < 2) return;
+            shuffleArray(cards).forEach(function (card) { grid.appendChild(card); });
+        });
+    }
+
+    function decorateCourseCards() {
+        document.querySelectorAll(".courses-section .course-card").forEach(function (card) {
+            if (!card.getAttribute("data-course-track")) {
+                var slug = card.getAttribute("data-course-slug") || "";
+                var title = card.getAttribute("data-course-title") || (card.querySelector("h3") ? card.querySelector("h3").textContent : "");
+                card.setAttribute("data-course-track", inferCourseTrack(slug, title, ""));
+            }
+        });
+    }
+
+    function ensureCourseEmptyState(grid) {
+        var empty = grid.querySelector(":scope > .course-grid-empty");
+        if (!empty) {
+            empty = document.createElement("div");
+            empty.className = "course-grid-empty";
+            empty.textContent = "No courses match this filter in the selected tab.";
+            grid.appendChild(empty);
+        }
+        return empty;
+    }
+
+    function activeCoursePane() {
+        return document.querySelector(".courses-section .tab-pane.active.show") ||
+            document.querySelector(".courses-section .tab-pane.active") ||
+            document.querySelector(".courses-section");
+    }
+
+    function applyCourseFilters() {
+        decorateCourseCards();
+        var pane = activeCoursePane();
+        var activeVisible = 0;
+        document.querySelectorAll(".courses-section .course-grid").forEach(function (grid) {
+            var visibleInGrid = 0;
+            grid.querySelectorAll(":scope > .course-card").forEach(function (card) {
+                var track = card.getAttribute("data-course-track") || "web";
+                var show = activeCourseTrack === "all" || track === activeCourseTrack;
+                card.classList.toggle("course-filter-hidden", !show);
+                if (show) {
+                    visibleInGrid++;
+                    if (pane && pane.contains(card)) activeVisible++;
+                }
+            });
+            ensureCourseEmptyState(grid).classList.toggle("visible", visibleInGrid === 0);
+        });
+
+        var summary = document.getElementById("courseFilterSummary");
+        var count = document.getElementById("courseFilterCount");
+        if (summary) summary.textContent = courseTrackLabels[activeCourseTrack] || courseTrackLabels.all;
+        if (count) count.textContent = activeVisible ? activeVisible + " visible" : "No match";
+    }
+
+    function wireCourseFunnel() {
+        var dropdown = document.querySelector(".course-filter-dropdown");
+        var toggle = document.getElementById("courseFilterToggle");
+        var menu = document.getElementById("courseFilterMenu");
+        if (!dropdown || !toggle || !menu) return;
+
+        toggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var open = !dropdown.classList.contains("open");
+            dropdown.classList.toggle("open", open);
+            toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+
+        menu.querySelectorAll(".course-filter-option").forEach(function (option) {
+            option.addEventListener("click", function () {
+                activeCourseTrack = option.getAttribute("data-filter") || "all";
+                menu.querySelectorAll(".course-filter-option").forEach(function (btn) {
+                    btn.classList.toggle("active", btn === option);
+                });
+                var label = toggle.querySelector("span");
+                if (label) label.textContent = courseTrackLabels[activeCourseTrack] || "Choose Track";
+                dropdown.classList.remove("open");
+                toggle.setAttribute("aria-expanded", "false");
+                applyCourseFilters();
+            });
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove("open");
+                toggle.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        document.querySelectorAll('.course-tabs [data-bs-toggle="pill"]').forEach(function (tab) {
+            tab.addEventListener("shown.bs.tab", applyCourseFilters);
+            tab.addEventListener("click", function () { setTimeout(applyCourseFilters, 80); });
+        });
+
+        applyCourseFilters();
+    }
+
+    function wireMobileLanguagePicker() {
+        var picker = document.querySelector(".mobile-lang-picker");
+        if (!picker) return;
+        var toggle = picker.querySelector(".mobile-lang-toggle");
+        var label = toggle ? toggle.querySelector("span") : null;
+        var labels = { en: "EN", hi: "HI", global: "GL" };
+        var saved = "en";
+        try { saved = localStorage.getItem("tcm_site_lang") || "en"; } catch (e) {}
+        if (label) label.textContent = labels[saved] || "EN";
+        picker.querySelectorAll("[data-lang]").forEach(function (btn) {
+            btn.classList.toggle("active", btn.getAttribute("data-lang") === saved);
+        });
+        if (toggle) {
+            toggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                var open = !picker.classList.contains("open");
+                picker.classList.toggle("open", open);
+                toggle.setAttribute("aria-expanded", open ? "true" : "false");
+            });
+        }
+        picker.querySelectorAll("[data-lang]").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var lang = btn.getAttribute("data-lang") || "en";
+                try { localStorage.setItem("tcm_site_lang", lang); } catch (e) {}
+                if (label) label.textContent = labels[lang] || "EN";
+                picker.querySelectorAll("[data-lang]").forEach(function (b) { b.classList.toggle("active", b === btn); });
+                picker.classList.remove("open");
+                if (toggle) toggle.setAttribute("aria-expanded", "false");
+                document.documentElement.setAttribute("lang", lang === "hi" ? "hi" : "en");
+            });
+        });
+        document.addEventListener("click", function (e) {
+            if (!picker.contains(e.target)) {
+                picker.classList.remove("open");
+                if (toggle) toggle.setAttribute("aria-expanded", "false");
+            }
+        });
     }
     // index.html event card (with 16-dot seat visual)
     function eventCardHome(ev) {
@@ -499,12 +673,19 @@
             if (!res || !res.success || !Array.isArray(res.data)) return;
             var items = res.data;
             if (!items.length) return; // keep the designer's sample cards if API empty
+            if (type === "courses") {
+                items = shuffleArray(items.slice());
+            }
             var html = items.map(function (item, i) {
                 if (type === "courses") return courseCardHome(item, i);
                 if (type === "posts")   return postCard(item);
                 return tpl === "pg" ? eventCardPg(item) : eventCardHome(item);
             }).join("");
             container.innerHTML = html;
+            if (type === "courses") {
+                decorateCourseCards();
+                applyCourseFilters();
+            }
 
             // Refresh the programs.html results counter if present.
             var counter = document.getElementById("resultsCount");
@@ -1316,6 +1497,11 @@
         wireWorkshopModal();
         bindCourseWhatsAppCTA();
         deduplicateCourseGifs();
+        wireMobileLanguagePicker();
+        wireCourseFunnel();
+        shuffleStaticCourseCards();
+        decorateCourseCards();
+        applyCourseFilters();
 
         // Sync header height to CSS property for sticky elements on mobile
         function syncHeaderHeight() {
@@ -1354,6 +1540,8 @@
                 hydrateDetailPage();
                 bindCourseWhatsAppCTA();
                 deduplicateCourseGifs();
+                decorateCourseCards();
+                applyCourseFilters();
             });
     });
 })();
