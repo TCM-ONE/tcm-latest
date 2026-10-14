@@ -151,37 +151,74 @@
             margin-bottom: 8px;
         }
         .ws-hero-cta-box {
-            background: #1a1a1a;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            padding: 24px;
+            background: #181818;
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            padding: 22px 24px;
             margin-top: 24px;
-            align-items: center;
-            column-gap: 24px;
-            row-gap: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
         .ws-hero-price-block {
-            flex: 1 1 230px;
-            min-width: 0;
+            width: 100%;
+        }
+        .ws-price-hero-wrap {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .ws-price-hero {
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+        .ws-price-orig {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.45);
+            text-decoration: line-through;
+            font-weight: 600;
+        }
+        .ws-price-discount-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+            border: 1px solid rgba(37, 211, 102, 0.4);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .ws-hero-price-subtext {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.84rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .ws-hero-price-subtext i {
+            color: #25D366;
+            font-size: 0.95rem;
+        }
+        .ws-hero-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.12);
+            width: 100%;
+            margin: 0;
         }
         .ws-hero-actions {
             display: flex;
             align-items: stretch;
-            justify-content: flex-end;
-            flex: 1 1 360px;
             gap: 10px;
-            min-width: 0;
-        }
-        .ws-price-hero {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.03em;
-        }
-        .ws-price-orig {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.45);
-            text-decoration: line-through;
-            margin-left: 8px;
+            width: 100%;
+            flex-wrap: wrap;
         }
 
         .ws-content-section {
@@ -254,42 +291,38 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
+            gap: 8px;
             background: #25D366;
             color: #ffffff;
-            font-size: 13px;
+            font-size: 0.92rem;
             font-weight: 700;
-            padding: 9px 18px;
+            padding: 12px 20px;
             text-decoration: none;
             border: 1.5px solid #1ebe5d;
             border-radius: 0px !important;
             cursor: pointer;
-            transition: opacity 0.15s ease;
+            transition: all 0.15s ease;
             letter-spacing: -0.01em;
-            min-height: 52px;
+            min-height: 48px;
             text-align: center;
             white-space: nowrap;
-        }
-        .ws-btn-join:hover {
-            color: #ffffff;
-            opacity: 0.92;
-        }
-        .ws-hero-actions .ws-btn-join {
             flex: 1 1 220px;
         }
+        .ws-btn-join:hover {
+            background: #20ba59;
+            border-color: #20ba59;
+            color: #ffffff;
+        }
         .ws-hero-actions .tcm-share-btn {
-            flex: 0 0 auto;
-            min-height: 52px;
-            padding-inline: 18px;
+            min-height: 48px;
+            text-align: center;
             white-space: nowrap;
+            flex: 0 0 auto;
+            padding-inline: 18px;
+            font-size: 0.92rem;
+            border: 1.5px solid #ffffff;
         }
-        @media (max-width: 1199px) {
-            .ws-hero-actions {
-                flex: 1 1 100%;
-                justify-content: flex-start;
-            }
-        }
-        @media (max-width: 575px) {
+        @media (max-width: 640px) {
             .ws-detail-hero {
                 padding: 48px 0 38px;
             }
@@ -373,12 +406,26 @@
                     </div>
 
                     <!-- Hero CTA & Share Row -->
-                    <div class="ws-hero-cta-box d-flex flex-wrap align-items-center justify-content-between gap-16">
+                    <div class="ws-hero-cta-box">
                         <div class="ws-hero-price-block">
-                            <span class="ws-price-hero">&#8377;<?= number_format((float)$workshop['price'], 0) ?></span>
-                            <span class="ws-price-orig">&#8377;<?= number_format((float)$workshop['original_price'], 0) ?></span>
-                            <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:2px;">One-time fee &middot; Live sessions included</div>
+                            <div class="ws-price-hero-wrap">
+                                <span class="ws-price-hero">&#8377;<?= number_format((float)$workshop['price'], 0) ?></span>
+                                <?php if (!empty($workshop['original_price']) && (float)$workshop['original_price'] > (float)$workshop['price']): 
+                                    $origWp = (float)$workshop['original_price'];
+                                    $currWp = (float)$workshop['price'];
+                                    $discountWp = round((($origWp - $currWp) / $origWp) * 100);
+                                ?>
+                                    <span class="ws-price-orig">&#8377;<?= number_format($origWp, 0) ?></span>
+                                    <span class="ws-price-discount-badge"><?= $discountWp ?>% OFF</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="ws-hero-price-subtext">
+                                <i class="bi bi-patch-check-fill"></i>
+                                <span>One-time fee &middot; 100% Live sessions &middot; Certificate included</span>
+                            </div>
                         </div>
+
+                        <div class="ws-hero-divider"></div>
 
                         <div class="ws-hero-actions">
                             <?php
