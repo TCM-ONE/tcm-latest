@@ -138,7 +138,7 @@ $discPct    = ($course['original_price'] ?? 0) > 0
 
     <div class="cds-price-card">
         <div class="cds-price-row">
-            <div class="cds-price"><?= money($course['price'] ?? 0) ?></div>
+            <div class="cds-price"><?= money($course['price'] ?? 0) ?> <span style="font-size:0.65em;color:#2563eb;font-weight:700;">(<?= money_usd($course['price'] ?? 0) ?> USD)</span></div>
             <?php if (!empty($course['original_price']) && (float)$course['original_price'] > 0): ?>
                 <div class="cds-orig"><?= money($course['original_price']) ?></div>
                 <?php if ($discPct > 0): ?><div class="cds-disc"><?= $discPct ?>% Off</div><?php endif; ?>

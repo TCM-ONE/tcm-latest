@@ -632,7 +632,8 @@
 
     /* ─── Attach to all join-btn triggers ─────────────── */
     function attachTriggers() {
-        document.querySelectorAll('.join-btn, [data-auth-trigger], a[href*="/auth/login"], a[href*="/auth/register"], a[href*="/student"], a[href*="/admin"]').forEach(el => {
+        document.querySelectorAll('.join-btn:not(.demo-trigger), [data-auth-trigger], a[href*="/auth/login"], a[href*="/auth/register"], a[href*="/student"], a[href*="/admin"]').forEach(el => {
+            if (el.classList && el.classList.contains('demo-trigger')) return;
             el.addEventListener('click', e => {
                 e.preventDefault();
                 window.location.href = 'login.php';

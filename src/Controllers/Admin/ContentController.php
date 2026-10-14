@@ -147,7 +147,7 @@ final class ContentController extends Controller
                 $filename = Upload::store(
                     $_FILES['brochure'],
                     $destDir,
-                    ['pdf', 'doc', 'docx'],
+                    ['pdf'],
                     20 * 1024 * 1024
                 );
                 $oldBrochure = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
@@ -193,7 +193,7 @@ final class ContentController extends Controller
         $redirectUrl = Request::string('redirect_to') ?: '/admin#admBrochureCard';
 
         if (!Upload::present($file)) {
-            $this->respond('Please choose a valid PDF, DOC or DOCX brochure file to upload.', null, $redirectUrl);
+            $this->respond('Please choose a valid PDF brochure file to upload.', null, $redirectUrl);
             return;
         }
 
@@ -202,7 +202,7 @@ final class ContentController extends Controller
             $filename = Upload::store(
                 $file,
                 $destDir,
-                ['pdf', 'doc', 'docx'],
+                ['pdf'],
                 20 * 1024 * 1024 // 20 MB limit
             );
 

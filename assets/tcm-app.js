@@ -94,7 +94,7 @@
         if (!ME.authenticated) return;
 
         // Replace every .join-btn with a proper link based on role
-        document.querySelectorAll(".join-btn").forEach(function (el) {
+        document.querySelectorAll(".join-btn:not(.demo-trigger)").forEach(function (el) {
             var clone = el.cloneNode(true);
             clone.textContent = ME.role === "admin" ? "Admin Panel" : "My Dashboard";
             clone.setAttribute("href", api(ME.dashboard_url || "/student"));
@@ -382,7 +382,14 @@
         "core-java-object-oriented-programming": "core-java-oop.svg",
         "data-science-machine-learning-foundations": "coding-algorithm.gif",
         "system-design-microservices-foundations": "coding-database.gif",
-        "cybersecurity-ethical-security-foundations": "coding.gif"
+        "cybersecurity-ethical-security-foundations": "coding.gif",
+        "artificial-intelligence-machine-learning": "ai-machine-learning.svg",
+        "ai-machine-learning-fundamentals": "ai-machine-learning.svg",
+        "prompt-engineering-generative-ai": "genai-ai-agents.svg",
+        "python-for-ai-ml": "coding-python.gif",
+        "ai-agents-workflow-automation": "coding-automation.gif",
+        "chatgpt-gemini-ai-productivity-tools": "coding-ai.gif",
+        "machine-learning-python-projects": "coding-algorithm.gif"
     };
 
     function getUniqueGifForCourse(slug, index) {
@@ -412,21 +419,425 @@
         return api('/assets/' + filename);
     }
 
+    var USD_EXCHANGE_RATE = 83.5;
+    var activeCurrency = "inr";
+    try {
+        var savedCurr = localStorage.getItem("tcm_currency");
+        if (savedCurr === "usd" || savedCurr === "inr") activeCurrency = savedCurr;
+    } catch (e) {}
+
+    function inrToUsd(amount) {
+        var inr = Number(amount || 0);
+        if (!inr || inr <= 0) return 0;
+        return Math.round(inr / USD_EXCHANGE_RATE);
+    }
+
+    function renderCardPriceHtml(priceInr, origInr) {
+        var pInr = Number(priceInr || 0);
+        var pUsd = inrToUsd(pInr);
+        var oInr = origInr ? Number(origInr) : 0;
+        var oUsd = oInr ? inrToUsd(oInr) : 0;
+
+        if (activeCurrency === "usd") {
+            return '<strong class="price-val">$' + pUsd.toLocaleString("en-US") + ' USD</strong>' +
+                ' <span class="course-price-inr-tag">(₹' + pInr.toLocaleString("en-IN") + ')</span>' +
+                (oUsd ? ' <span class="course-price-orig">$' + oUsd.toLocaleString("en-US") + '</span>' : '');
+        }
+        return '<strong class="price-val">₹' + pInr.toLocaleString("en-IN") + '</strong>' +
+            ' <span class="course-price-usd-tag">($' + pUsd.toLocaleString("en-US") + ' USD)</span>' +
+            (oInr ? ' <span class="course-price-orig">₹' + oInr.toLocaleString("en-IN") + '</span>' : '');
+    }
+
     function courseCardHome(c, idx) {
-        var price = '<div class="course-price">' + money(c.price) +
-            (c.original_price ? " <span>" + money(c.original_price) + "</span>" : "") + "</div>";
+        var priceInr = Number(c.price || 0);
+        var origInr = c.original_price ? Number(c.original_price) : 0;
+        var price = '<div class="course-price">' + renderCardPriceHtml(priceInr, origInr) + '</div>';
         var thumbSrc = normalizeThumbnailUrl(c.thumbnail_url || c.thumbnail, c.slug, idx);
         var thumb = '<div class="course-card-thumb"><img src="' + esc(thumbSrc) + '" alt="' + esc(c.title) + '" data-course-slug="' + esc(c.slug) + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + esc(api('/assets/coding-fullstack.gif')) + '\';"></div>';
-        return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '">' +
+        var track = inferCourseTrack(c.slug, c.title, c.category_name || c.category || "");
+        var brochureUrl = c.brochure_url || api('/courses/' + encodeURIComponent(c.slug || '') + '/brochure');
+        return '<div class="course-card" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '" data-course-track="' + esc(track) + '" data-course-price="' + priceInr + '"' + (origInr ? ' data-course-orig-price="' + origInr + '"' : '') + '>' +
             thumb +
             price +
             "<h3>" + esc(c.title) + "</h3>" +
             "<p>" + esc(c.subtitle || "") + "</p>" +
             '<div class="course-card-actions">' +
                 '<a href="' + api('/courses/' + encodeURIComponent(c.slug)) + '" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>' +
-                '<button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>' +
+                '<a href="' + esc(brochureUrl) + '" class="btn-brochure btn-trigger-brochure" data-course-slug="' + esc(c.slug) + '" data-course-title="' + esc(c.title) + '" data-download-url="' + esc(brochureUrl) + '"><i class="bi bi-file-earmark-pdf"></i> Course PDF</a>' +
             '</div>' +
             "</div>";
+    }
+
+    var courseTrackLabels = {
+        all: "All learning tracks",
+        web: "Web & App Development",
+        ai: "AI, ML & Automation",
+        data: "Data & Analytics",
+        cloud: "Cloud, DevOps & Security",
+        career: "Career, DSA & Foundations",
+        design: "Design, QA & Marketing"
+    };
+    var activeCourseTrack = "all";
+
+    var coursePriceLabels = {
+        all: "All Pricing",
+        "under-2k": "Under ₹2,000 (<$25)",
+        "2k-5k": "₹2,000 – ₹5,000 ($25–$60)",
+        "5k-10k": "₹5,000 – ₹10,000 ($60–$120)",
+        "above-10k": "Above ₹10,000 ($120+)"
+    };
+    var activeCoursePrice = "all";
+
+    function matchPriceFilter(price, filter) {
+        if (!filter || filter === "all") return true;
+        var p = Number(price || 0);
+        if (filter === "under-2k") return p > 0 && p < 2000;
+        if (filter === "2k-5k") return p >= 2000 && p <= 5000;
+        if (filter === "5k-10k") return p > 5000 && p <= 10000;
+        if (filter === "above-10k") return p > 10000;
+        return true;
+    }
+
+    function inferCourseTrack(slug, title, category) {
+        var hay = ((slug || "") + " " + (title || "") + " " + (category || "")).toLowerCase();
+        if (/ui|ux|figma|testing|qa|playwright|marketing|seo/.test(hay)) return "design";
+        if (/cloud|aws|devops|docker|cicd|security|cyber/.test(hay)) return "cloud";
+        if (/data|analytics|sql|powerbi|database/.test(hay)) return "data";
+        if (/ai|machine|learning|automation|genai|generative|agent|prompt|openai|llm/.test(hay)) return "ai";
+        if (/full-stack|frontend|backend|react|node|mobile|website|web/.test(hay)) return "web";
+        if (/dsa|career|java|python|digital|computer|foundation|fundamental/.test(hay)) return "career";
+        return "web";
+    }
+
+    function shuffleArray(items) {
+        for (var i = items.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = items[i];
+            items[i] = items[j];
+            items[j] = tmp;
+        }
+        return items;
+    }
+
+    function shuffleStaticCourseCards() {
+        document.querySelectorAll(".courses-section .course-grid").forEach(function (grid) {
+            var cards = Array.prototype.slice.call(grid.querySelectorAll(":scope > .course-card"));
+            if (cards.length < 2) return;
+            shuffleArray(cards).forEach(function (card) { grid.appendChild(card); });
+        });
+    }
+
+    function decorateCourseCards() {
+        document.querySelectorAll(".courses-section .course-card").forEach(function (card) {
+            if (!card.getAttribute("data-course-track")) {
+                var slug = card.getAttribute("data-course-slug") || "";
+                var title = card.getAttribute("data-course-title") || (card.querySelector("h3") ? card.querySelector("h3").textContent : "");
+                card.setAttribute("data-course-track", inferCourseTrack(slug, title, ""));
+            }
+            if (!card.getAttribute("data-course-price")) {
+                var priceEl = card.querySelector(".course-price");
+                if (priceEl) {
+                    var match = priceEl.textContent.match(/[\d,]+/);
+                    if (match) {
+                        card.setAttribute("data-course-price", match[0].replace(/,/g, ""));
+                    }
+                }
+            }
+            if (!card.getAttribute("data-course-orig-price")) {
+                var pEl = card.querySelector(".course-price");
+                if (pEl) {
+                    var origSpan = pEl.querySelector("span.course-price-orig, del, s, span:not(.course-price-usd-tag):not(.course-price-inr-tag):not(.price-val)");
+                    if (origSpan) {
+                        var m = origSpan.textContent.match(/[\d,]+/);
+                        if (m) card.setAttribute("data-course-orig-price", m[0].replace(/,/g, ""));
+                    }
+                }
+            }
+        });
+    }
+
+    function updateCourseCardPrices() {
+        document.querySelectorAll(".courses-section .course-card").forEach(function (card) {
+            var rawPrice = card.getAttribute("data-course-price");
+            if (!rawPrice) return;
+            var priceInr = parseInt(rawPrice, 10);
+            if (!priceInr || isNaN(priceInr)) return;
+
+            var origInr = card.getAttribute("data-course-orig-price");
+            var numOrigInr = origInr ? parseInt(origInr, 10) : 0;
+
+            var priceEl = card.querySelector(".course-price");
+            if (priceEl) {
+                priceEl.innerHTML = renderCardPriceHtml(priceInr, numOrigInr);
+            }
+        });
+    }
+
+    function setCurrency(curr) {
+        activeCurrency = (curr === "usd") ? "usd" : "inr";
+        try {
+            localStorage.setItem("tcm_currency", activeCurrency);
+        } catch (e) {}
+        document.querySelectorAll(".course-currency-btn").forEach(function (btn) {
+            btn.classList.toggle("active", btn.getAttribute("data-currency") === activeCurrency);
+        });
+        updateCourseCardPrices();
+    }
+
+    function ensureCourseEmptyState(grid) {
+        var empty = grid.querySelector(":scope > .course-grid-empty");
+        if (!empty) {
+            empty = document.createElement("div");
+            empty.className = "course-grid-empty";
+            empty.textContent = "No courses match the selected filters in this tab.";
+            grid.appendChild(empty);
+        }
+        return empty;
+    }
+
+    function activeCoursePane() {
+        return document.querySelector(".courses-section .tab-pane.active.show") ||
+            document.querySelector(".courses-section .tab-pane.active") ||
+            document.querySelector(".courses-section");
+    }
+
+    function applyCourseFilters() {
+        decorateCourseCards();
+        var pane = activeCoursePane();
+        var activeVisible = 0;
+        document.querySelectorAll(".courses-section .course-grid").forEach(function (grid) {
+            var visibleInGrid = 0;
+            grid.querySelectorAll(":scope > .course-card").forEach(function (card) {
+                var track = card.getAttribute("data-course-track") || "web";
+                var price = card.getAttribute("data-course-price") || 0;
+                var trackMatch = activeCourseTrack === "all" || track === activeCourseTrack;
+                var priceMatch = matchPriceFilter(price, activeCoursePrice);
+                var show = trackMatch && priceMatch;
+                card.classList.toggle("course-filter-hidden", !show);
+                if (show) {
+                    visibleInGrid++;
+                    if (pane && pane.contains(card)) activeVisible++;
+                }
+            });
+            ensureCourseEmptyState(grid).classList.toggle("visible", visibleInGrid === 0);
+        });
+
+        var summary = document.getElementById("courseFilterSummary");
+        var count = document.getElementById("courseFilterCount");
+        if (summary) {
+            var tText = courseTrackLabels[activeCourseTrack] || courseTrackLabels.all;
+            var pText = coursePriceLabels[activeCoursePrice] || coursePriceLabels.all;
+            if (activeCourseTrack === "all" && activeCoursePrice === "all") {
+                summary.textContent = "All learning tracks · All pricing";
+            } else if (activeCourseTrack !== "all" && activeCoursePrice !== "all") {
+                summary.textContent = tText + " · " + pText;
+            } else if (activeCourseTrack !== "all") {
+                summary.textContent = tText;
+            } else {
+                summary.textContent = pText;
+            }
+        }
+        if (count) count.textContent = activeVisible ? activeVisible + " visible" : "No match";
+    }
+
+    function wireCourseFunnel() {
+        var allDropdowns = document.querySelectorAll(".course-filter-dropdown");
+        allDropdowns.forEach(function (dropdown) {
+            var toggle = dropdown.querySelector(".course-filter-toggle");
+            if (!toggle) return;
+            toggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                var open = !dropdown.classList.contains("open");
+                allDropdowns.forEach(function (other) {
+                    if (other !== dropdown) {
+                        other.classList.remove("open");
+                        var ot = other.querySelector(".course-filter-toggle");
+                        if (ot) ot.setAttribute("aria-expanded", "false");
+                    }
+                });
+                dropdown.classList.toggle("open", open);
+                toggle.setAttribute("aria-expanded", open ? "true" : "false");
+            });
+        });
+
+        // Track filter menu options
+        var trackMenu = document.getElementById("courseFilterMenu");
+        var trackToggle = document.getElementById("courseFilterToggle");
+        if (trackMenu) {
+            trackMenu.querySelectorAll(".course-filter-option").forEach(function (option) {
+                option.addEventListener("click", function () {
+                    activeCourseTrack = option.getAttribute("data-filter") || "all";
+                    trackMenu.querySelectorAll(".course-filter-option").forEach(function (btn) {
+                        btn.classList.toggle("active", btn === option);
+                    });
+                    if (trackToggle) {
+                        var label = trackToggle.querySelector("span");
+                        if (label) label.textContent = courseTrackLabels[activeCourseTrack] || "Choose Track";
+                        trackToggle.setAttribute("aria-expanded", "false");
+                    }
+                    var dd = trackMenu.closest(".course-filter-dropdown");
+                    if (dd) dd.classList.remove("open");
+                    applyCourseFilters();
+                });
+            });
+        }
+
+        // Price filter menu options
+        var priceMenu = document.getElementById("coursePriceMenu");
+        var priceToggle = document.getElementById("coursePriceToggle");
+        if (priceMenu) {
+            priceMenu.querySelectorAll(".course-filter-option").forEach(function (option) {
+                option.addEventListener("click", function () {
+                    activeCoursePrice = option.getAttribute("data-price-filter") || "all";
+                    priceMenu.querySelectorAll(".course-filter-option").forEach(function (btn) {
+                        btn.classList.toggle("active", btn === option);
+                    });
+                    if (priceToggle) {
+                        var label = priceToggle.querySelector("span");
+                        if (label) label.textContent = coursePriceLabels[activeCoursePrice] || "All Pricing";
+                        priceToggle.setAttribute("aria-expanded", "false");
+                    }
+                    var dd = priceMenu.closest(".course-filter-dropdown");
+                    if (dd) dd.classList.remove("open");
+                    applyCourseFilters();
+                });
+            });
+        }
+
+        // Currency Switcher buttons
+        document.querySelectorAll(".course-currency-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var curr = btn.getAttribute("data-currency") || "inr";
+                setCurrency(curr);
+            });
+        });
+
+        document.addEventListener("click", function (e) {
+            allDropdowns.forEach(function (dropdown) {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove("open");
+                    var t = dropdown.querySelector(".course-filter-toggle");
+                    if (t) t.setAttribute("aria-expanded", "false");
+                }
+            });
+        });
+
+        document.querySelectorAll('.course-tabs [data-bs-toggle="pill"]').forEach(function (tab) {
+            tab.addEventListener("shown.bs.tab", applyCourseFilters);
+            tab.addEventListener("click", function () { setTimeout(applyCourseFilters, 80); });
+        });
+
+        // Initialize currency button states
+        document.querySelectorAll(".course-currency-btn").forEach(function (btn) {
+            btn.classList.toggle("active", btn.getAttribute("data-currency") === activeCurrency);
+        });
+
+        decorateCourseCards();
+        updateCourseCardPrices();
+        applyCourseFilters();
+    }
+
+    function wireMobileLanguagePicker() {
+        var labels = {
+            en: "EN",
+            hi: "HI",
+            mr: "MR",
+            gu: "GU",
+            bn: "BN",
+            ta: "TA",
+            te: "TE",
+            kn: "KN",
+            ml: "ML",
+            pa: "PA",
+            ur: "UR",
+            ar: "AR",
+            fr: "FR",
+            es: "ES",
+            de: "DE",
+            it: "IT",
+            pt: "PT",
+            ru: "RU",
+            ko: "KO",
+            "zh-CN": "ZH",
+            ja: "JA",
+            ne: "NE",
+            th: "TH",
+            vi: "VI"
+        };
+        var saved = "en";
+        try { saved = localStorage.getItem("tcm_site_lang") || "en"; } catch (e) {}
+
+        function syncPickers(lang) {
+            document.querySelectorAll(".mobile-lang-picker").forEach(function (picker) {
+                var label = picker.querySelector(".mobile-lang-code");
+                if (label) label.textContent = labels[lang] || "EN";
+                picker.querySelectorAll("[data-lang]").forEach(function (btn) {
+                    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+                });
+            });
+        }
+
+        syncPickers(saved);
+        document.querySelectorAll(".mobile-lang-picker").forEach(function (picker) {
+            var toggle = picker.querySelector(".mobile-lang-toggle");
+            if (!toggle || picker.getAttribute("data-lang-wired") === "true") return;
+            picker.setAttribute("data-lang-wired", "true");
+            toggle.addEventListener("click", function (e) {
+                e.stopPropagation();
+                var open = !picker.classList.contains("open");
+                document.querySelectorAll(".mobile-lang-picker.open").forEach(function (p) {
+                    if (p !== picker) p.classList.remove("open");
+                });
+                picker.classList.toggle("open", open);
+                toggle.setAttribute("aria-expanded", open ? "true" : "false");
+            });
+            picker.querySelectorAll("[data-lang]").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    var lang = btn.getAttribute("data-lang") || "en";
+                    try { localStorage.setItem("tcm_site_lang", lang); } catch (e) {}
+                    syncPickers(lang);
+                    document.querySelectorAll(".mobile-lang-picker.open").forEach(function (p) { p.classList.remove("open"); });
+                    document.querySelectorAll(".mobile-lang-toggle").forEach(function (t) { t.setAttribute("aria-expanded", "false"); });
+                    applySiteTranslation(lang);
+                });
+            });
+        });
+        document.addEventListener("tcm:translate-ready", function () {
+            if (saved !== "en") applySiteTranslation(saved);
+        });
+        document.addEventListener("click", function (e) {
+            if (e.target.closest(".mobile-lang-picker")) return;
+            document.querySelectorAll(".mobile-lang-picker.open").forEach(function (picker) {
+                picker.classList.remove("open");
+            });
+            document.querySelectorAll(".mobile-lang-toggle").forEach(function (toggle) {
+                toggle.setAttribute("aria-expanded", "false");
+            });
+        });
+    }
+
+    function setTranslateCookie(lang) {
+        var target = lang === "en" ? "/en/en" : "/en/" + lang;
+        var expires = "expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        document.cookie = "googtrans=" + target + "; " + expires + "; path=/";
+        if (location.hostname.indexOf(".") !== -1) {
+            document.cookie = "googtrans=" + target + "; " + expires + "; path=/; domain=." + location.hostname.replace(/^www\./, "");
+        }
+    }
+
+    function applySiteTranslation(lang, attempt) {
+        attempt = attempt || 0;
+        document.documentElement.setAttribute("lang", lang === "en" ? "en-IN" : lang);
+        setTranslateCookie(lang);
+        var combo = document.querySelector(".goog-te-combo");
+        if (!combo) {
+            if (attempt < 20) {
+                setTimeout(function () { applySiteTranslation(lang, attempt + 1); }, 250);
+            }
+            return;
+        }
+        combo.value = lang === "en" ? "" : lang;
+        combo.dispatchEvent(new Event("change"));
     }
     // index.html event card (with 16-dot seat visual)
     function eventCardHome(ev) {
@@ -499,12 +910,21 @@
             if (!res || !res.success || !Array.isArray(res.data)) return;
             var items = res.data;
             if (!items.length) return; // keep the designer's sample cards if API empty
+            if (type === "courses") {
+                items = shuffleArray(items.slice());
+            }
             var html = items.map(function (item, i) {
                 if (type === "courses") return courseCardHome(item, i);
                 if (type === "posts")   return postCard(item);
                 return tpl === "pg" ? eventCardPg(item) : eventCardHome(item);
             }).join("");
             container.innerHTML = html;
+            if (type === "courses") {
+                decorateCourseCards();
+                updateCourseCardPrices();
+                applyCourseFilters();
+                normalizeBrochureTriggers();
+            }
 
             // Refresh the programs.html results counter if present.
             var counter = document.getElementById("resultsCount");
@@ -515,6 +935,46 @@
     }
     function hydrateLists() {
         document.querySelectorAll("[data-tcm-list]").forEach(hydrateOne);
+    }
+
+    function setHeroStat(key, value) {
+        var node = document.querySelector('[data-hero-stat="' + key + '"] [data-stat-value]');
+        if (node && value) node.textContent = value;
+    }
+
+    function formatPlusCount(count) {
+        var n = parseInt(count, 10) || 0;
+        if (n >= 100) return Math.floor(n / 10) * 10 + "+";
+        if (n >= 10) return n + "+";
+        return Math.max(n, 10) + "+";
+    }
+
+    function countStaticCourseCards() {
+        var slugs = {};
+        document.querySelectorAll(".courses-section .course-card[data-course-slug]").forEach(function (card) {
+            var slug = card.getAttribute("data-course-slug");
+            if (slug) slugs[slug] = true;
+        });
+        return Object.keys(slugs).length;
+    }
+
+    function updateHeroStats(courseCount) {
+        var fallback = countStaticCourseCards();
+        setHeroStat("courses", formatPlusCount(courseCount || fallback || 10));
+        setHeroStat("classes", "Live");
+        setHeroStat("support", "24/7");
+        setHeroStat("practical", "100%");
+    }
+
+    function hydrateHeroStats() {
+        updateHeroStats();
+        getJSON(api("/api/courses"))
+            .then(function (res) {
+                if (res && res.success && Array.isArray(res.data)) {
+                    updateHeroStats(res.data.length);
+                }
+            })
+            .catch(function () {});
     }
 
     /* ================= DETAIL PAGE HYDRATION =========================== */
@@ -844,6 +1304,311 @@
         });
     }
 
+    function brochureUrlForSlug(slug) {
+        return slug
+            ? api('/courses/' + encodeURIComponent(slug) + '/brochure')
+            : api('/download-brochure');
+    }
+
+    function normalizeBrochureTriggers() {
+        document.querySelectorAll('.btn-trigger-brochure, .cd-brochure-btn, .ws-btn-brochure, [data-trigger-brochure]').forEach(function (trigger) {
+            var slug = trigger.getAttribute('data-course-slug') || '';
+            if (!slug) {
+                var card = trigger.closest('.course-card');
+                if (card) slug = card.getAttribute('data-course-slug') || '';
+            }
+            var url = trigger.getAttribute('data-download-url') || brochureUrlForSlug(slug);
+            trigger.setAttribute('data-download-url', url);
+            if (trigger.tagName === 'A') {
+                trigger.setAttribute('href', url);
+            }
+        });
+    }
+
+    /* ================= FREE DEMO MODAL ================================ */
+    function ensureDemoModal() {
+        if (document.getElementById("tcmDemoModalOverlay")) return;
+
+        var overlay = document.createElement("div");
+        overlay.id = "tcmDemoModalOverlay";
+        overlay.className = "tcm-demo-modal-overlay";
+        overlay.innerHTML =
+            '<div class="tcm-demo-modal" role="dialog" aria-modal="true" aria-labelledby="tcmDemoModalTitle">' +
+                '<button type="button" class="tcm-demo-close" id="tcmDemoCloseBtn" aria-label="Close demo form">&times;</button>' +
+                '<div class="tcm-demo-cover">' +
+                    '<img src="' + esc(api('/assets/demo-modal-hero.gif')) + '" alt="Book a Free Live Demo Class" loading="eager">' +
+                    '<div class="tcm-demo-cover-copy">' +
+                        '<span>Live 1-on-1 Preview</span>' +
+                        '<h3>Book Your Free Demo</h3>' +
+                        '<p>Join a live interactive walkthrough with senior tech mentors &amp; personalized career roadmap.</p>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="tcm-demo-panel">' +
+                    '<div class="tcm-demo-form-state" id="tcmDemoFormState">' +
+                        '<div class="tcm-demo-kicker">Free Demo Session</div>' +
+                        '<h3 id="tcmDemoModalTitle">Get a Free Live Demo</h3>' +
+                        '<p>Choose a course below and our admissions mentor will schedule your 1-on-1 live demo slot.</p>' +
+                        '<form id="tcmDemoLeadForm" novalidate>' +
+                            '<div class="tcm-demo-grid">' +
+                                '<div class="form-group">' +
+                                    '<label for="tcmDemoName">Full Name *</label>' +
+                                    '<input type="text" id="tcmDemoName" class="form-control" name="name" placeholder="e.g. Rahul Sharma" required>' +
+                                '</div>' +
+                                '<div class="form-group">' +
+                                    '<label for="tcmDemoPhone">WhatsApp / Mobile *</label>' +
+                                    '<input type="tel" id="tcmDemoPhone" class="form-control" name="phone" placeholder="e.g. 9876543210" maxlength="14" required>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label for="tcmDemoEmail">Email Address *</label>' +
+                                '<input type="email" id="tcmDemoEmail" class="form-control" name="email" placeholder="e.g. rahul@example.com" required>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label for="tcmDemoCourse">Select Course *</label>' +
+                                '<select id="tcmDemoCourse" class="form-control" name="course_slug" required>' +
+                                    '<option value="">Loading courses...</option>' +
+                                '</select>' +
+                            '</div>' +
+                            '<div class="tcm-demo-grid">' +
+                                '<div class="form-group">' +
+                                    '<label for="tcmDemoSlot">Preferred Slot</label>' +
+                                    '<select id="tcmDemoSlot" class="form-control" name="preferred_slot">' +
+                                        '<option value="Evening 6 PM - 9 PM">Evening 6 PM - 9 PM</option>' +
+                                        '<option value="Morning 9 AM - 12 PM">Morning 9 AM - 12 PM</option>' +
+                                        '<option value="Weekend">Weekend</option>' +
+                                        '<option value="Any time">Any time</option>' +
+                                    '</select>' +
+                                '</div>' +
+                                '<div class="form-group">' +
+                                    '<label for="tcmDemoGoal">Career Goal</label>' +
+                                    '<input type="text" id="tcmDemoGoal" class="form-control" name="goal" placeholder="Job, switch, college, project">' +
+                                '</div>' +
+                            '</div>' +
+                            '<div id="tcmDemoFeedback" class="tcm-demo-feedback"></div>' +
+                            '<button type="submit" class="tcm-demo-submit" id="tcmDemoSubmitBtn">' +
+                                '<span>Request Free Demo</span> <i class="bi bi-arrow-right"></i>' +
+                            '</button>' +
+                            '<div style="text-align:center;font-size:11.5px;color:#777;margin-top:8px;">' +
+                                '<i class="bi bi-shield-check"></i> 100% free &middot; Instant confirmation on WhatsApp' +
+                            '</div>' +
+                        '</form>' +
+                    '</div>' +
+                    '<div class="tcm-demo-success-state" id="tcmDemoSuccessState" aria-live="polite">' +
+                        '<div class="tcm-demo-success-icon"><i class="bi bi-check2"></i></div>' +
+                        '<h3>Demo Request Received!</h3>' +
+                        '<p>Our mentors will contact you shortly with your private demo session link and slot details.</p>' +
+                        '<button type="button" class="tcm-demo-submit" id="tcmDemoDoneBtn">Done</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(overlay);
+
+        var closeBtn = document.getElementById("tcmDemoCloseBtn");
+        if (closeBtn) closeBtn.addEventListener("click", closeDemoModal);
+        var doneBtn = document.getElementById("tcmDemoDoneBtn");
+        if (doneBtn) doneBtn.addEventListener("click", closeDemoModal);
+        overlay.addEventListener("click", function (e) {
+            if (e.target === overlay) closeDemoModal();
+        });
+        var form = document.getElementById("tcmDemoLeadForm");
+        if (form) form.addEventListener("submit", handleDemoFormSubmit);
+    }
+
+    function openDemoModal(prefill) {
+        ensureDemoModal();
+        var targetSlug = (prefill && prefill.course_slug) ? prefill.course_slug : null;
+        loadDemoCourses(targetSlug);
+        var overlay = document.getElementById("tcmDemoModalOverlay");
+        var formState = document.getElementById("tcmDemoFormState");
+        var successState = document.getElementById("tcmDemoSuccessState");
+        var feedback = document.getElementById("tcmDemoFeedback");
+        if (formState) formState.style.display = "block";
+        if (successState) successState.style.display = "none";
+        if (feedback) {
+            feedback.className = "tcm-demo-feedback";
+            feedback.textContent = "";
+            feedback.style.display = "none";
+        }
+
+        var nameInput = document.getElementById("tcmDemoName");
+        var emailInput = document.getElementById("tcmDemoEmail");
+        var phoneInput = document.getElementById("tcmDemoPhone");
+        var courseSelect = document.getElementById("tcmDemoCourse");
+        if (ME && ME.authenticated) {
+            if (nameInput && !nameInput.value) nameInput.value = ME.name || "";
+            if (emailInput && !emailInput.value) emailInput.value = ME.email || "";
+        }
+        try {
+            var savedName = localStorage.getItem("tcm_lead_name");
+            var savedEmail = localStorage.getItem("tcm_lead_email");
+            var savedPhone = localStorage.getItem("tcm_lead_phone");
+            if (savedName && nameInput && !nameInput.value) nameInput.value = savedName;
+            if (savedEmail && emailInput && !emailInput.value) emailInput.value = savedEmail;
+            if (savedPhone && phoneInput && !phoneInput.value) phoneInput.value = savedPhone;
+        } catch (e) {}
+        if (prefill) {
+            if (prefill.email && emailInput && !emailInput.value) emailInput.value = prefill.email;
+            if (prefill.phone && phoneInput && !phoneInput.value) phoneInput.value = prefill.phone;
+            if (prefill.course_slug && courseSelect) courseSelect.value = prefill.course_slug;
+        }
+        if (overlay) {
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+            setTimeout(function () {
+                var first = nameInput && !nameInput.value ? nameInput : phoneInput;
+                if (first) first.focus();
+            }, 120);
+        }
+    }
+
+    function closeDemoModal() {
+        var overlay = document.getElementById("tcmDemoModalOverlay");
+        if (overlay) overlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    function loadDemoCourses(preselectedSlug) {
+        var select = document.getElementById("tcmDemoCourse");
+        if (!select) return;
+
+        // Immediate fallback from existing cards in the DOM so select is never empty
+        var pageCourses = [];
+        var seen = {};
+        document.querySelectorAll(".course-card").forEach(function (card) {
+            var slug = card.getAttribute("data-course-slug");
+            var title = card.getAttribute("data-course-title") || (card.querySelector("h3") ? card.querySelector("h3").textContent.trim() : "");
+            var price = card.getAttribute("data-course-price") || "";
+            if (slug && title && !seen[slug]) {
+                seen[slug] = true;
+                pageCourses.push({ slug: slug, title: title, price: price });
+            }
+        });
+
+        function renderOptions(courses) {
+            if (!courses || !courses.length) {
+                select.innerHTML = '<option value="">-- Choose a Course for Free Demo --</option>';
+                return;
+            }
+            var html = '<option value="">-- Choose a Course for Free Demo --</option>';
+            courses.forEach(function (c) {
+                var pInr = Number(c.price || 0);
+                var pUsd = inrToUsd(pInr);
+                var priceStr = pInr ? (' - ₹' + pInr.toLocaleString('en-IN') + ' ($' + pUsd + ' USD)') : '';
+                html += '<option value="' + esc(c.slug) + '">' + esc(c.title) + priceStr + '</option>';
+            });
+            select.innerHTML = html;
+            if (preselectedSlug) {
+                select.value = preselectedSlug;
+            }
+            select.setAttribute("data-loaded", "true");
+        }
+
+        // Render page cards immediately if not yet loaded from API
+        if (select.getAttribute("data-loaded") !== "true" && pageCourses.length > 0) {
+            renderOptions(pageCourses);
+        }
+
+        // Fetch authoritative course list from API
+        getJSON(api("/api/courses"))
+            .then(function (res) {
+                var courses = (res && res.success && Array.isArray(res.data)) ? res.data : [];
+                if (courses.length > 0) {
+                    renderOptions(courses);
+                } else if (pageCourses.length > 0) {
+                    renderOptions(pageCourses);
+                }
+            })
+            .catch(function (err) {
+                console.warn("[TCM Demo] Course API fetch error, using page cards:", err);
+                if (pageCourses.length > 0) {
+                    renderOptions(pageCourses);
+                } else {
+                    select.innerHTML = '<option value="">-- Choose a Course for Free Demo --</option>';
+                }
+            });
+    }
+
+    function handleDemoFormSubmit(e) {
+        e.preventDefault();
+        var feedback = document.getElementById("tcmDemoFeedback");
+        var submitBtn = document.getElementById("tcmDemoSubmitBtn");
+        var nameInput = document.getElementById("tcmDemoName");
+        var emailInput = document.getElementById("tcmDemoEmail");
+        var phoneInput = document.getElementById("tcmDemoPhone");
+        var courseInput = document.getElementById("tcmDemoCourse");
+        var slotInput = document.getElementById("tcmDemoSlot");
+        var goalInput = document.getElementById("tcmDemoGoal");
+
+        var payload = {
+            name: nameInput ? nameInput.value.trim() : "",
+            email: emailInput ? emailInput.value.trim() : "",
+            phone: phoneInput ? phoneInput.value.trim() : "",
+            course_slug: courseInput ? courseInput.value.trim() : "",
+            preferred_slot: slotInput ? slotInput.value.trim() : "",
+            goal: goalInput ? goalInput.value.trim() : ""
+        };
+
+        function showDemoError(msg) {
+            if (!feedback) return;
+            feedback.className = "tcm-demo-feedback error";
+            feedback.textContent = msg;
+            feedback.style.display = "block";
+        }
+
+        if (!payload.name) return showDemoError("Please enter your full name.");
+        if (!payload.email || !payload.email.includes("@")) return showDemoError("Please enter a valid email.");
+        if (payload.phone.replace(/[^\d]/g, "").length < 10) return showDemoError("Please enter a valid mobile number.");
+        if (!payload.course_slug) return showDemoError("Please choose a premium course.");
+
+        try {
+            localStorage.setItem("tcm_lead_name", payload.name);
+            localStorage.setItem("tcm_lead_email", payload.email);
+            localStorage.setItem("tcm_lead_phone", payload.phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" style="width:14px;height:14px;border-width:2px;"></span> Sending...';
+        }
+        postJSON(api("/api/demo-lead"), payload).then(function (res) {
+            if (res && res.success) {
+                trackEvent("generate_lead", { source: "free_demo_modal", course_slug: payload.course_slug });
+                var formState = document.getElementById("tcmDemoFormState");
+                var successState = document.getElementById("tcmDemoSuccessState");
+                if (formState) formState.style.display = "none";
+                if (successState) successState.style.display = "grid";
+                if (e.target && e.target.reset) e.target.reset();
+            } else {
+                showDemoError((res && res.message) ? res.message : "Unable to submit demo request.");
+            }
+        }).catch(function () {
+            showDemoError("Network error. Please try again.");
+        }).finally(function () {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Request Demo <i class="bi bi-arrow-right"></i>';
+            }
+        });
+    }
+
+    function wireDemoTriggers() {
+        document.addEventListener("click", function (e) {
+            var trigger = e.target.closest(".demo-trigger");
+            if (!trigger) return;
+            e.preventDefault();
+            e.stopPropagation();
+            var prefill = {};
+            var box = trigger.closest(".hero-input-box");
+            var heroInput = box ? box.querySelector("input") : null;
+            var val = heroInput ? heroInput.value.trim() : "";
+            if (val) {
+                if (val.indexOf("@") !== -1) prefill.email = val;
+                else prefill.phone = val;
+            }
+            openDemoModal(prefill);
+        }, true);
+    }
+
     /* ================= COURSE BROCHURE LEAD MODAL ===================== */
     function ensureBrochureModal() {
         if (document.getElementById('tcmBrochureModalOverlay')) return;
@@ -1025,7 +1790,8 @@
                 });
                 if (feedback) {
                     feedback.className = 'tcm-brochure-modal-feedback success';
-                    feedback.innerHTML = '<i class="bi bi-check-circle"></i> Success! Starting brochure download now...';
+                    feedback.innerHTML = '<i class="bi bi-check-circle"></i> Success! Starting brochure download now... ' +
+                        '<a href="' + esc(res.data.download_url) + '" target="_blank" rel="noopener" download="' + esc((slug || 'TCM-One-Course') + '-Brochure.pdf') + '">Open PDF</a>';
                     feedback.style.display = 'block';
                 }
 
@@ -1036,6 +1802,9 @@
                 downloadLink.target = '_blank';
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
+                setTimeout(function () {
+                    window.open(res.data.download_url, '_blank', 'noopener');
+                }, 250);
                 setTimeout(function () {
                     if (downloadLink.parentNode) downloadLink.parentNode.removeChild(downloadLink);
                 }, 1000);
@@ -1313,9 +2082,19 @@
         wireAuthExtras();
         ensureBrochureModal();
         wireBrochureTriggers();
+        normalizeBrochureTriggers();
+        ensureDemoModal();
+        wireDemoTriggers();
         wireWorkshopModal();
         bindCourseWhatsAppCTA();
         deduplicateCourseGifs();
+        wireMobileLanguagePicker();
+        wireCourseFunnel();
+        shuffleStaticCourseCards();
+        decorateCourseCards();
+        updateCourseCardPrices();
+        applyCourseFilters();
+        hydrateHeroStats();
 
         // Sync header height to CSS property for sticky elements on mobile
         function syncHeaderHeight() {
@@ -1354,6 +2133,11 @@
                 hydrateDetailPage();
                 bindCourseWhatsAppCTA();
                 deduplicateCourseGifs();
+                decorateCourseCards();
+                updateCourseCardPrices();
+                applyCourseFilters();
+                updateHeroStats();
+                normalizeBrochureTriggers();
             });
     });
 })();

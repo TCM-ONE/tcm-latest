@@ -29,6 +29,12 @@ final class Request
     {
         $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
         $base = (string) config('app.base_path', '');
+        if ($base === '' && isset($_SERVER['SCRIPT_NAME'])) {
+            $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+            if ($dir !== '/' && $dir !== '.' && $dir !== '') {
+                $base = rtrim($dir, '/');
+            }
+        }
         if ($base !== '' && str_starts_with($uri, $base)) {
             $uri = substr($uri, strlen($base));
         }

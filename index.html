@@ -20,9 +20,9 @@
     <meta name="app-base" content="">
     <!-- SEO -->
     <meta name="description"
-        content="Learn coding, Full Stack Development, Python, Data Analytics and AI with practical projects, live mentorship and structured learning at TCM One.">
+        content="Learn coding, Full Stack Development, Python, Data Analytics and AI with practical projects, live mentorship and global-ready career skills at TCM One.">
     <meta name="keywords"
-        content="coding courses india, full stack development, python course, live coding classes, college students coding">
+        content="coding courses india, online coding courses, full stack development course, python course, AI course, data analytics course, live coding classes, tech training">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="author" content="The Code Munk">
@@ -68,13 +68,13 @@
       "url": "https://thecodemunk.in",
       "logo": "https://thecodemunk.in/assets/tcm-og-default.svg",
       "description": "Live coding courses, workshops and practical technology programs in Full Stack Development, Python, Data Analytics and AI.",
-      "areaServed": "IN",
+      "areaServed": ["IN", "AE", "SG", "GB", "CA", "AU", "US", "DE", "SA", "QA"],
       "foundingLocation": "India",
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+91-7987823907",
         "contactType": "admissions",
-        "areaServed": "IN",
+        "areaServed": ["IN", "AE", "SG", "GB", "CA", "AU", "US", "DE", "SA", "QA"],
         "availableLanguage": ["English", "Hindi"]
       },
       "sameAs": [
@@ -105,14 +105,14 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="./assets/style.css?v=2.2.2">
+    <link rel="stylesheet" href="./assets/style.css?v=2.2.5">
     <link rel="stylesheet" href="./assets/site-polish.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/hero-effects.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/intro-video.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/skeleton.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/auth.css?v=2.2.2">
     <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.2.2">
-    <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.2">
+    <link rel="stylesheet" href="./assets/landing-polish.css?v=2.2.5">
     <style>
 /* Critical Hard Horizontal Scroll Lock */
 *, *::before, *::after {
@@ -739,19 +739,62 @@ img, svg, video, canvas {
     <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
-            <nav class="navbar navbar-expand-lg p-0">
+            <nav class="navbar navbar-expand-xl p-0">
                 <a class="navbar-brand logo" href="index.html">
                     <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                    <span class="logo-text">TCM <span class="logo-one">One</span></span>
+                    <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">One</span></span>
                 </a>
 
-                <button class="navbar-toggler border-0 shadow-none d-lg-none ms-auto" type="button" data-bs-toggle="collapse"
+                <div class="mobile-header-actions d-xl-none">
+                    <a href="/download-brochure"
+                       class="mobile-head-btn btn-trigger-brochure"
+                       data-trigger-brochure="true"
+                       aria-label="Download Course Brochure PDF">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <span class="mobile-head-text"><span class="mobile-download-word">Download </span>Brochure</span>
+                    </a>
+                    <div class="mobile-lang-picker">
+                        <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
+                            <i class="bi bi-translate"></i>
+                            <span class="mobile-head-text">Lang</span>
+                            <span class="mobile-lang-code">EN</span>
+                        </button>
+                        <div class="mobile-lang-menu" role="menu">
+                            <button type="button" data-lang="en" role="menuitem">English</button>
+                            <button type="button" data-lang="hi" role="menuitem">Hindi</button>
+                            <button type="button" data-lang="mr" role="menuitem">Marathi</button>
+                            <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
+                            <button type="button" data-lang="bn" role="menuitem">Bengali</button>
+                            <button type="button" data-lang="ta" role="menuitem">Tamil</button>
+                            <button type="button" data-lang="te" role="menuitem">Telugu</button>
+                            <button type="button" data-lang="kn" role="menuitem">Kannada</button>
+                            <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
+                            <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
+                            <button type="button" data-lang="ur" role="menuitem">Urdu</button>
+                            <button type="button" data-lang="ar" role="menuitem">Arabic</button>
+                            <button type="button" data-lang="fr" role="menuitem">French</button>
+                            <button type="button" data-lang="es" role="menuitem">Spanish</button>
+                            <button type="button" data-lang="de" role="menuitem">German</button>
+                            <button type="button" data-lang="it" role="menuitem">Italian</button>
+                            <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
+                            <button type="button" data-lang="ru" role="menuitem">Russian</button>
+                            <button type="button" data-lang="ko" role="menuitem">Korean</button>
+                            <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
+                            <button type="button" data-lang="ja" role="menuitem">Japanese</button>
+                            <button type="button" data-lang="ne" role="menuitem">Nepali</button>
+                            <button type="button" data-lang="th" role="menuitem">Thai</button>
+                            <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="navbar-toggler border-0 shadow-none d-xl-none" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarMenu">
-                    <ul class="navbar-nav me-auto align-items-lg-center">
+                    <ul class="navbar-nav me-auto align-items-xl-center">
                         <li class="nav-item">
                             <a class="nav-link" href="workshops.html">Workshops</a>
                         </li>
@@ -773,8 +816,41 @@ img, svg, video, canvas {
                         <a href="/download-brochure" class="nav-link d-none d-sm-inline-flex align-items-center gap-1 btn-trigger-brochure" data-trigger-brochure="true" style="font-weight:600;font-size:14px;color:#111;">
                             <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </a>
+                        <div class="desktop-lang-picker mobile-lang-picker d-none d-xl-flex">
+                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
+                                <i class="bi bi-translate"></i>
+                                <span>Language</span>
+                                <strong class="mobile-lang-code">EN</strong>
+                            </button>
+                            <div class="mobile-lang-menu" role="menu">
+                                <button type="button" data-lang="en" role="menuitem">English</button>
+                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
+                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
+                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
+                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
+                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
+                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
+                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
+                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
+                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
+                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
+                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
+                                <button type="button" data-lang="fr" role="menuitem">French</button>
+                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
+                                <button type="button" data-lang="de" role="menuitem">German</button>
+                                <button type="button" data-lang="it" role="menuitem">Italian</button>
+                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
+                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
+                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
+                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
+                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
+                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
+                                <button type="button" data-lang="th" role="menuitem">Thai</button>
+                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
+                            </div>
+                        </div>
                         <a href="login.php" class="nav-login-link d-none d-md-inline-block">Log in</a>
-                        <a href="login.php" class="join-btn">Start Free Trial</a>
+                        <button type="button" class="join-btn demo-trigger">Get a Free Demo</button>
                     </div>
                 </div>
             </nav>
@@ -829,13 +905,11 @@ img, svg, video, canvas {
                 <!-- Intercom Email Input Box Form -->
                 <div class="hero-input-box">
                     <input type="email" placeholder="Work email or student phone..." aria-label="Work email or student phone">
-                    <a href="login.php" class="hero-input-btn">
-                        Start Free Trial
-                    </a>
+                    <button type="button" class="hero-input-btn demo-trigger">Get a Free Demo</button>
                 </div>
 
                 <div class="hero-note">
-                    <i class="bi bi-check-circle-fill"></i> Free trial classes. No credit card required.
+                    <i class="bi bi-check-circle-fill"></i> Free demo available on premium courses above ₹5,000.
                 </div>
 
                 <!-- Alternate CTAs -->
@@ -852,23 +926,23 @@ img, svg, video, canvas {
             <!-- Stats row with dedicated centering wrapper -->
             <div class="hero-stats-row">
                 <div class="hero-stats">
-                    <div class="hero-stat-item">
-                        <strong>10+</strong>
+                    <div class="hero-stat-item" data-hero-stat="courses">
+                        <strong data-stat-value>10+</strong>
                         <span>Courses</span>
                     </div>
                     <div class="hero-stat-sep"></div>
-                    <div class="hero-stat-item">
-                        <strong>Live</strong>
+                    <div class="hero-stat-item" data-hero-stat="classes">
+                        <strong data-stat-value>Live</strong>
                         <span>Classes</span>
                     </div>
                     <div class="hero-stat-sep"></div>
-                    <div class="hero-stat-item">
-                        <strong>24/7</strong>
+                    <div class="hero-stat-item" data-hero-stat="support">
+                        <strong data-stat-value>24/7</strong>
                         <span>Doubt Support</span>
                     </div>
                     <div class="hero-stat-sep"></div>
-                    <div class="hero-stat-item">
-                        <strong>100%</strong>
+                    <div class="hero-stat-item" data-hero-stat="practical">
+                        <strong data-stat-value>100%</strong>
                         <span>Practical Skills</span>
                     </div>
                 </div>
@@ -932,6 +1006,94 @@ img, svg, video, canvas {
                     </li>
 
                 </ul>
+            </div>
+
+            <div class="course-funnel-shell" id="courseFunnel">
+                <div class="course-funnel-left">
+                    <div class="course-funnel-icon" aria-hidden="true">
+                        <i class="bi bi-funnel"></i>
+                    </div>
+                    <div>
+                        <span class="course-funnel-kicker">Smart Course Filter</span>
+                        <strong id="courseFilterSummary">All learning tracks</strong>
+                    </div>
+                </div>
+                <div class="course-funnel-actions">
+                    <div class="course-filter-dropdown" id="courseTrackDropdown">
+                        <button type="button" class="course-filter-toggle" id="courseFilterToggle" aria-expanded="false" aria-haspopup="true">
+                            <i class="bi bi-sliders2"></i>
+                            <span>Choose Track</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div class="course-filter-menu" id="courseFilterMenu" role="menu">
+                            <button type="button" class="course-filter-option active" data-filter="all" role="menuitem">
+                                <i class="bi bi-grid"></i>
+                                <span>All Programs</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="web" role="menuitem">
+                                <i class="bi bi-window-stack"></i>
+                                <span>Web &amp; App Development</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="ai" role="menuitem">
+                                <i class="bi bi-stars"></i>
+                                <span>AI, ML &amp; Automation</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="data" role="menuitem">
+                                <i class="bi bi-bar-chart-line"></i>
+                                <span>Data &amp; Analytics</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="cloud" role="menuitem">
+                                <i class="bi bi-cloud-check"></i>
+                                <span>Cloud, DevOps &amp; Security</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="career" role="menuitem">
+                                <i class="bi bi-briefcase"></i>
+                                <span>Career, DSA &amp; Foundations</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-filter="design" role="menuitem">
+                                <i class="bi bi-palette"></i>
+                                <span>Design, QA &amp; Marketing</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="course-filter-dropdown" id="coursePriceDropdown">
+                        <button type="button" class="course-filter-toggle" id="coursePriceToggle" aria-expanded="false" aria-haspopup="true">
+                            <i class="bi bi-tag"></i>
+                            <span>All Pricing</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div class="course-filter-menu" id="coursePriceMenu" role="menu">
+                            <button type="button" class="course-filter-option active" data-price-filter="all" role="menuitem">
+                                <i class="bi bi-grid"></i>
+                                <span>All Pricing</span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-price-filter="under-2k" role="menuitem">
+                                <i class="bi bi-cash-stack"></i>
+                                <span>Under ₹2,000 <span class="filter-usd">&lt;$25</span></span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-price-filter="2k-5k" role="menuitem">
+                                <i class="bi bi-wallet2"></i>
+                                <span>₹2,000 – ₹5,000 <span class="filter-usd">$25–$60</span></span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-price-filter="5k-10k" role="menuitem">
+                                <i class="bi bi-award"></i>
+                                <span>₹5,000 – ₹10,000 <span class="filter-usd">$60–$120</span></span>
+                            </button>
+                            <button type="button" class="course-filter-option" data-price-filter="above-10k" role="menuitem">
+                                <i class="bi bi-gem"></i>
+                                <span>Above ₹10,000 <span class="filter-usd">$120+</span></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="course-currency-switcher" id="courseCurrencySwitcher" role="group" aria-label="Select Currency">
+                        <button type="button" class="course-currency-btn active" data-currency="inr" title="Show prices in Indian Rupees (₹)">₹ INR</button>
+                        <button type="button" class="course-currency-btn" data-currency="usd" title="Show prices in US Dollars ($)">$ USD</button>
+                    </div>
+
+                    <span class="course-filter-count" id="courseFilterCount">Showing all</span>
+                </div>
             </div>
 
             <!-- Tab Content -->
@@ -1258,6 +1420,97 @@ img, svg, video, canvas {
                             </div>
                         </div>
 
+                        <div class="course-card" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass">
+                            <div class="course-card-thumb">
+                                <img src="./assets/ai-machine-learning.svg" alt="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass" data-course-slug="artificial-intelligence-machine-learning" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-ai.gif';">
+                            </div>
+                            <div class="course-price">&#8377;14,999 <span>₹22,999</span></div>
+                            <h3>Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</h3>
+                            <p>From Math &amp; Python Foundations to Deep Learning, Computer Vision, NLP &amp; Generative AI Production Deployment</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/artificial-intelligence-machine-learning" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="ai-machine-learning-fundamentals" data-course-title="AI &amp; Machine Learning Fundamentals">
+                            <div class="course-card-thumb">
+                                <img src="./assets/ai-machine-learning.svg" alt="AI &amp; Machine Learning Fundamentals" data-course-slug="ai-machine-learning-fundamentals" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-ai.gif';">
+                            </div>
+                            <div class="course-price">&#8377;2,999 <span>₹4,999</span></div>
+                            <h3>AI &amp; Machine Learning Fundamentals</h3>
+                            <p>Foundations of Artificial Intelligence, Core ML Algorithms &amp; Hands-On Python (45 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/ai-machine-learning-fundamentals" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="ai-machine-learning-fundamentals" data-course-title="AI &amp; Machine Learning Fundamentals"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="prompt-engineering-generative-ai" data-course-title="Prompt Engineering &amp; Generative AI">
+                            <div class="course-card-thumb">
+                                <img src="./assets/genai-ai-agents.svg" alt="Prompt Engineering &amp; Generative AI" data-course-slug="prompt-engineering-generative-ai" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-ai.gif';">
+                            </div>
+                            <div class="course-price">&#8377;1,499 <span>₹2,499</span></div>
+                            <h3>Prompt Engineering &amp; Generative AI</h3>
+                            <p>Mastering Advanced Prompting, ChatGPT, Claude, Midjourney &amp; GenAI Workflows (20 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/prompt-engineering-generative-ai" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="prompt-engineering-generative-ai" data-course-title="Prompt Engineering &amp; Generative AI"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="python-for-ai-ml" data-course-title="Python for AI &amp; ML">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-python.gif" alt="Python for AI &amp; ML" data-course-slug="python-for-ai-ml" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;2,499 <span>₹3,999</span></div>
+                            <h3>Python for AI &amp; ML</h3>
+                            <p>Modern Python Programming, NumPy, Pandas, Matplotlib &amp; Math for AI (30 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/python-for-ai-ml" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="python-for-ai-ml" data-course-title="Python for AI &amp; ML"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="ai-agents-workflow-automation" data-course-title="AI Agents &amp; Workflow Automation">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-automation.gif" alt="AI Agents &amp; Workflow Automation" data-course-slug="ai-agents-workflow-automation" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;2,999 <span>₹4,999</span></div>
+                            <h3>AI Agents &amp; Workflow Automation</h3>
+                            <p>Autonomous AI Agents, LangChain, Tool Calling, Webhooks &amp; No-Code Automations (30 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/ai-agents-workflow-automation" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="ai-agents-workflow-automation" data-course-title="AI Agents &amp; Workflow Automation"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="chatgpt-gemini-ai-productivity-tools" data-course-title="ChatGPT, Gemini &amp; AI Productivity Tools">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-ai.gif" alt="ChatGPT, Gemini &amp; AI Productivity Tools" data-course-slug="chatgpt-gemini-ai-productivity-tools" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;999 <span>₹1,999</span></div>
+                            <h3>ChatGPT, Gemini &amp; AI Productivity Tools</h3>
+                            <p>10x Your Productivity in Work &amp; Study with Modern Generative AI Tools (15 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/chatgpt-gemini-ai-productivity-tools" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="chatgpt-gemini-ai-productivity-tools" data-course-title="ChatGPT, Gemini &amp; AI Productivity Tools"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="machine-learning-python-projects" data-course-title="Machine Learning with Python Projects">
+                            <div class="course-card-thumb">
+                                <img src="./assets/coding-algorithm.gif" alt="Machine Learning with Python Projects" data-course-slug="machine-learning-python-projects" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-fullstack.gif';">
+                            </div>
+                            <div class="course-price">&#8377;2,999 <span>₹4,999</span></div>
+                            <h3>Machine Learning with Python Projects</h3>
+                            <p>Build 5 Real-World Industry ML Projects from Scikit-Learn to Production APIs (40 Days)</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/machine-learning-python-projects" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="machine-learning-python-projects" data-course-title="Machine Learning with Python Projects"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
 
                     </div>
 
@@ -1440,6 +1693,19 @@ img, svg, video, canvas {
                             </div>
                         </div>
 
+                        <div class="course-card" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass">
+                            <div class="course-card-thumb">
+                                <img src="./assets/ai-machine-learning.svg" alt="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass" data-course-slug="artificial-intelligence-machine-learning" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-ai.gif';">
+                            </div>
+                            <div class="course-price">&#8377;14,999 <span>₹22,999</span></div>
+                            <h3>Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</h3>
+                            <p>From Math &amp; Python Foundations to Deep Learning, Computer Vision, NLP &amp; Generative AI Production Deployment</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/artificial-intelligence-machine-learning" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
 
                     </div>
 
@@ -1606,6 +1872,19 @@ img, svg, video, canvas {
                             <div class="course-card-actions">
                                 <a href="/courses/cybersecurity-ethical-security-foundations" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
                                 <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="cybersecurity-ethical-security-foundations" data-course-title="Cybersecurity &amp; Ethical Security Foundations"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="course-card" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass">
+                            <div class="course-card-thumb">
+                                <img src="./assets/ai-machine-learning.svg" alt="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass" data-course-slug="artificial-intelligence-machine-learning" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='./assets/coding-ai.gif';">
+                            </div>
+                            <div class="course-price">&#8377;14,999 <span>₹22,999</span></div>
+                            <h3>Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</h3>
+                            <p>From Math &amp; Python Foundations to Deep Learning, Computer Vision, NLP &amp; Generative AI Production Deployment</p>
+                            <div class="course-card-actions">
+                                <a href="/courses/artificial-intelligence-machine-learning" class="btn-roadmap">Get Road Map <i class="bi bi-arrow-right"></i></a>
+                                <button type="button" class="btn-brochure btn-trigger-brochure" data-course-slug="artificial-intelligence-machine-learning" data-course-title="Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass"><i class="bi bi-file-earmark-pdf"></i> Course PDF</button>
                             </div>
                         </div>
 
@@ -3395,6 +3674,11 @@ img, svg, video, canvas {
                         <a href="programs.html">ASP.NET Core &amp; C#.NET</a>
                         <a href="programs.html">Digital Marketing &amp; SEO</a>
                         <a href="programs.html">Spoken English &amp; Soft Skills</a>
+                        <a href="programs.html">AI Course for UAE Students</a>
+                        <a href="programs.html">Full Stack Course for Canada</a>
+                        <a href="programs.html">Remote Coding Classes for USA</a>
+                        <a href="programs.html">Software Training for Australia</a>
+                        <a href="programs.html">Data Analytics Course Abroad</a>
                     </div>
                 </div>
 
@@ -3413,11 +3697,23 @@ img, svg, video, canvas {
         </div>
     </footer>
 
+    <div id="google_translate_element" class="tcm-google-translate" aria-hidden="true"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/skeleton.js"></script>
-    <script src="./assets/auth.js"></script>
-    <script src="./assets/tcm-app.js"></script>
+    <script src="./assets/auth.js?v=2.2.4"></script>
+    <script>
+        window.googleTranslateElementInit = function () {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,ur,ar,fr,es,de,it,pt,ru,ko,zh-CN,ja,ne,th,vi',
+                autoDisplay: false
+            }, 'google_translate_element');
+            document.dispatchEvent(new Event('tcm:translate-ready'));
+        };
+    </script>
+    <script src="./assets/tcm-app.js?v=2.2.5"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="./assets/hero-liquid.js"></script>
     <script src="./assets/intro-video.js"></script>
     <script>

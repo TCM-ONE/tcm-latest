@@ -350,7 +350,7 @@ final class CourseController extends Controller
             $filename = Upload::store(
                 $_FILES['brochure_file'],
                 $destDir,
-                ['pdf', 'doc', 'docx'],
+                ['pdf'],
                 25 * 1024 * 1024
             );
             return [

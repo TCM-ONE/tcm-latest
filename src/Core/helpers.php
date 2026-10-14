@@ -117,6 +117,17 @@ if (!function_exists('money')) {
     }
 }
 
+if (!function_exists('money_usd')) {
+    /**
+     * Format an amount in USD currency (approx. converted from INR).
+     */
+    function money_usd(float|int|string $amountInr, float $rate = 83.5): string
+    {
+        $usd = round(((float)$amountInr) / $rate);
+        return '$' . number_format($usd, 0);
+    }
+}
+
 if (!function_exists('csrf_field')) {
     /**
      * Render a hidden CSRF input field for forms.

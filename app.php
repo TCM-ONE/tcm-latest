@@ -278,6 +278,7 @@ $router->get('/api/me', ['TCM\Controllers\Api\PublicController', 'me']);
 $router->get('/api/courses', ['TCM\Controllers\Api\PublicController', 'courses']);
 $router->get('/api/courses/{slug}', ['TCM\Controllers\Api\PublicController', 'course']);
 $router->post('/api/courses/brochure-lead', ['TCM\Controllers\Api\PublicController', 'courseBrochureLead']);
+$router->post('/api/demo-lead', ['TCM\Controllers\Api\PublicController', 'demoLead']);
 $router->get('/api/events', ['TCM\Controllers\Api\PublicController', 'events']);
 $router->get('/api/events/{slug}', ['TCM\Controllers\Api\PublicController', 'event']);
 $router->get('/api/workshops/featured', ['TCM\Controllers\Api\PublicController', 'featuredWorkshops']);

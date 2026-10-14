@@ -131,8 +131,8 @@
             <?php endif; ?>
 
             <div class="tcm-field" style="margin-bottom:0;">
-                <label><?= !empty($settings['brochure_file']) ? 'Replace Brochure File (PDF, DOC, DOCX - Max 20MB)' : 'Upload Brochure File (PDF, DOC, DOCX - Max 20MB)' ?></label>
-                <input class="tcm-input" type="file" name="brochure" accept=".pdf,.doc,.docx" style="padding:7px 12px;background:#fff;">
+                <label><?= !empty($settings['brochure_file']) ? 'Replace Brochure File (PDF - Max 20MB)' : 'Upload Brochure File (PDF - Max 20MB)' ?></label>
+                <input class="tcm-input" type="file" name="brochure" accept=".pdf,application/pdf" style="padding:7px 12px;background:#fff;">
                 <div style="font-size:.71rem;color:#888;margin-top:4px;">
                     Students and site visitors downloading the brochure from the website will receive this file.
                 </div>

@@ -76,6 +76,13 @@ $thumbnails = [
     'data-science-machine-learning' => 'coding-datascience.gif',
     'system-design-microservices' => 'coding-backend.gif',
     'cybersecurity-essentials' => 'coding-terminal.gif',
+    'artificial-intelligence-machine-learning' => 'ai-machine-learning.svg',
+    'ai-machine-learning-fundamentals' => 'ai-machine-learning.svg',
+    'prompt-engineering-generative-ai' => 'genai-ai-agents.svg',
+    'python-for-ai-ml' => 'coding-python.gif',
+    'ai-agents-workflow-automation' => 'coding-automation.gif',
+    'chatgpt-gemini-ai-productivity-tools' => 'coding-ai.gif',
+    'machine-learning-python-projects' => 'coding-algorithm.gif',
 ];
 
 $icons = [

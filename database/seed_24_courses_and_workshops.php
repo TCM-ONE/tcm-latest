@@ -19,8 +19,7 @@ try {
     $pdo = Database::connection();
 
     $ensureColumn = static function (\PDO $pdo, string $table, string $column, string $definition): void {
-        $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-        $stmt->execute([$column]);
+        $stmt = $pdo->query("SHOW COLUMNS FROM `$table` LIKE " . $pdo->quote($column));
         if (!$stmt->fetchColumn()) {
             $pdo->exec("ALTER TABLE `$table` ADD COLUMN $definition");
             echo "✓ Added missing column {$table}.{$column}\n";
@@ -564,6 +563,211 @@ try {
             'modules' => [
                 ['title' => 'Networking & Security Foundations', 'lessons' => ['TCP/IP, OSI Model & Port Scanning (Nmap)', 'Wireshark Packet Analysis', 'Authentication & Cryptography Basics']],
                 ['title' => 'Web App Security & OWASP Top 10', 'lessons' => ['SQL Injection & Broken Access Control', 'Cross-Site Scripting (XSS) & CSRF', 'Security Hardening & Remediation']]
+            ]
+        ],
+        [
+            'title' => 'Artificial Intelligence & Machine Learning (AI & ML) Masterclass',
+            'slug' => 'artificial-intelligence-machine-learning',
+            'subtitle' => 'From Math & Python Foundations to Deep Learning, Computer Vision, NLP & Generative AI Production Deployment',
+            'cat' => 'ai-automation',
+            'level' => 'intermediate',
+            'duration' => '16 Weeks',
+            'hours' => 120,
+            'price' => 14999.00,
+            'original_price' => 22999.00,
+            'icon' => 'bi-cpu-fill',
+            'thumbnail' => 'ai-machine-learning.svg',
+            'is_featured' => 1,
+            'is_bestseller' => 1,
+            'desc' => 'Master end-to-end Artificial Intelligence and Machine Learning engineering. Build strong foundations in Python and mathematics, train supervised and unsupervised ML algorithms, architect deep neural networks with PyTorch, build Computer Vision & NLP applications with Transformers, implement Retrieval-Augmented Generation (RAG) agents, and deploy production ML systems with FastAPI and Docker.',
+            'modules' => [
+                [
+                    'title' => 'Python for AI & Mathematical Foundations',
+                    'lessons' => [
+                        'Python for High-Performance Computing: NumPy, Vectorization & Matrix Math',
+                        'Data Wrangling & Feature Exploration: Pandas, Seaborn & Matplotlib',
+                        'Essential Mathematics for Machine Learning: Linear Algebra & Vector Calculus',
+                        'Probability Distributions, Hypothesis Testing & Inferential Statistics',
+                        'Project: Exploratory Data Analysis (EDA) on Real-World Financial & Health Datasets'
+                    ]
+                ],
+                [
+                    'title' => 'Supervised & Classical Machine Learning',
+                    'lessons' => [
+                        'Linear Regression, Gradient Descent Optimization & Regularization (Lasso/Ridge)',
+                        'Classification Algorithms: Logistic Regression, Decision Trees & SVMs',
+                        'Ensemble Learning: Random Forests, AdaBoost & Extreme Gradient Boosting (XGBoost)',
+                        'Distance-Based & Probabilistic Models: K-Nearest Neighbors & Naive Bayes',
+                        'Project: Customer Churn & Loan Default Prediction Engine'
+                    ]
+                ],
+                [
+                    'title' => 'Unsupervised Learning & Feature Engineering',
+                    'lessons' => [
+                        'Clustering Architectures: K-Means, Hierarchical & DBSCAN Algorithms',
+                        'Dimensionality Reduction: Principal Component Analysis (PCA) & t-SNE',
+                        'Feature Engineering, Handling Imbalanced Data (SMOTE) & Outlier Detection',
+                        'Project: E-Commerce Customer Segmentation & Market Basket Analysis'
+                    ]
+                ],
+                [
+                    'title' => 'Deep Learning & Neural Networks with PyTorch',
+                    'lessons' => [
+                        'Neural Network Foundations: Perceptrons, Multi-Layer Perceptrons & Backpropagation',
+                        'Activation Functions, Loss Formulations & Modern Optimizers (AdamW, RMSprop)',
+                        'PyTorch Deep Dive: Tensors, Autograd, Custom Datasets & Training Pipelines',
+                        'Project: Deep Neural Network for High-Dimensional Disease Classification'
+                    ]
+                ],
+                [
+                    'title' => 'Computer Vision & Natural Language Processing (NLP)',
+                    'lessons' => [
+                        'Convolutional Neural Networks (CNNs) & Feature Map Visualizations',
+                        'Transfer Learning with Vision Models: ResNet, MobileNet & Real-Time Object Detection',
+                        'NLP Foundations: Tokenization, Word Embeddings (Word2Vec) & Sequence Modeling',
+                        'Transformer Architectures: Self-Attention, BERT & Hugging Face Ecosystem'
+                    ]
+                ],
+                [
+                    'title' => 'Generative AI, RAG & MLOps Production Deployment',
+                    'lessons' => [
+                        'LLM Engineering: Prompt Design, Token Economics & Vector Databases (Chroma/Pinecone)',
+                        'Production Retrieval-Augmented Generation (RAG) & LangChain Agents',
+                        'Model Packaging, FastAPI Microservice Serving & Docker Containerization',
+                        'Capstone Project: Production-Ready Multi-Modal AI Assistant with Live Inference API'
+                    ]
+                ]
+            ]
+        ],
+        [
+            'title' => 'AI & Machine Learning Fundamentals',
+            'slug' => 'ai-machine-learning-fundamentals',
+            'subtitle' => 'Foundations of Artificial Intelligence, Core ML Algorithms & Hands-On Python',
+            'cat' => 'ai-automation',
+            'level' => 'beginner',
+            'duration' => '45 Days',
+            'hours' => 50,
+            'price' => 2999.00,
+            'original_price' => 4999.00,
+            'icon' => 'bi-cpu',
+            'thumbnail' => 'ai-machine-learning.svg',
+            'is_featured' => 1,
+            'is_bestseller' => 1,
+            'desc' => 'Kickstart your AI & ML journey from scratch. Learn foundational machine learning concepts, data preprocessing with NumPy and Pandas, core regression and classification algorithms, clustering, and hands-on Python model training.',
+            'modules' => [
+                ['title' => 'Introduction to AI & Data Exploration', 'lessons' => ['What is AI vs ML vs Deep Learning', 'Python & Jupyter Environment Setup', 'NumPy Arrays & Mathematical Operations', 'Pandas DataFrames & Real-world Data Cleaning']],
+                ['title' => 'Supervised Learning Algorithms', 'lessons' => ['Linear Regression & Cost Functions', 'Logistic Regression & Binary Classification', 'Decision Trees & Model Overfitting', 'Model Evaluation (Precision, Recall, F1-Score)']],
+                ['title' => 'Unsupervised Learning & Clustering', 'lessons' => ['K-Means Clustering Fundamentals', 'Customer Segmentation Analysis', 'Dimensionality Reduction Basics']],
+                ['title' => 'Hands-on ML Projects & Deployment', 'lessons' => ['Building a House Price Predictor', 'Building a Loan Eligibility Classifier', 'Deploying ML Models with Streamlit']]
+            ]
+        ],
+        [
+            'title' => 'Prompt Engineering & Generative AI',
+            'slug' => 'prompt-engineering-generative-ai',
+            'subtitle' => 'Mastering Advanced Prompting, ChatGPT, Claude, Midjourney & GenAI Workflows',
+            'cat' => 'ai-automation',
+            'level' => 'beginner',
+            'duration' => '20 Days',
+            'hours' => 24,
+            'price' => 1499.00,
+            'original_price' => 2499.00,
+            'icon' => 'bi-chat-left-dots-fill',
+            'thumbnail' => 'genai-ai-agents.svg',
+            'is_featured' => 1,
+            'is_bestseller' => 1,
+            'desc' => 'Master prompt engineering for top LLMs including ChatGPT, Claude, and Gemini. Learn role prompting, zero-shot, few-shot, chain-of-thought, system prompts, structured JSON outputs, image generation, and multi-modal generative AI.',
+            'modules' => [
+                ['title' => 'Core Prompt Engineering Techniques', 'lessons' => ['LLM Tokenization, Temperature & Top-P', 'Zero-shot, Few-shot & Role-based Prompting', 'Chain-of-Thought & Self-Consistency Prompting', 'Handling Hallucinations & Fact Verification']],
+                ['title' => 'Advanced System Prompts & Structured Outputs', 'lessons' => ['Writing Robust System Prompts', 'Enforcing JSON & Markdown Output Schemas', 'Prompt Injection & Security Guardrails']],
+                ['title' => 'Multi-Modal GenAI & Media Creation', 'lessons' => ['Image Generation with Midjourney & DALL-E', 'Audio, Voice & Video AI Generation Tools', 'Multi-Modal Reasoning with Gemini & Claude']],
+                ['title' => 'Capstone Project: Custom GPTs & Prompt Library', 'lessons' => ['Building Custom Specialized AI Assistants', 'Creating a Reusable Personal Prompt Repository', 'Showcase Presentation & Evaluation']]
+            ]
+        ],
+        [
+            'title' => 'Python for AI & ML',
+            'slug' => 'python-for-ai-ml',
+            'subtitle' => 'Modern Python Programming, NumPy, Pandas, Matplotlib & Math for AI',
+            'cat' => 'programming-foundations',
+            'level' => 'beginner',
+            'duration' => '30 Days',
+            'hours' => 36,
+            'price' => 2499.00,
+            'original_price' => 3999.00,
+            'icon' => 'bi-filetype-py',
+            'thumbnail' => 'coding-python.gif',
+            'is_featured' => 0,
+            'is_bestseller' => 1,
+            'desc' => 'The definitive Python course designed specifically for aspiring Artificial Intelligence and Machine Learning developers. Master core Python, data structures, NumPy matrix math, Pandas data manipulation, and Matplotlib visualizations.',
+            'modules' => [
+                ['title' => 'Python Programming Essentials', 'lessons' => ['Variables, Data Types, Control Flow & Loops', 'Lists, Dictionaries, Tuples & Sets', 'Functions, Lambdas & List Comprehensions', 'Object-Oriented Programming (OOP) in Python']],
+                ['title' => 'NumPy for Scientific & Vectorized Computing', 'lessons' => ['Ndarray Creation, Indexing & Slicing', 'Vectorized Operations & Broadcasting', 'Matrix Multiplication & Linear Algebra Functions']],
+                ['title' => 'Data Wrangling with Pandas', 'lessons' => ['Series & DataFrames Essentials', 'Filtering, GroupBy & Pivot Tables', 'Handling Missing Data, Imputation & Merging']],
+                ['title' => 'Data Visualization & Exploratory Data Analysis (EDA)', 'lessons' => ['Matplotlib Line, Bar & Scatter Plots', 'Seaborn Heatmaps & Statistical Distributions', 'Hands-on EDA Project on a Real-world Dataset']]
+            ]
+        ],
+        [
+            'title' => 'AI Agents & Workflow Automation',
+            'slug' => 'ai-agents-workflow-automation',
+            'subtitle' => 'Autonomous AI Agents, LangChain, Tool Calling, Webhooks & No-Code Automations',
+            'cat' => 'ai-automation',
+            'level' => 'intermediate',
+            'duration' => '30 Days',
+            'hours' => 36,
+            'price' => 2999.00,
+            'original_price' => 4999.00,
+            'icon' => 'bi-robot',
+            'thumbnail' => 'coding-automation.gif',
+            'is_featured' => 1,
+            'is_bestseller' => 0,
+            'desc' => 'Build intelligent autonomous AI agents that can browse the web, execute tasks, call APIs, and automate business operations using LangChain, LangGraph, Zapier, Make.com, and OpenAI Function Calling.',
+            'modules' => [
+                ['title' => 'Autonomous Agent Architecture', 'lessons' => ['ReAct (Reason + Act) Agent Framework', 'Memory, State Management & Scratchpads', 'OpenAI & Claude Function Calling']],
+                ['title' => 'Tool Calling & External Integrations', 'lessons' => ['Connecting Agents to Google Search & Scraping', 'Database Querying Agents (SQL Agent)', 'Error Handling & Human-in-the-Loop Safeguards']],
+                ['title' => 'No-Code & Low-Code Workflow Automation', 'lessons' => ['Make.com & Zapier Integration Patterns', 'Webhooks & Automated Multi-Step Triggers', 'Automated Lead Qualification & CRM Sync']],
+                ['title' => 'Capstone Project: Autonomous Research & Report Agent', 'lessons' => ['Building an Automated Market Research Agent', 'Generating Formatted Reports & Sending Email Alerts', 'Deploying the AI Agent Workflow']]
+            ]
+        ],
+        [
+            'title' => 'ChatGPT, Gemini & AI Productivity Tools',
+            'slug' => 'chatgpt-gemini-ai-productivity-tools',
+            'subtitle' => '10x Your Productivity in Work & Study with Modern Generative AI Tools',
+            'cat' => 'ai-automation',
+            'level' => 'beginner',
+            'duration' => '15 Days',
+            'hours' => 18,
+            'price' => 999.00,
+            'original_price' => 1999.00,
+            'icon' => 'bi-lightning-charge-fill',
+            'thumbnail' => 'coding-ai.gif',
+            'is_featured' => 1,
+            'is_bestseller' => 1,
+            'desc' => 'Supercharge your daily efficiency. Learn how students, job seekers, and working professionals use ChatGPT, Google Gemini, Perplexity, and AI productivity tools to write, research, analyze spreadsheets, and draft presentations in minutes.',
+            'modules' => [
+                ['title' => 'Mastering Everyday AI Assistants', 'lessons' => ['ChatGPT vs Gemini vs Perplexity: When to Use Which', 'Prompting Frameworks for Clear, Accurate Answers', 'Synthesizing Long PDFs, Articles & Research Papers']],
+                ['title' => 'Workplace & Academic Efficiency', 'lessons' => ['Drafting High-Impact Professional Emails & Reports', 'Excel & Google Sheets Formulas with AI', 'Instant Slide Decks & Presentation Generation']],
+                ['title' => 'Creative Tools & Practical AI Workflows', 'lessons' => ['Audio Transcription & Meeting Summarization', 'Resume Optimization & Cover Letter Personalization', 'Building Your Personal Daily Productivity System']]
+            ]
+        ],
+        [
+            'title' => 'Machine Learning with Python Projects',
+            'slug' => 'machine-learning-python-projects',
+            'subtitle' => 'Build 5 Real-World Industry ML Projects from Scikit-Learn to Production APIs',
+            'cat' => 'data-analytics',
+            'level' => 'intermediate',
+            'duration' => '40 Days',
+            'hours' => 48,
+            'price' => 2999.00,
+            'original_price' => 4999.00,
+            'icon' => 'bi-diagram-3-fill',
+            'thumbnail' => 'coding-algorithm.gif',
+            'is_featured' => 1,
+            'is_bestseller' => 1,
+            'desc' => '100% project-based Machine Learning training. Build, tune, and evaluate 5 real-world ML portfolio projects using Scikit-Learn, Pandas, and Python, and package them as REST APIs for production deployment.',
+            'modules' => [
+                ['title' => 'Industrial ML Pipelines & Preprocessing', 'lessons' => ['Scikit-Learn Pipeline & ColumnTransformer', 'Feature Engineering & Cross-Validation Strategy', 'Hyperparameter Tuning with GridSearchCV & Optuna']],
+                ['title' => 'Projects 1 & 2: Predictive & Risk Modeling', 'lessons' => ['Project 1: Real Estate Price Prediction with XGBoost', 'Model Evaluation with RMSE & R-Squared', 'Project 2: Credit Card Fraud & Risk Scoring System', 'Handling Imbalanced Datasets with SMOTE']],
+                ['title' => 'Projects 3 & 4: Classification & Sentiment NLP', 'lessons' => ['Project 3: Medical Diagnostics Classification Model', 'Project 4: Customer Sentiment & Review Classification', 'TF-IDF Vectorization & Classification Metrics']],
+                ['title' => 'Project 5 & Cloud API Deployment', 'lessons' => ['Project 5: Movie & Product Recommendation System', 'Serializing Models with Joblib / ONNX', 'Building a FastAPI Inference Endpoint & Deploying Live']]
             ]
         ]
     ];
