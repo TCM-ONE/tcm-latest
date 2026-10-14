@@ -88,7 +88,7 @@ final class WorkshopLeadController extends Controller
     {
         Auth::require('admin');
         $id = (int)$params['id'];
-        Database::run("DELETE FROM workshop_leads WHERE id = ?", [$id]);
+        WorkshopLead::delete($id);
         $this->respond(null, 'Workshop lead deleted.', '/admin/workshop-leads');
     }
 

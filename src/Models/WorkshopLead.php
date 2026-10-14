@@ -12,6 +12,64 @@ final class WorkshopLead extends Model
 {
     protected static string $table = 'workshop_leads';
 
+    public static function ensureTable(): void
+    {
+        static $checked = false;
+        if ($checked) {
+            return;
+        }
+        $checked = true;
+
+        try {
+            Database::run("
+                CREATE TABLE IF NOT EXISTS workshop_leads (
+                    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                    workshop_id BIGINT UNSIGNED DEFAULT NULL,
+                    workshop_slug VARCHAR(190) NOT NULL,
+                    workshop_title VARCHAR(220) NOT NULL,
+                    full_name VARCHAR(150) NOT NULL,
+                    email VARCHAR(190) NOT NULL,
+                    phone VARCHAR(30) NOT NULL,
+                    current_status ENUM('student','working','other') NOT NULL DEFAULT 'student',
+                    college VARCHAR(190) DEFAULT NULL,
+                    city VARCHAR(120) DEFAULT NULL,
+                    learning_goal TEXT DEFAULT NULL,
+                    selected_workshop_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                    lead_status ENUM('new','contacted','interested','payment_pending','enrolled','dropped','not_interested','lost') NOT NULL DEFAULT 'new',
+                    payment_status ENUM('not_initiated','pending','paid','failed','refunded') NOT NULL DEFAULT 'not_initiated',
+                    enrollment_status ENUM('pending','confirmed','waitlist','cancelled') NOT NULL DEFAULT 'pending',
+                    utm_source VARCHAR(120) DEFAULT NULL,
+                    utm_medium VARCHAR(120) DEFAULT NULL,
+                    utm_campaign VARCHAR(120) DEFAULT NULL,
+                    utm_content VARCHAR(120) DEFAULT NULL,
+                    landing_page VARCHAR(255) DEFAULT NULL,
+                    referrer VARCHAR(255) DEFAULT NULL,
+                    admin_notes TEXT DEFAULT NULL,
+                    consent_timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    PRIMARY KEY (id),
+                    KEY idx_ws_leads_status (lead_status),
+                    KEY idx_ws_leads_pay_status (payment_status),
+                    KEY idx_ws_leads_slug (workshop_slug),
+                    KEY idx_ws_leads_email (email),
+                    KEY idx_ws_leads_created (created_at)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
+
+            $statusColumn = Database::first("SHOW COLUMNS FROM workshop_leads LIKE 'lead_status'");
+            $type = (string)($statusColumn['Type'] ?? '');
+            if ($type !== '' && !str_contains($type, "'dropped'")) {
+                Database::run("
+                    ALTER TABLE workshop_leads
+                    MODIFY lead_status ENUM('new','contacted','interested','payment_pending','enrolled','dropped','not_interested','lost') NOT NULL DEFAULT 'new'
+                ");
+            }
+        } catch (\Throwable) {
+            // Let the caller's query surface the underlying database error.
+        }
+    }
+
     /**
      * Capture a new workshop lead safely with duplicate detection.
      *
@@ -20,6 +78,8 @@ final class WorkshopLead extends Model
      */
     public static function capture(array $data): array
     {
+        self::ensureTable();
+
         $email = strtolower(trim((string)($data['email'] ?? '')));
         $slug  = trim((string)($data['workshop_slug'] ?? ''));
 
@@ -97,6 +157,8 @@ final class WorkshopLead extends Model
      */
     public static function search(array $filters = []): array
     {
+        self::ensureTable();
+
         $sql = "SELECT * FROM workshop_leads WHERE 1";
         $params = [];
 
@@ -136,6 +198,8 @@ final class WorkshopLead extends Model
      */
     public static function stats(): array
     {
+        self::ensureTable();
+
         $total = (int)Database::first("SELECT COUNT(*) as c FROM workshop_leads")['c'];
         $new = (int)Database::first("SELECT COUNT(*) as c FROM workshop_leads WHERE lead_status = 'new'")['c'];
         $interested = (int)Database::first("SELECT COUNT(*) as c FROM workshop_leads WHERE lead_status = 'interested'")['c'];
@@ -157,5 +221,17 @@ final class WorkshopLead extends Model
             'enrolled'          => $enrolled,
             'conversion_rate'   => $conversionRate,
         ];
+    }
+
+    public static function update(int $id, array $data): int
+    {
+        self::ensureTable();
+        return parent::update($id, $data);
+    }
+
+    public static function delete(int $id): int
+    {
+        self::ensureTable();
+        return parent::delete($id);
     }
 }

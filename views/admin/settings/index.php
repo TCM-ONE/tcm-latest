@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div style="display:flex;gap:8px;">
-                        <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" download>
+                        <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" download="TCM-One-Course-Brochure.pdf">
                             <i class="bi bi-download"></i> View / Download
                         </a>
                     </div>

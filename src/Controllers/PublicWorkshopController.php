@@ -6,6 +6,7 @@ namespace TCM\Controllers;
 
 use TCM\Core\Controller;
 use TCM\Core\Database;
+use TCM\Core\Request;
 use TCM\Core\WorkshopData;
 use TCM\Models\Course;
 
@@ -226,7 +227,7 @@ SVG;
 
         if (!empty($brochureFile)) {
             $candidate = config('uploads.path') . '/' . $brochureFile;
-            if (is_file($candidate)) {
+            if (is_file($candidate) && strtolower(pathinfo($candidate, PATHINFO_EXTENSION)) === 'pdf') {
                 $filePath = $candidate;
             }
         }
@@ -262,7 +263,7 @@ SVG;
             $titleSlug = slugify((string)($course['title'] ?? 'Course'));
             if (!empty($course['brochure_file'])) {
                 $candidate = dirname(__DIR__, 2) . '/' . ltrim((string)$course['brochure_file'], '/');
-                if (is_file($candidate)) {
+                if (is_file($candidate) && strtolower(pathinfo($candidate, PATHINFO_EXTENSION)) === 'pdf') {
                     $filePath = $candidate;
                     $downloadName = !empty($course['brochure_name'])
                         ? $course['brochure_name']
@@ -279,7 +280,7 @@ SVG;
             $globalFile = Database::scalar("SELECT `value` FROM settings WHERE `key` = 'brochure_file'");
             if (!empty($globalFile)) {
                 $candidate = config('uploads.path') . '/' . $globalFile;
-                if (is_file($candidate)) {
+                if (is_file($candidate) && strtolower(pathinfo($candidate, PATHINFO_EXTENSION)) === 'pdf') {
                     $filePath = $candidate;
                 }
             }
@@ -312,17 +313,26 @@ SVG;
     private function streamFile(?string $filePath, string $downloadName): void
     {
         if ($filePath === null || !is_file($filePath)) {
-            flash('info', 'Brochure is being updated. You can explore our programs or contact us directly on WhatsApp!');
-            redirect('/programs.html');
+            http_response_code(404);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo 'Brochure PDF is being updated. Please contact TCM One for the latest copy.';
+            exit;
         }
 
         $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-        $mimeTypes = [
-            'pdf'  => 'application/pdf',
-            'doc'  => 'application/msword',
-            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        ];
-        $contentType = $mimeTypes[$ext] ?? 'application/octet-stream';
+        if ($ext !== 'pdf') {
+            http_response_code(415);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo 'Only PDF brochures are available for public download.';
+            exit;
+        }
+        $contentType = 'application/pdf';
+        $nameExt = strtolower(pathinfo($downloadName, PATHINFO_EXTENSION));
+        if ($nameExt !== '' && $nameExt !== 'pdf') {
+            $downloadName = pathinfo($downloadName, PATHINFO_FILENAME) . '.pdf';
+        } elseif (!str_ends_with(strtolower($downloadName), '.pdf')) {
+            $downloadName .= '.pdf';
+        }
 
         if (ob_get_level()) {
             ob_end_clean();

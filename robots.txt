@@ -5,6 +5,9 @@ Allow: /programs.html
 Allow: /insights.html
 Allow: /contact.html
 Allow: /community.html
+Allow: /courses/
+Allow: /workshops
+Allow: /workshops/
 Allow: /course-details.html
 Allow: /event-details.html
 Allow: /assets/

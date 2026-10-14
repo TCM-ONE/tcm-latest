@@ -177,7 +177,7 @@ foreach($quick as [$href,$icon,$label,$alert]): ?>
                     </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
-                    <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #cbd5e1;background:#fff;" download>
+                    <a href="<?= base_url('/download-brochure') ?>" class="tcm-btn sm ghost" style="border:1.5px solid #cbd5e1;background:#fff;" download="TCM-One-Course-Brochure.pdf">
                         <i class="bi bi-download"></i> Download
                     </a>
                     <form method="post" action="<?= base_url('/admin/brochure/delete') ?>" onsubmit="return confirm('Are you sure you want to delete this brochure? The site will fallback to default starter brochure.');" style="margin:0;">

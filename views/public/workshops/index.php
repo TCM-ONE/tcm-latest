@@ -14,6 +14,7 @@
     <title><?= e($title) ?></title>
     <meta name="description" content="<?= e($description) ?>">
     <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="<?= e($canonical) ?>">
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -22,6 +23,7 @@
     <meta property="og:title" content="<?= e($title) ?>">
     <meta property="og:description" content="<?= e($description) ?>">
     <meta property="og:image" content="<?= e($ogImage) ?>">
+    <meta property="og:image:alt" content="TCM One live coding workshops">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="TCM One">
@@ -56,9 +58,18 @@
                 ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $canonical],
             ],
         ];
+        $organizationSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'EducationalOrganization',
+            'name' => 'TCM One',
+            'url' => $appUrl,
+            'logo' => $appUrl . '/assets/logo.png',
+            'areaServed' => 'IN',
+        ];
     ?>
     <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
     <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+    <script type="application/ld+json"><?= json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 
     <!-- Stylesheets -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -104,23 +115,23 @@
         }
         .ws-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            padding: 60px 0 80px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+            padding: 42px 0 64px;
         }
         .ws-card {
             background: #ffffff;
-            border: 2px solid #111111;
-            box-shadow: 6px 6px 0px #111111;
-            padding: 28px;
+            border: 1.5px solid #111111;
+            box-shadow: 4px 4px 0px #111111;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
         .ws-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #111111;
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #111111;
         }
         .ws-card-tag {
             font-size: 0.72rem;
@@ -131,30 +142,30 @@
             margin-bottom: 10px;
         }
         .ws-card h3 {
-            font-size: 1.35rem;
+            font-size: 1.15rem;
             font-weight: 800;
             line-height: 1.3;
             margin-bottom: 10px;
             color: #111111;
         }
         .ws-card p {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             color: #555555;
             line-height: 1.55;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
             flex: 1;
         }
         .ws-meta-row {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            font-size: 0.8rem;
+            font-size: 0.74rem;
             font-weight: 600;
             color: #222222;
-            padding: 12px 0;
+            padding: 10px 0;
             border-top: 1px solid #eeeeee;
             border-bottom: 1px solid #eeeeee;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
         .ws-meta-row span {
             display: inline-flex;
@@ -168,7 +179,7 @@
             margin-bottom: 16px;
         }
         .ws-price {
-            font-size: 1.8rem;
+            font-size: 1.45rem;
             font-weight: 900;
             color: #111111;
         }
@@ -188,10 +199,10 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            min-height: 44px;
+            min-height: 38px;
             background: #111111;
             color: #ffffff;
-            font-size: 0.88rem;
+            font-size: 0.8rem;
             font-weight: 800;
             text-decoration: none;
             border: 2px solid #111111;
@@ -238,8 +249,8 @@
                     </ul>
 
                     <div class="header-right-actions d-flex align-items-center gap-3">
-                        <a href="<?= base_url('/download-brochure') ?>" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download style="font-weight:600;font-size:14px;color:#111;">
-                            <i class="bi bi-download"></i> Brochure
+                        <a href="<?= base_url('/download-brochure') ?>" class="nav-link d-none d-sm-inline-flex align-items-center gap-1" download="TCM-One-Course-Brochure.pdf" style="font-weight:600;font-size:14px;color:#111;">
+                            <i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF
                         </a>
                         <a href="<?= base_url('/login.php') ?>" class="nav-login-link d-none d-md-inline-block" style="font-size:14px;color:#111;text-decoration:none;font-weight:600;">Log in</a>
                         <a href="<?= base_url('/login.php') ?>" class="join-btn">Start Free Trial</a>
@@ -366,7 +377,7 @@
                             <a href="<?= base_url('/insights.html') ?>">About Us</a>
                             <a href="<?= base_url('/community.html') ?>">Community</a>
                             <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
-                            <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-download"></i> Download Brochure</a>
+                            <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF</a>
                             <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
                         </div>
 
@@ -380,7 +391,7 @@
                         <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
                         <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
                         <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
-                        <a href="<?= base_url('/download-brochure') ?>" download><i class="bi bi-file-earmark-pdf"></i> Download Brochure</a>
+                        <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF</a>
                         <a href="<?= base_url('/contact.html') ?>">Contact</a>
                         <a href="<?= base_url('/insights.html') ?>">About</a>
                     </div>
