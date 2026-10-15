@@ -2358,15 +2358,21 @@ textarea.tcm-form-input {
 .tcm-review-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #059669;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  padding: 2px 7px;
+  color: #111111;
+  background: #f5f5f5;
+  border: 1px solid #111111;
+  padding: 3px 8px;
+  line-height: 1;
+}
+
+.tcm-review-badge i {
+  color: #111111 !important;
+  font-size: 11px;
 }
 
 .tcm-review-quote {
@@ -2380,30 +2386,20 @@ textarea.tcm-form-input {
 
 .tcm-review-author {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 3px;
   padding-top: 14px;
   border-top: 1px solid var(--tcm-border);
 }
 
 .tcm-review-avatar {
-  width: 36px;
-  height: 36px;
-  background: #111111;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 12px;
-  flex-shrink: 0;
-  border-radius: 0px !important;
+  display: none !important;
 }
 
 .tcm-review-info {
   display: flex;
   flex-direction: column;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .tcm-review-name {
@@ -2416,6 +2412,81 @@ textarea.tcm-form-input {
   font-size: 11.5px;
   color: var(--tcm-muted);
   margin-top: 2px;
+}
+
+/* All Reviews Page Styles */
+.tcm-reviews-hero {
+  padding: clamp(48px, 6vw, 80px) 0 clamp(32px, 4vw, 56px);
+  background: var(--tcm-bg);
+  border-bottom: 1px solid var(--tcm-border);
+}
+
+.tcm-reviews-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.tcm-reviews-stat-card {
+  background: #FFFFFF;
+  border: 1px solid var(--tcm-border);
+  padding: 18px 20px;
+}
+
+.tcm-reviews-stat-val {
+  font: 400 32px/1 var(--tcm-font-display);
+  color: var(--tcm-fg);
+  letter-spacing: -0.02em;
+}
+
+.tcm-reviews-stat-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tcm-muted);
+  margin-top: 6px;
+}
+
+.tcm-review-detailed-card {
+  background: #FFFFFF;
+  border: 1px solid var(--tcm-border);
+  padding: 28px;
+  margin-bottom: 24px;
+  transition: border-color 0.2s ease;
+}
+
+.tcm-review-detailed-card:hover {
+  border-color: var(--tcm-fg);
+}
+
+.tcm-review-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.tcm-review-hl-item {
+  background: #FAFAFA;
+  border: 1px solid var(--tcm-border);
+  padding: 10px 14px;
+}
+
+.tcm-review-hl-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tcm-muted);
+  margin-bottom: 3px;
+}
+
+.tcm-review-hl-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tcm-fg);
 }
 
 /* ==========================================================================
