@@ -135,7 +135,7 @@
 
   <main>
     <!-- About Hero -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: 72px 0 64px;">
+    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 52px) 0 clamp(24px, 3vw, 36px);">
       <div class="tcm-container">
         <div style="max-width: 820px;">
           <div class="tcm-eyebrow" style="margin-bottom: 12px;">OUR MISSION &amp; ORIGIN</div>
@@ -159,7 +159,7 @@
     </section>
 
     <!-- The Narrative & Proof Points -->
-    <section style="padding: 64px 0 80px; border-bottom: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div class="about-story-grid">
           
@@ -233,7 +233,7 @@
     </section>
 
     <!-- Core Pillars / Principles -->
-    <section style="padding: 72px 0; background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="margin-bottom: 44px; max-width: 680px;">
           <div class="tcm-eyebrow" style="margin-bottom: 8px;">THE TCM STANDARD</div>
@@ -277,7 +277,7 @@
     </section>
 
     <!-- Operational Presence & Locations -->
-    <section style="padding: 64px 0 80px;">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0;">
       <div class="tcm-container">
         <div style="background: #111111; color: #F8F7F4; padding: 48px 40px; border: 1px solid #111111;">
           <div style="max-width: 780px;">

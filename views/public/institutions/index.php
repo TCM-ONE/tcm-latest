@@ -145,7 +145,7 @@
 
   <main>
     <!-- Hero Section -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: 72px 0 64px; position: relative; overflow: hidden;">
+    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 52px) 0 clamp(24px, 3vw, 36px); position: relative; overflow: hidden;">
       <div class="tcm-container">
         <div style="max-width: 840px;">
           <div class="tcm-eyebrow" style="margin-bottom: 14px;">ACADEMIC &amp; CAMPUS COLLABORATION</div>
@@ -170,7 +170,7 @@
     </section>
 
     <!-- Key Institutional Pillars Grid -->
-    <section style="padding: 64px 0; border-bottom: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="margin-bottom: 40px; max-width: 700px;">
           <div class="tcm-eyebrow" style="margin-bottom: 8px;">PEDAGOGY THAT DELIVERS</div>
@@ -217,7 +217,7 @@
     </section>
 
     <!-- 3 Partnership Tracks -->
-    <section style="padding: 72px 0; background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="margin-bottom: 48px; max-width: 760px;">
           <div class="tcm-eyebrow" style="margin-bottom: 8px;">OFFERINGS FOR CAMPUSES</div>
@@ -300,7 +300,7 @@
     </section>
 
     <!-- Delivery Process: 4 Clear Steps -->
-    <section style="padding: 64px 0; border-bottom: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="margin-bottom: 40px; max-width: 600px;">
           <div class="tcm-eyebrow" style="margin-bottom: 8px;">HOW IT WORKS</div>
@@ -344,7 +344,7 @@
     </section>
 
     <!-- Institutional Lead Form Section -->
-    <section id="partner-form" style="padding: 72px 0 88px; background: var(--tcm-surface);">
+    <section id="partner-form" style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface);">
       <div class="tcm-container">
         <div class="inst-grid-2">
           
@@ -444,7 +444,7 @@
     </section>
 
     <!-- Institutional FAQ Accordion -->
-    <section style="padding: 64px 0 80px; border-top: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-top: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 760px; margin: 0 auto;">
           <div class="tcm-eyebrow" style="text-align: center; margin-bottom: 8px;">QUESTIONS &amp; ANSWERS</div>

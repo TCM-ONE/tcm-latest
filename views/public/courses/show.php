@@ -212,7 +212,7 @@
   <main id="mainContent" style="padding-bottom: 84px;">
 
     <!-- Course Hero -->
-    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(36px, 4vw, 56px); border-bottom: 1px solid var(--tcm-border);">
+    <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: clamp(24px, 3vw, 32px); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <!-- Breadcrumbs -->
         <nav aria-label="Breadcrumb" style="font-size: 12px; color: var(--tcm-muted); margin-bottom: 16px;">
@@ -245,7 +245,7 @@
     </section>
 
     <!-- Main Content & Sticky Enrollment Sidebar -->
-    <section class="tcm-section">
+    <section class="tcm-section" style="padding-top: clamp(28px, 3.5vw, 40px); padding-bottom: clamp(48px, 6vw, 64px);">
       <div class="tcm-container">
         <div class="cd-layout-grid">
 

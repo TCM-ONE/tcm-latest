@@ -118,7 +118,7 @@
   <main id="mainContent">
 
     <!-- Workshop Hero -->
-    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(36px, 5vw, 60px); border-bottom: 1px solid var(--tcm-border);">
+    <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: clamp(24px, 3vw, 36px); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 780px;">
           <div class="tcm-eyebrow">LIVE SHORT-FORMAT LEARNING</div>
@@ -134,7 +134,7 @@
     </section>
 
     <!-- Workshop Listings -->
-    <section class="tcm-section">
+    <section class="tcm-section" style="padding-top: clamp(28px, 3.5vw, 40px);">
       <div class="tcm-container">
         <div class="tcm-workshop-grid">
           <?php foreach (($workshops ?? []) as $w): ?>

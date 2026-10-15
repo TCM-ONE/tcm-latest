@@ -148,7 +148,7 @@
 
   <main>
     <!-- Contact Hero -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: 72px 0 64px;">
+    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 52px) 0 clamp(24px, 3vw, 36px);">
       <div class="tcm-container">
         <div style="max-width: 820px;">
           <div class="tcm-eyebrow" style="margin-bottom: 12px;">ADMISSIONS &amp; SUPPORT</div>
@@ -163,7 +163,7 @@
     </section>
 
     <!-- Contact Content Layout -->
-    <section style="padding: 72px 0 88px;">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0;">
       <div class="tcm-container">
         <div class="contact-grid">
 
@@ -281,7 +281,7 @@
     </section>
 
     <!-- Contact FAQ Accordion -->
-    <section style="padding: 64px 0 80px; background: var(--tcm-surface); border-top: 1px solid var(--tcm-border);">
+    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-top: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 760px; margin: 0 auto;">
           <div class="tcm-eyebrow" style="text-align: center; margin-bottom: 8px;">HELPFUL INFORMATION</div>

@@ -121,7 +121,7 @@
   <main id="mainContent">
 
     <!-- Catalog Hero -->
-    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: 32px; border-bottom: 1px solid var(--tcm-border);">
+    <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: 24px; border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 780px;">
           <div class="tcm-eyebrow">COURSE CATALOG</div>
@@ -134,7 +134,7 @@
         </div>
 
         <!-- Filter & Search Controls -->
-        <div style="margin-top: 40px; padding: 24px; background-color: var(--tcm-surface); border: 1px solid var(--tcm-border);">
+        <div style="margin-top: 24px; padding: 24px; background-color: var(--tcm-surface); border: 1px solid var(--tcm-border);">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
             <!-- Search -->
             <div style="grid-column: 1 / -1;" class="d-md-block">
@@ -194,7 +194,7 @@
     </section>
 
     <!-- Catalog Results Section -->
-    <section class="tcm-section">
+    <section class="tcm-section" style="padding-top: clamp(28px, 3.5vw, 40px);">
       <div class="tcm-container">
         <!-- Results header & count -->
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 14px;">

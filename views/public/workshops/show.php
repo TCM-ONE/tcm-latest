@@ -285,7 +285,7 @@
 
   <main style="padding-bottom: 84px;">
     <!-- Workshop Detail Hero -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: 48px 0 40px; position: relative; overflow: hidden;">
+    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 48px) 0 clamp(24px, 3vw, 32px); position: relative; overflow: hidden;">
       <div class="tcm-container">
         
         <!-- Breadcrumbs -->
@@ -332,7 +332,7 @@
     </section>
 
     <!-- Main Content Layout -->
-    <section style="padding: 56px 0 80px;">
+    <section style="padding: clamp(28px, 3.5vw, 40px) 0 clamp(48px, 6vw, 64px);">
       <div class="tcm-container">
         <div class="ws-layout-grid">
 
