@@ -11,6 +11,7 @@ use TCM\Core\Mailer;
 use TCM\Core\PayU;
 use TCM\Core\Request;
 use TCM\Core\Response;
+use TCM\Core\WorkshopData;
 use TCM\Models\Course;
 use TCM\Models\Event;
 use TCM\Models\Order;
@@ -55,15 +56,47 @@ final class PublicPaymentController extends Controller
                 $workshop = Event::find($itemId);
             }
             if ($workshop === null && $slug !== '') {
-                $workshop = Event::findBySlug($slug);
+                $resolvedSlug = WorkshopData::resolveSlug($slug);
+                $workshop = Event::findBySlug($resolvedSlug);
+
+                // Self-healing fallback: Check WorkshopData registry
+                if ($workshop === null) {
+                    $wsDef = WorkshopData::find($resolvedSlug);
+                    if ($wsDef !== null) {
+                        try {
+                            Database::run("
+                                INSERT INTO events (title, slug, subtitle, description, category, type, status, price, mode, duration, total_seats, seats_filled)
+                                VALUES (?, ?, ?, ?, 'general', ?, 'upcoming', ?, 'online', ?, 50, 0)
+                                ON DUPLICATE KEY UPDATE title = VALUES(title), price = VALUES(price)
+                            ", [
+                                $wsDef['title'],
+                                $resolvedSlug,
+                                $wsDef['tagline'] ?? $wsDef['short_title'] ?? '',
+                                $wsDef['description'] ?? '',
+                                ((float) $wsDef['price'] > 0 ? 'paid' : 'free'),
+                                (float) $wsDef['price'],
+                                $wsDef['duration'] ?? 'Live Workshop'
+                            ]);
+                            $workshop = Event::findBySlug($resolvedSlug);
+                        } catch (\Throwable $e) {
+                            // Virtual event fallback if DB table insert is restricted
+                            $workshop = [
+                                'id'    => 9999,
+                                'slug'  => $resolvedSlug,
+                                'title' => $wsDef['title'],
+                                'price' => (float) $wsDef['price'],
+                            ];
+                        }
+                    }
+                }
             }
             if ($workshop === null) {
                 $this->abortWithError('Workshop not found.');
             }
-            $itemId = (int) $workshop['id'];
-            $resolvedSlug = (string) $workshop['slug'];
-            $itemTitle = (string) $workshop['title'];
-            $amount = (float) $workshop['price'];
+            $itemId = (int) ($workshop['id'] ?? 9999);
+            $resolvedSlug = (string) ($workshop['slug'] ?? $slug);
+            $itemTitle = (string) ($workshop['title'] ?? 'Live Workshop');
+            $amount = (float) ($workshop['price'] ?? 0.0);
         } else {
             $itemType = 'course';
             $course = null;
@@ -80,10 +113,6 @@ final class PublicPaymentController extends Controller
             $resolvedSlug = (string) $course['slug'];
             $itemTitle = (string) $course['title'];
             $amount = (float) $course['price'];
-        }
-
-        if ($amount <= 0) {
-            $this->abortWithError('Invalid purchase amount.');
         }
 
         // 1. Resolve or Create User
@@ -105,6 +134,56 @@ final class PublicPaymentController extends Controller
                 $userId = (int) Database::scalar('SELECT LAST_INSERT_ID()');
                 Database::run("INSERT IGNORE INTO student_profiles (user_id, headline) VALUES (?, 'TCM Student')", [$userId]);
             }
+        }
+
+        // Handle Free Registration (Amount <= 0) - Instant Confirmation without PayU Gateway
+        if ($amount <= 0) {
+            $orderNumber = Order::generateNumber();
+            Database::run("
+                INSERT INTO orders (user_id, order_number, item_type, item_id, item_title, amount, currency, status, payment_method, payment_ref)
+                VALUES (?, ?, ?, ?, ?, 0.00, 'INR', 'paid', 'free', 'FREE_ENROLL')
+            ", [
+                $userId,
+                $orderNumber,
+                $itemType === 'workshop' ? 'event' : 'course',
+                $itemId,
+                $itemTitle
+            ]);
+
+            if ($itemType === 'workshop') {
+                WorkshopLead::capture([
+                    'workshop_id'             => $itemId,
+                    'workshop_slug'           => $resolvedSlug,
+                    'workshop_title'          => $itemTitle,
+                    'full_name'               => $name,
+                    'email'                   => $email,
+                    'phone'                   => $phone,
+                    'selected_workshop_price' => 0.00,
+                    'payment_status'          => 'paid',
+                    'lead_status'             => 'enrolled',
+                    'enrollment_status'       => 'confirmed',
+                ]);
+            } else {
+                Database::run("
+                    INSERT INTO enrollments (user_id, course_id, status, progress, enrolled_at)
+                    VALUES (?, ?, 'active', 0, NOW())
+                    ON DUPLICATE KEY UPDATE status = 'active'
+                ", [$userId, $itemId]);
+            }
+
+            $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+            $successUrl = $appUrl . '/payment/success?order=' . rawurlencode($orderNumber);
+
+            if (Request::isJson() || str_contains((string) ($_SERVER['HTTP_ACCEPT'] ?? ''), 'application/json')) {
+                Response::success([
+                    'free'         => true,
+                    'redirect'     => $successUrl,
+                    'order_number' => $orderNumber,
+                ], 'Registration successful! Your seat is reserved.');
+            }
+
+            Response::redirect($successUrl);
+            return;
         }
 
         // 2. Create Order in Database
