@@ -250,21 +250,21 @@
               Built in India. Teaching Learners <span class="font-editorial-serif">Everywhere.</span>
             </h2>
             <p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-bottom: 36px;">
-              TCM One operates hub teams in Bengaluru (Karnataka) and Bhubaneswar (Odisha). Our live infrastructure allows students from tier-1, tier-2, and tier-3 colleges across India to learn directly from practicing engineers without relocating.
+              TCM One operates its flagship learning campus in Bilaspur (Chhattisgarh). Our live engineering infrastructure allows students from colleges across India and worldwide to learn directly from practicing engineers without relocating.
             </p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 24px;">
               <div>
-                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Bengaluru Tech Hub</strong>
-                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Curriculum development, mentor networks &amp; industry hiring linkages.</span>
-              </div>
-              <div>
-                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Bhubaneswar Academic Hub</strong>
-                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Student support, institutional partnerships &amp; live cohort operations.</span>
+                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Bilaspur Learning Campus</strong>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006.</span>
               </div>
               <div>
                 <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Online Live Cohorts</strong>
                 <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">100% accessible via any computer with a modern browser and internet.</span>
+              </div>
+              <div>
+                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Placement &amp; Industry Links</strong>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Active hiring networks, portfolio reviews, and project defense rounds.</span>
               </div>
             </div>
           </div>

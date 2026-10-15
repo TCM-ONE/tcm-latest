@@ -177,21 +177,28 @@
             <!-- Office Locations Card -->
             <div class="contact-card-info" style="margin-top: 24px;">
               <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--tcm-muted); margin-bottom: 16px;">
-                OPERATIONAL HUBS
+                HEADQUARTERS &amp; LEARNING CAMPUS
               </div>
 
               <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px; margin-bottom: 16px;">
-                <strong style="display: block; font-size: 14.5px; margin-bottom: 4px; color: var(--tcm-fg);">Bengaluru Tech Hub</strong>
-                <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.5; margin: 0;">
-                  Koramangala 4th Block, Bengaluru, Karnataka 560034, India
+                <strong style="display: block; font-size: 15px; margin-bottom: 6px; color: var(--tcm-fg);">Bilaspur Main Campus</strong>
+                <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0 0 10px;">
+                  Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006, India
                 </p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006" target="_blank" rel="noopener" class="tcm-btn tcm-btn-outline tcm-btn-sm" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;">
+                  <i class="bi bi-geo-alt-fill" style="color: var(--tcm-accent, #c5f467);"></i> View on Google Maps &rarr;
+                </a>
               </div>
 
               <div>
-                <strong style="display: block; font-size: 14.5px; margin-bottom: 4px; color: var(--tcm-fg);">Bhubaneswar Academic Hub</strong>
+                <strong style="display: block; font-size: 14.5px; margin-bottom: 4px; color: var(--tcm-fg);">Online Live Cohorts</strong>
                 <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.5; margin: 0;">
-                  Infocity Avenue, Patia, Bhubaneswar, Odisha 751024, India
+                  Live interactive coding, screen debugging, and mentor office hours accessible across India and worldwide.
                 </p>
+              </div>
+
+              <div style="margin-top: 14px; border: 1px solid var(--tcm-border); overflow: hidden; height: 160px;">
+                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
               </div>
             </div>
 
