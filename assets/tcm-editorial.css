@@ -947,9 +947,9 @@
 
 .tcm-hero-card-actions .tcm-btn {
   width: 100%;
-  height: 40px;
+  height: 38px;
   padding: 0 16px;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -1638,21 +1638,28 @@
 }
 
 .tcm-workshop-footer .tcm-btn {
-  height: 44px;
-  padding: 0 22px;
-  font-size: 14px;
+  height: 36px;
+  padding: 0 16px;
+  font-size: 12.5px;
+  font-weight: 500;
   white-space: nowrap;
   flex-shrink: 0;
+  gap: 6px;
 }
 
-@media (max-width: 1080px) {
+.tcm-workshop-footer .tcm-btn svg.arrow-icon {
+  width: 12px;
+  height: 12px;
+}
+
+@media (max-width: 680px) {
   .tcm-workshop-card {
-    padding: 26px 20px;
+    padding: 24px 18px;
   }
   .tcm-workshop-footer {
     flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
+    align-items: flex-start;
+    gap: 12px;
   }
   .tcm-workshop-pricing {
     flex-direction: row;
@@ -1661,11 +1668,14 @@
     width: 100%;
   }
   .tcm-workshop-actions {
-    width: 100%;
+    width: auto;
   }
   .tcm-workshop-actions .tcm-btn,
   .tcm-workshop-footer > .tcm-btn {
-    width: 100%;
+    width: auto;
+    height: 36px;
+    padding: 0 14px;
+    font-size: 12px;
     justify-content: center;
   }
 }
