@@ -2989,8 +2989,46 @@ textarea.tcm-form-input {
 .tcm-global-copy { max-width: 575px; color: #c7c7c1; font-size: 16px; line-height: 1.72; margin: 0; }
 .tcm-global-signoff { color: #fff; font-family: var(--tcm-font-display); font-size: 21px; margin: 25px 0 29px; }
 .tcm-global-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.tcm-global-section .tcm-btn-secondary { background: transparent; color: #fff !important; border-color: rgba(255,255,255,.42); }
-.tcm-global-section .tcm-btn-secondary:hover { border-color: #fff; background: #fff; color: #111; }
+.tcm-global-section .tcm-btn-primary {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #111111 !important;
+}
+.tcm-global-section .tcm-btn-primary span,
+.tcm-global-section .tcm-btn-primary svg,
+.tcm-global-section .tcm-btn-primary path {
+  color: #111111 !important;
+  stroke: #111111 !important;
+}
+.tcm-global-section .tcm-btn-primary:hover {
+  background: var(--tcm-accent, #c5f467) !important;
+  border-color: var(--tcm-accent, #c5f467) !important;
+  color: #111111 !important;
+}
+.tcm-global-section .tcm-btn-primary:hover span,
+.tcm-global-section .tcm-btn-primary:hover svg,
+.tcm-global-section .tcm-btn-primary:hover path {
+  color: #111111 !important;
+  stroke: #111111 !important;
+}
+.tcm-global-section .tcm-btn-secondary {
+  background: transparent;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+.tcm-global-section .tcm-btn-secondary span {
+  color: #ffffff !important;
+}
+.tcm-global-section .tcm-btn-secondary:hover {
+  border-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #111111 !important;
+}
+.tcm-global-section .tcm-btn-secondary:hover span,
+.tcm-global-section .tcm-btn-secondary:hover i,
+.tcm-global-section .tcm-btn-secondary:hover svg {
+  color: #111111 !important;
+}
 .tcm-global-editorial { border-top: 1px solid rgba(255,255,255,.45); padding-top: 16px; }
 .tcm-global-editorial-top { align-items: center; color: #a9a9a4; display: flex; font-size: 11px; justify-content: space-between; letter-spacing: .08em; padding-bottom: 18px; }
 .tcm-global-editorial .tcm-label { color: #efefeb; }

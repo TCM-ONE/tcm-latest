@@ -179,184 +179,180 @@
         }
     </style>
   <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.15">
 </head>
 <body>
 
     <!-- Header Navigation -->
             <!-- ===== TCM ONE 2-TIER UNIVERSAL HEADER ===== -->
-    <header class="header">
-        <!-- Tier 1: Desktop Top Utility Bar (>= 1200px) -->
-        <div class="header-top-bar d-none d-xl-block">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="header-top-left d-flex align-items-center gap-2">
-                        <span class="header-top-kicker"><i class="bi bi-patch-check-fill"></i> Industry-Grade Live Learning</span>
-                        <span class="header-top-divider">•</span>
-                        <a href="/download-brochure" class="header-top-brochure btn-trigger-brochure" data-trigger-brochure="true">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Official Course Brochure PDF
-                        </a>
-                    </div>
+    <!-- Header Navigation & Mobile Drawer -->
+<header class="tcm-header" role="banner">
+  <div class="tcm-container">
+    <div class="tcm-header-inner">
+      <!-- Logo Left -->
+      <a href="/" class="tcm-brand" aria-label="TCM One Home">
+        <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+        <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+      </a>
 
-                    <div class="header-top-right d-flex align-items-center gap-3">
-                        <!-- Language Picker -->
-                        <div class="desktop-lang-picker mobile-lang-picker">
-                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                <i class="bi bi-translate"></i>
-                                <span>Language</span>
-                                <strong class="mobile-lang-code">EN</strong>
-                            </button>
-                            <div class="mobile-lang-menu" role="menu">
-                                <button type="button" data-lang="en" role="menuitem">English</button>
-                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                <button type="button" data-lang="fr" role="menuitem">French</button>
-                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                <button type="button" data-lang="de" role="menuitem">German</button>
-                                <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                            </div>
-                        </div>
-
-                        <span class="header-top-divider">|</span>
-                        <a href="login.php" class="header-top-login"><i class="bi bi-person"></i> Log in</a>
-                    </div>
-                </div>
-            </div>
+      <!-- Desktop Navigation -->
+      <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+        <div class="tcm-nav-item">
+          <a href="/courses" class="tcm-nav-link">
+            <span>Courses</span>
+            <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
+          </a>
+          <div class="tcm-dropdown-menu" role="menu">
+            <a href="/courses?cat=Web%20%26%20Mobile%20Development" class="tcm-dropdown-item" role="menuitem">Web &amp; Mobile Development</a>
+            <a href="/courses?cat=Programming%20Foundations" class="tcm-dropdown-item" role="menuitem">Programming Foundations</a>
+            <a href="/courses?cat=AI%20%26%20Automation" class="tcm-dropdown-item" role="menuitem">AI &amp; Automation</a>
+            <a href="/courses?cat=Data%20%26%20Analytics" class="tcm-dropdown-item" role="menuitem">Data &amp; Analytics</a>
+            <a href="/courses?cat=Cloud%20%26%20DevOps" class="tcm-dropdown-item" role="menuitem">Cloud &amp; DevOps</a>
+            <a href="/courses?cat=Career%20%26%20DSA" class="tcm-dropdown-item" role="menuitem">Career &amp; DSA</a>
+            <div style="border-top: 1px solid var(--tcm-border); margin: 6px 0;"></div>
+            <a href="/courses" class="tcm-dropdown-item" style="font-weight: 600; color: var(--tcm-fg);" role="menuitem">View All Courses &rarr;</a>
+          </div>
         </div>
 
-        <!-- Tier 2: Main Navigation Bar -->
-        <div class="header-main-bar">
-            <div class="container">
-                <nav class="navbar navbar-expand-xl p-0">
-                    <div class="header-nav-top">
-                        <!-- Column 1 (Left on Desktop): Brand Logo + Primary Nav Links -->
-                        <div class="header-nav-left d-flex align-items-center">
-                            <a class="navbar-brand logo" href="index.html">
-                                <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                                <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">ONE</span></span>
-                            </a>
-
-                            <!-- Desktop Navigation Links (Column 1) -->
-                            <div class="header-desktop-links d-none d-xl-flex align-items-center">
-                                <ul class="navbar-nav flex-row align-items-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="workshops.html">Workshops</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="insights.html">TCM Insights</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="community.html">Community</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="contact.html">Contact</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="partner.html">Become a Partner</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Column 2 (Right on Desktop): Primary CTA "Book a Demo" -->
-                        <div class="header-desktop-actions d-none d-xl-flex align-items-center">
-                            <button type="button" class="join-btn demo-trigger">Book a Demo</button>
-                        </div>
-
-                        <!-- Mobile Header Right: Strictly Language + Book a Demo + Hamburger (< 1200px) -->
-                        <div class="header-mobile-right d-xl-none">
-                            <div class="mobile-lang-picker">
-                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                    <i class="bi bi-translate"></i>
-                                    <span class="mobile-lang-code">EN</span>
-                                </button>
-                                <div class="mobile-lang-menu" role="menu">
-                                    <button type="button" data-lang="en" role="menuitem">English</button>
-                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                    <button type="button" data-lang="fr" role="menuitem">French</button>
-                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                    <button type="button" data-lang="de" role="menuitem">German</button>
-                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                                </div>
-                            </div>
-
-                            <button type="button" class="mobile-head-btn mobile-demo-btn demo-trigger" aria-label="Book a Demo">
-                                <span class="mobile-head-text">Book a Demo</span>
-                            </button>
-
-                            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="bi bi-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Collapsible Drawer Menu (< 1200px) -->
-                    <div class="collapse navbar-collapse d-xl-none" id="navbarMenu">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="workshops.html">Workshops</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="insights.html">TCM Insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="community.html">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="contact.html">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="partner.html">Become a Partner</a>
-                            </li>
-                        </ul>
-
-                        <div class="header-drawer-actions">
-                            <a href="/download-brochure" class="drawer-brochure-link btn-trigger-brochure" data-trigger-brochure="true">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
-                            </a>
-                            <a href="login.php" class="drawer-login-link">Log in</a>
-                            <button type="button" class="join-btn drawer-demo-btn demo-trigger">Book a Free Demo</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+        <div class="tcm-nav-item">
+          <a href="/workshops" class="tcm-nav-link">Workshops</a>
         </div>
-    </header>
+
+        <div class="tcm-nav-item">
+          <a href="/tech-updates" class="tcm-nav-link">Tech Updates</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/for-institutions" class="tcm-nav-link">For Institutions</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/about" class="tcm-nav-link">About</a>
+        </div>
+      </nav>
+
+      <!-- Right Side CTAs -->
+      <div class="tcm-header-actions">
+        <!-- Language Selector Dropdown -->
+        <div class="tcm-lang-picker">
+          <button type="button" class="tcm-lang-btn" aria-label="Change language" aria-expanded="false">
+            <i class="bi bi-translate"></i>
+            <span class="tcm-lang-code">EN</span>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </button>
+          <div class="tcm-lang-dropdown" role="menu">
+            <div class="tcm-lang-dropdown-header">Select Language</div>
+            <div class="tcm-lang-list">
+              <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign In Button (Strictly present in all headers) -->
+        <a href="/login" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
+
+        <!-- Primary CTA -->
+        <a href="/courses" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+          <span>Explore Courses</span>
+          <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+
+        <!-- Mobile Drawer Toggle -->
+        <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+          <i class="bi bi-list" style="font-size: 22px;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="tcm-drawer-backdrop"></div>
+<aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+  <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+  <a href="/" class="tcm-drawer-link">Home</a>
+  <a href="/courses" class="tcm-drawer-link">Courses</a>
+  <a href="/workshops" class="tcm-drawer-link">Workshops</a>
+  <a href="/tech-updates" class="tcm-drawer-link">Tech Updates</a>
+  <a href="/for-institutions" class="tcm-drawer-link">For Institutions</a>
+  <a href="/about" class="tcm-drawer-link">About TCM One</a>
+  <a href="/contact" class="tcm-drawer-link">Contact Admissions</a>
+  <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--tcm-border);">
+    <div style="margin-bottom: 14px;">
+      <!-- Mobile Language Picker -->
+      <div class="tcm-lang-picker w-100">
+        <button type="button" class="tcm-lang-btn w-100 justify-content-between" aria-label="Change language" aria-expanded="false">
+          <span class="d-inline-flex align-items-center gap-2">
+            <i class="bi bi-translate"></i>
+            <span>Language:</span>
+          </span>
+          <span class="d-inline-flex align-items-center gap-1">
+            <strong class="tcm-lang-code">EN</strong>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </span>
+        </button>
+        <div class="tcm-lang-dropdown w-100" role="menu">
+          <div class="tcm-lang-dropdown-header">Select Language</div>
+          <div class="tcm-lang-list">
+            <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="/login" class="tcm-btn tcm-btn-outline w-100 mb-2 tcm-auth-link">Sign In</a>
+    <a href="/courses" class="tcm-btn tcm-btn-primary w-100">
+      <span>Explore Courses</span>
+      <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+  </div>
+</aside>
+
 
     <!-- Hero Section -->
     <section class="ws-hero">
@@ -582,5 +578,6 @@
 
     <!-- Scripts -->
     <script src="/assets/tcm-share.js"></script>
+  <script src="./assets/tcm-editorial.js?v=2.15"></script>
 </body>
 </html>
