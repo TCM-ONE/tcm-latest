@@ -582,8 +582,40 @@
 .tcm-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
+}
+
+.tcm-hero-actions .tcm-btn {
+  height: 42px;
+  min-width: 176px;
+  padding: 0 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .tcm-hero-actions {
+    gap: 8px;
+    width: 100%;
+  }
+  .tcm-hero-actions .tcm-btn {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    padding: 0 10px;
+    font-size: 12.5px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .tcm-hero-actions .tcm-btn {
+    flex: 1 1 100%;
+    width: 100%;
+  }
 }
 
 /* Hero Visual / Geometric Arc Area */
