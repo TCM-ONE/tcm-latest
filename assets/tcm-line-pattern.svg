@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%" fill="none">
+  <!-- Concentric Arcs and Circles with fine 1px editorial precision -->
+  <g stroke="currentColor" stroke-width="1" opacity="0.35">
+    <circle cx="300" cy="300" r="40" stroke-dasharray="2 4" />
+    <circle cx="300" cy="300" r="80" />
+    <circle cx="300" cy="300" r="120" stroke-dasharray="1 3" />
+    <circle cx="300" cy="300" r="160" />
+    <circle cx="300" cy="300" r="200" />
+    <circle cx="300" cy="300" r="240" stroke-dasharray="4 6" />
+    <circle cx="300" cy="300" r="280" />
+    <circle cx="300" cy="300" r="320" />
+    <circle cx="300" cy="300" r="360" stroke-dasharray="2 8" />
+    <circle cx="300" cy="300" r="400" />
+    <circle cx="300" cy="300" r="440" />
+
+    <!-- Editorial cross-hairs and precision radial markers -->
+    <line x1="300" y1="20" x2="300" y2="580" stroke-dasharray="4 6" />
+    <line x1="20" y1="300" x2="580" y2="300" stroke-dasharray="4 6" />
+    
+    <line x1="102" y1="102" x2="498" y2="498" stroke-dasharray="2 10" />
+    <line x1="498" y1="102" x2="102" y2="498" stroke-dasharray="2 10" />
+
+    <!-- Corner registration marks -->
+    <path d="M 290 300 L 310 300 M 300 290 L 300 310" stroke-width="1.5" />
+    <rect x="296" y="296" width="8" height="8" fill="none" stroke-width="1" />
+  </g>
+</svg>

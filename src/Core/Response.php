@@ -32,4 +32,12 @@ final class Response
     {
         self::json(['success' => false, 'message' => $message, 'errors' => $errors], $status);
     }
+
+    public static function redirect(string $path, int $status = 302): never
+    {
+        $location = str_starts_with($path, 'http') ? $path : base_url($path);
+        http_response_code($status);
+        header('Location: ' . $location);
+        exit;
+    }
 }

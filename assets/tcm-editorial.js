@@ -1,0 +1,1342 @@
+/**
+ * TCM One — Premium Editorial Controller & Dynamic Hydration Engine
+ * Interacts with existing backend APIs:
+ *   - /api/courses
+ *   - /api/courses/{slug}
+ *   - /api/workshops/featured
+ *   - /api/workshops/register
+ *   - /api/courses/brochure-lead
+ *   - /api/demo-lead
+ *   - /api/contact
+ *   - /api/partner/apply
+ *   - /api/me
+ */
+(function () {
+  'use strict';
+
+  var BASE = (function () {
+    if (typeof window !== 'undefined' && window.TCM_BASE != null) {
+      return String(window.TCM_BASE).replace(/\/$/, '');
+    }
+    var meta = document.querySelector('meta[name="app-base"]');
+    if (meta && meta.content !== '') {
+      var val = meta.content.trim();
+      if (/^https?:\/\//i.test(val)) {
+        try {
+          var u = new URL(val);
+          if (typeof window !== 'undefined' && window.location && window.location.origin) {
+            if (u.origin === window.location.origin) {
+              return u.pathname.replace(/\/$/, '');
+            }
+          }
+        } catch (e) {}
+      } else {
+        return val.replace(/\/$/, '');
+      }
+    }
+    // Auto-detect from script URL tag (handles /tcm on XAMPP)
+    if (typeof document !== 'undefined') {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var src = scripts[i].src || '';
+        var idx = src.indexOf('/assets/tcm-editorial.js');
+        if (idx !== -1) {
+          try {
+            var urlObj = new URL(src);
+            var subPath = urlObj.pathname.substring(0, urlObj.pathname.indexOf('/assets/tcm-editorial.js'));
+            if (subPath) return subPath.replace(/\/$/, '');
+          } catch (e) {}
+        }
+      }
+    }
+    // Auto-detect from window.location.pathname on localhost
+    if (typeof window !== 'undefined' && window.location && window.location.pathname) {
+      var match = window.location.pathname.match(/^(\/tcm)(?:\/|$)/i);
+      if (match) {
+        return match[1];
+      }
+    }
+    return '';
+  })();
+
+  function normalizeSiteLinks() {
+    if (!BASE) return;
+    var links = document.querySelectorAll('a[href^="/"]');
+    links.forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (href && href.indexOf(BASE + '/') !== 0 && href !== BASE) {
+        if (href === '/') {
+          a.setAttribute('href', BASE + '/');
+        } else if (href.indexOf('//') !== 0) {
+          a.setAttribute('href', BASE + href);
+        }
+      }
+    });
+  }
+
+  // Intercept any clicks on root-relative links to guarantee navigation stays inside BASE
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', function (e) {
+      if (!BASE) return;
+      var a = e.target && e.target.closest ? e.target.closest('a') : null;
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (href && href.charAt(0) === '/' && href.indexOf('//') !== 0) {
+        if (href.indexOf(BASE + '/') !== 0 && href !== BASE) {
+          e.preventDefault();
+          var targetUrl = (href === '/') ? (BASE + '/') : (BASE + href);
+          window.location.href = targetUrl;
+        }
+      }
+    }, false);
+  }
+
+  function apiUrl(p) {
+    return BASE + p;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function formatMoney(n) {
+    var val = Number(n || 0);
+    return '₹' + val.toLocaleString('en-IN');
+  }
+
+  function formatUsd(n) {
+    var inr = Number(n || 0);
+    if (!inr) return '$0 USD';
+    var usd = Math.round(inr / 83.5);
+    return '$' + usd.toLocaleString('en-US') + ' USD';
+  }
+
+  function getJSON(url) {
+    return fetch(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+      .then(function (r) { return r.json(); });
+  }
+
+  function postJSON(url, data) {
+    var token = (window.TCM_USER && window.TCM_USER.csrf_token) || '';
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': token
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(data)
+    }).then(function (r) {
+      return r.json().catch(function () {
+        return { success: false, message: 'Server communication error.' };
+      });
+    });
+  }
+
+  function trackEvent(name, data) {
+    try {
+      if (typeof window.gtag === 'function') {
+        var payload = data || {};
+        payload.page_location = window.location.href;
+        window.gtag('event', name, payload);
+      }
+    } catch (e) {}
+  }
+
+  /* ==========================================================================
+     MOBILE NAVIGATION DRAWER
+     ========================================================================== */
+  function wireNavigation() {
+    var toggle = document.querySelector('.tcm-menu-toggle');
+    var drawer = document.querySelector('.tcm-mobile-drawer');
+    var backdrop = document.querySelector('.tcm-drawer-backdrop');
+    var closeBtn = document.querySelector('.tcm-drawer-close');
+
+    function openDrawer() {
+      if (drawer) drawer.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      if (drawer) drawer.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    if (toggle) toggle.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) {
+        closeDrawer();
+      }
+    });
+  }
+
+  /* ==========================================================================
+     COURSE CARD GENERATOR (3 Col Desktop, 2 Col Tablet, 1 Col Mobile)
+     ========================================================================== */
+  function renderCourseCard(c) {
+    var priceInr = Number(c.price || 0);
+    var origInr = c.original_price ? Number(c.original_price) : 0;
+    var slug = c.slug || '';
+    var courseUrl = apiUrl('/courses/' + encodeURIComponent(slug));
+    var category = c.category_name || c.category || 'General';
+    var level = c.level ? (c.level.charAt(0).toUpperCase() + c.level.slice(1)) : 'All Levels';
+    var duration = c.duration || '6 Weeks';
+
+    return (
+      '<div class="tcm-course-card" data-slug="' + esc(slug) + '" data-cat="' + esc(category.toLowerCase()) + '" data-price="' + priceInr + '" data-level="' + esc(level.toLowerCase()) + '">' +
+        '<div class="tcm-course-top">' +
+          '<span class="tcm-course-cat">' + esc(category) + '</span>' +
+          '<span class="tcm-course-level">' + esc(level) + '</span>' +
+        '</div>' +
+        '<h3 class="tcm-course-title">' +
+          '<a href="' + esc(courseUrl) + '">' + esc(c.title) + '</a>' +
+        '</h3>' +
+        '<p class="tcm-course-desc">' + esc(c.subtitle || c.description || '') + '</p>' +
+        '<div class="tcm-course-meta">' +
+          '<span class="tcm-course-meta-item"><i class="bi bi-clock"></i> ' + esc(duration) + '</span>' +
+          '<span class="tcm-course-meta-item"><i class="bi bi-broadcast"></i> Live Cohort</span>' +
+        '</div>' +
+        '<div class="tcm-course-bottom">' +
+          '<div class="tcm-course-price-wrap">' +
+            '<div>' +
+              '<span class="tcm-course-price">' + formatMoney(priceInr) + '</span>' +
+              (origInr ? '<span class="tcm-course-orig-price">' + formatMoney(origInr) + '</span>' : '') +
+            '</div>' +
+            '<span class="tcm-course-usd">' + formatUsd(priceInr) + '</span>' +
+          '</div>' +
+          '<a href="' + esc(courseUrl) + '" class="tcm-btn tcm-btn-secondary tcm-btn-sm">' +
+            '<span>View Course</span>' +
+            '<svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>' +
+          '</a>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  /* ==========================================================================
+     HOMEPAGE DYNAMIC HYDRATION
+     ========================================================================== */
+  function hydrateHomeCourses() {
+    var container = document.getElementById('featuredCoursesGrid');
+    if (!container) return;
+
+    getJSON(apiUrl('/api/courses?featured=1'))
+      .then(function (res) {
+        if (!res || !res.success || !Array.isArray(res.data) || !res.data.length) {
+          // Fallback to general course list if featured flag yields 0
+          return getJSON(apiUrl('/api/courses'));
+        }
+        return res;
+      })
+      .then(function (res) {
+        if (!res || !res.success || !Array.isArray(res.data) || !res.data.length) {
+          container.innerHTML = '<p class="tcm-body-muted">Courses are currently being updated for the next cohort.</p>';
+          return;
+        }
+        var courses = res.data.slice(0, 6);
+        container.innerHTML = courses.map(renderCourseCard).join('');
+      })
+      .catch(function () {
+        container.innerHTML = '<p class="tcm-body-muted">Unable to load featured courses at this time.</p>';
+      });
+  }
+
+  function renderCategoryCard(cat, index) {
+    var num = String(index + 1).padStart(2, '0');
+    var icon = cat.icon || 'bi-layers';
+    var catUrl = cat.url || apiUrl('/courses?cat=' + encodeURIComponent(cat.name));
+    var tagsHtml = (cat.tags || []).slice(0, 5).map(function (t) {
+      return '<span class="tcm-track-tag">' + esc(t) + '</span>';
+    }).join('');
+
+    return (
+      '<a href="' + catUrl + '" class="tcm-track-card">' +
+        '<div>' +
+          '<div class="tcm-track-top">' +
+            '<span class="tcm-track-index">TRACK ' + num + '</span>' +
+            '<span class="tcm-track-count-badge">' + cat.course_count + ' Programs</span>' +
+          '</div>' +
+          '<i class="bi ' + esc(icon) + ' tcm-track-icon"></i>' +
+          '<h3 class="tcm-track-title">' + esc(cat.name) + '</h3>' +
+          '<p class="tcm-track-desc">' + esc(cat.description || '') + '</p>' +
+          '<div class="tcm-track-tags">' + tagsHtml + '</div>' +
+        '</div>' +
+        '<div class="tcm-track-bottom">' +
+          '<span>From ' + esc(cat.formatted_min_price || ('₹' + Number(cat.min_price || 0))) + '</span>' +
+          '<span class="tcm-track-arrow">Explore Track &rarr;</span>' +
+        '</div>' +
+      '</a>'
+    );
+  }
+
+  function hydrateHomeCategoryTracks() {
+    var container = document.getElementById('homeCategoryTracksGrid');
+    if (!container) return;
+
+    getJSON(apiUrl('/api/categories'))
+      .then(function (res) {
+        if (!res || !res.success || !Array.isArray(res.data) || !res.data.length) return;
+        container.innerHTML = res.data.map(renderCategoryCard).join('');
+      })
+      .catch(function () {});
+  }
+
+  /* ==========================================================================
+     COURSES CATALOG (PAGE 2 — /courses) WITH SEARCH & FILTERS
+     ========================================================================== */
+  function initCourseCatalog() {
+    var grid = document.getElementById('courseCatalogGrid');
+    var countEl = document.getElementById('catalogCount');
+    var searchInput = document.getElementById('catalogSearch');
+    var catSelect = document.getElementById('catalogCategory');
+    var levelSelect = document.getElementById('catalogLevel');
+    var priceSelect = document.getElementById('catalogPrice');
+    var sortSelect = document.getElementById('catalogSort');
+
+    if (!grid) return;
+
+    var allCourses = [];
+
+    // Parse URL query parameters
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('q') && searchInput) searchInput.value = params.get('q');
+    
+    function selectCategoryValue(val) {
+      if (!catSelect || !val) return;
+      var target = String(val).trim().toLowerCase();
+      var slugTarget = target.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      for (var i = 0; i < catSelect.options.length; i++) {
+        var opt = catSelect.options[i];
+        var optVal = opt.value.trim().toLowerCase();
+        var optSlug = optVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        if (optVal === target || optSlug === slugTarget || (target && optVal.indexOf(target) !== -1)) {
+          catSelect.selectedIndex = i;
+          return;
+        }
+      }
+    }
+    if (params.get('cat')) selectCategoryValue(params.get('cat'));
+    if (params.get('level') && levelSelect) levelSelect.value = params.get('level');
+    if (params.get('price') && priceSelect) priceSelect.value = params.get('price');
+    if (params.get('sort') && sortSelect) sortSelect.value = params.get('sort');
+
+    function syncUrlParams() {
+      var nextParams = new URLSearchParams();
+      if (searchInput && searchInput.value.trim()) nextParams.set('q', searchInput.value.trim());
+      if (catSelect && catSelect.value) nextParams.set('cat', catSelect.value);
+      if (levelSelect && levelSelect.value) nextParams.set('level', levelSelect.value);
+      if (priceSelect && priceSelect.value) nextParams.set('price', priceSelect.value);
+      if (sortSelect && sortSelect.value && sortSelect.value !== 'relevance') nextParams.set('sort', sortSelect.value);
+
+      var newSearch = nextParams.toString();
+      var newUrl = window.location.pathname + (newSearch ? '?' + newSearch : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    function applyFilters() {
+      if (!allCourses.length) return;
+
+      var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      var cat = catSelect ? catSelect.value.toLowerCase() : '';
+      var lvl = levelSelect ? levelSelect.value.toLowerCase() : '';
+      var prc = priceSelect ? priceSelect.value : '';
+      var sort = sortSelect ? sortSelect.value : 'relevance';
+
+      var filtered = allCourses.filter(function (c) {
+        // Query match
+        if (q) {
+          var title = (c.title || '').toLowerCase();
+          var sub = (c.subtitle || c.description || '').toLowerCase();
+          if (title.indexOf(q) === -1 && sub.indexOf(q) === -1) return false;
+        }
+
+        // Category match
+        if (cat) {
+          var cCat = (c.category_name || c.category || '').toLowerCase();
+          var cSlug = (c.category_slug || '').toLowerCase() || cCat.replace(/[^a-z0-9]+/g, '-');
+          var catSlug = cat.replace(/[^a-z0-9]+/g, '-');
+          if (cCat !== cat && cCat.indexOf(cat) === -1 && cSlug !== catSlug) return false;
+        }
+
+        // Level match
+        if (lvl) {
+          var cLvl = (c.level || '').toLowerCase();
+          if (cLvl !== lvl) return false;
+        }
+
+        // Price match
+        if (prc) {
+          var p = Number(c.price || 0);
+          if (prc === 'under-2k' && (p <= 0 || p >= 2000)) return false;
+          if (prc === '2k-5k' && (p < 2000 || p > 5000)) return false;
+          if (prc === '5k-10k' && (p < 5000 || p > 10000)) return false;
+          if (prc === 'above-10k' && p <= 10000) return false;
+        }
+
+        return true;
+      });
+
+      // Sorting
+      if (sort === 'price-low') {
+        filtered.sort(function (a, b) { return Number(a.price || 0) - Number(b.price || 0); });
+      } else if (sort === 'price-high') {
+        filtered.sort(function (a, b) { return Number(b.price || 0) - Number(a.price || 0); });
+      } else if (sort === 'newest') {
+        filtered.sort(function (a, b) { return (b.id || 0) - (a.id || 0); });
+      }
+
+      if (countEl) {
+        countEl.textContent = filtered.length + ' course' + (filtered.length === 1 ? '' : 's') + ' available';
+      }
+
+      if (!filtered.length) {
+        grid.innerHTML = (
+          '<div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; border: 1px solid var(--tcm-border); background: var(--tcm-surface);">' +
+            '<p class="tcm-h3" style="margin-bottom: 8px;">No matching courses found</p>' +
+            '<p class="tcm-body-muted" style="margin-bottom: 24px;">Try clearing filters or searching for another tech topic.</p>' +
+            '<button type="button" class="tcm-btn tcm-btn-secondary" id="resetCatalogFilters">Reset All Filters</button>' +
+          '</div>'
+        );
+        var resetBtn = document.getElementById('resetCatalogFilters');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            if (searchInput) searchInput.value = '';
+            if (catSelect) catSelect.value = '';
+            if (levelSelect) levelSelect.value = '';
+            if (priceSelect) priceSelect.value = '';
+            if (sortSelect) sortSelect.value = 'relevance';
+            syncUrlParams();
+            applyFilters();
+          });
+        }
+      } else {
+        grid.innerHTML = filtered.map(renderCourseCard).join('');
+      }
+
+      syncUrlParams();
+    }
+
+    // Fetch courses from API
+    getJSON(apiUrl('/api/courses'))
+      .then(function (res) {
+        if (!res || !res.success || !Array.isArray(res.data)) {
+          grid.innerHTML = '<p class="tcm-body-muted">Failed to load courses. Please refresh.</p>';
+          return;
+        }
+        allCourses = res.data;
+
+        // Populate category dropdown options dynamically
+        if (catSelect && catSelect.options.length <= 1) {
+          var seenCats = {};
+          allCourses.forEach(function (c) {
+            var cName = c.category_name || c.category;
+            if (cName && !seenCats[cName]) {
+              seenCats[cName] = true;
+              var opt = document.createElement('option');
+              opt.value = cName;
+              opt.textContent = cName;
+              catSelect.appendChild(opt);
+            }
+          });
+          if (params.get('cat')) selectCategoryValue(params.get('cat'));
+        }
+
+        applyFilters();
+      })
+      .catch(function () {
+        grid.innerHTML = '<p class="tcm-body-muted">Could not connect to course API.</p>';
+      });
+
+    // Wire filter listeners
+    if (searchInput) {
+      searchInput.addEventListener('input', function () { applyFilters(); });
+    }
+    if (catSelect) catSelect.addEventListener('change', applyFilters);
+    if (levelSelect) levelSelect.addEventListener('change', applyFilters);
+    if (priceSelect) priceSelect.addEventListener('change', applyFilters);
+    if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+  }
+
+  /* ==========================================================================
+     WORKSHOP RESERVATION MODAL
+     ========================================================================== */
+  function wireWorkshopModal() {
+    var overlay = document.getElementById('tcmWsModalOverlay');
+    if (!overlay) return;
+
+    var closeBtn = document.getElementById('tcmWsCloseBtn');
+    var form = document.getElementById('tcmWsForm');
+    var titleEl = document.getElementById('tcmWsTitle');
+    var priceEl = document.getElementById('tcmWsPrice');
+    var slugInput = document.getElementById('tcmWsSlug');
+    var nameInput = document.getElementById('tcmWsName');
+    var emailInput = document.getElementById('tcmWsEmail');
+    var phoneInput = document.getElementById('tcmWsPhone');
+    var feedback = document.getElementById('tcmWsFeedback');
+    var submitBtn = document.getElementById('tcmWsSubmitBtn');
+
+    // Extract UTM attributes from URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var utmSource = urlParams.get('utm_source') || '';
+    var utmMedium = urlParams.get('utm_medium') || '';
+    var utmCampaign = urlParams.get('utm_campaign') || '';
+
+    function openModal(slug, title, price) {
+      if (slugInput) slugInput.value = slug || '';
+      if (titleEl) titleEl.textContent = title || 'Live Cohort Workshop';
+      if (priceEl) priceEl.textContent = 'Fee: ₹' + (price || '99');
+
+      if (feedback) {
+        feedback.style.display = 'none';
+        feedback.innerHTML = '';
+      }
+
+      // Prefill stored info if available
+      try {
+        if (nameInput && !nameInput.value) nameInput.value = localStorage.getItem('tcm_lead_name') || '';
+        if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('tcm_lead_email') || '';
+        if (phoneInput && !phoneInput.value) phoneInput.value = localStorage.getItem('tcm_lead_phone') || '';
+      } catch (e) {}
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      setTimeout(function () {
+        var first = (nameInput && !nameInput.value) ? nameInput : phoneInput;
+        if (first) first.focus();
+      }, 100);
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+    });
+
+    // Delegate clicks on .tcm-trigger-workshop
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.tcm-trigger-workshop');
+      if (!btn) return;
+      e.preventDefault();
+
+      var slug = btn.getAttribute('data-slug') || '';
+      var title = btn.getAttribute('data-title') || '';
+      var price = btn.getAttribute('data-price') || '99';
+
+      openModal(slug, title, price);
+      trackEvent('workshop_registration_started', {
+        workshop_slug: slug,
+        price: Number(price || 0)
+      });
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (nameInput ? nameInput.value : '').trim();
+        var email = (emailInput ? emailInput.value : '').trim();
+        var phone = (phoneInput ? phoneInput.value : '').trim();
+        var slug = (slugInput ? slugInput.value : '').trim();
+
+        if (!name) {
+          showFeedback('Please enter your full name.', false);
+          if (nameInput) nameInput.focus();
+          return;
+        }
+        if (!email || email.indexOf('@') === -1) {
+          showFeedback('Please enter a valid email address.', false);
+          if (emailInput) emailInput.focus();
+          return;
+        }
+        var cleanPhone = phone.replace(/[^\d]/g, '');
+        if (cleanPhone.length < 10) {
+          showFeedback('Please enter a valid 10-digit mobile number.', false);
+          if (phoneInput) phoneInput.focus();
+          return;
+        }
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Reserving Seat...';
+        }
+
+        postJSON(apiUrl('/api/workshops/register'), {
+          full_name: name,
+          email: email,
+          phone: phone,
+          workshop_slug: slug,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          landing_page: window.location.pathname
+        }).then(function (res) {
+          if (res && res.success) {
+            trackEvent('workshop_lead_created', { workshop_slug: slug });
+            showFeedback(res.message || 'Seat reserved! Check WhatsApp & Email for confirmation.', true);
+            setTimeout(function () {
+              closeModal();
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Reserve My Seat';
+              }
+            }, 2500);
+          } else {
+            showFeedback((res && res.message) ? res.message : 'Unable to reserve seat.', false);
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Reserve My Seat';
+            }
+          }
+        }).catch(function () {
+          showFeedback('Network error. Please try again or reach out on WhatsApp.', false);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Reserve My Seat';
+          }
+        });
+      });
+    }
+
+    function showFeedback(msg, ok) {
+      if (!feedback) return;
+      feedback.style.display = 'block';
+      feedback.style.padding = '12px 16px';
+      feedback.style.marginBottom = '16px';
+      feedback.style.border = '1px solid ' + (ok ? '#111111' : '#E23');
+      feedback.style.background = ok ? '#FFFFFF' : '#FFF0F0';
+      feedback.style.color = ok ? '#111111' : '#E23';
+      feedback.style.fontSize = '13px';
+      feedback.textContent = msg;
+    }
+  }
+
+  /* ==========================================================================
+     BROCHURE LEAD MODAL
+     ========================================================================== */
+  function wireBrochureModal() {
+    var overlay = document.getElementById('tcmBrochureOverlay');
+    if (!overlay) return;
+
+    var closeBtn = document.getElementById('tcmBrochureCloseBtn');
+    var form = document.getElementById('tcmBrochureForm');
+    var slugInput = document.getElementById('tcmBrochureSlug');
+    var titleEl = document.getElementById('tcmBrochureTitle');
+    var nameInput = document.getElementById('tcmBrochureName');
+    var emailInput = document.getElementById('tcmBrochureEmail');
+    var phoneInput = document.getElementById('tcmBrochurePhone');
+    var feedback = document.getElementById('tcmBrochureFeedback');
+    var submitBtn = document.getElementById('tcmBrochureSubmitBtn');
+
+    function openModal(slug, title) {
+      if (slugInput) slugInput.value = slug || '';
+      if (titleEl) titleEl.textContent = title ? (title + ' — Official Brochure') : 'Download Official Course Brochure';
+      if (feedback) feedback.style.display = 'none';
+
+      try {
+        if (nameInput && !nameInput.value) nameInput.value = localStorage.getItem('tcm_lead_name') || '';
+        if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('tcm_lead_email') || '';
+        if (phoneInput && !phoneInput.value) phoneInput.value = localStorage.getItem('tcm_lead_phone') || '';
+      } catch (e) {}
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () {
+        var first = (nameInput && !nameInput.value) ? nameInput : phoneInput;
+        if (first) first.focus();
+      }, 100);
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.tcm-trigger-brochure');
+      if (!trigger) return;
+      e.preventDefault();
+
+      var slug = trigger.getAttribute('data-slug') || '';
+      var title = trigger.getAttribute('data-title') || '';
+      openModal(slug, title);
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (nameInput ? nameInput.value : '').trim();
+        var email = (emailInput ? emailInput.value : '').trim();
+        var phone = (phoneInput ? phoneInput.value : '').trim();
+        var slug = (slugInput ? slugInput.value : '').trim();
+
+        if (!name || !email || phone.replace(/[^\d]/g, '').length < 10) {
+          if (feedback) {
+            feedback.style.display = 'block';
+            feedback.style.padding = '10px 14px';
+            feedback.style.marginBottom = '14px';
+            feedback.style.border = '1px solid #E23';
+            feedback.style.background = '#FFF0F0';
+            feedback.style.color = '#E23';
+            feedback.style.fontSize = '13px';
+            feedback.textContent = 'Please fill all required fields correctly.';
+          }
+          return;
+        }
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Preparing PDF Download...';
+        }
+
+        postJSON(apiUrl('/api/courses/brochure-lead'), {
+          name: name,
+          email: email,
+          phone: phone,
+          course_slug: slug
+        }).then(function (res) {
+          if (res && res.success && res.data && res.data.download_url) {
+            trackEvent('course_enquiry', { course_slug: slug, source: 'brochure_download' });
+            if (feedback) {
+              feedback.style.display = 'block';
+              feedback.style.padding = '10px 14px';
+              feedback.style.marginBottom = '14px';
+              feedback.style.border = '1px solid #111';
+              feedback.style.background = '#FFF';
+              feedback.style.color = '#111';
+              feedback.style.fontSize = '13px';
+              feedback.innerHTML = 'Success! Starting your brochure download now...';
+            }
+
+            var dl = document.createElement('a');
+            dl.href = res.data.download_url;
+            dl.setAttribute('download', (slug || 'TCM-Course') + '-Brochure.pdf');
+            dl.target = '_blank';
+            document.body.appendChild(dl);
+            dl.click();
+
+            setTimeout(function () {
+              if (dl.parentNode) dl.parentNode.removeChild(dl);
+              closeModal();
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Download Brochure PDF';
+              }
+            }, 1800);
+          } else {
+            if (feedback) {
+              feedback.style.display = 'block';
+              feedback.style.padding = '10px 14px';
+              feedback.style.marginBottom = '14px';
+              feedback.style.border = '1px solid #E23';
+              feedback.style.background = '#FFF0F0';
+              feedback.style.color = '#E23';
+              feedback.style.fontSize = '13px';
+              feedback.textContent = (res && res.message) ? res.message : 'Unable to start download.';
+            }
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Download Brochure PDF';
+            }
+          }
+        }).catch(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Download Brochure PDF';
+          }
+        });
+      });
+    }
+  }
+
+  /* ==========================================================================
+     CONTACT FORM (PAGE 6)
+     ========================================================================== */
+  function wireContactForm() {
+    var form = document.getElementById('tcmContactForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = ((document.getElementById('ctName') || {}).value || '').trim();
+      var email = ((document.getElementById('ctEmail') || {}).value || '').trim();
+      var phone = ((document.getElementById('ctPhone') || {}).value || '').trim();
+      var subject = ((document.getElementById('ctSubject') || {}).value || '').trim();
+      var message = ((document.getElementById('ctMessage') || {}).value || '').trim();
+      var notice = document.getElementById('ctNotice');
+      var submitBtn = document.getElementById('ctSubmitBtn');
+
+      function showNotice(msg, ok) {
+        if (!notice) return;
+        notice.style.display = 'block';
+        notice.style.padding = '14px 18px';
+        notice.style.marginBottom = '20px';
+        notice.style.border = '1px solid ' + (ok ? '#111111' : '#E23');
+        notice.style.background = ok ? '#FFFFFF' : '#FFF0F0';
+        notice.style.color = ok ? '#111111' : '#E23';
+        notice.style.fontSize = '14px';
+        notice.textContent = msg;
+      }
+
+      if (!name) return showNotice('Please enter your name.', false);
+      if (!email || email.indexOf('@') === -1) return showNotice('Please enter a valid email address.', false);
+      if (!message || message.length < 5) return showNotice('Please write a message of at least 5 characters.', false);
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending Message...';
+      }
+
+      postJSON(apiUrl('/api/contact'), {
+        name: name,
+        email: email,
+        phone: phone,
+        subject: subject,
+        message: message
+      }).then(function (res) {
+        if (res && res.success) {
+          trackEvent('contact_lead_created', { subject: subject });
+          showNotice(res.message || 'Thank you! Your message has been sent. We reply within 24 hours.', true);
+          form.reset();
+        } else {
+          showNotice((res && res.message) ? res.message : 'Unable to send message.', false);
+        }
+      }).catch(function () {
+        showNotice('Network error. Please try again.', false);
+      }).finally(function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+        }
+      });
+    });
+  }
+
+  /* ==========================================================================
+     INSTITUTIONAL PARTNERSHIP FORM (PAGE 5 — /for-institutions)
+     ========================================================================== */
+  function wireInstitutionForm() {
+    var form = document.getElementById('tcmInstitutionForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var instName = ((document.getElementById('instName') || {}).value || '').trim();
+      var contactPerson = ((document.getElementById('instPerson') || {}).value || '').trim();
+      var email = ((document.getElementById('instEmail') || {}).value || '').trim();
+      var phone = ((document.getElementById('instPhone') || {}).value || '').trim();
+      var city = ((document.getElementById('instCity') || {}).value || '').trim();
+      var studentCount = ((document.getElementById('instStudents') || {}).value || '').trim();
+      var model = ((document.getElementById('instModel') || {}).value || 'Academic Partnership').trim();
+      var message = ((document.getElementById('instMessage') || {}).value || '').trim();
+      var notice = document.getElementById('instNotice');
+      var submitBtn = document.getElementById('instSubmitBtn');
+
+      function showNotice(msg, ok) {
+        if (!notice) return;
+        notice.style.display = 'block';
+        notice.style.padding = '14px 18px';
+        notice.style.marginBottom = '20px';
+        notice.style.border = '1px solid ' + (ok ? '#111111' : '#E23');
+        notice.style.background = ok ? '#FFFFFF' : '#FFF0F0';
+        notice.style.color = ok ? '#111111' : '#E23';
+        notice.style.fontSize = '14px';
+        notice.textContent = msg;
+      }
+
+      if (!instName) return showNotice('Please enter the institution or college name.', false);
+      if (!contactPerson) return showNotice('Please enter the contact person name.', false);
+      if (!email || email.indexOf('@') === -1) return showNotice('Please enter a valid official email address.', false);
+      if (phone.replace(/[^\d]/g, '').length < 8) return showNotice('Please enter a valid phone number.', false);
+      if (!city) return showNotice('Please enter your city.', false);
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting Application...';
+      }
+
+      postJSON(apiUrl('/api/partner/apply'), {
+        institution_name: instName,
+        contact_person: contactPerson,
+        email: email,
+        phone: phone,
+        city: city,
+        student_count: studentCount,
+        partnership_model: model,
+        message: message
+      }).then(function (res) {
+        if (res && res.success) {
+          trackEvent('institution_application_submitted', { institution: instName });
+          var msg = res.message || 'Thank you! Your institutional partnership inquiry has been received.';
+          if (res.data && res.data.ref_code) {
+            msg += ' (Reference ID: ' + res.data.ref_code + ')';
+          }
+          showNotice(msg, true);
+          form.reset();
+        } else {
+          showNotice((res && res.message) ? res.message : 'Unable to submit application.', false);
+        }
+      }).catch(function () {
+        showNotice('Network error. Please try again.', false);
+      }).finally(function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Partnership Enquiry';
+        }
+      });
+    });
+  }
+
+  /* ==========================================================================
+     CERTIFICATE ZOOM MODAL
+     ========================================================================== */
+  function wireCertificateModal() {
+    var modal = document.getElementById('certZoomModal');
+    var closeBtn = document.getElementById('certZoomClose');
+    var imgEl = document.getElementById('certZoomImg');
+    var titleEl = document.getElementById('certZoomTitle');
+    var cards = document.querySelectorAll('.tcm-cert-card');
+
+    if (!modal || !cards.length) return;
+
+    function openCert(src, title) {
+      if (imgEl) imgEl.src = src;
+      if (titleEl) titleEl.textContent = title || 'Certificate Preview';
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCert() {
+      modal.style.display = 'none';
+      if (imgEl) imgEl.src = '';
+      document.body.style.overflow = '';
+    }
+
+    cards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var src = card.getAttribute('data-cert-src');
+        var title = card.getAttribute('data-cert-title');
+        if (src) openCert(src, title);
+      });
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeCert);
+    }
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeCert();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeCert();
+      }
+    });
+  }
+
+  /* ==========================================================================
+     HERO WORKSHOP SWIPEABLE STACKED DECK
+     ========================================================================== */
+  function wireHeroWorkshopDeck() {
+    var deckWrapper = document.getElementById('heroWorkshopDeck');
+    if (!deckWrapper) return;
+
+    var stack = document.getElementById('heroDeckStack');
+    if (!stack) return;
+
+    var cards = Array.prototype.slice.call(stack.querySelectorAll('.tcm-deck-card'));
+    if (cards.length === 0) return;
+
+    var counter = document.getElementById('heroDeckCounter');
+    var prevBtn = document.getElementById('heroDeckPrevBtn');
+    var nextBtn = document.getElementById('heroDeckNextBtn');
+    var dotsContainer = document.getElementById('heroDeckDots');
+    var dots = dotsContainer ? Array.prototype.slice.call(dotsContainer.querySelectorAll('.tcm-deck-dot')) : [];
+
+    var activeIndex = 0;
+    var total = cards.length;
+    var isAnimating = false;
+    var autoPlayTimer = null;
+
+    function renderDeck(newActiveIndex, direction) {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      var prevActive = activeIndex;
+      activeIndex = (newActiveIndex + total) % total;
+
+      // Handle exit swipe animation
+      if (direction) {
+        var leavingCard = cards[prevActive];
+        if (leavingCard) {
+          leavingCard.classList.remove('is-swiping-left', 'is-swiping-right');
+          leavingCard.classList.add(direction === 'left' ? 'is-swiping-left' : 'is-swiping-right');
+        }
+      }
+
+      var delay = direction ? 260 : 0;
+
+      setTimeout(function () {
+        cards.forEach(function (card, idx) {
+          card.classList.remove('is-swiping-left', 'is-swiping-right', 'is-active', 'is-next', 'is-next2', 'is-hidden', 'is-dragging');
+          card.style.transform = '';
+          card.style.opacity = '';
+
+          var k = (idx - activeIndex + total) % total;
+
+          if (k === 0) {
+            card.classList.add('is-active');
+            card.setAttribute('aria-hidden', 'false');
+          } else if (k === 1) {
+            card.classList.add('is-next');
+            card.setAttribute('aria-hidden', 'true');
+          } else if (k === 2) {
+            card.classList.add('is-next2');
+            card.setAttribute('aria-hidden', 'true');
+          } else {
+            card.classList.add('is-hidden');
+            card.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        // Update counter
+        if (counter) {
+          counter.textContent = (activeIndex + 1) + ' / ' + total;
+        }
+
+        // Update dots
+        dots.forEach(function (dot, i) {
+          if (i === activeIndex) {
+            dot.classList.add('is-active');
+            dot.setAttribute('aria-current', 'true');
+          } else {
+            dot.classList.remove('is-active');
+            dot.removeAttribute('aria-current');
+          }
+        });
+
+        isAnimating = false;
+      }, delay);
+    }
+
+    // Pointer / touch gesture handling
+    var startX = 0;
+    var startY = 0;
+    var currentX = 0;
+    var currentY = 0;
+    var isDragging = false;
+    var hasDragged = false;
+    var startTime = 0;
+    var activeCard = null;
+
+    function getCoords(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function onPointerStart(e) {
+      if (isAnimating) return;
+      var targetCard = e.target.closest('.tcm-deck-card');
+      if (!targetCard) return;
+
+      // If user tapped a peeked card behind, immediately bring it to front
+      if (targetCard.classList.contains('is-next')) {
+        e.preventDefault();
+        renderDeck(activeIndex + 1, 'left');
+        resetAutoPlay();
+        return;
+      }
+      if (targetCard.classList.contains('is-next2')) {
+        e.preventDefault();
+        renderDeck(activeIndex + 2, 'left');
+        resetAutoPlay();
+        return;
+      }
+
+      if (!targetCard.classList.contains('is-active')) return;
+
+      // Allow clicks on buttons or links inside the active card
+      if (e.target.closest('button, a, input')) {
+        return;
+      }
+
+      var coords = getCoords(e);
+      startX = coords.x;
+      startY = coords.y;
+      currentX = startX;
+      currentY = startY;
+      isDragging = true;
+      hasDragged = false;
+      startTime = Date.now();
+      activeCard = targetCard;
+
+      activeCard.classList.add('is-dragging');
+      pauseAutoPlay();
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging || !activeCard) return;
+      var coords = getCoords(e);
+      currentX = coords.x;
+      currentY = coords.y;
+
+      var deltaX = currentX - startX;
+      var deltaY = currentY - startY;
+
+      if (Math.abs(deltaX) > 8) {
+        hasDragged = true;
+      }
+
+      var rot = deltaX * 0.04;
+      activeCard.style.transform = 'translate3d(' + deltaX + 'px, ' + (deltaY * 0.15) + 'px, 0) rotate(' + rot + 'deg)';
+
+      // Dynamically scale card behind
+      var nextCard = cards[(activeIndex + 1) % total];
+      if (nextCard) {
+        var progress = Math.min(1, Math.abs(deltaX) / 200);
+        var curScale = 0.95 + (0.05 * progress);
+        var curY = -14 + (14 * progress);
+        nextCard.style.transform = 'translate3d(0, ' + curY + 'px, 0) scale(' + curScale + ')';
+      }
+    }
+
+    function onPointerEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+
+      if (activeCard) {
+        activeCard.classList.remove('is-dragging');
+      }
+
+      var deltaX = currentX - startX;
+      var duration = Date.now() - startTime;
+      var velocity = Math.abs(deltaX) / (duration || 1);
+
+      var nextCard = cards[(activeIndex + 1) % total];
+      if (nextCard) {
+        nextCard.style.transform = '';
+      }
+
+      // Check threshold (swipe distance > 55px or fast flick)
+      if (Math.abs(deltaX) > 55 || velocity > 0.45) {
+        if (deltaX < 0) {
+          renderDeck(activeIndex + 1, 'left');
+        } else {
+          renderDeck(activeIndex - 1, 'right');
+        }
+      } else {
+        // Snap back to front
+        if (activeCard) {
+          activeCard.style.transform = '';
+        }
+      }
+
+      activeCard = null;
+      resetAutoPlay();
+    }
+
+    // Attach drag events to stack
+    stack.addEventListener('mousedown', onPointerStart);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerEnd);
+
+    stack.addEventListener('touchstart', onPointerStart, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerEnd);
+    window.addEventListener('touchcancel', onPointerEnd);
+
+    // Suppress button click if dragged
+    stack.addEventListener('click', function (e) {
+      if (hasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+        hasDragged = false;
+      }
+    }, true);
+
+    // Prev & Next Buttons
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        renderDeck(activeIndex - 1, 'right');
+        resetAutoPlay();
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        renderDeck(activeIndex + 1, 'left');
+        resetAutoPlay();
+      });
+    }
+
+    // Dots navigation
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function (e) {
+        e.preventDefault();
+        var targetIdx = parseInt(dot.getAttribute('data-index'), 10);
+        if (!isNaN(targetIdx) && targetIdx !== activeIndex) {
+          var dir = targetIdx > activeIndex ? 'left' : 'right';
+          renderDeck(targetIdx, dir);
+          resetAutoPlay();
+        }
+      });
+    });
+
+    // Keyboard support (left/right arrows)
+    deckWrapper.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        renderDeck(activeIndex - 1, 'right');
+        resetAutoPlay();
+      } else if (e.key === 'ArrowRight') {
+        renderDeck(activeIndex + 1, 'left');
+        resetAutoPlay();
+      }
+    });
+
+    // Auto-advance loop (every 5.5s)
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(function () {
+        renderDeck(activeIndex + 1, 'left');
+      }, 5500);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    function pauseAutoPlay() {
+      stopAutoPlay();
+    }
+
+    function resetAutoPlay() {
+      startAutoPlay();
+    }
+
+    deckWrapper.addEventListener('mouseenter', pauseAutoPlay);
+    deckWrapper.addEventListener('mouseleave', resetAutoPlay);
+
+    // Initialize deck
+    renderDeck(0);
+    startAutoPlay();
+  }
+
+  /* ==========================================================================
+     PLACEMENT REPORT MODAL
+     ========================================================================== */
+  function wirePlacementReportModal() {
+    var openBtn = document.getElementById('openPlacementReportBtn');
+    var overlay = document.getElementById('tcmPlacementOverlay');
+    var closeBtn = document.getElementById('tcmPlacementCloseBtn');
+    var downloadBtn = document.getElementById('downloadPlacementPdfBtn');
+    var feedback = document.getElementById('placementDownloadFeedback');
+
+    if (!openBtn || !overlay) return;
+
+    function openModal() {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      if (feedback) feedback.style.display = 'none';
+    }
+
+    openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function () {
+        if (feedback) {
+          feedback.style.display = 'block';
+        }
+      });
+    }
+  }
+
+  /* ==========================================================================
+     BOOTSTRAP
+     ========================================================================== */
+  function boot() {
+    normalizeSiteLinks();
+    wireNavigation();
+    wireHeroWorkshopDeck();
+    wirePlacementReportModal();
+    hydrateHomeCategoryTracks();
+    hydrateHomeCourses();
+    initCourseCatalog();
+    wireWorkshopModal();
+    wireBrochureModal();
+    wireContactForm();
+    wireInstitutionForm();
+    wireCertificateModal();
+
+    // Check auth status
+    getJSON(apiUrl('/api/me'))
+      .then(function (res) {
+        if (res && res.success && res.data) {
+          window.TCM_USER = res.data;
+          if (res.data.authenticated) {
+            var authBtns = document.querySelectorAll('.tcm-auth-link');
+            authBtns.forEach(function (btn) {
+              btn.textContent = res.data.role === 'admin' ? 'Admin Panel' : 'My Dashboard';
+              btn.setAttribute('href', apiUrl(res.data.dashboard_url || '/student'));
+            });
+          }
+        }
+      })
+      .catch(function () {});
+  }
+
+  if (document.readyState !== 'loading') boot();
+  else document.addEventListener('DOMContentLoaded', boot);
+})();

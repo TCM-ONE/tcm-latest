@@ -348,4 +348,122 @@ SVG;
         readfile($filePath);
         exit;
     }
+
+    /**
+     * GET /courses
+     * Public course catalog with search and filters.
+     */
+    public function coursesCatalog(): void
+    {
+        $appUrl     = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+        $courses    = Course::listWithCategory(['status' => 'published']);
+        $categories = Database::all("SELECT * FROM categories ORDER BY name ASC");
+
+        $this->view('public/courses/index', [
+            'title'       => 'All Courses & Career Paths — TCM One',
+            'description' => 'Explore practical tech courses in Full Stack, Python, AI & Machine Learning, Data Analytics, and Cloud with live mentorship at TCM One.',
+            'canonical'   => $appUrl . '/courses',
+            'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
+            'courses'     => $courses,
+            'categories'  => $categories,
+            'appUrl'      => $appUrl,
+        ], null);
+    }
+
+    /**
+     * GET /for-institutions
+     * B2B college & institutional partnerships page.
+     */
+    public function forInstitutions(): void
+    {
+        $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+
+        $this->view('public/institutions/index', [
+            'title'       => 'College & Training Institute Partnerships — TCM One',
+            'description' => 'Partner with TCM One to offer structured technical training, practical projects, and career-focused learning to your students.',
+            'canonical'   => $appUrl . '/for-institutions',
+            'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
+            'appUrl'      => $appUrl,
+        ], null);
+    }
+
+    /**
+     * GET /about
+     * TCM One story, mission, philosophy & credibility.
+     */
+    public function about(): void
+    {
+        $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+
+        $this->view('public/about/index', [
+            'title'       => 'About TCM One — Practical Education For Modern Careers',
+            'description' => 'Discover the mission, teaching philosophy, and verified learning approach behind TCM One.',
+            'canonical'   => $appUrl . '/about',
+            'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
+            'appUrl'      => $appUrl,
+        ], null);
+    }
+
+    /**
+     * GET /contact
+     * Dedicated contact page with direct phone, email, and inquiry form.
+     */
+    public function contact(): void
+    {
+        $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+
+        $this->view('public/about/contact', [
+            'title'       => 'Contact Admissions & Mentors — TCM One',
+            'description' => 'Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.',
+            'canonical'   => $appUrl . '/contact',
+            'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
+            'appUrl'      => $appUrl,
+        ], null);
+    }
+
+    public function privacy(): void
+    {
+        $file = BASE_PATH . '/privacy.html';
+        if (is_file($file)) {
+            header('Content-Type: text/html; charset=utf-8');
+            readfile($file);
+            exit;
+        }
+        Response::redirect('/');
+    }
+
+    public function terms(): void
+    {
+        $file = BASE_PATH . '/terms.html';
+        if (is_file($file)) {
+            header('Content-Type: text/html; charset=utf-8');
+            readfile($file);
+            exit;
+        }
+        Response::redirect('/');
+    }
+
+    public function partnerPolicy(): void
+    {
+        $file = BASE_PATH . '/partner-policy.html';
+        if (is_file($file)) {
+            header('Content-Type: text/html; charset=utf-8');
+            readfile($file);
+            exit;
+        }
+        Response::redirect('/for-institutions');
+    }
+
+    public function sitemap(): void
+    {
+        $file = BASE_PATH . '/sitemap.html';
+        if (is_file($file)) {
+            header('Content-Type: text/html; charset=utf-8');
+            readfile($file);
+            exit;
+        }
+        Response::redirect('/');
+    }
 }
+
+

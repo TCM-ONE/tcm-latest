@@ -1,370 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <title><?= e($title) ?></title>
-    <meta name="description" content="<?= e($description) ?>">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="<?= e($canonical) ?>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="<?= e($canonical) ?>">
-    <meta property="og:title" content="<?= e($title) ?>">
-    <meta property="og:description" content="<?= e($description) ?>">
-    <meta property="og:image" content="<?= e($ogImage) ?>">
-    <meta property="og:image:alt" content="TCM One live coding workshops">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="TCM One">
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="<?= base_url('/favicon.svg') ?>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('/favicon.png') ?>">
+  <link rel="shortcut icon" href="<?= base_url('/favicon.ico') ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/logo.png') ?>">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="<?= e($canonical) ?>">
-    <meta name="twitter:title" content="<?= e($title) ?>">
-    <meta name="twitter:description" content="<?= e($description) ?>">
-    <meta name="twitter:image" content="<?= e($ogImage) ?>">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
 
-    <?php
-        $itemList = [
-            '@context' => 'https://schema.org',
-            '@type' => 'ItemList',
-            'itemListElement' => [],
-        ];
-        $position = 1;
-        foreach ($workshops as $w) {
-            $itemList['itemListElement'][] = [
-                '@type' => 'ListItem',
-                'position' => $position++,
-                'url' => $appUrl . '/workshops/' . rawurlencode($w['slug']),
-                'name' => $w['title'],
-            ];
-        }
-        $breadcrumbSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $appUrl . '/'],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $canonical],
-            ],
-        ];
-        $organizationSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'EducationalOrganization',
-            'name' => 'TCM One',
-            'url' => $appUrl,
-            'logo' => $appUrl . '/assets/logo.png',
-            'areaServed' => 'IN',
-        ];
-    ?>
-    <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
-    <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
-    <script type="application/ld+json"><?= json_encode($organizationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
 
-    <!-- Stylesheets -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= base_url('/assets/style.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/site-polish.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/tcm-share.css') ?>">
+  <title><?= e($title ?? 'Live Tech Workshops — TCM One') ?></title>
+  <meta name="description" content="<?= e($description ?? 'Explore live technical workshops in Python, Web Development, and AI with practical coding and mentor reviews.') ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= e($canonical ?? 'https://thecodemunk.in/workshops') ?>">
 
-    <style>
-        *, *::before, *::after { border-radius: 0 !important; }
-        body { background: #fafafa; color: #111111; }
-        .ws-hero {
-            background: #111111;
-            color: #ffffff;
-            padding: 80px 0 60px;
-            border-bottom: 2px solid #111111;
-        }
-        .ws-badge {
-            display: inline-block;
-            background: #ffffff;
-            color: #111111;
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 4px 10px;
-            margin-bottom: 16px;
-        }
-        .ws-hero h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            margin-bottom: 14px;
-            line-height: 1.15;
-        }
-        .ws-hero p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 620px;
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-        .ws-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 18px;
-            padding: 42px 0 64px;
-        }
-        .ws-card {
-            background: #ffffff;
-            border: 1.5px solid #111111;
-            box-shadow: 4px 4px 0px #111111;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-        .ws-card:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 5px 5px 0px #111111;
-        }
-        .ws-card-tag {
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #666666;
-            margin-bottom: 10px;
-        }
-        .ws-card h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            line-height: 1.3;
-            margin-bottom: 10px;
-            color: #111111;
-        }
-        .ws-card p {
-            font-size: 0.82rem;
-            color: #555555;
-            line-height: 1.55;
-            margin-bottom: 14px;
-            flex: 1;
-        }
-        .ws-meta-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            font-size: 0.74rem;
-            font-weight: 600;
-            color: #222222;
-            padding: 10px 0;
-            border-top: 1px solid #eeeeee;
-            border-bottom: 1px solid #eeeeee;
-            margin-bottom: 14px;
-        }
-        .ws-meta-row span {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .ws-price-row {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .ws-price {
-            font-size: 1.45rem;
-            font-weight: 900;
-            color: #111111;
-        }
-        .ws-original {
-            font-size: 0.95rem;
-            color: #888888;
-            text-decoration: line-through;
-        }
-        .ws-cta-row {
-            display: flex;
-            gap: 8px;
-            align-items: stretch;
-        }
-        .ws-btn-primary {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 38px;
-            background: #111111;
-            color: #ffffff;
-            font-size: 0.8rem;
-            font-weight: 800;
-            text-decoration: none;
-            border: 2px solid #111111;
-            transition: background 0.15s ease;
-        }
-        .ws-btn-primary:hover {
-            background: #333333;
-            color: #ffffff;
-        }
-    </style>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="<?= e($canonical) ?>">
+  <meta property="og:title" content="<?= e($title) ?>">
+  <meta property="og:description" content="<?= e($description) ?>">
+  <meta property="og:image" content="<?= e($ogImage) ?>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+
+  <!-- Structured Data (JSON-LD) -->
+  <?php
+    $itemList = [
+      '@context' => 'https://schema.org',
+      '@type' => 'ItemList',
+      'itemListElement' => [],
+    ];
+    $pos = 1;
+    foreach (($workshops ?? []) as $w) {
+      $itemList['itemListElement'][] = [
+        '@type' => 'ListItem',
+        'position' => $pos++,
+        'url' => ($appUrl ?? 'https://thecodemunk.in') . '/workshops/' . rawurlencode((string)$w['slug']),
+        'name' => $w['title'],
+      ];
+    }
+  ?>
+  <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 <body>
 
-    <!-- Reusable Header Navigation -->
-    <?php
-    $activePage = 'workshops';
-    require __DIR__ . '/../../partials/header.php';
-    ?>
+  <!-- Header -->
+  <header class="tcm-header" role="banner">
+    <div class="tcm-container">
+      <div class="tcm-header-inner">
+        <a href="<?= base_url('/') ?>" class="tcm-brand" aria-label="TCM One Home">
+          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
+          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+        </a>
 
-    <!-- Hero Section -->
-    <section class="ws-hero">
-        <div class="container">
-            <span class="ws-badge">Live Cohorts &middot; Beginner Friendly</span>
-            <h1>TCM One Workshops</h1>
-            <p>Practical, mentor-led workshops for college students and beginners. Build useful skills through focused live sessions, guided exercises and clear next steps.</p>
+        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/courses') ?>" class="tcm-nav-link">Courses</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link active">Workshops</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
+          </div>
+        </nav>
+
+        <div class="tcm-header-actions">
+          <a href="<?= base_url('/contact') ?>" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
+          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">Explore Courses</a>
+          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+            <i class="bi bi-list" style="font-size: 22px;"></i>
+          </button>
         </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="tcm-drawer-backdrop"></div>
+  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+    <a href="<?= base_url('/') ?>" class="tcm-drawer-link">Home</a>
+    <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link">Courses</a>
+    <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">Workshops</a>
+    <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
+    <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About TCM One</a>
+    <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link">Contact</a>
+  </aside>
+
+  <main id="mainContent">
+
+    <!-- Workshop Hero -->
+    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(36px, 5vw, 60px); border-bottom: 1px solid var(--tcm-border);">
+      <div class="tcm-container">
+        <div style="max-width: 780px;">
+          <div class="tcm-eyebrow">LIVE SHORT-FORMAT LEARNING</div>
+          <h1 class="tcm-h1" style="margin: 8px 0 16px 0;">
+            Learn something valuable.<br>
+            <span class="font-editorial-serif">Start with one workshop.</span>
+          </h1>
+          <p class="tcm-lead" style="margin: 0;">
+            Focused live cohorts covering practical, job-ready techniques with direct mentor code reviews and real projects.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- Workshop Cards Grid -->
-    <main class="container">
-        <div class="ws-grid">
-            <?php foreach ($workshops as $w):
-                $wUrl = $appUrl . '/workshops/' . rawurlencode($w['slug']);
+    <!-- Workshop Listings -->
+    <section class="tcm-section">
+      <div class="tcm-container">
+        <div class="tcm-workshop-grid">
+          <?php foreach (($workshops ?? []) as $w): ?>
+            <?php
+              $price = (float)($w['price'] ?? 0);
+              $origPrice = !empty($w['original_price']) ? (float)$w['original_price'] : 0;
+              $slug = $w['slug'] ?? '';
+              $badge = $w['badge'] ?? 'Live Cohort';
+              $duration = $w['duration'] ?? 'Live Workshop';
+              $mode = $w['mode'] ?? 'Live Online Cohort';
             ?>
-            <article class="ws-card">
+            <div class="tcm-workshop-card">
+              <div class="tcm-workshop-badge"><?= e($badge) ?></div>
+              <h2 class="tcm-workshop-title">
+                <a href="<?= base_url('/workshops/' . rawurlencode($slug)) ?>" style="color: inherit; text-decoration: none;">
+                  <?= e($w['title']) ?>
+                </a>
+              </h2>
+              <p class="tcm-workshop-desc"><?= e($w['tagline'] ?? $w['description'] ?? '') ?></p>
+
+              <div style="display: flex; gap: 16px; font-size: 12.5px; color: var(--tcm-muted); margin-bottom: 16px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 12px;">
+                <span><i class="bi bi-clock"></i> <?= e($duration) ?></span>
+                <span><i class="bi bi-broadcast"></i> <?= e($mode) ?></span>
+              </div>
+
+              <?php if (!empty($w['highlights']) && is_array($w['highlights'])): ?>
+                <ul class="tcm-workshop-highlights">
+                  <?php foreach (array_slice($w['highlights'], 0, 4) as $h): ?>
+                    <li><?= e($h) ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
+
+              <div class="tcm-workshop-footer">
                 <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="ws-card-tag"><?= e($w['category']) ?></span>
-                        <span style="font-size:.72rem;font-weight:800;background:#111;color:#fff;padding:2px 8px;"><?= e($w['badge']) ?></span>
-                    </div>
-                    <h3><?= e($w['short_title']) ?></h3>
-                    <p><?= e($w['tagline']) ?></p>
-
-                    <div class="ws-meta-row">
-                        <span><i class="bi bi-clock"></i> <?= e($w['duration']) ?></span>
-                        <span><i class="bi bi-calendar3"></i> <?= e($w['starts_at']) ?></span>
-                        <span><i class="bi bi-broadcast"></i> Live Online</span>
-                    </div>
+                  <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
+                  <?php if ($origPrice > $price): ?>
+                    <span style="font-size: 13px; color: #999; text-decoration: line-through; margin-left: 6px;">
+                      ₹<?= number_format($origPrice, 0) ?>
+                    </span>
+                  <?php endif; ?>
+                  <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px;">
+                    Next Cohort Enrolling
+                  </div>
                 </div>
 
-                <div>
-                    <div class="ws-price-row">
-                        <span class="ws-price">&#8377;<?= number_format((float)$w['price'], 0) ?></span>
-                        <span class="ws-original">&#8377;<?= number_format((float)$w['original_price'], 0) ?></span>
-                    </div>
-                    <div class="ws-cta-row">
-                        <a href="<?= e($wUrl) ?>" class="ws-btn-primary">
-                            View Workshop &rarr;
-                        </a>
-                        <button type="button"
-                                class="tcm-share-btn icon-only"
-                                data-share-url="<?= e($wUrl) ?>"
-                                data-share-title="<?= e($w['title']) ?>"
-                                data-share-text="<?= e($w['description']) ?>"
-                                title="Share Workshop"
-                                aria-label="Share Workshop">
-                            <i class="bi bi-share"></i>
-                        </button>
-                    </div>
+                <div style="display: flex; gap: 8px;">
+                  <a href="<?= base_url('/workshops/' . rawurlencode($slug)) ?>" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                    Details
+                  </a>
+                  <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="<?= e($slug) ?>" data-title="<?= e($w['title']) ?>" data-price="<?= $price ?>">
+                    <span>Reserve Seat</span>
+                    <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                  </button>
                 </div>
-            </article>
-            <?php endforeach; ?>
-        </div>
-    </main>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
-
-                    <!-- Brand Column -->
-                    <div class="footer-brand">
-                        <a href="<?= base_url('/') ?>" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>
-                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
-                        </p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
-                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
-                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
-                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
-                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
-                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
-                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        </div>
-                        <div class="footer-tag">
-                            <i class="bi bi-patch-check-fill text-success"></i>
-                            Student-Focused Learning Platform
-                        </div>
-                    </div>
-
-                    <!-- Navigation Links Columns -->
-                    <div class="footer-links">
-
-                        <div class="footer-column">
-                            <h4>Learn &amp; Programs</h4>
-                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
-                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
-                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
-                            <a href="<?= base_url('/workshops') ?>">Live Workshops</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Ecosystem</h4>
-                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
-                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
-                            <a href="<?= base_url('/programs.html') ?>">Cloud DevOps</a>
-                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Legal &amp; Policy</h4>
-                            <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
-                            <a href="<?= base_url('/terms.html') ?>">Terms &amp; Conditions</a>
-                            <a href="<?= base_url('/sitemap.html') ?>">Site Map</a>
-                            <a href="<?= base_url('/partner.html') ?>">Partnership Policy</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company &amp; Help</h4>
-                            <a href="<?= base_url('/insights.html') ?>">About Us</a>
-                            <a href="<?= base_url('/community.html') ?>">Community</a>
-                            <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
-                            <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF</a>
-                            <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Footer Bottom Strip -->
-                <div class="footer-bottom">
-                    <p>&copy; <?= date('Y') ?> The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
-                        <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
-                        <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
-                        <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF</a>
-                        <a href="<?= base_url('/contact.html') ?>">Contact</a>
-                        <a href="<?= base_url('/insights.html') ?>">About</a>
-                    </div>
-                </div>
+              </div>
             </div>
+          <?php endforeach; ?>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
-    <script src="<?= base_url('/assets/tcm-app.js?v=2.2.4') ?>"></script>
+  </main>
+
+  <!-- Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="<?= base_url('/') ?>" class="tcm-brand">
+            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
+            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+          </a>
+          <p class="tcm-footer-brand-p">
+            Practical tech education through live classes, guided projects, and industry-focused learning.
+          </p>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Platform</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
+            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
+            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
+            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
+            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Admissions</h4>
+          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
+            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
+          </p>
+          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
+            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal: Workshop Seat Reservation -->
+  <div class="tcm-modal-overlay" id="tcmWsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmWsTitle">
+    <div class="tcm-modal">
+      <button type="button" class="tcm-modal-close" id="tcmWsCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE SEAT RESERVATION</div>
+      <h3 id="tcmWsTitle" class="tcm-h3" style="margin-bottom: 4px;">Reserve Your Workshop Seat</h3>
+      <div id="tcmWsPrice" style="font-size: 14px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;"></div>
+      <div id="tcmWsFeedback" style="display: none;"></div>
+
+      <form id="tcmWsForm" novalidate>
+        <input type="hidden" id="tcmWsSlug" value="">
+        <div class="tcm-form-group">
+          <label for="tcmWsName" class="tcm-form-label">Full Name *</label>
+          <input type="text" id="tcmWsName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmWsEmail" class="tcm-form-label">Email Address *</label>
+          <input type="email" id="tcmWsEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmWsPhone" class="tcm-form-label">WhatsApp / Mobile Number *</label>
+          <input type="tel" id="tcmWsPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
+        </div>
+        <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmWsSubmitBtn" style="width: 100%; height: 50px;">
+          Reserve My Seat
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
 </body>
 </html>

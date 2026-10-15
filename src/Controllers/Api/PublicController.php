@@ -84,6 +84,51 @@ final class PublicController extends Controller
         Response::success($course, 'Course fetched.');
     }
 
+    /**
+     * GET /api/categories
+     * Return all active categories with published course counts, min price and tags.
+     */
+    public function categories(): void
+    {
+        $categories = Database::all('
+            SELECT 
+                cat.id, 
+                cat.name, 
+                cat.slug, 
+                cat.description, 
+                cat.icon,
+                cat.audience,
+                cat.sort_order,
+                COUNT(c.id) as course_count, 
+                MIN(c.price) as min_price
+            FROM categories cat 
+            INNER JOIN courses c ON c.category_id = cat.id 
+            WHERE c.status = "published" 
+            GROUP BY cat.id, cat.name, cat.slug, cat.description, cat.icon, cat.audience, cat.sort_order
+            ORDER BY cat.sort_order ASC, course_count DESC
+        ');
+
+        $tagMap = [
+            'ai-automation'           => ['Generative AI', 'LLM Engineering', 'AI Agents', 'Python', 'Prompt Engineering'],
+            'web-mobile-development'  => ['Full Stack MERN', 'React.js', 'Node.js', 'TypeScript', 'Next.js', 'MongoDB'],
+            'data-analytics'          => ['Data Analysis', 'SQL', 'Power BI', 'Pandas', 'Machine Learning'],
+            'programming-foundations' => ['Python 3', 'OOP Concepts', 'REST APIs', 'Automation Scripts'],
+            'cloud-devops'            => ['Docker', 'CI/CD Pipelines', 'AWS Cloud', 'Linux Architecture', 'Git'],
+            'career-dsa'              => ['Data Structures', 'Algorithms', 'Java', 'Interview Problem Solving'],
+            'design-business'         => ['UI/UX Design', 'Figma', 'Design Systems', 'Digital Strategy'],
+        ];
+
+        foreach ($categories as &$cat) {
+            $cat['course_count'] = (int) $cat['course_count'];
+            $cat['min_price']    = (float) $cat['min_price'];
+            $cat['formatted_min_price'] = '₹' . number_format($cat['min_price'], 0);
+            $cat['tags']         = $tagMap[$cat['slug']] ?? ['Practical Projects', 'Live Sessions', 'Industry Mentored'];
+            $cat['url']          = base_url('/courses?cat=' . rawurlencode((string)$cat['name']));
+        }
+
+        Response::success($categories, 'Categories fetched.');
+    }
+
     public function events(): void
     {
         $events = Event::search([

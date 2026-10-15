@@ -1,502 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <meta name="description" content="Institutional Partnership Policy & Governance Framework — The Code Munk (TCM One). Commercial terms, revenue shares, academic roles, IP protection, and DPDP compliance.">
-    <meta name="keywords" content="TCM One partnership policy, institutional collaboration agreement, college tech education MoU terms">
-    <meta name="robots" content="index, follow">
-    <title>Partnership Policy &amp; Terms — The Code Munk (TCM One)</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/style.css">
-    <link rel="stylesheet" href="./assets/site-polish.css">
-    <link rel="stylesheet" href="./assets/tcm-design-system.css">
-    <link rel="stylesheet" href="./assets/skeleton.css">
-    <link rel="stylesheet" href="./assets/auth.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        .legal-hero {
-            padding: 72px 0 44px;
-            background: #ffffff;
-            border-bottom: 1px solid #d9d9d9;
-        }
-        .legal-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f5f5f5;
-            border: 1px solid #d9d9d9;
-            color: #000000;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 4px 12px;
-            border-radius: 0px !important;
-            margin-bottom: 16px;
-        }
-        .legal-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            color: #000000;
-            letter-spacing: -0.04em;
-            margin-bottom: 12px;
-        }
-        .legal-subtitle {
-            font-size: 15px;
-            color: #666666;
-            max-width: 680px;
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-        .legal-body {
-            padding: 60px 0 80px;
-            background: #f5f5f5;
-        }
-        .legal-card {
-            background: #ffffff;
-            border: 1px solid #d9d9d9;
-            border-radius: 0px !important;
-            padding: 48px;
-            box-shadow: none !important;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .legal-section {
-            margin-bottom: 36px;
-        }
-        .legal-section:last-child {
-            margin-bottom: 0;
-        }
-        .legal-section h3 {
-            font-size: 19px;
-            font-weight: 800;
-            color: #000000;
-            letter-spacing: -0.02em;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .legal-section h3 i {
-            font-size: 1.1rem;
-            color: #000000;
-        }
-        .legal-section p, .legal-section ul {
-            font-size: 14px;
-            color: #444444;
-            line-height: 1.75;
-            margin-bottom: 14px;
-        }
-        .legal-section ul {
-            padding-left: 20px;
-        }
-        .legal-callout {
-            background: #fafafa;
-            border-left: 3px solid #000000;
-            padding: 16px 20px;
-            margin: 20px 0;
-            font-size: 13.5px;
-            color: #333333;
-            line-height: 1.6;
-        }
-        .legal-action-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding-top: 24px;
-            border-top: 1px solid #eaeaea;
-            margin-top: 36px;
-        }
-    </style>
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
+
+  <meta name="app-base" content="">
+
+  <title>Institutional Partnership Policy — TCM One</title>
+  <meta name="description" content="Institutional Partnership Policy & Governance Framework — The Code Munk (TCM One). Commercial terms, revenue shares, academic roles, IP protection, and DPDP compliance.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://thecodemunk.in/partner-policy">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="https://thecodemunk.in/partner-policy">
+  <meta property="og:title" content="Institutional Partnership Policy — TCM One">
+  <meta property="og:description" content="Governance, revenue shares, and operational standards for colleges and training academies partnering with TCM One.">
+  <meta property="og:image" content="https://thecodemunk.in/assets/tcm-og-share.png">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="./assets/tcm-design-system.css">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css">
+  <link rel="stylesheet" href="./assets/cai-assistant.css">
+
+  <style>
+    .legal-card {
+      background: var(--tcm-surface);
+      border: 1px solid var(--tcm-border);
+      padding: clamp(24px, 5vw, 48px);
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .legal-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--tcm-border);
+      font-size: 13px;
+      color: var(--tcm-muted);
+    }
+    .legal-section {
+      margin-bottom: 32px;
+    }
+    .legal-section:last-child {
+      margin-bottom: 0;
+    }
+    .legal-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--tcm-fg);
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.01em;
+    }
+    .legal-section p, .legal-section ul {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #333333;
+      margin: 0 0 14px 0;
+    }
+    .legal-section ul {
+      padding-left: 20px;
+    }
+    .legal-section li {
+      margin-bottom: 6px;
+    }
+    .legal-callout {
+      background: var(--tcm-bg);
+      border-left: 3px solid var(--tcm-fg);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
 
-            <!-- ===== TCM ONE 2-TIER UNIVERSAL HEADER ===== -->
-    <header class="header">
-        <!-- Tier 1: Desktop Top Utility Bar (>= 1200px) -->
-        <div class="header-top-bar d-none d-xl-block">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="header-top-left d-flex align-items-center gap-2">
-                        <span class="header-top-kicker"><i class="bi bi-patch-check-fill"></i> Industry-Grade Live Learning</span>
-                        <span class="header-top-divider">•</span>
-                        <a href="/download-brochure" class="header-top-brochure btn-trigger-brochure" data-trigger-brochure="true">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Official Course Brochure PDF
-                        </a>
-                    </div>
+  <!-- Header -->
+  <header class="tcm-header" role="banner">
+    <div class="tcm-container">
+      <div class="tcm-header-inner">
+        <a href="/" class="tcm-brand" aria-label="TCM One Home">
+          <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+        </a>
 
-                    <div class="header-top-right d-flex align-items-center gap-3">
-                        <!-- Language Picker -->
-                        <div class="desktop-lang-picker mobile-lang-picker">
-                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                <i class="bi bi-translate"></i>
-                                <span>Language</span>
-                                <strong class="mobile-lang-code">EN</strong>
-                            </button>
-                            <div class="mobile-lang-menu" role="menu">
-                                <button type="button" data-lang="en" role="menuitem">English</button>
-                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                <button type="button" data-lang="fr" role="menuitem">French</button>
-                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                <button type="button" data-lang="de" role="menuitem">German</button>
-                                <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                            </div>
-                        </div>
+        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+          <div class="tcm-nav-item">
+            <a href="/courses" class="tcm-nav-link">Courses</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/workshops" class="tcm-nav-link">Workshops</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/for-institutions" class="tcm-nav-link active">For Institutions</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/about" class="tcm-nav-link">About</a>
+          </div>
+        </nav>
 
-                        <span class="header-top-divider">|</span>
-                        <a href="login.php" class="header-top-login"><i class="bi bi-person"></i> Log in</a>
-                    </div>
-                </div>
-            </div>
+        <div class="tcm-header-actions">
+          <a href="/contact" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
+          <a href="/courses" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+            <span>Explore Courses</span>
+            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+            <i class="bi bi-list" style="font-size: 22px;"></i>
+          </button>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- Tier 2: Main Navigation Bar -->
-        <div class="header-main-bar">
-            <div class="container">
-                <nav class="navbar navbar-expand-xl p-0">
-                    <div class="header-nav-top">
-                        <!-- Column 1 (Left on Desktop): Brand Logo + Primary Nav Links -->
-                        <div class="header-nav-left d-flex align-items-center">
-                            <a class="navbar-brand logo" href="index.html">
-                                <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                                <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">ONE</span></span>
-                            </a>
+  <!-- Mobile Drawer -->
+  <div class="tcm-drawer-backdrop"></div>
+  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+    <a href="/" class="tcm-drawer-link">Home</a>
+    <a href="/courses" class="tcm-drawer-link">Courses</a>
+    <a href="/workshops" class="tcm-drawer-link">Workshops</a>
+    <a href="/for-institutions" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">For Institutions</a>
+    <a href="/about" class="tcm-drawer-link">About TCM One</a>
+    <a href="/contact" class="tcm-drawer-link">Contact</a>
+  </aside>
 
-                            <!-- Desktop Navigation Links (Column 1) -->
-                            <div class="header-desktop-links d-none d-xl-flex align-items-center">
-                                <ul class="navbar-nav flex-row align-items-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="workshops.html">Workshops</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="insights.html">TCM Insights</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="community.html">Community</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="contact.html">Contact</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="partner.html">Become a Partner</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+  <main id="mainContent">
 
-                        <!-- Column 2 (Right on Desktop): Primary CTA "Book a Demo" -->
-                        <div class="header-desktop-actions d-none d-xl-flex align-items-center">
-                            <button type="button" class="join-btn demo-trigger">Book a Demo</button>
-                        </div>
-
-                        <!-- Mobile Header Right: Strictly Language + Book a Demo + Hamburger (< 1200px) -->
-                        <div class="header-mobile-right d-xl-none">
-                            <div class="mobile-lang-picker">
-                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                    <i class="bi bi-translate"></i>
-                                    <span class="mobile-lang-code">EN</span>
-                                </button>
-                                <div class="mobile-lang-menu" role="menu">
-                                    <button type="button" data-lang="en" role="menuitem">English</button>
-                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                    <button type="button" data-lang="fr" role="menuitem">French</button>
-                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                    <button type="button" data-lang="de" role="menuitem">German</button>
-                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                                </div>
-                            </div>
-
-                            <button type="button" class="mobile-head-btn mobile-demo-btn demo-trigger" aria-label="Book a Demo">
-                                <span class="mobile-head-text">Book a Demo</span>
-                            </button>
-
-                            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="bi bi-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Collapsible Drawer Menu (< 1200px) -->
-                    <div class="collapse navbar-collapse d-xl-none" id="navbarMenu">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link " href="workshops.html">Workshops</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="insights.html">TCM Insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="community.html">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="contact.html">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="partner.html">Become a Partner</a>
-                            </li>
-                        </ul>
-
-                        <div class="header-drawer-actions">
-                            <a href="/download-brochure" class="drawer-brochure-link btn-trigger-brochure" data-trigger-brochure="true">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
-                            </a>
-                            <a href="login.php" class="drawer-login-link">Log in</a>
-                            <button type="button" class="join-btn drawer-demo-btn demo-trigger">Book a Free Demo</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+    <!-- Editorial Hero -->
+    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: 40px; border-bottom: 1px solid var(--tcm-border);">
+      <div class="tcm-container text-center">
+        <div style="max-width: 780px; margin: 0 auto;">
+          <div class="tcm-eyebrow">GOVERNANCE &amp; COMMERCIAL POLICY</div>
+          <h1 class="tcm-h1" style="margin: 8px 0 16px 0;">
+            Institutional <span class="font-editorial-serif">Partnership Policy</span>
+          </h1>
+          <p class="tcm-lead" style="margin: 0;">
+            Operational standards, attribution tracking, financial settlement milestones, and governance framework governing institutional collaborations with TCM One.
+          </p>
         </div>
-    </header>
-
-    <!-- ===== HERO ===== -->
-    <section class="legal-hero">
-        <div class="container">
-            <div class="max-w-700">
-                <span class="legal-hero-badge">
-                    <i class="bi bi-file-earmark-lock2"></i> GOVERNANCE &amp; COMMERCIAL POLICY
-                </span>
-                <h1 class="legal-title">Institutional Partnership Policy</h1>
-                <p class="legal-subtitle">
-                    Operational standards, attribution tracking, financial settlement milestones, and governance framework governing institutional collaborations with The Code Munk (TCM One).
-                </p>
-                <div class="mt-3 text-muted small">
-                    <strong>Version:</strong> 2.4 &middot; <strong>Last Updated:</strong> October 2026 &middot; <strong>Jurisdiction:</strong> Bilaspur / Raipur, CG, India
-                </div>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- ===== BODY ===== -->
-    <section class="legal-body">
-        <div class="container">
-            <div class="legal-card">
+    <!-- Policy Content -->
+    <section class="tcm-section" style="background-color: var(--tcm-bg);">
+      <div class="tcm-container">
+        <div class="legal-card">
 
-                <div class="legal-callout">
-                    <strong>Transparency &amp; Legal Notice:</strong> This document outlines the operational and commercial principles of the TCM One Institutional Partnership Program. Specific financial shares, cohort dates, infrastructure access, and custom deliverables are formalized via a signed Memorandum of Understanding (MoU) executed between authorized representatives of both institutions.
-                </div>
+          <div class="legal-meta-row">
+            <span><i class="bi bi-calendar3"></i> Version: 2.4 (Updated 2026)</span>
+            <span><i class="bi bi-building"></i> The Code Munk (TCM One)</span>
+            <span><i class="bi bi-geo-alt"></i> India Jurisdiction</span>
+          </div>
 
-                <!-- 1. Eligibility -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-building-check"></i> 1. Institutional Eligibility &amp; Accreditation Standards</h3>
-                    <p>TCM One partners with registered degree colleges, universities, autonomous institutions, technical training academies, and recognized coaching centers. To participate in our partnership programs:</p>
-                    <ul>
-                        <li>The institution must be a legally recognized educational or vocational entity operating in good standing.</li>
-                        <li>An authorized Institutional Coordinator (Director, Principal, HoD, or Placement Officer) must be nominated as the single point of contact.</li>
-                        <li>Institutions must demonstrate adequate student interest and the operational commitment required to support cohort learning.</li>
-                        <li>Zero Upfront Licensing applies to curriculum and LMS software access; institutions remain responsible for their own internal premise costs, computers, and utility bills.</li>
-                    </ul>
-                </div>
+          <div class="legal-callout">
+            <strong>Transparency &amp; Legal Notice:</strong> This document outlines the operational and commercial principles of the TCM One Institutional Partnership Program. Specific financial shares, cohort dates, infrastructure access, and custom deliverables are formalized via a signed Memorandum of Understanding (MoU) executed between authorized representatives of both institutions.
+          </div>
 
-                <!-- 2. Governance -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-diagram-3"></i> 2. Roles &amp; Operational Governance</h3>
-                    <p>Responsibilities are governed strictly by the chosen partnership model:</p>
-                    <ul>
-                        <li><strong>Referral Model:</strong> The partner institution facilitates student discovery and directs applicants via institutional referral channels. TCM One assumes full pedagogical delivery, student onboarding, live sessions, AI assistance, assignments, and career support.</li>
-                        <li><strong>Academic Partnership Model:</strong> A joint co-delivery framework where TCM One provides standardized curriculum, platform access, projects, assessments, and mentor orientation. The partner institution provides physical classroom/lab infrastructure, monitors student attendance, and assigns faculty mentors (where faculty delivery is elected).</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-building-check"></i> 1. Institutional Eligibility &amp; Standards</h2>
+            <p>TCM One partners with registered degree colleges, universities, autonomous institutes, technical training academies, and recognized coaching centers. To participate:</p>
+            <ul>
+              <li>The institution must be a legally recognized educational or vocational entity operating in good standing.</li>
+              <li>An authorized Institutional Coordinator (Director, Principal, HoD, or Placement Officer) must be nominated as the single point of contact.</li>
+              <li>Institutions must demonstrate adequate student interest and the operational commitment required to support cohort learning.</li>
+              <li>Zero Upfront Licensing applies to curriculum and LMS software access; institutions remain responsible for their own internal premise costs, computers, and utility bills.</li>
+            </ul>
+          </div>
 
-                <!-- 3. Tracking -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-qr-code"></i> 3. Referral Tracking &amp; Student Attribution</h3>
-                    <p>Transparent attribution is critical to our partner relationships:</p>
-                    <ul>
-                        <li>Upon MoU confirmation, each institutional partner receives a dedicated institutional identifier (Partner Code) and custom landing link.</li>
-                        <li>Enrollments originating from the partner portal, institutional registration drive, or verified student list are automatically attributed to the partner's ledger.</li>
-                        <li>Lead attribution windows remain valid for 90 days from the initial student registration date.</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-diagram-3"></i> 2. Roles &amp; Operational Governance</h2>
+            <p>Responsibilities are governed strictly by the chosen partnership model:</p>
+            <ul>
+              <li><strong>Referral Model:</strong> The partner institution facilitates student discovery and directs applicants via institutional referral channels. TCM One assumes full pedagogical delivery, student onboarding, live sessions, AI assistance, assignments, and career support.</li>
+              <li><strong>Academic Partnership Model:</strong> A joint co-delivery framework where TCM One provides standardized curriculum, platform access, projects, assessments, and mentor orientation. The partner institution provides physical classroom/lab infrastructure, monitors student attendance, and assigns faculty mentors.</li>
+            </ul>
+          </div>
 
-                <!-- 4. Revenue & Commercials -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-cash-stack"></i> 4. Revenue Sharing &amp; Commercial Calculation</h3>
-                    <p>Commercial structures are milestone-based, verified, and settled in Indian National Rupees (INR):</p>
-                    <ul>
-                        <li><strong>Referral Commission:</strong> 15% of net course fee collection per confirmed paid enrollment.</li>
-                        <li><strong>Academic Partnership Share:</strong> 40% Institute / 60% TCM One, calculated on the mutually agreed per-student fee multiplied by the enrolled batch count.</li>
-                        <li>All fee collections are net of statutory Goods and Services Tax (GST) and standard payment gateway processing charges (where paid through public online gateways).</li>
-                        <li>Any institutional scholarships or concessions agreed upon in writing are deducted from the gross collection prior to share calculation.</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-qr-code"></i> 3. Referral Tracking &amp; Student Attribution</h2>
+            <p>Transparent attribution is critical to our partner relationships:</p>
+            <ul>
+              <li>Upon MoU confirmation, each institutional partner receives a dedicated institutional identifier (Partner Code) and custom landing link.</li>
+              <li>Enrollments originating from the partner portal, institutional registration drive, or verified student list are automatically attributed to the partner's ledger.</li>
+              <li>Lead attribution windows remain valid for 90 days from the initial student registration date.</li>
+            </ul>
+          </div>
 
-                <!-- 5. Settlement Timelines -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-calendar2-check"></i> 5. Payout Settlement Timelines &amp; Tax Deductions</h3>
-                    <ul>
-                        <li><strong>Batch Lock Date:</strong> Student enrollments for a cohort freeze 14 calendar days after batch commencement.</li>
-                        <li><strong>Disbursement Timeline:</strong> Approved partner payouts are processed by the 15th of the following month, subject to reconciliation and the approved policy.</li>
-                        <li><strong>Settlement Method:</strong> Payouts are transferred via direct NEFT/RTGS to the verified institutional bank account accompanied by a detailed batch settlement statement.</li>
-                        <li><strong>Tax Deductions:</strong> Applicable Tax Deducted at Source (TDS) under Section 194 of the Income Tax Act, 1961 is deducted as mandated by law, and Form 16A certificates are issued quarterly.</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-cash-stack"></i> 4. Revenue Sharing &amp; Commercial Calculation</h2>
+            <p>Commercial structures are milestone-based, verified, and settled in Indian National Rupees (INR):</p>
+            <ul>
+              <li><strong>Referral Commission:</strong> 15% of net course fee collection per confirmed paid enrollment.</li>
+              <li><strong>Academic Partnership Share:</strong> 40% Institute / 60% TCM One, calculated on the mutually agreed per-student fee multiplied by the enrolled batch count.</li>
+              <li>All fee collections are net of statutory Goods and Services Tax (GST) and standard payment gateway processing charges.</li>
+            </ul>
+          </div>
 
-                <!-- 6. Drops & Refunds -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-arrow-counterclockwise"></i> 6. Student Dropouts, Refunds &amp; Cancellations</h3>
-                    <ul>
-                        <li>Students who officially request a refund within the permitted 7-day initial orientation window are refunded according to the TCM One Student Refund Policy.</li>
-                        <li>Partner share is not accrued on refunded enrollments.</li>
-                        <li>If a student drops out after the 14-day lock date, the institutional share remains credited, as platform licenses and mentor allocations have been committed.</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-calendar2-check"></i> 5. Payout Settlement Timelines</h2>
+            <ul>
+              <li><strong>Batch Lock Date:</strong> Student enrollments for a cohort freeze 14 calendar days after batch commencement.</li>
+              <li><strong>Disbursement Timeline:</strong> Approved partner payouts are processed by the 15th of the following month, subject to reconciliation.</li>
+              <li><strong>Settlement Method:</strong> Payouts are transferred via direct NEFT/RTGS accompanied by a detailed batch settlement statement.</li>
+              <li><strong>TDS Compliance:</strong> Tax Deducted at Source (TDS) is deducted as mandated by law, and Form 16A certificates are issued quarterly.</li>
+            </ul>
+          </div>
 
-                <!-- 7. IP & Proprietary Content -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-shield-lock"></i> 7. Intellectual Property &amp; Curriculum Rights</h3>
-                    <ul>
-                        <li>All curriculum syllabi, lesson slide decks, recorded video lectures, project boilerplates, source codes, and AI learning frameworks remain the sole intellectual property of The Code Munk.</li>
-                        <li>The partner institution is granted a non-exclusive, non-transferable license to use the material solely for authorized enrolled batches during the term of the agreement.</li>
-                        <li>Reproduction, commercial reselling, or public dissemination of TCM One learning assets outside enrolled cohorts is strictly prohibited.</li>
-                    </ul>
-                </div>
+          <div class="legal-section">
+            <h2><i class="bi bi-shield-lock"></i> 6. Intellectual Property &amp; Curriculum Rights</h2>
+            <ul>
+              <li>All curriculum syllabi, slide decks, recorded lectures, project repositories, and AI frameworks remain the sole intellectual property of The Code Munk.</li>
+              <li>The partner institution is granted a non-exclusive license solely for authorized enrolled batches during the agreement term.</li>
+            </ul>
+          </div>
 
-                <!-- 8. Student Data Protection -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-person-lock"></i> 8. Student Data Privacy (DPDP Act Compliance)</h3>
-                    <ul>
-                        <li>Both parties agree to treat student personal information in strict compliance with the Digital Personal Data Protection (DPDP) Act, 2023.</li>
-                        <li>Student contact information and academic records are utilized strictly for platform access, progress tracking, and career placement support.</li>
-                        <li>TCM One does not sell student data to third-party commercial advertisers under any circumstances.</li>
-                    </ul>
-                </div>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--tcm-border);">
+            <a href="/for-institutions" class="tcm-btn tcm-btn-secondary">
+              <i class="bi bi-arrow-left"></i> Partner Overview
+            </a>
+            <a href="/for-institutions#partnership-application" class="tcm-btn tcm-btn-primary">
+              <span>Apply for Partnership</span>
+              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </div>
 
-                <!-- 9. Term & Termination -->
-                <div class="legal-section">
-                    <h3><i class="bi bi-file-earmark-ruled"></i> 9. Agreement Term, Modifications &amp; Termination</h3>
-                    <ul>
-                        <li>Institutional partnerships are executed for an initial term of one (1) academic year, renewable by mutual written consent.</li>
-                        <li>Either party may terminate the partnership with sixty (60) days prior written notice, subject to the condition that all active enrolled student batches must be completed without disruption.</li>
-                        <li>Disputes arising out of the partnership shall be resolved through friendly executive consultation, and if unresolved, subject to the jurisdiction of courts in Bilaspur / Raipur, Chhattisgarh.</li>
-                    </ul>
-                </div>
-
-                <!-- Actions -->
-                <div class="legal-action-bar">
-                    <div>
-                        <a href="partner.html" class="btn btn-outline-dark fw-bold px-3 py-2" style="border-radius:0;">
-                            <i class="bi bi-arrow-left me-1"></i> Back to Partner Overview
-                        </a>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <a href="download-partner-proposal" class="btn btn-outline-dark fw-bold px-3 py-2" style="border-radius:0;" download>
-                            <i class="bi bi-download me-1"></i> Download Proposal PDF
-                        </a>
-                        <a href="partner.html#partnership-application" class="btn btn-dark fw-bold px-3 py-2 text-white" style="border-radius:0;">
-                            Apply for Partnership <i class="bi bi-arrow-right ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
         </div>
+      </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
-                    <div class="footer-brand">
-                        <a href="index.html" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.</p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia" target="_blank" rel="noopener"><i class="bi bi-youtube"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener"><i class="bi bi-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="footer-links">
-                        <div class="footer-column">
-                            <h4>Partnership</h4>
-                            <a href="partner.html">Partner Overview</a>
-                            <a href="partner.html#calculator">Revenue Calculator</a>
-                            <a href="partner.html#models">Models &amp; Matrix</a>
-                            <a href="partner-policy.html">Partnership Policy</a>
-                        </div>
-                        <div class="footer-column">
-                            <h4>Legal</h4>
-                            <a href="privacy.html">Privacy Policy</a>
-                            <a href="terms.html">Terms &amp; Conditions</a>
-                            <a href="partner-policy.html">Partnership Policy</a>
-                        </div>
-                        <div class="footer-column">
-                            <h4>Help &amp; Desk</h4>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="download-partner-proposal" download>Download Proposal</a>
-                            <a href="login.php">Sign In</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2026 The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="partner-policy.html">Partnership Policy</a>
-                        <a href="privacy.html">Privacy</a>
-                        <a href="terms.html">Terms</a>
-                        <a href="partner.html">Partner Page</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="/" class="tcm-brand">
+            <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+          </a>
+          <p class="tcm-footer-brand-p">
+            Practical tech education through live classes, guided projects, and industry-focused learning.
+          </p>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Platform</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="/courses">All Courses</a></li>
+            <li><a href="/workshops">Live Workshops</a></li>
+            <li><a href="/for-institutions">For Institutions</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Policies &amp; Legal</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="/partner-policy.html" style="font-weight: 600; color: var(--tcm-fg);">Partnership Policy</a></li>
+            <li><a href="/sitemap.html">Sitemap Directory</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./assets/tcm-editorial.js"></script>
+  <script src="./assets/cai-assistant.js"></script>
 </body>
 </html>

@@ -255,9 +255,19 @@ $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentC
 // Lead capture + WhatsApp hand-off (used by the static site CTAs and dashboards)
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);
 
-// Legacy Programs redirection to Workshops
-$router->get('/programs',      static fn () => Response::redirect('/workshops'));
-$router->get('/programs.html', static fn () => Response::redirect('/workshops'));
+// Legacy Redirects to Modern Editorial Routes
+$router->get('/programs',           static fn () => Response::redirect('/courses'));
+$router->get('/programs.html',      static fn () => Response::redirect('/courses'));
+$router->get('/course-details.html', static function () {
+    $slug = \TCM\Core\Request::string('slug');
+    Response::redirect($slug !== '' ? ('/courses/' . rawurlencode($slug)) : '/courses');
+});
+$router->get('/event-details.html', static function () {
+    $slug = \TCM\Core\Request::string('slug');
+    Response::redirect($slug !== '' ? ('/workshops/' . rawurlencode($slug)) : '/workshops');
+});
+$router->get('/insights',           static fn () => Response::redirect('/about'));
+$router->get('/insights.html',      static fn () => Response::redirect('/about'));
 
 // --------------------------------------------------------------------- //
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)
@@ -266,8 +276,23 @@ $router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopCo
 $router->get('/workshops.html',               ['TCM\Controllers\PublicWorkshopController', 'index']);
 $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
+$router->get('/courses',                      ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
+$router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
+$router->get('/for-institutions',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/about',                        ['TCM\Controllers\PublicWorkshopController', 'about']);
+$router->get('/about.html',                   ['TCM\Controllers\PublicWorkshopController', 'about']);
+$router->get('/contact',                      ['TCM\Controllers\PublicWorkshopController', 'contact']);
+$router->get('/contact.html',                  ['TCM\Controllers\PublicWorkshopController', 'contact']);
+$router->get('/privacy',                      ['TCM\Controllers\PublicWorkshopController', 'privacy']);
+$router->get('/privacy.html',                 ['TCM\Controllers\PublicWorkshopController', 'privacy']);
+$router->get('/terms',                        ['TCM\Controllers\PublicWorkshopController', 'terms']);
+$router->get('/terms.html',                   ['TCM\Controllers\PublicWorkshopController', 'terms']);
+$router->get('/partner-policy',               ['TCM\Controllers\PublicWorkshopController', 'partnerPolicy']);
+$router->get('/partner-policy.html',          ['TCM\Controllers\PublicWorkshopController', 'partnerPolicy']);
+$router->get('/sitemap',                      ['TCM\Controllers\PublicWorkshopController', 'sitemap']);
+$router->get('/sitemap.html',                 ['TCM\Controllers\PublicWorkshopController', 'sitemap']);
 $router->get('/download-brochure',            ['TCM\Controllers\PublicWorkshopController', 'downloadBrochure']);
 $router->get('/download-partner-proposal',    ['TCM\Controllers\PartnerController', 'downloadProposal']);
 
@@ -275,6 +300,7 @@ $router->get('/download-partner-proposal',    ['TCM\Controllers\PartnerControlle
 // Public JSON API (consumed by the static marketing site via tcm-app.js)
 // --------------------------------------------------------------------- //
 $router->get('/api/me', ['TCM\Controllers\Api\PublicController', 'me']);
+$router->get('/api/categories', ['TCM\Controllers\Api\PublicController', 'categories']);
 $router->get('/api/courses', ['TCM\Controllers\Api\PublicController', 'courses']);
 $router->get('/api/courses/{slug}', ['TCM\Controllers\Api\PublicController', 'course']);
 $router->post('/api/courses/brochure-lead', ['TCM\Controllers\Api\PublicController', 'courseBrochureLead']);
