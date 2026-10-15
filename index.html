@@ -76,7 +76,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css">
-  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.12">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.14">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -1106,6 +1106,72 @@
     </section>
 
     <!-- ========================================================================
+         SECTION: GLOBAL LEARNING
+         ======================================================================== -->
+    <section class="tcm-global-section" id="global-learning" aria-labelledby="global-learning-title">
+      <div class="tcm-container">
+        <div class="tcm-global-layout">
+          <div class="tcm-global-intro">
+            <div class="tcm-eyebrow">TCM ONE — BEYOND BORDERS</div>
+            <h2 class="tcm-h2 tcm-global-title" id="global-learning-title">Your ambition is global. <span class="font-editorial-serif">Your learning should be too.</span></h2>
+            <p class="tcm-global-copy">Whether you're studying in London, building your first app in Toronto, or exploring AI in Dubai — there's a place for you at TCM One.</p>
+            <p class="tcm-global-signoff">Learn. Build. Grow. Wherever you are.</p>
+            <div class="tcm-global-actions">
+              <a href="/courses" class="tcm-btn tcm-btn-primary">
+                <span>Explore Programs</span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </a>
+              <a href="/contact?source=global-learning" class="tcm-btn tcm-btn-secondary" id="globalEnquiryLink">
+                <span>Ask About Enrollment</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="tcm-global-panel">
+            <div class="tcm-global-panel-top">
+              <span class="tcm-label">MAKE IT PERSONAL</span>
+              <span class="tcm-global-status"><span aria-hidden="true"></span> Manual selection</span>
+            </div>
+            <label for="globalCountrySelect" class="tcm-global-select-label">Where are you learning from?</label>
+            <select id="globalCountrySelect" class="tcm-global-select" aria-describedby="globalCountryNote">
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="United Arab Emirates">United Arab Emirates</option>
+              <option value="Australia">Australia</option>
+              <option value="Singapore">Singapore</option>
+              <option value="India" selected>India</option>
+              <option value="Other Countries">Other Countries</option>
+            </select>
+            <p class="tcm-global-note" id="globalCountryNote">Choose manually — we never use automatic location detection.</p>
+
+            <div class="tcm-global-personalization" aria-live="polite">
+              <p class="tcm-global-personalization-label">YOUR TCM ONE VIEW</p>
+              <h3 id="globalWelcomeMessage">Build practical skills from wherever you are in India.</h3>
+              <div class="tcm-global-meta">
+                <div>
+                  <span>YOUR TIME ZONE</span>
+                  <strong id="globalTimeZone">India Standard Time</strong>
+                </div>
+                <div>
+                  <span>LOCAL TIME</span>
+                  <strong id="globalLocalTime">—</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcm-global-benefits" role="list" aria-label="Learning benefits for global learners">
+          <article class="tcm-global-benefit" role="listitem"><span>01</span><h3>Your schedule</h3><p>See live session timing information in your local time zone when it is published for a program.</p></article>
+          <article class="tcm-global-benefit" role="listitem"><span>02</span><h3>Your learning path</h3><p>Explore practical courses in software development, data, and AI.</p></article>
+          <article class="tcm-global-benefit" role="listitem"><span>03</span><h3>Your projects</h3><p>Turn what you learn into real applications and portfolio-ready work.</p></article>
+          <article class="tcm-global-benefit" role="listitem"><span>04</span><h3>Your next step</h3><p>Get clear answers about programs, eligibility, and enrollment.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
          SECTION 7: WHY TCM ONE
          ======================================================================== -->
     <section class="tcm-section">
@@ -1428,6 +1494,115 @@
                 <div class="tcm-review-name">Harshit Nagpure</div>
                 <div class="tcm-review-track">Web Development Cohort</div>
               </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECTION 9C: REAL CLASSROOMS, LIVE COHORTS & STUDENT MILESTONES
+         ======================================================================== -->
+    <section class="tcm-gallery-section" id="classroom-action">
+      <div class="tcm-container">
+        <div class="tcm-gallery-header">
+          <div style="max-width: 680px;">
+            <div class="tcm-eyebrows" style="margin-bottom: 8px;">
+              <span class="tool-tag" style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--tcm-muted); text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
+                <span class="tool-dot tool-dot-blue"></span> REAL CLASSROOMS &nbsp; <span class="tool-dot tool-dot-orange"></span> STUDENT MILESTONES
+              </span>
+            </div>
+            <h2 class="tcm-h2" style="margin: 6px 0 12px 0;">
+              Learning in Action. <span class="font-editorial-serif">Real Classrooms, Certified Graduates.</span>
+            </h2>
+            <p class="tcm-body-muted" style="margin: 0; font-size: 15px; line-height: 1.6;">
+              Glimpses into our interactive offline coding bootcamps, late-night live online debugging sessions, and proud graduates earning industry-accredited certifications.
+            </p>
+          </div>
+          <div>
+            <a href="/courses" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+              <span>Explore All Programs</span>
+              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="tcm-gallery-grid">
+          <!-- 1. Offline Classes (Padhate Waqt) -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/gal/offline-classes.png" data-preview-title="In-Person Practical Coding Bootcamp">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">In-Person Labs</span>
+              <img src="./assets/gal/offline-classes.png" alt="TCM One Offline Coding Classroom" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Hands-On Classroom Instruction</h3>
+              <p class="tcm-gallery-desc">Mentors guiding students line-by-line with real-time code reviews and physical lab debugging.</p>
+            </div>
+          </article>
+
+          <!-- 2. Online Live Class -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/live-class-tcm.png" data-preview-title="Live Interactive Online Class">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">Online Live Sessions</span>
+              <img src="./assets/live-class-tcm.png" alt="TCM One Online Live Class Screen" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Live Architecture &amp; Live Coding</h3>
+              <p class="tcm-gallery-desc">Full-stack builds broadcast live with interactive Q&amp;A, terminal walk-throughs, and instant doubt resolution.</p>
+            </div>
+          </article>
+
+          <!-- 3. Certificates & Graduates -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/gal/certification.png" data-preview-title="Accredited Certificate Holders">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">Certified Graduates</span>
+              <img src="./assets/gal/certification.png" alt="TCM One Certified Graduates with Certificates" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Milestone Achievements &amp; Defense</h3>
+              <p class="tcm-gallery-desc">Graduates awarded recognized credentials after successfully building and defending their capstone codebases.</p>
+            </div>
+          </article>
+
+          <!-- 4. Teamwork & Collaborative Projects -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/gal/team-work.png" data-preview-title="Collaborative Capstone Teamwork">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">Peer Programming</span>
+              <img src="./assets/gal/team-work.png" alt="Students Working in Agile Teams" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Agile Sprints &amp; Peer Reviews</h3>
+              <p class="tcm-gallery-desc">Students collaborate in cross-functional pods, reviewing pull requests and shipping multi-tier software together.</p>
+            </div>
+          </article>
+
+          <!-- 5. TCM Foundations & Beginnings -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/starting-days.png" data-preview-title="Early Cohort Journey">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">Cohort Foundations</span>
+              <img src="./assets/starting-days.png" alt="TCM Classroom Early Cohort Days" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Foundations Built with Care</h3>
+              <p class="tcm-gallery-desc">Close personal mentorship to help complete beginners transform into confident, production-grade coders.</p>
+            </div>
+          </article>
+
+          <!-- 6. Student Cohort Community -->
+          <article class="tcm-gallery-card" data-preview-src="./assets/gal/Screenshot 2026-06-19 172352.png" data-preview-title="TCM One Student Community">
+            <div class="tcm-gallery-img-wrap">
+              <span class="tcm-gallery-badge">Cohort Community</span>
+              <img src="./assets/gal/Screenshot 2026-06-19 172352.png" alt="TCM One Students Cohort" class="tcm-gallery-img" loading="lazy">
+              <div class="tcm-gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></div>
+            </div>
+            <div class="tcm-gallery-body">
+              <h3 class="tcm-gallery-title">Lifelong Engineering Network</h3>
+              <p class="tcm-gallery-desc">An active peer group sharing interview tips, referral opportunities, and tech updates long after graduation.</p>
             </div>
           </article>
         </div>
@@ -1882,6 +2057,6 @@
   </div>
 
   <!-- Client-side Scripts -->
-  <script src="./assets/tcm-editorial.js?v=2.11"></script>
+  <script src="./assets/tcm-editorial.js?v=2.13"></script>
 </body>
 </html>

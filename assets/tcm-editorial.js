@@ -1190,7 +1190,7 @@
     var closeBtn = document.getElementById('certZoomClose');
     var imgEl = document.getElementById('certZoomImg');
     var titleEl = document.getElementById('certZoomTitle');
-    var cards = document.querySelectorAll('.tcm-cert-card');
+    var cards = document.querySelectorAll('.tcm-cert-card, [data-preview-src]');
 
     if (!modal || !cards.length) return;
     var activeCard = null;
@@ -1199,7 +1199,7 @@
     function openCert(src, title) {
       previousOverflow = document.body.style.overflow;
       if (imgEl) imgEl.src = src;
-      if (titleEl) titleEl.textContent = title || 'Certificate Preview';
+      if (titleEl) titleEl.textContent = title || 'Preview';
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       if (closeBtn) closeBtn.focus();
@@ -1215,8 +1215,8 @@
     cards.forEach(function (card) {
       card.addEventListener('click', function () {
         activeCard = card;
-        var src = card.getAttribute('data-cert-src');
-        var title = card.getAttribute('data-cert-title');
+        var src = card.getAttribute('data-preview-src') || card.getAttribute('data-cert-src');
+        var title = card.getAttribute('data-preview-title') || card.getAttribute('data-cert-title');
         if (src) openCert(src, title);
       });
     });
@@ -1857,6 +1857,48 @@
     });
   }
 
+  function wireGlobalLearning() {
+    var select = document.getElementById('globalCountrySelect');
+    if (!select) return;
+
+    var welcome = document.getElementById('globalWelcomeMessage');
+    var timeZone = document.getElementById('globalTimeZone');
+    var localTime = document.getElementById('globalLocalTime');
+    var enquiry = document.getElementById('globalEnquiryLink');
+    var locales = {
+      'United States': { zone: 'America/New_York', label: 'Eastern Time', message: 'Your next build can start wherever you are in the United States.', locale: 'en-US' },
+      'United Kingdom': { zone: 'Europe/London', label: 'United Kingdom Time', message: 'Learning from London? You’re in the right place.', locale: 'en-GB' },
+      'Canada': { zone: 'America/Toronto', label: 'Eastern Time', message: 'Your next big project could start right here in Toronto.', locale: 'en-CA' },
+      'United Arab Emirates': { zone: 'Asia/Dubai', label: 'Gulf Standard Time', message: 'Build future-ready skills from wherever you are in the UAE.', locale: 'en-AE' },
+      'Australia': { zone: 'Australia/Sydney', label: 'Australian Eastern Time', message: 'A practical learning path can begin wherever you are in Australia.', locale: 'en-AU' },
+      'Singapore': { zone: 'Asia/Singapore', label: 'Singapore Standard Time', message: 'Build skills for your next opportunity from Singapore.', locale: 'en-SG' },
+      'India': { zone: 'Asia/Kolkata', label: 'India Standard Time', message: 'Build practical skills from wherever you are in India.', locale: 'en-IN' },
+      'Other Countries': { zone: 'UTC', label: 'UTC', message: 'Wherever you are, there’s a practical learning path waiting for you.', locale: 'en-GB' }
+    };
+
+    function refresh() {
+      var country = select.value;
+      var data = locales[country] || locales['Other Countries'];
+      if (welcome) welcome.textContent = data.message;
+      if (timeZone) timeZone.textContent = data.label;
+      if (localTime) {
+        try {
+          localTime.textContent = new Intl.DateTimeFormat(data.locale, { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: data.zone }).format(new Date());
+        } catch (err) { localTime.textContent = 'Time zone unavailable'; }
+      }
+      if (enquiry) enquiry.setAttribute('href', '/contact?source=global-learning&country=' + encodeURIComponent(country) + '&timezone=' + encodeURIComponent(data.zone));
+      try { localStorage.setItem('tcm_global_country', country); } catch (err) {}
+    }
+
+    try {
+      var savedCountry = localStorage.getItem('tcm_global_country');
+      if (savedCountry && locales[savedCountry]) select.value = savedCountry;
+    } catch (err) {}
+    refresh();
+    select.addEventListener('change', refresh);
+    window.setInterval(refresh, 60000);
+  }
+
   /* ==========================================================================
      GLOBAL BOOT
      ========================================================================== */
@@ -1877,6 +1919,7 @@
     wireInstitutionForm();
     wireInstitutionCalculator();
     wireCertificateModal();
+    wireGlobalLearning();
 
     // Check auth status
     getJSON(apiUrl('/api/me'))
