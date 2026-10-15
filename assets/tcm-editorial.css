@@ -2869,7 +2869,10 @@ textarea.tcm-form-input {
 }
 
 .tcm-reviews-stat-val {
-  font: 400 32px/1 var(--tcm-font-display);
+  font-family: var(--tcm-font-display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1;
   color: var(--tcm-fg);
   letter-spacing: -0.02em;
 }
@@ -3127,13 +3130,13 @@ textarea.tcm-form-input {
 .tcm-global-steps { border-top: 1px solid rgba(255,255,255,.2); }
 .tcm-global-steps article { align-items: flex-start; border-bottom: 1px solid rgba(255,255,255,.2); display: grid; gap: 17px; grid-template-columns: 26px minmax(0, 1fr); padding: 19px 0; }
 .tcm-global-steps article > span { color: #9c9c97; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding-top: 4px; }
-.tcm-global-steps h3 { color: #fff; font: 400 24px/1.08 var(--tcm-font-display); margin: 0 0 7px; }
+.tcm-global-steps h3 { color: #fff; font-family: var(--tcm-font-display); font-weight: 400; font-size: 24px; line-height: 1.08; margin: 0 0 7px; }
 .tcm-global-steps p { color: #b9b9b4; font-size: 13px; line-height: 1.55; margin: 0; max-width: 335px; }
-.tcm-global-editorial-note { color: #9e9e99; font: 400 18px/1.35 var(--tcm-font-display); margin: 21px 0 0; max-width: 310px; }
+.tcm-global-editorial-note { color: #9e9e99; font-family: var(--tcm-font-display); font-weight: 400; font-size: 18px; line-height: 1.35; margin: 21px 0 0; max-width: 310px; }
 .tcm-global-benefits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: clamp(44px, 6vw, 78px); border-top: 1px solid rgba(255,255,255,.28); border-left: 1px solid rgba(255,255,255,.28); }
 .tcm-global-benefit { min-width: 0; padding: 22px; border-right: 1px solid rgba(255,255,255,.28); border-bottom: 1px solid rgba(255,255,255,.28); }
 .tcm-global-benefit > span { color: #aaa; display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; margin-bottom: 22px; }
-.tcm-global-benefit h3 { font: 400 22px/1.1 var(--tcm-font-display); color: #fff; margin: 0 0 10px; }
+.tcm-global-benefit h3 { font-family: var(--tcm-font-display); font-weight: 400; font-size: 22px; line-height: 1.1; color: #fff; margin: 0 0 10px; }
 .tcm-global-benefit p { color: #b6b6b0; font-size: 13px; line-height: 1.6; margin: 0; }
 @media (min-width: 992px) {
   .tcm-global-layout { grid-template-columns: minmax(0, 1.1fr) minmax(390px, .9fr); }

@@ -357,7 +357,13 @@ SVG;
     {
         $appUrl     = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $courses    = Course::listWithCategory(['status' => 'published']);
-        $categories = Database::all("SELECT * FROM categories ORDER BY name ASC");
+        $categories = Database::all('
+            SELECT cat.id, cat.name, cat.slug, cat.sort_order, COUNT(c.id) as course_count
+            FROM categories cat
+            INNER JOIN courses c ON c.category_id = cat.id AND c.status = "published"
+            GROUP BY cat.id, cat.name, cat.slug, cat.sort_order
+            ORDER BY cat.sort_order ASC, cat.name ASC
+        ');
 
         $this->view('public/courses/index', [
             'title'       => 'All Courses & Career Paths — TCM One',
@@ -441,6 +447,24 @@ SVG;
             exit;
         }
         Response::redirect('/');
+    }
+
+    /** Serve only the explicitly allowed public information pages. */
+    public function policy(): void
+    {
+        $pages = [
+            '/refund-policy' => 'refund-policy.html',
+            '/internship-placement-policy' => 'internship-placement-policy.html',
+            '/certificate-policy' => 'certificate-policy.html',
+            '/course-information' => 'course-information.html',
+        ];
+        $file = $pages[Request::path()] ?? null;
+        if ($file === null || !is_file(BASE_PATH . '/' . $file)) {
+            http_response_code(404);
+            return;
+        }
+        header('Content-Type: text/html; charset=utf-8');
+        readfile(BASE_PATH . '/' . $file);
     }
 
     public function partnerPolicy(): void

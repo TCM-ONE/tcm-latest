@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Favicon & App Icons -->
-  <link rel="icon" type="image/svg+xml" href="/tcm/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/tcm/favicon.png">
-  <link rel="shortcut icon" href="/tcm/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/tcm/assets/logo.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="/tcm">
+  <meta name="app-base" content="">
 
   <title>All Courses &amp; Career Paths — TCM One</title>
   <meta name="description" content="Explore practical tech courses in Full Stack, Python, AI &amp; Machine Learning, Data Analytics, and Cloud with live mentorship at TCM One.">
@@ -41,13 +41,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Design System Stylesheets -->
-  <link rel="stylesheet" href="/tcm/assets/tcm-design-system.css">
-  <link rel="stylesheet" href="/tcm/assets/tcm-editorial.css?v=2.16">
-  <link rel="stylesheet" href="/tcm/assets/cai-assistant.css">
+  <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.18">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.18">
+  <link rel="stylesheet" href="./assets/cai-assistant.css?v=2.18">
 
   <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"/courses/machine-learning-python-projects","name":"Machine Learning with Python Projects"},{"@type":"ListItem","position":2,"url":"/courses/chatgpt-gemini-ai-productivity-tools","name":"ChatGPT, Gemini & AI Productivity Tools"},{"@type":"ListItem","position":3,"url":"/courses/ai-agents-workflow-automation","name":"AI Agents & Workflow Automation"},{"@type":"ListItem","position":4,"url":"/courses/prompt-engineering-generative-ai","name":"Prompt Engineering & Generative AI"},{"@type":"ListItem","position":5,"url":"/courses/ai-machine-learning-fundamentals","name":"AI & Machine Learning Fundamentals"},{"@type":"ListItem","position":6,"url":"/courses/artificial-intelligence-machine-learning","name":"Artificial Intelligence & Machine Learning (AI & ML) Masterclass"},{"@type":"ListItem","position":7,"url":"/courses/data-science-machine-learning-foundations","name":"Data Science & Machine Learning Foundations"},{"@type":"ListItem","position":8,"url":"/courses/generative-ai-agent-engineering","name":"Generative AI & AI Agent Engineering"},{"@type":"ListItem","position":9,"url":"/courses/data-analytics-excel-sql-powerbi","name":"Data Analytics with Excel, SQL & Power BI"},{"@type":"ListItem","position":10,"url":"/courses/ai-tools-for-study-work","name":"AI Tools for Study & Work"},{"@type":"ListItem","position":11,"url":"/courses/dsa-problem-solving-java","name":"DSA & Problem Solving with Java"},{"@type":"ListItem","position":12,"url":"/courses/python-programming-automation","name":"Python Programming & Automation"},{"@type":"ListItem","position":13,"url":"/courses/frontend-development-with-react","name":"Frontend Development with React"},{"@type":"ListItem","position":14,"url":"/courses/full-stack-web-development","name":"Full Stack Web Development (MERN)"},{"@type":"ListItem","position":15,"url":"/courses/python-for-ai-ml","name":"Python for AI & ML"},{"@type":"ListItem","position":16,"url":"/courses/cybersecurity-ethical-security-foundations","name":"Cybersecurity & Ethical Security Foundations"},{"@type":"ListItem","position":17,"url":"/courses/system-design-microservices-foundations","name":"System Design & Microservices Foundations"},{"@type":"ListItem","position":18,"url":"/courses/core-java-object-oriented-programming","name":"Core Java & Object-Oriented Programming"},{"@type":"ListItem","position":19,"url":"/courses/digital-marketing-seo-analytics","name":"Digital Marketing, SEO & Analytics"},{"@type":"ListItem","position":20,"url":"/courses/software-testing-qa-playwright","name":"Software Testing & QA with Playwright"},{"@type":"ListItem","position":21,"url":"/courses/ui-ux-design-with-figma","name":"UI/UX Design with Figma"},{"@type":"ListItem","position":22,"url":"/courses/docker-devops-cicd-essentials","name":"Docker, DevOps & CI/CD Essentials"},{"@type":"ListItem","position":23,"url":"/courses/mobile-app-development-react-native","name":"Mobile App Development with React Native"},{"@type":"ListItem","position":24,"url":"/courses/backend-development-nodejs-apis","name":"Backend Development with Node.js & APIs"},{"@type":"ListItem","position":25,"url":"/courses/react-nextjs-frontend-engineering","name":"React & Next.js Frontend Engineering"},{"@type":"ListItem","position":26,"url":"/courses/ai-automation-nocode-tools","name":"AI Automation with No-Code Tools"},{"@type":"ListItem","position":27,"url":"/courses/tech-career-launchpad","name":"Tech Career Launchpad"},{"@type":"ListItem","position":28,"url":"/courses/build-your-first-website","name":"Build Your First Website"},{"@type":"ListItem","position":29,"url":"/courses/digital-skills-computer-fundamentals","name":"Digital Skills & Computer Fundamentals"},{"@type":"ListItem","position":30,"url":"/courses/aws-cloud-deployment-fundamentals","name":"AWS Cloud & Deployment Fundamentals"},{"@type":"ListItem","position":31,"url":"/courses/sql-database-fundamentals","name":"SQL & Database Fundamentals"}]}</script>
-  <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
+  <link rel="stylesheet" href="./assets/tcm-footer.css?v=2.18">
 </head>
 <body>
 
@@ -272,30 +272,24 @@
               <div id="catalogCategoryLabel" class="tcm-filter-label">Category track</div>
               <div class="tcm-filter-pills" id="catalogCategoryPills">
               <button type="button" class="tcm-pill-btn active" data-filter="cat" data-value="">All Categories</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="AI &amp; Automation">AI &amp; Automation</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Beginners &amp; Non-IT">Beginners &amp; Non-IT</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Career &amp; DSA">Career &amp; DSA</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Cloud &amp; DevOps">Cloud &amp; DevOps</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="College Special">College Special</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Data &amp; Analytics">Data &amp; Analytics</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Design &amp; Business">Design &amp; Business</button>
               <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Programming Foundations">Programming Foundations</button>
               <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Web &amp; Mobile Development">Web &amp; Mobile Development</button>
-              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Working Professionals">Working Professionals</button>
+              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Data &amp; Analytics">Data &amp; Analytics</button>
+              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="AI &amp; Automation">AI &amp; Automation</button>
+              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Cloud &amp; DevOps">Cloud &amp; DevOps</button>
+              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Career &amp; DSA">Career &amp; DSA</button>
+              <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Design &amp; Business">Design &amp; Business</button>
             </div>
             <!-- Hidden fallback select for programmatic sync -->
             <select id="catalogCategory" style="display: none;">
               <option value="">All Categories</option>
-              <option value="AI &amp; Automation">AI &amp; Automation</option>
-              <option value="Beginners &amp; Non-IT">Beginners &amp; Non-IT</option>
-              <option value="Career &amp; DSA">Career &amp; DSA</option>
-              <option value="Cloud &amp; DevOps">Cloud &amp; DevOps</option>
-              <option value="College Special">College Special</option>
-              <option value="Data &amp; Analytics">Data &amp; Analytics</option>
-              <option value="Design &amp; Business">Design &amp; Business</option>
               <option value="Programming Foundations">Programming Foundations</option>
               <option value="Web &amp; Mobile Development">Web &amp; Mobile Development</option>
-              <option value="Working Professionals">Working Professionals</option>
+              <option value="Data &amp; Analytics">Data &amp; Analytics</option>
+              <option value="AI &amp; Automation">AI &amp; Automation</option>
+              <option value="Cloud &amp; DevOps">Cloud &amp; DevOps</option>
+              <option value="Career &amp; DSA">Career &amp; DSA</option>
+              <option value="Design &amp; Business">Design &amp; Business</option>
             </select>
             </div>
             <div class="tcm-filter-group" role="group" aria-labelledby="catalogLevelLabel">
@@ -353,7 +347,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/machine-learning-python-projects">Machine Learning with Python Projects</a>
+                <a href="/courses/machine-learning-python-projects">Machine Learning with Python Projects</a>
               </h3>
               <p class="tcm-course-desc">Build 5 Real-World Industry ML Projects from Scikit-Learn to Production APIs</p>
               <div class="tcm-course-meta">
@@ -368,7 +362,7 @@
                                       </div>
                   <span class="tcm-course-usd">$36 USD</span>
                 </div>
-                <a href="/tcm/courses/machine-learning-python-projects" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/machine-learning-python-projects" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -380,7 +374,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/chatgpt-gemini-ai-productivity-tools">ChatGPT, Gemini &amp; AI Productivity Tools</a>
+                <a href="/courses/chatgpt-gemini-ai-productivity-tools">ChatGPT, Gemini &amp; AI Productivity Tools</a>
               </h3>
               <p class="tcm-course-desc">10x Your Productivity in Work &amp; Study with Modern Generative AI Tools</p>
               <div class="tcm-course-meta">
@@ -395,7 +389,7 @@
                                       </div>
                   <span class="tcm-course-usd">$12 USD</span>
                 </div>
-                <a href="/tcm/courses/chatgpt-gemini-ai-productivity-tools" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/chatgpt-gemini-ai-productivity-tools" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -407,7 +401,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/ai-agents-workflow-automation">AI Agents &amp; Workflow Automation</a>
+                <a href="/courses/ai-agents-workflow-automation">AI Agents &amp; Workflow Automation</a>
               </h3>
               <p class="tcm-course-desc">Autonomous AI Agents, LangChain, Tool Calling, Webhooks &amp; No-Code Automations</p>
               <div class="tcm-course-meta">
@@ -422,7 +416,7 @@
                                       </div>
                   <span class="tcm-course-usd">$36 USD</span>
                 </div>
-                <a href="/tcm/courses/ai-agents-workflow-automation" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/ai-agents-workflow-automation" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -434,7 +428,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/prompt-engineering-generative-ai">Prompt Engineering &amp; Generative AI</a>
+                <a href="/courses/prompt-engineering-generative-ai">Prompt Engineering &amp; Generative AI</a>
               </h3>
               <p class="tcm-course-desc">Mastering Advanced Prompting, ChatGPT, Claude, Midjourney &amp; GenAI Workflows</p>
               <div class="tcm-course-meta">
@@ -449,7 +443,7 @@
                                       </div>
                   <span class="tcm-course-usd">$18 USD</span>
                 </div>
-                <a href="/tcm/courses/prompt-engineering-generative-ai" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/prompt-engineering-generative-ai" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -461,7 +455,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/ai-machine-learning-fundamentals">AI &amp; Machine Learning Fundamentals</a>
+                <a href="/courses/ai-machine-learning-fundamentals">AI &amp; Machine Learning Fundamentals</a>
               </h3>
               <p class="tcm-course-desc">Foundations of Artificial Intelligence, Core ML Algorithms &amp; Hands-On Python</p>
               <div class="tcm-course-meta">
@@ -476,7 +470,7 @@
                                       </div>
                   <span class="tcm-course-usd">$36 USD</span>
                 </div>
-                <a href="/tcm/courses/ai-machine-learning-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/ai-machine-learning-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -488,7 +482,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/artificial-intelligence-machine-learning">Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</a>
+                <a href="/courses/artificial-intelligence-machine-learning">Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</a>
               </h3>
               <p class="tcm-course-desc">From Math &amp; Python Foundations to Deep Learning, Computer Vision, NLP &amp; Generative AI Production Deployment</p>
               <div class="tcm-course-meta">
@@ -503,7 +497,7 @@
                                       </div>
                   <span class="tcm-course-usd">$180 USD</span>
                 </div>
-                <a href="/tcm/courses/artificial-intelligence-machine-learning" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/artificial-intelligence-machine-learning" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -515,7 +509,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/data-science-machine-learning-foundations">Data Science &amp; Machine Learning Foundations</a>
+                <a href="/courses/data-science-machine-learning-foundations">Data Science &amp; Machine Learning Foundations</a>
               </h3>
               <p class="tcm-course-desc">NumPy, Pandas, Scikit-Learn, Regression, Classification &amp; Model Tuning</p>
               <div class="tcm-course-meta">
@@ -530,7 +524,7 @@
                                       </div>
                   <span class="tcm-course-usd">$156 USD</span>
                 </div>
-                <a href="/tcm/courses/data-science-machine-learning-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/data-science-machine-learning-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -542,7 +536,7 @@
                 <span class="tcm-course-level">Advanced</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/generative-ai-agent-engineering">Generative AI &amp; AI Agent Engineering</a>
+                <a href="/courses/generative-ai-agent-engineering">Generative AI &amp; AI Agent Engineering</a>
               </h3>
               <p class="tcm-course-desc">LangChain, LlamaIndex, Vector Databases, RAG &amp; Autonomous Agents</p>
               <div class="tcm-course-meta">
@@ -557,7 +551,7 @@
                                       </div>
                   <span class="tcm-course-usd">$156 USD</span>
                 </div>
-                <a href="/tcm/courses/generative-ai-agent-engineering" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/generative-ai-agent-engineering" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -569,7 +563,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/data-analytics-excel-sql-powerbi">Data Analytics with Excel, SQL &amp; Power BI</a>
+                <a href="/courses/data-analytics-excel-sql-powerbi">Data Analytics with Excel, SQL &amp; Power BI</a>
               </h3>
               <p class="tcm-course-desc">Turn Raw Business Data into Visual Dashboards &amp; Actionable Insights</p>
               <div class="tcm-course-meta">
@@ -584,7 +578,7 @@
                                       </div>
                   <span class="tcm-course-usd">$120 USD</span>
                 </div>
-                <a href="/tcm/courses/data-analytics-excel-sql-powerbi" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/data-analytics-excel-sql-powerbi" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -596,7 +590,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/ai-tools-for-study-work">AI Tools for Study &amp; Work</a>
+                <a href="/courses/ai-tools-for-study-work">AI Tools for Study &amp; Work</a>
               </h3>
               <p class="tcm-course-desc">Prompt Engineering, ChatGPT, Claude, Research &amp; Daily Productivity</p>
               <div class="tcm-course-meta">
@@ -611,7 +605,7 @@
                                       </div>
                   <span class="tcm-course-usd">$24 USD</span>
                 </div>
-                <a href="/tcm/courses/ai-tools-for-study-work" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/ai-tools-for-study-work" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -623,7 +617,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/dsa-problem-solving-java">DSA &amp; Problem Solving with Java</a>
+                <a href="/courses/dsa-problem-solving-java">DSA &amp; Problem Solving with Java</a>
               </h3>
               <p class="tcm-course-desc">Core Data Structures, Algorithms &amp; Technical Interview Prep</p>
               <div class="tcm-course-meta">
@@ -638,7 +632,7 @@
                                       </div>
                   <span class="tcm-course-usd">$96 USD</span>
                 </div>
-                <a href="/tcm/courses/dsa-problem-solving-java" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/dsa-problem-solving-java" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -650,7 +644,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/python-programming-automation">Python Programming &amp; Automation</a>
+                <a href="/courses/python-programming-automation">Python Programming &amp; Automation</a>
               </h3>
               <p class="tcm-course-desc">From Syntax Foundations to Workflow Automation &amp; Scripting</p>
               <div class="tcm-course-meta">
@@ -665,7 +659,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/python-programming-automation" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/python-programming-automation" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -677,7 +671,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/frontend-development-with-react">Frontend Development with React</a>
+                <a href="/courses/frontend-development-with-react">Frontend Development with React</a>
               </h3>
               <p class="tcm-course-desc">Modern React, Component Architecture, Hooks &amp; Tailwind CSS</p>
               <div class="tcm-course-meta">
@@ -692,7 +686,7 @@
                                       </div>
                   <span class="tcm-course-usd">$84 USD</span>
                 </div>
-                <a href="/tcm/courses/frontend-development-with-react" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/frontend-development-with-react" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -704,7 +698,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/full-stack-web-development">Full Stack Web Development (MERN)</a>
+                <a href="/courses/full-stack-web-development">Full Stack Web Development (MERN)</a>
               </h3>
               <p class="tcm-course-desc">MongoDB, Express.js, React &amp; Node.js with Live Production Deployments</p>
               <div class="tcm-course-meta">
@@ -719,7 +713,7 @@
                                       </div>
                   <span class="tcm-course-usd">$156 USD</span>
                 </div>
-                <a href="/tcm/courses/full-stack-web-development" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/full-stack-web-development" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -731,7 +725,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/python-for-ai-ml">Python for AI &amp; ML</a>
+                <a href="/courses/python-for-ai-ml">Python for AI &amp; ML</a>
               </h3>
               <p class="tcm-course-desc">Modern Python Programming, NumPy, Pandas, Matplotlib &amp; Math for AI</p>
               <div class="tcm-course-meta">
@@ -746,7 +740,7 @@
                                       </div>
                   <span class="tcm-course-usd">$30 USD</span>
                 </div>
-                <a href="/tcm/courses/python-for-ai-ml" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/python-for-ai-ml" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -758,7 +752,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/cybersecurity-ethical-security-foundations">Cybersecurity &amp; Ethical Security Foundations</a>
+                <a href="/courses/cybersecurity-ethical-security-foundations">Cybersecurity &amp; Ethical Security Foundations</a>
               </h3>
               <p class="tcm-course-desc">Network Security, Web Application Penetration Testing &amp; OWASP Top 10</p>
               <div class="tcm-course-meta">
@@ -773,7 +767,7 @@
                                       </div>
                   <span class="tcm-course-usd">$96 USD</span>
                 </div>
-                <a href="/tcm/courses/cybersecurity-ethical-security-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/cybersecurity-ethical-security-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -785,7 +779,7 @@
                 <span class="tcm-course-level">Advanced</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/system-design-microservices-foundations">System Design &amp; Microservices Foundations</a>
+                <a href="/courses/system-design-microservices-foundations">System Design &amp; Microservices Foundations</a>
               </h3>
               <p class="tcm-course-desc">Scalability, Load Balancing, Caching, Message Queues &amp; Distributed Systems</p>
               <div class="tcm-course-meta">
@@ -800,7 +794,7 @@
                                       </div>
                   <span class="tcm-course-usd">$120 USD</span>
                 </div>
-                <a href="/tcm/courses/system-design-microservices-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/system-design-microservices-foundations" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -812,7 +806,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/core-java-object-oriented-programming">Core Java &amp; Object-Oriented Programming</a>
+                <a href="/courses/core-java-object-oriented-programming">Core Java &amp; Object-Oriented Programming</a>
               </h3>
               <p class="tcm-course-desc">OOP Principles, Collections Framework, Multithreading &amp; Clean Code</p>
               <div class="tcm-course-meta">
@@ -827,7 +821,7 @@
                                       </div>
                   <span class="tcm-course-usd">$60 USD</span>
                 </div>
-                <a href="/tcm/courses/core-java-object-oriented-programming" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/core-java-object-oriented-programming" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -839,7 +833,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/digital-marketing-seo-analytics">Digital Marketing, SEO &amp; Analytics</a>
+                <a href="/courses/digital-marketing-seo-analytics">Digital Marketing, SEO &amp; Analytics</a>
               </h3>
               <p class="tcm-course-desc">Search Engine Optimization, Google Analytics 4, Meta Ads &amp; Funnel Growth</p>
               <div class="tcm-course-meta">
@@ -854,7 +848,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/digital-marketing-seo-analytics" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/digital-marketing-seo-analytics" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -866,7 +860,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/software-testing-qa-playwright">Software Testing &amp; QA with Playwright</a>
+                <a href="/courses/software-testing-qa-playwright">Software Testing &amp; QA with Playwright</a>
               </h3>
               <p class="tcm-course-desc">Automated End-to-End Testing, API Testing &amp; Test Automation Frameworks</p>
               <div class="tcm-course-meta">
@@ -881,7 +875,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/software-testing-qa-playwright" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/software-testing-qa-playwright" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -893,7 +887,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/ui-ux-design-with-figma">UI/UX Design with Figma</a>
+                <a href="/courses/ui-ux-design-with-figma">UI/UX Design with Figma</a>
               </h3>
               <p class="tcm-course-desc">Wireframing, Design Systems, Auto-Layout &amp; Interactive Prototyping</p>
               <div class="tcm-course-meta">
@@ -908,7 +902,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/ui-ux-design-with-figma" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/ui-ux-design-with-figma" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -920,7 +914,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/docker-devops-cicd-essentials">Docker, DevOps &amp; CI/CD Essentials</a>
+                <a href="/courses/docker-devops-cicd-essentials">Docker, DevOps &amp; CI/CD Essentials</a>
               </h3>
               <p class="tcm-course-desc">Containers, GitHub Actions, Linux Servers &amp; Cloud Pipelines</p>
               <div class="tcm-course-meta">
@@ -935,7 +929,7 @@
                                       </div>
                   <span class="tcm-course-usd">$108 USD</span>
                 </div>
-                <a href="/tcm/courses/docker-devops-cicd-essentials" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/docker-devops-cicd-essentials" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -947,7 +941,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/mobile-app-development-react-native">Mobile App Development with React Native</a>
+                <a href="/courses/mobile-app-development-react-native">Mobile App Development with React Native</a>
               </h3>
               <p class="tcm-course-desc">Cross-Platform iOS &amp; Android Apps with Expo, Navigation &amp; Native APIs</p>
               <div class="tcm-course-meta">
@@ -962,7 +956,7 @@
                                       </div>
                   <span class="tcm-course-usd">$120 USD</span>
                 </div>
-                <a href="/tcm/courses/mobile-app-development-react-native" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/mobile-app-development-react-native" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -974,7 +968,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/backend-development-nodejs-apis">Backend Development with Node.js &amp; APIs</a>
+                <a href="/courses/backend-development-nodejs-apis">Backend Development with Node.js &amp; APIs</a>
               </h3>
               <p class="tcm-course-desc">REST APIs, Microservices Architecture, Auth, Redis &amp; Postgres</p>
               <div class="tcm-course-meta">
@@ -989,7 +983,7 @@
                                       </div>
                   <span class="tcm-course-usd">$96 USD</span>
                 </div>
-                <a href="/tcm/courses/backend-development-nodejs-apis" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/backend-development-nodejs-apis" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1001,7 +995,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/react-nextjs-frontend-engineering">React &amp; Next.js Frontend Engineering</a>
+                <a href="/courses/react-nextjs-frontend-engineering">React &amp; Next.js Frontend Engineering</a>
               </h3>
               <p class="tcm-course-desc">Server Components, SSR, App Router &amp; Modern Web Performance</p>
               <div class="tcm-course-meta">
@@ -1016,7 +1010,7 @@
                                       </div>
                   <span class="tcm-course-usd">$96 USD</span>
                 </div>
-                <a href="/tcm/courses/react-nextjs-frontend-engineering" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/react-nextjs-frontend-engineering" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1028,7 +1022,7 @@
                 <span class="tcm-course-level">Intermediate</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/ai-automation-nocode-tools">AI Automation with No-Code Tools</a>
+                <a href="/courses/ai-automation-nocode-tools">AI Automation with No-Code Tools</a>
               </h3>
               <p class="tcm-course-desc">Automate Workflows using Zapier, Make.com &amp; OpenAI APIs</p>
               <div class="tcm-course-meta">
@@ -1043,7 +1037,7 @@
                                       </div>
                   <span class="tcm-course-usd">$84 USD</span>
                 </div>
-                <a href="/tcm/courses/ai-automation-nocode-tools" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/ai-automation-nocode-tools" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1055,7 +1049,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/tech-career-launchpad">Tech Career Launchpad</a>
+                <a href="/courses/tech-career-launchpad">Tech Career Launchpad</a>
               </h3>
               <p class="tcm-course-desc">ATS Resume Building, LinkedIn Optimization &amp; Interview Prep</p>
               <div class="tcm-course-meta">
@@ -1070,7 +1064,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/tech-career-launchpad" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/tech-career-launchpad" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1082,7 +1076,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/build-your-first-website">Build Your First Website</a>
+                <a href="/courses/build-your-first-website">Build Your First Website</a>
               </h3>
               <p class="tcm-course-desc">Step-by-Step Hands-On Guide to HTML, CSS &amp; Publishing Live</p>
               <div class="tcm-course-meta">
@@ -1097,7 +1091,7 @@
                                       </div>
                   <span class="tcm-course-usd">$30 USD</span>
                 </div>
-                <a href="/tcm/courses/build-your-first-website" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/build-your-first-website" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1109,7 +1103,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/digital-skills-computer-fundamentals">Digital Skills &amp; Computer Fundamentals</a>
+                <a href="/courses/digital-skills-computer-fundamentals">Digital Skills &amp; Computer Fundamentals</a>
               </h3>
               <p class="tcm-course-desc">Essential Computer Proficiency, Web Literacy &amp; Productive Tools</p>
               <div class="tcm-course-meta">
@@ -1124,7 +1118,7 @@
                                       </div>
                   <span class="tcm-course-usd">$24 USD</span>
                 </div>
-                <a href="/tcm/courses/digital-skills-computer-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/digital-skills-computer-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1136,7 +1130,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/aws-cloud-deployment-fundamentals">AWS Cloud &amp; Deployment Fundamentals</a>
+                <a href="/courses/aws-cloud-deployment-fundamentals">AWS Cloud &amp; Deployment Fundamentals</a>
               </h3>
               <p class="tcm-course-desc">EC2, S3, VPC, IAM, Serverless &amp; Production Architecture</p>
               <div class="tcm-course-meta">
@@ -1151,7 +1145,7 @@
                                       </div>
                   <span class="tcm-course-usd">$72 USD</span>
                 </div>
-                <a href="/tcm/courses/aws-cloud-deployment-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/aws-cloud-deployment-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1163,7 +1157,7 @@
                 <span class="tcm-course-level">Beginner</span>
               </div>
               <h3 class="tcm-course-title">
-                <a href="/tcm/courses/sql-database-fundamentals">SQL &amp; Database Fundamentals</a>
+                <a href="/courses/sql-database-fundamentals">SQL &amp; Database Fundamentals</a>
               </h3>
               <p class="tcm-course-desc">Relational Schema Design, Complex Queries, Joins &amp; Normalization</p>
               <div class="tcm-course-meta">
@@ -1178,7 +1172,7 @@
                                       </div>
                   <span class="tcm-course-usd">$42 USD</span>
                 </div>
-                <a href="/tcm/courses/sql-database-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                <a href="/courses/sql-database-fundamentals" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </a>
@@ -1250,7 +1244,7 @@
 </footer>
 
   <!-- Scripts -->
-  <script src="/tcm/assets/tcm-editorial.js?v=2.11"></script>
-  <script src="/tcm/assets/cai-assistant.js"></script>
+  <script src="./assets/tcm-editorial.js?v=2.18"></script>
+  <script src="./assets/cai-assistant.js?v=2.18"></script>
 </body>
 </html>

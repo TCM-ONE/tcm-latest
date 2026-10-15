@@ -18,9 +18,13 @@ INSERT INTO student_profiles (user_id, headline, bio, location, college, graduat
 
 -- Categories ------------------------------------------------------------
 INSERT INTO categories (id, name, slug, description, icon, audience, sort_order) VALUES
-(1, 'College Special', 'college-special', 'Job-ready programs built for college students', 'bi-mortarboard', 'college', 1),
-(2, 'Beginners & Non-IT', 'beginners-non-it', 'Start from scratch, no prior experience needed', 'bi-laptop', 'beginners', 2),
-(3, 'Working Professionals', 'working-professionals', 'Upskill and transition into tech', 'bi-briefcase', 'working', 3);
+(1, 'Programming Foundations', 'programming-foundations', 'Core programming logic, languages and fundamentals', 'bi-code-square', 'beginners', 1),
+(2, 'Web & Mobile Development', 'web-mobile-development', 'Modern full stack, frontend, backend and mobile apps', 'bi-window-stack', 'college', 2),
+(3, 'Data & Analytics', 'data-analytics', 'Data analysis, SQL, Power BI, Python and ML foundations', 'bi-graph-up', 'college', 3),
+(4, 'AI & Automation', 'ai-automation', 'AI tools, Generative AI, AI agents and workflow automation', 'bi-robot', 'working', 4),
+(5, 'Cloud & DevOps', 'cloud-devops', 'Cloud infrastructure, Docker, CI/CD, AWS and security', 'bi-cloud-check', 'working', 5),
+(6, 'Career & DSA', 'career-dsa', 'Data structures, algorithms, problem solving and career', 'bi-briefcase', 'college', 6),
+(7, 'Design & Business', 'design-business', 'UI/UX design with Figma, digital marketing and growth', 'bi-palette', 'beginners', 7);
 
 -- Courses ---------------------------------------------------------------
 INSERT INTO courses (id, category_id, instructor_id, title, slug, subtitle, description, icon, thumbnail, level, duration, price, original_price, rating, reviews_count, students_count, total_seats, seats_left, schedule, starts_at, is_featured, is_bestseller, status) VALUES

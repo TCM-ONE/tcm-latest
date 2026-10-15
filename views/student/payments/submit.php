@@ -275,7 +275,8 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
         </div>
     </div>
 
-    <button type="submit" class="ps2-submit">
+    <p style="font-size:.8rem;line-height:1.7;margin:16px 0">Before payment, review the <a href="<?= base_url('/terms') ?>">Terms &amp; Conditions</a>, <a href="<?= base_url('/privacy') ?>">Privacy Policy</a>, <a href="<?= base_url('/refund-policy') ?>">Refund &amp; Cancellation Policy</a> and <a href="<?= base_url('/course-information') ?>">digital delivery details</a>. Access follows payment verification and the agreed batch schedule.</p>
+<button type="submit" class="ps2-submit">
         <i class="bi bi-send-check-fill"></i> Submit for Verification
     </button>
     <p style="text-align:center;font-size:.7rem;color:#aaa;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:4px;">

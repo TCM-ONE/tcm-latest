@@ -296,6 +296,10 @@ $router->get('/about',                        ['TCM\Controllers\PublicWorkshopCo
 $router->get('/about.html',                   ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/contact',                      ['TCM\Controllers\PublicWorkshopController', 'contact']);
 $router->get('/contact.html',                  ['TCM\Controllers\PublicWorkshopController', 'contact']);
+$router->get('/refund-policy', ['TCM\Controllers\PublicWorkshopController', 'policy']);
+$router->get('/internship-placement-policy', ['TCM\Controllers\PublicWorkshopController', 'policy']);
+$router->get('/certificate-policy', ['TCM\Controllers\PublicWorkshopController', 'policy']);
+$router->get('/course-information', ['TCM\Controllers\PublicWorkshopController', 'policy']);
 $router->get('/privacy',                      ['TCM\Controllers\PublicWorkshopController', 'privacy']);
 $router->get('/privacy.html',                 ['TCM\Controllers\PublicWorkshopController', 'privacy']);
 $router->get('/terms',                        ['TCM\Controllers\PublicWorkshopController', 'terms']);

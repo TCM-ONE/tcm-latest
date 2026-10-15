@@ -23,6 +23,10 @@ $urls = [
     ['loc' => '/partner-policy.html',    'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.4'],
     ['loc' => '/privacy.html',           'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.3'],
     ['loc' => '/terms.html',             'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.3'],
+    ['loc' => '/refund-policy', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.3'],
+    ['loc' => '/internship-placement-policy', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.3'],
+    ['loc' => '/certificate-policy', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.3'],
+    ['loc' => '/course-information', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.5'],
     ['loc' => '/sitemap.html',           'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.3'],
 ];
 

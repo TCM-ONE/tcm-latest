@@ -56,18 +56,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Design System Stylesheets -->
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.16') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <?php
     $price = (float)($course['price'] ?? 0);
     $origPrice = !empty($course['original_price']) ? (float)$course['original_price'] : 0;
-    $duration = $course['duration'] ?? '8 Weeks';
+    $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
-    $showEmi = ($price >= 5000);
-    $emiMonthly = $showEmi ? round($price / 3) : 0;
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -258,7 +256,7 @@
             <div><i class="bi bi-clock"></i> <strong>Duration:</strong> <?= e($duration) ?></div>
             <div><i class="bi bi-broadcast"></i> <strong>Mode:</strong> Live Online Cohort</div>
             <div><i class="bi bi-translate"></i> <strong>Language:</strong> English &amp; Hindi</div>
-            <div><i class="bi bi-patch-check"></i> <strong>Outcome:</strong> Verified Certificate</div>
+            <div><i class="bi bi-patch-check"></i> <strong>Certificate:</strong> <?= !empty($course['certificate']) ? 'Completion certificate, subject to requirements' : 'Not included' ?></div>
           </div>
         </div>
       </div>
@@ -362,19 +360,13 @@
                     </span>
                   <?php endif; ?>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
-                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included &middot; Billed in INR
+                  All taxes included &middot; Billed in INR
                 </div>
                 <div style="font-size: 11.5px; color: var(--tcm-muted); margin-top: 6px;">
                   <i class="bi bi-globe2"></i> <strong>Global Learners:</strong> Sessions in IST (UTC+5:30) with HD recordings &amp; weekend cohorts
                 </div>
 
-                <!-- STRICT EMI RULE: Only show EMI if course price >= 5,000 -->
-                <?php if ($showEmi): ?>
-                  <div style="margin-top: 12px; padding: 8px 12px; background: var(--tcm-bg); border: 1px solid var(--tcm-border); font-size: 12px; color: var(--tcm-fg);">
-                    <i class="bi bi-credit-card" style="margin-right: 4px;"></i>
-                    Flexible EMI options starting at <strong>₹<?= number_format($emiMonthly, 0) ?>/mo</strong>
-                  </div>
-                <?php endif; ?>
+                <p style="font-size:12px;line-height:1.6;margin-top:12px">Confirm the batch timetable and any written instalment arrangement with admissions before payment.</p>
               </div>
 
               <!-- Cohort Details -->
@@ -393,7 +385,8 @@
                 </div>
               </div>
 
-              <!-- Actions -->
+              <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
+<!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
                 <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title'] . '. Please share the registration details.') ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary" style="width: 100%;">
                   <span>Enroll Now</span>
@@ -484,7 +477,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>
