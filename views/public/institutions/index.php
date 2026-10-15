@@ -105,7 +105,7 @@
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-institutions.css?v=1') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-institutions.css?v=2') ?>">
 </head>
 <body class="tcm-institutions">
 
@@ -733,10 +733,10 @@
               <!-- Outputs Column -->
               <div class="ptr-calc-output-box">
                 <div>
-                  <div class="ptr-calc-hero-metric">
-                    <div class="metric-tag" id="calcOutModelLabel">Est. Institute Revenue Share</div>
-                    <div class="metric-num" id="calcOutInstitute">&#8377;1,60,000</div>
-                    <div class="metric-sub" id="calcOutBatchesCombined">&#8377;1,60,000 across 2 batches</div>
+                  <div class="ptr-calc-hero-metric" style="background: #111111 !important; color: #ffffff !important;">
+                    <div class="metric-tag" id="calcOutModelLabel" style="color: rgba(255, 255, 255, 0.85) !important;">Est. Institute Revenue Share</div>
+                    <div class="metric-num" id="calcOutInstitute" style="color: #ffffff !important;">&#8377;1,60,000</div>
+                    <div class="metric-sub" id="calcOutBatchesCombined" style="color: rgba(255, 255, 255, 0.8) !important;">&#8377;1,60,000 across 2 batches</div>
                   </div>
 
                   <div class="ptr-calc-breakdown-row">
@@ -1506,7 +1506,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.6') ?>"></script>
   <script src="<?= base_url('/assets/tcm-editorial.js?v=2.2.5') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.2.5') ?>"></script>
 </body>

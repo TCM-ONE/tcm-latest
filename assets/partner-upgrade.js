@@ -302,6 +302,9 @@
 
             formWizard.pane1.classList.remove('active');
             formWizard.pane2.classList.add('active');
+            formWizard.pane2.scrollIntoView({ behavior: 'auto', block: 'start' });
+            var firstScopeField = formWizard.pane2.querySelector('input, select, textarea');
+            if (firstScopeField) firstScopeField.focus({ preventScroll: true });
 
             if (formWizard.stepIndicator1) {
                 formWizard.stepIndicator1.classList.remove('active');
@@ -322,6 +325,9 @@
             formWizard.backToStep1Btn.addEventListener('click', function () {
                 formWizard.pane2.classList.remove('active');
                 formWizard.pane1.classList.add('active');
+                formWizard.pane1.scrollIntoView({ behavior: 'auto', block: 'start' });
+                var firstContactField = formWizard.pane1.querySelector('input, select, textarea');
+                if (firstContactField) firstContactField.focus({ preventScroll: true });
 
                 if (formWizard.stepIndicator2) {
                     formWizard.stepIndicator2.classList.remove('active');
