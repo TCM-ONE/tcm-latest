@@ -666,7 +666,7 @@
       if (priceEl) priceEl.textContent = 'Cohort Fee: ₹' + (price || '99') + ' (All Taxes Included)';
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Reserve My Seat &middot; ₹' + (price || '99') + '</span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
+        submitBtn.innerHTML = '<span>Book My Seat &middot; ₹' + (price || '99') + '</span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
       }
 
       if (feedback) {

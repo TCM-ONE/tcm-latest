@@ -166,7 +166,7 @@
                     Details
                   </a>
                   <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="<?= e($slug) ?>" data-title="<?= e($w['title']) ?>" data-price="<?= $price ?>">
-                    <span>Reserve Seat</span>
+                    <span>Book Seat</span>
                     <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                   </button>
                 </div>
@@ -219,7 +219,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

@@ -359,6 +359,7 @@
                       ₹<?= number_format($origPrice, 0) ?>
                     </span>
                   <?php endif; ?>
+                </div>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
                   All taxes included &middot; Billed in INR
                 </div>
@@ -432,12 +433,12 @@
               </div>
             </div>
             <div class="tcm-sticky-bottom-actions">
-              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enquire about ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Enquire via WhatsApp">
+              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp">
                 <i class="bi bi-whatsapp"></i>
-                <span class="d-none d-sm-inline" style="margin-left: 2px;">WhatsApp</span>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">Chat</span>
               </a>
               <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>">
-                <span>Enroll Now</span>
+                <span>Enroll Now &middot; ₹<?= number_format($price, 0) ?></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -519,7 +520,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

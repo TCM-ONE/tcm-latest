@@ -481,16 +481,16 @@
               <!-- CTA Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
                 <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>" style="width: 100%; height: 50px;">
-                  <span>Reserve Your Seat</span>
+                  <span>Book Seat &mdash; ₹<?= number_format($price, 0) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
                 <?php
-                  $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
+                  $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me.";
                   $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
                 ?>
                 <a href="<?= $waUrl ?>" target="_blank" rel="noopener noreferrer" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center; height: 44px;">
-                  <i class="bi bi-whatsapp"></i> Register via WhatsApp
+                  <i class="bi bi-whatsapp"></i> Chat on WhatsApp (Questions?)
                 </a>
 
                 <!-- Share Workshop Button -->
@@ -530,15 +530,15 @@
             </div>
             <div class="tcm-sticky-bottom-actions">
               <?php
-                $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
+                $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me.";
                 $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
               ?>
-              <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Register via WhatsApp">
+              <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp">
                 <i class="bi bi-whatsapp"></i>
-                <span class="d-none d-sm-inline" style="margin-left: 2px;">WhatsApp</span>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">Chat</span>
               </a>
               <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
-                <span>Reserve Seat</span>
+                <span>Book Seat &middot; ₹<?= number_format($price, 0) ?></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -589,7 +589,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>
