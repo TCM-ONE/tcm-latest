@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In · The Code Munk</title>
+    <title>Sign In · TCM One</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0px !important;
+}
 html, body {
     height: 100%;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: #f7f7f7;
-    color: #111;
+    background: #F8F7F4;
+    color: #111111;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -27,8 +33,8 @@ html, body {
 
 /* ── Left: Branding ─────────────────────────────── */
 .ln-left {
-    background: #111;
-    color: #fff;
+    background: #111111;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     padding: 48px 52px;
@@ -78,14 +84,15 @@ html, body {
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
 .ln-left h1 {
-    font-size: 2.6rem;
-    font-weight: 900;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 400;
     line-height: 1.08;
-    letter-spacing: -.06em;
+    letter-spacing: -0.02em;
     margin-bottom: 18px;
     color: #fff;
 }
-.ln-left h1 em { font-style: normal; color: rgba(255,255,255,.4); }
+.ln-left h1 em { font-style: italic; color: rgba(255,255,255,.5); }
 .ln-left p {
     font-size: .9rem;
     color: rgba(255,255,255,.5);
@@ -111,7 +118,6 @@ html, body {
     width: 30px; height: 30px;
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.1);
-    border-radius: 8px;
     display: grid; place-items: center;
     font-size: .9rem; color: #fff;
     flex-shrink: 0;
@@ -137,7 +143,7 @@ html, body {
 /* ── Right: Form panel ─────────────────────────── */
 .ln-right {
     background: #fff;
-    border-left: 1px solid #ececec;
+    border-left: 1px solid #DEDDD8;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -171,10 +177,11 @@ html, body {
     margin-bottom: 28px;
 }
 .ln-heading h2 {
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
     color: #111;
-    letter-spacing: -.5px;
+    letter-spacing: -0.01em;
     margin-bottom: 6px;
 }
 .ln-heading p {
@@ -187,10 +194,10 @@ html, body {
 .ln-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: #f5f5f5;
-    border-radius: 12px;
-    padding: 4px;
-    gap: 4px;
+    background: #F8F7F4;
+    border: 1px solid #DEDDD8;
+    padding: 3px;
+    gap: 3px;
     margin-bottom: 28px;
 }
 .ln-tab {
@@ -199,7 +206,6 @@ html, body {
     justify-content: center;
     gap: 7px;
     padding: 10px 16px;
-    border-radius: 9px;
     font-size: .83rem;
     font-weight: 600;
     color: #888;
@@ -207,15 +213,15 @@ html, body {
     border: none;
     background: transparent;
     font-family: inherit;
-    transition: background .15s, color .15s, box-shadow .15s;
+    transition: background .15s, color .15s;
 }
 .ln-tab i { font-size: .88rem; }
 .ln-tab.active {
     background: #fff;
     color: #111;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    border: 1px solid #DEDDD8;
 }
-.ln-tab.active.admin-tab { background: #111; color: #fff; }
+.ln-tab.active.admin-tab { background: #111; color: #fff; border-color: #111; }
 
 /* Form */
 .ln-form-section { display: none; }
@@ -233,19 +239,18 @@ html, body {
 }
 .ln-input {
     width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid #e5e5e5;
-    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #DEDDD8;
     font-size: .9rem;
     font-family: inherit;
     color: #111;
     background: #fff;
     outline: none;
-    transition: border-color .15s, box-shadow .15s;
+    transition: border-color .15s;
 }
 .ln-input:focus {
     border-color: #111;
-    box-shadow: 0 0 0 3px rgba(17,17,17,.07);
+    box-shadow: none;
 }
 .ln-input::placeholder { color: #ccc; }
 

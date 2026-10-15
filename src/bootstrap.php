@@ -20,8 +20,11 @@ spl_autoload_register(static function (string $class): void {
     }
 });
 
-// --- Helpers (plain functions, loaded eagerly) -------------------------
 require __DIR__ . '/Core/helpers.php';
+
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__));
+}
 
 // --- Configuration & environment --------------------------------------
 $config = require dirname(__DIR__) . '/config/config.php';

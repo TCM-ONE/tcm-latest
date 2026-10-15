@@ -1,646 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <title><?= e($title) ?></title>
-    <meta name="description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="<?= e($canonical) ?>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="<?= e($canonical) ?>">
-    <meta property="og:title" content="<?= e($title) ?>">
-    <meta property="og:description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
-    <meta property="og:image" content="<?= e($thumbUrl) ?>">
-    <meta property="og:image:alt" content="<?= e($course['title']) ?> course by TCM One">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="TCM One">
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="<?= base_url('/favicon.svg') ?>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('/favicon.png') ?>">
+  <link rel="shortcut icon" href="<?= base_url('/favicon.ico') ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/logo.png') ?>">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="<?= e($canonical) ?>">
-    <meta name="twitter:title" content="<?= e($title) ?>">
-    <meta name="twitter:description" content="<?= e($desc ?? $course['description'] ?? '') ?>">
-    <meta name="twitter:image" content="<?= e($thumbUrl) ?>">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
 
-    <?php
-        $courseSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Course',
-            'name' => $course['title'],
-            'description' => $desc ?? ($course['description'] ?? ''),
-            'url' => $canonical,
-            'image' => $thumbUrl,
-            'inLanguage' => 'en-IN',
-            'educationalLevel' => $course['level'] ?? 'Beginner',
-            'teaches' => $course['category_name'] ?? $course['title'],
-            'courseMode' => 'online',
-            'provider' => [
-                '@type' => 'Organization',
-                'name' => 'TCM One',
-                'url' => $appUrl,
-                'logo' => $appUrl . '/assets/logo.png',
-            ],
-            'offers' => [
-                '@type' => 'Offer',
-                'price' => (string) ((float) ($course['price'] ?? 0)),
-                'priceCurrency' => 'INR',
-                'availability' => 'https://schema.org/InStock',
-                'url' => $canonical,
-            ],
-        ];
-        $breadcrumbSchema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                [
-                    '@type' => 'ListItem',
-                    'position' => 1,
-                    'name' => 'Home',
-                    'item' => $appUrl . '/',
-                ],
-                [
-                    '@type' => 'ListItem',
-                    'position' => 2,
-                    'name' => 'Courses',
-                    'item' => $appUrl . '/programs.html',
-                ],
-                [
-                    '@type' => 'ListItem',
-                    'position' => 3,
-                    'name' => $course['title'],
-                    'item' => $canonical,
-                ],
-            ],
-        ];
-    ?>
-    <script type="application/ld+json"><?= json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
-    <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
-    <script>
-      gtag('event', 'course_view', {
-        course_slug: <?= json_encode((string) $course['slug']) ?>,
-        course_title: <?= json_encode((string) $course['title']) ?>,
-        value: <?= json_encode((float) ($course['price'] ?? 0)) ?>,
-        currency: 'INR'
-      });
-    </script>
+  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
 
-    <!-- Stylesheets -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= base_url('/assets/style.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/landing-polish.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/site-polish.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/tcm-share.css') ?>">
+  <title><?= e($title ?? ($course['title'] . ' | TCM One')) ?></title>
+  <meta name="description" content="<?= e($desc ?? ($course['subtitle'] ?: $course['description'] ?: '')) ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= e($canonical ?? ('https://thecodemunk.in/courses/' . rawurlencode((string)$course['slug']))) ?>">
 
-    <style>
-        *, *::before, *::after { border-radius: 0 !important; }
-        body { background: #fafafa; color: #111111; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        
-        .ws-detail-hero {
-            background: #111111;
-            color: #ffffff;
-            padding: 70px 0 55px;
-            border-bottom: 2px solid #111111;
-        }
-        .ws-badge-white {
-            display: inline-block;
-            background: #ffffff;
-            color: #111111;
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 4px 10px;
-            margin-bottom: 16px;
-        }
-        .ws-detail-hero h1 {
-            font-size: 2.75rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            margin-bottom: 14px;
-            line-height: 1.15;
-        }
-        .ws-detail-hero .tagline {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.75);
-            max-width: 780px;
-            line-height: 1.6;
-            margin-bottom: 28px;
-        }
-        .ws-stat-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-        .ws-hero-cta-box {
-            background: #181818;
-            border: 1.5px solid rgba(255, 255, 255, 0.22);
-            padding: 22px 24px;
-            margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .ws-hero-price-block {
-            width: 100%;
-        }
-        .ws-price-hero-wrap {
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-        .ws-price-hero {
-            font-size: 2.3rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-        .ws-price-orig {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.45);
-            text-decoration: line-through;
-            font-weight: 600;
-        }
-        .ws-price-discount-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(37, 211, 102, 0.15);
-            color: #25D366;
-            border: 1px solid rgba(37, 211, 102, 0.4);
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 3px 8px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        .ws-hero-price-subtext {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.84rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .ws-hero-price-subtext i {
-            color: #25D366;
-            font-size: 0.95rem;
-        }
-        .ws-hero-divider {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.12);
-            width: 100%;
-            margin: 0;
-        }
-        .ws-hero-actions {
-            display: flex;
-            align-items: stretch;
-            gap: 10px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="<?= e($canonical) ?>">
+  <meta property="og:title" content="<?= e($course['title']) ?> &mdash; TCM One">
+  <meta property="og:description" content="<?= e($desc) ?>">
+  <meta property="og:image" content="<?= e($thumbUrl) ?>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
-        .ws-content-section {
-            padding: 48px 0;
-        }
-        .ws-card-box {
-            background: #ffffff;
-            border: 1.5px solid #111111;
-            padding: 24px 20px; /* Reduced left-right padding */
-            margin-bottom: 24px;
-            box-shadow: 4px 4px 0px #111111;
-        }
-        .ws-card-box h2 {
-            font-size: 1.25rem;
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            border-bottom: 1.5px solid #111111;
-            padding-bottom: 12px;
-            text-transform: uppercase;
-        }
-        .ws-day-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .ws-day-item:last-child {
-            border-bottom: none;
-        }
-        .ws-day-num {
-            background: #111111;
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            padding: 4px 8px;
-            white-space: nowrap;
-        }
-        .ws-day-title {
-            font-size: 0.98rem;
-            font-weight: 700;
-            color: #111111;
-            line-height: 1.45;
-        }
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-        .ws-check-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .ws-check-list li {
-            position: relative;
-            padding-left: 28px;
-            margin-bottom: 14px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            line-height: 1.5;
-        }
-        .ws-check-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-weight: 900;
-            color: #111111;
-        }
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
-        .ws-btn-join {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #25D366;
-            color: #ffffff;
-            font-size: 0.92rem;
-            font-weight: 700;
-            padding: 12px 20px;
-            text-decoration: none;
-            border: 1.5px solid #1ebe5d;
-            border-radius: 0px !important;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            letter-spacing: -0.01em;
-            min-height: 48px;
-            text-align: center;
-            white-space: nowrap;
-            flex: 1 1 200px;
-        }
-        .ws-btn-join:hover {
-            background: #20ba59;
-            border-color: #20ba59;
-            color: #ffffff;
-        }
-        .ws-btn-brochure {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #ffffff;
-            color: #111111;
-            font-size: 0.92rem;
-            font-weight: 700;
-            padding: 12px 20px;
-            text-decoration: none;
-            border: 1.5px solid #ffffff;
-            border-radius: 0px !important;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            letter-spacing: -0.01em;
-            min-height: 48px;
-            text-align: center;
-            white-space: nowrap;
-            flex: 1 1 220px;
-        }
-        .ws-btn-brochure:hover {
-            background: #e6e6e6;
-            border-color: #e6e6e6;
-            color: #111111;
-        }
-        .ws-hero-actions .tcm-share-btn {
-            min-height: 48px;
-            text-align: center;
-            white-space: nowrap;
-            flex: 0 0 auto;
-            padding-inline: 18px;
-            font-size: 0.92rem;
-            border: 1.5px solid #ffffff;
-        }
-        @media (max-width: 640px) {
-            .ws-detail-hero {
-                padding: 48px 0 38px;
-            }
-            .ws-detail-hero h1 {
-                font-size: 2rem;
-            }
-            .ws-hero-cta-box {
-                padding: 18px;
-            }
-            .ws-hero-actions {
-                flex-direction: column;
-            }
-            .ws-hero-actions .ws-btn-join,
-            .ws-hero-actions .ws-btn-brochure,
-            .ws-hero-actions .tcm-share-btn {
-                width: 100%;
-                flex-basis: auto;
-            }
-        }
-    </style>
+  <?php
+    $price = (float)($course['price'] ?? 0);
+    $origPrice = !empty($course['original_price']) ? (float)$course['original_price'] : 0;
+    $duration = $course['duration'] ?? '8 Weeks';
+    $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
+    $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
+    $showEmi = ($price >= 5000);
+    $emiMonthly = $showEmi ? round($price / 3) : 0;
+
+    $courseSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'Course',
+      'name' => $course['title'],
+      'description' => $desc,
+      'url' => $canonical,
+      'image' => $thumbUrl,
+      'inLanguage' => 'en-IN',
+      'educationalLevel' => $level,
+      'teaches' => $category,
+      'courseMode' => 'online',
+      'provider' => [
+        '@type' => 'Organization',
+        'name' => 'TCM One',
+        'url' => $appUrl,
+        'logo' => $appUrl . '/assets/logo.png',
+      ],
+      'offers' => [
+        '@type' => 'Offer',
+        'price' => (string) $price,
+        'priceCurrency' => 'INR',
+        'availability' => 'https://schema.org/InStock',
+        'url' => $canonical,
+      ],
+    ];
+  ?>
+  <script type="application/ld+json"><?= json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script>
+    gtag('event', 'course_view', {
+      course_slug: <?= json_encode((string) $course['slug']) ?>,
+      course_title: <?= json_encode((string) $course['title']) ?>,
+      value: <?= json_encode($price) ?>,
+      currency: 'INR'
+    });
+  </script>
+
+  <style>
+    .cd-layout-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    @media (min-width: 992px) {
+      .cd-layout-grid {
+        grid-template-columns: 1fr 380px;
+        gap: 48px;
+      }
+    }
+    .cd-sticky-panel {
+      position: sticky;
+      top: 96px;
+      background: var(--tcm-surface);
+      border: 1px solid var(--tcm-border);
+      padding: 28px;
+    }
+    .cd-curriculum-module {
+      border: 1px solid var(--tcm-border);
+      background: var(--tcm-surface);
+      margin-bottom: 12px;
+    }
+    .cd-module-summary {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .cd-module-summary::-webkit-details-marker { display: none; }
+    .cd-module-content {
+      padding: 14px 20px 18px;
+      border-top: 1px solid var(--tcm-border);
+      background: var(--tcm-bg);
+      font-size: 13.5px;
+      color: var(--tcm-muted);
+    }
+    .cd-lesson-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(222, 221, 216, 0.6);
+    }
+    .cd-lesson-row:last-child { border-bottom: none; }
+    .cd-floating-mobile-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--tcm-border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 900;
+    }
+    @media (min-width: 992px) {
+      .cd-floating-mobile-bar { display: none !important; }
+    }
+  </style>
 </head>
-<body>
+<body style="padding-bottom: 72px;">
 
-    <!-- Reusable Header Navigation -->
-    <?php
-    $activePage = 'courses';
-    require __DIR__ . '/../../partials/header.php';
-    ?>
+  <!-- Header -->
+  <header class="tcm-header" role="banner">
+    <div class="tcm-container">
+      <div class="tcm-header-inner">
+        <a href="<?= base_url('/') ?>" class="tcm-brand" aria-label="TCM One Home">
+          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
+          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+        </a>
 
-    <!-- Hero Section -->
-    <section class="ws-detail-hero">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <span class="ws-badge-white"><?= e($course['category_name'] ?? 'Technology Course') ?> &middot; <?= e($course['level'] ?? 'Beginner to Advanced') ?></span>
-                    <h1><?= e($course['title']) ?></h1>
-                    <p class="tagline"><?= e($course['subtitle'] ?: ($course['description'] ?? 'Comprehensive career-ready engineering course from TCM One.')) ?></p>
+        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/courses') ?>" class="tcm-nav-link active">Courses</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link">Workshops</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
+          </div>
+        </nav>
 
-                    <div class="d-flex flex-wrap">
-                        <span class="ws-stat-chip"><i class="bi bi-clock"></i> <?= e($course['duration'] ?: 'Comprehensive') ?></span>
-                        <span class="ws-stat-chip"><i class="bi bi-person-video3"></i> Mentored Cohort</span>
-                        <span class="ws-stat-chip"><i class="bi bi-patch-check"></i> Certificate Included</span>
-                        <span class="ws-stat-chip"><i class="bi bi-broadcast"></i> Live & Self-Paced</span>
-                    </div>
-
-                    <!-- Hero CTA & Share Row -->
-                    <div class="ws-hero-cta-box">
-                        <div class="ws-hero-price-block">
-                            <div class="ws-price-hero-wrap">
-                                <span class="ws-price-hero">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?></span>
-                                <span class="ws-price-usd" style="font-size:1.15rem;font-weight:700;color:#60a5fa;margin-left:8px;">($<?= number_format(round(((float)($course['price'] ?? 0)) / 83.5), 0) ?> USD)</span>
-                                <?php if (!empty($course['original_price']) && (float)$course['original_price'] > (float)$course['price']): 
-                                    $origPrice = (float)$course['original_price'];
-                                    $currPrice = (float)($course['price'] ?? 0);
-                                    $discountPct = round((($origPrice - $currPrice) / $origPrice) * 100);
-                                ?>
-                                    <span class="ws-price-orig">&#8377;<?= number_format($origPrice, 0) ?></span>
-                                    <span class="ws-price-discount-badge"><?= $discountPct ?>% OFF</span>
-                                <?php endif; ?>
-                            </div>
-                            <div class="ws-hero-price-subtext">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>Full curriculum access &middot; Real-world projects &middot; Lifetime mentor resources</span>
-                            </div>
-                        </div>
-
-                        <div class="ws-hero-divider"></div>
-
-                        <div class="ws-hero-actions">
-                            <?php
-                                $waCourseMsg = "Hi TCM One! I'm interested in enrolling in the {$course['title']} course. Please guide me.";
-                                $waCourseUrl = "https://wa.me/917987823907?text=" . rawurlencode($waCourseMsg);
-                            ?>
-                            <a href="<?= $waCourseUrl ?>" target="_blank" rel="noopener noreferrer" class="ws-btn-join">
-                                <i class="bi bi-whatsapp"></i> Enroll via WhatsApp
-                            </a>
-
-                            <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="ws-btn-brochure" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Brochure PDF
-                            </a>
-
-                            <!-- Minimalist Share Button -->
-                            <button type="button"
-                                    class="tcm-share-btn"
-                                    data-share-url="<?= e($canonical) ?>"
-                                    data-share-title="<?= e($course['title']) ?>"
-                                    data-share-text="<?= e($course['subtitle'] ?: $course['description']) ?>"
-                                    title="Share Course"
-                                    aria-label="Share Course">
-                                <i class="bi bi-share"></i>
-                                <span>Share</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 mt-4 mt-lg-0">
-                    <div style="background:#0a0a0a;border:1.5px solid rgba(255,255,255,0.25);padding:14px;text-align:center;">
-                        <?php if (!empty($thumbUrl)): ?>
-                            <img src="<?= e($thumbUrl) ?>" alt="<?= e($course['title']) ?>" style="width:100%;height:auto;max-height:260px;object-fit:cover;border:1px solid rgba(255,255,255,0.15);margin-bottom:14px;display:block;">
-                        <?php endif; ?>
-                        <div style="color:#ffffff;font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:left;padding:0 6px;">
-                            Career Track &middot; <?= e($course['level'] ?? 'All Levels') ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="tcm-header-actions">
+          <a href="<?= base_url('/contact') ?>" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
+          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">Explore Courses</a>
+          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+            <i class="bi bi-list" style="font-size: 22px;"></i>
+          </button>
         </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="tcm-drawer-backdrop"></div>
+  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+    <a href="<?= base_url('/') ?>" class="tcm-drawer-link">Home</a>
+    <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">Courses</a>
+    <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link">Workshops</a>
+    <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
+    <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About TCM One</a>
+    <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link">Contact</a>
+  </aside>
+
+  <main id="mainContent" style="padding-bottom: 84px;">
+
+    <!-- Course Hero -->
+    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(36px, 4vw, 56px); border-bottom: 1px solid var(--tcm-border);">
+      <div class="tcm-container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="Breadcrumb" style="font-size: 12px; color: var(--tcm-muted); margin-bottom: 16px;">
+          <a href="<?= base_url('/') ?>" style="color: inherit; text-decoration: none;">Home</a>
+          <span style="margin: 0 6px;">/</span>
+          <a href="<?= base_url('/courses') ?>" style="color: inherit; text-decoration: none;">Courses</a>
+          <span style="margin: 0 6px;">/</span>
+          <span style="color: var(--tcm-fg); font-weight: 500;"><?= e($course['title']) ?></span>
+        </nav>
+
+        <div style="max-width: 820px;">
+          <div class="tcm-eyebrow" style="margin-bottom: 10px;">
+            <?= e($category) ?> &middot; <?= e($level) ?>
+          </div>
+          <h1 class="tcm-h1" style="margin: 0 0 16px 0;">
+            <?= e($course['title']) ?>
+          </h1>
+          <p class="tcm-lead" style="margin: 0 0 24px 0;">
+            <?= e($course['subtitle'] ?: $course['description'] ?: '') ?>
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; color: var(--tcm-muted); border-top: 1px solid var(--tcm-border); padding-top: 16px;">
+            <div><i class="bi bi-clock"></i> <strong>Duration:</strong> <?= e($duration) ?></div>
+            <div><i class="bi bi-broadcast"></i> <strong>Mode:</strong> Live Online Cohort</div>
+            <div><i class="bi bi-translate"></i> <strong>Language:</strong> English &amp; Hindi</div>
+            <div><i class="bi bi-patch-check"></i> <strong>Outcome:</strong> Verified Certificate</div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Main Content: Curriculum & Details -->
-    <main class="ws-content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Course Modules Curriculum -->
-                    <div class="ws-card-box">
-                        <h2>Curriculum & Modules</h2>
-                        <?php if (!empty($curriculum)): ?>
-                            <div class="ws-curriculum-list">
-                                <?php foreach ($curriculum as $module): ?>
-                                    <div style="margin-bottom:24px;border-bottom:1px solid #e5e5e5;padding-bottom:16px;">
-                                        <h4 style="font-size:1.1rem;font-weight:800;color:#111;margin-bottom:8px;">
-                                            <?= e($module['title'] ?? 'Module') ?>
-                                        </h4>
-                                        <?php if (!empty($module['description'])): ?>
-                                            <p style="font-size:0.88rem;color:#555;margin-bottom:10px;"><?= e($module['description']) ?></p>
-                                        <?php endif; ?>
+    <!-- Main Content & Sticky Enrollment Sidebar -->
+    <section class="tcm-section">
+      <div class="tcm-container">
+        <div class="cd-layout-grid">
 
-                                        <?php if (!empty($module['lessons']) && is_array($module['lessons'])): ?>
-                                            <div class="d-flex flex-column gap-6">
-                                                <?php foreach ($module['lessons'] as $idx => $lesson): ?>
-                                                    <div class="d-flex align-items-center gap-8" style="font-size:0.86rem;color:#333;">
-                                                        <i class="bi bi-play-circle" style="color:#111;"></i>
-                                                        <span><?= e($lesson['title'] ?? "Lesson " . ($idx + 1)) ?></span>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php else: ?>
-                            <p style="color:#666;font-size:0.92rem;line-height:1.6;">
-                                <?= nl2br(e($course['description'] ?? 'Full curriculum includes hands-on industry projects, code reviews, and direct mentor Q&A sessions.')) ?>
-                            </p>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- What you will gain -->
-                    <div class="ws-card-box">
-                        <h2>What You Will Gain</h2>
-                        <ul class="ws-check-list">
-                            <li><strong>Hands-on Portfolio:</strong> Build and ship real-world production applications.</li>
-                            <li><strong>Industry Mentorship:</strong> Direct doubt resolution with senior software developers.</li>
-                            <li><strong>TCM One Credential:</strong> Verified Certificate of Completion shareable on LinkedIn.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Sticky Sidebar -->
-                <div class="col-lg-4">
-                    <div class="ws-card-box" style="position:sticky;top:90px;">
-                        <h2>Enrollment Summary</h2>
-                        <div style="background:#fafafa;border:1px solid #e0e0e0;padding:16px;margin-bottom:20px;">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span style="font-size:0.85rem;color:#666;">Course Fee</span>
-                                <strong style="font-size:1.05rem;color:#111;">&#8377;<?= number_format((float)($course['price'] ?? 0), 0) ?> <span style="font-size:0.85rem;color:#2563eb;font-weight:600;">($<?= number_format(round(((float)($course['price'] ?? 0)) / 83.5), 0) ?> USD)</span></strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span style="font-size:0.85rem;color:#666;">Access</span>
-                                <strong>Lifetime Access</strong>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span style="font-size:0.85rem;color:#666;">Format</span>
-                                <strong>Self-Paced + Live Mentorship</strong>
-                            </div>
-                        </div>
-
-                        <a href="<?= $waCourseUrl ?>" target="_blank" rel="noopener noreferrer" class="ws-btn-join w-100 mb-2">
-                            <i class="bi bi-whatsapp"></i> Enroll via WhatsApp
-                        </a>
-
-                        <a href="<?= base_url('/courses/' . rawurlencode($course['slug']) . '/brochure') ?>" class="ws-btn-brochure w-100 mb-2 justify-content-center" data-course-slug="<?= e($course['slug']) ?>" data-course-title="<?= e($course['title']) ?>" style="border:1.5px solid #111;">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Brochure PDF
-                        </a>
-
-                        <button type="button"
-                                class="tcm-share-btn w-100 justify-content-center"
-                                data-share-url="<?= e($canonical) ?>"
-                                data-share-title="<?= e($course['title']) ?>"
-                                data-share-text="<?= e($course['subtitle'] ?: $course['description']) ?>">
-                            <i class="bi bi-share"></i> Share Course
-                        </button>
-                    </div>
-                </div>
+          <!-- Left Column: Detailed Course Modules -->
+          <div>
+            <!-- What You Will Learn -->
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+              <h2 class="tcm-h3" style="margin: 0 0 16px 0;">What You Will Learn</h2>
+              <div style="font-size: 15px; line-height: 1.7; color: var(--tcm-fg);">
+                <?= nl2br(e($course['description'] ?: '')) ?>
+              </div>
             </div>
-        </div>
-    </main>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
+            <!-- Curriculum Accordion -->
+            <div style="margin-bottom: 36px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
+                <h2 class="tcm-h3" style="margin: 0;">Syllabus &amp; Curriculum</h2>
+                <span style="font-size: 13px; color: var(--tcm-muted);"><?= count($curriculum ?? []) ?> Modules</span>
+              </div>
 
-                    <!-- Brand Column -->
-                    <div class="footer-brand">
-                        <a href="<?= base_url('/') ?>" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>
-                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
-                        </p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
-                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
-                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
-                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
-                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
-                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
-                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        </div>
-                        <div class="footer-tag">
-                            <i class="bi bi-patch-check-fill text-success"></i>
-                            Student-Focused Learning Platform
-                        </div>
+              <?php if (!empty($curriculum) && is_array($curriculum)): ?>
+                <?php foreach ($curriculum as $idx => $mod): ?>
+                  <details class="cd-curriculum-module" <?= $idx === 0 ? 'open' : '' ?>>
+                    <summary class="cd-module-summary">
+                      <span>Module <?= str_pad((string)($idx + 1), 2, '0', STR_PAD_LEFT) ?> &mdash; <?= e($mod['title']) ?></span>
+                      <i class="bi bi-chevron-down" style="font-size: 12px;"></i>
+                    </summary>
+                    <div class="cd-module-content">
+                      <?php if (!empty($mod['lessons']) && is_array($mod['lessons'])): ?>
+                        <?php foreach ($mod['lessons'] as $lesson): ?>
+                          <div class="cd-lesson-row">
+                            <span style="font-weight: 500; color: var(--tcm-fg);">
+                              <i class="bi <?= ($lesson['type'] ?? '') === 'project' ? 'bi-folder2-open' : 'bi-play-circle' ?>" style="margin-right: 6px;"></i>
+                              <?= e($lesson['title']) ?>
+                            </span>
+                            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 6px; border: 1px solid var(--tcm-border); background: #FFF;">
+                              <?= e($lesson['type'] ?? 'Live') ?>
+                            </span>
+                          </div>
+                        <?php endforeach; ?>
+                      <?php else: ?>
+                        <p style="margin: 0;">Detailed session topics, assignments, and practical code labs.</p>
+                      <?php endif; ?>
                     </div>
-
-                    <!-- Navigation Links Columns -->
-                    <div class="footer-links">
-
-                        <div class="footer-column">
-                            <h4>Learn &amp; Programs</h4>
-                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
-                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
-                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
-                            <a href="<?= base_url('/workshops') ?>">Live Workshops</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Ecosystem</h4>
-                            <a href="<?= base_url('/programs.html') ?>">Full Stack Web Dev</a>
-                            <a href="<?= base_url('/programs.html') ?>">Data Science &amp; AI</a>
-                            <a href="<?= base_url('/programs.html') ?>">Cloud DevOps</a>
-                            <a href="<?= base_url('/programs.html') ?>">Python &amp; Automation</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Legal &amp; Policy</h4>
-                            <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
-                            <a href="<?= base_url('/terms.html') ?>">Terms &amp; Conditions</a>
-                            <a href="<?= base_url('/sitemap.html') ?>">Site Map</a>
-                            <a href="<?= base_url('/partner.html') ?>">Partnership Policy</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company &amp; Help</h4>
-                            <a href="<?= base_url('/insights.html') ?>">About Us</a>
-                            <a href="<?= base_url('/community.html') ?>">Community</a>
-                            <a href="<?= base_url('/contact.html') ?>">Contact Us</a>
-                            <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Course Brochure PDF</a>
-                            <a href="<?= base_url('/login.php') ?>">Student Sign In</a>
-                        </div>
-
-                    </div>
+                  </details>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <div style="padding: 24px; border: 1px solid var(--tcm-border); background: var(--tcm-surface);">
+                  <p class="tcm-body-muted" style="margin: 0;">Interactive live sessions with code reviews, assignments, and real-world project deliverables.</p>
                 </div>
-
-                <!-- Footer Bottom Strip -->
-                <div class="footer-bottom">
-                    <p>&copy; <?= date('Y') ?> The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="<?= base_url('/privacy.html') ?>">Privacy Policy</a>
-                        <a href="<?= base_url('/terms.html') ?>">Terms of Service</a>
-                        <a href="<?= base_url('/sitemap.html') ?>">Sitemap</a>
-                        <a href="<?= base_url('/download-brochure') ?>" download="TCM-One-Course-Brochure.pdf"><i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF</a>
-                        <a href="<?= base_url('/contact.html') ?>">Contact</a>
-                        <a href="<?= base_url('/insights.html') ?>">About</a>
-                    </div>
-                </div>
+              <?php endif; ?>
             </div>
-        </div>
-    </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= base_url('/assets/tcm-share.js') ?>"></script>
-    <script src="<?= base_url('/assets/tcm-app.js?v=2.2.4') ?>"></script>
+            <!-- Learning Methodology & Projects -->
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+              <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Learning Methodology</h2>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">Live Mentor Code Reviews</h4>
+                  <p class="tcm-body-muted" style="font-size: 13.5px; margin: 0;">Push code to GitHub repositories and receive line-by-line feedback from industry developers.</p>
+                </div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">Capstone Deliverables</h4>
+                  <p class="tcm-body-muted" style="font-size: 13.5px; margin: 0;">Complete production-ready applications that you can showcase directly in interviews and on your resume.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prerequisites & Audience -->
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px;">
+              <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Prerequisites</h2>
+              <p class="tcm-body-muted" style="font-size: 14.5px; line-height: 1.6; margin: 0;">
+                No advanced background required unless specified. You will need a personal computer/laptop, internet connection, and dedication to attend live classes and submit assigned code tasks.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Column: Sticky Enrollment Panel (Desktop) -->
+          <div>
+            <aside class="cd-sticky-panel" aria-label="Course Enrollment">
+              <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT ENROLLMENT</div>
+              <h3 style="font-size: 20px; font-weight: 700; margin: 0 0 14px 0; line-height: 1.3;">
+                <?= e($course['title']) ?>
+              </h3>
+
+              <div style="margin-bottom: 20px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px;">
+                <div style="display: flex; align-items: baseline; gap: 8px;">
+                  <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;">
+                    ₹<?= number_format($price, 0) ?>
+                  </span>
+                  <?php if ($origPrice > $price): ?>
+                    <span style="font-size: 16px; color: #999; text-decoration: line-through;">
+                      ₹<?= number_format($origPrice, 0) ?>
+                    </span>
+                  <?php endif; ?>
+                </div>
+                <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
+                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included
+                </div>
+
+                <!-- STRICT EMI RULE: Only show EMI if course price >= 5,000 -->
+                <?php if ($showEmi): ?>
+                  <div style="margin-top: 12px; padding: 8px 12px; background: var(--tcm-bg); border: 1px solid var(--tcm-border); font-size: 12px; color: var(--tcm-fg);">
+                    <i class="bi bi-credit-card" style="margin-right: 4px;"></i>
+                    Flexible EMI options starting at <strong>₹<?= number_format($emiMonthly, 0) ?>/mo</strong>
+                  </div>
+                <?php endif; ?>
+              </div>
+
+              <!-- Cohort Details -->
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; color: var(--tcm-muted); margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Duration:</span>
+                  <strong style="color: var(--tcm-fg);"><?= e($duration) ?></strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Level:</span>
+                  <strong style="color: var(--tcm-fg);"><?= e($level) ?></strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Next Batch:</span>
+                  <strong style="color: var(--tcm-fg);">Enrolling for Upcoming Cohort</strong>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title'] . '. Please share the registration details.') ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary" style="width: 100%;">
+                  <span>Enroll Now</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </a>
+
+                <button type="button" class="tcm-btn tcm-btn-secondary tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" style="width: 100%;">
+                  <i class="bi bi-file-earmark-pdf"></i> Download Brochure PDF
+                </button>
+              </div>
+
+              <div style="margin-top: 20px; font-size: 12px; color: var(--tcm-muted); text-align: center;">
+                <i class="bi bi-shield-check"></i> 100% verified curriculum &middot; Direct mentor access
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Unified Sticky Bottom Enrollment Bar (Always Visible on Scroll) -->
+    <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Course Enrollment Bar">
+      <div class="tcm-container">
+        <div class="tcm-sticky-bottom-inner">
+          <div class="tcm-sticky-bottom-info d-none d-lg-flex">
+            <span class="tcm-badge"><?= e($category) ?></span>
+            <div class="tcm-sticky-bottom-title"><?= e($course['title']) ?></div>
+          </div>
+          <div class="tcm-sticky-bottom-pricing">
+            <div class="tcm-sticky-bottom-price-row">
+              <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+              <?php if ($origPrice > $price): ?>
+                <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+              <?php endif; ?>
+            </div>
+            <div class="tcm-sticky-bottom-sub">
+              <span><?= e($duration) ?> Cohort</span>
+            </div>
+          </div>
+          <div class="tcm-sticky-bottom-actions">
+            <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
+              <i class="bi bi-file-earmark-pdf"></i>
+              <span class="d-none d-sm-inline" style="margin-left: 4px;">Syllabus</span>
+            </button>
+            <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
+              <span>Enroll Now</span>
+              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="<?= base_url('/') ?>" class="tcm-brand">
+            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
+            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+          </a>
+          <p class="tcm-footer-brand-p">
+            Practical tech education through live classes, guided projects, and industry-focused learning.
+          </p>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Platform</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
+            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
+            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
+            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
+            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Admissions</h4>
+          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
+            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
+          </p>
+          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
+            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Brochure Modal -->
+  <div class="tcm-modal-overlay" id="tcmBrochureOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmBrochureTitle">
+    <div class="tcm-modal">
+      <button type="button" class="tcm-modal-close" id="tcmBrochureCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="tcm-eyebrow" style="margin-bottom: 8px;">OFFICIAL CURRICULUM PDF</div>
+      <h3 id="tcmBrochureTitle" class="tcm-h3" style="margin-bottom: 8px;">Download Course Brochure</h3>
+      <div id="tcmBrochureFeedback" style="display: none;"></div>
+
+      <form id="tcmBrochureForm" novalidate>
+        <input type="hidden" id="tcmBrochureSlug" value="<?= e($course['slug']) ?>">
+        <div class="tcm-form-group">
+          <label for="tcmBrochureName" class="tcm-form-label">Full Name *</label>
+          <input type="text" id="tcmBrochureName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmBrochureEmail" class="tcm-form-label">Email Address *</label>
+          <input type="email" id="tcmBrochureEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmBrochurePhone" class="tcm-form-label">WhatsApp / Mobile Number *</label>
+          <input type="tel" id="tcmBrochurePhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
+        </div>
+        <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmBrochureSubmitBtn" style="width: 100%; height: 50px;">
+          Download Brochure PDF
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
 </body>
 </html>

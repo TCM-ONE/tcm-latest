@@ -1,572 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <meta name="description" content="Site Map of The Code Munk (TCM One) — Complete overview of all pages, programs, ecosystem verticals, community lounges, and legal policies.">
-    <meta name="keywords" content="tcm one sitemap, the code munk directory, navigation map">
-    <meta name="robots" content="index, follow">
-    <title>Site Map — The Code Munk (TCM One)</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/style.css">
-    <link rel="stylesheet" href="./assets/site-polish.css">
-    <link rel="stylesheet" href="./assets/tcm-design-system.css">
-    <link rel="stylesheet" href="./assets/skeleton.css">
-    <link rel="stylesheet" href="./assets/auth.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        .sitemap-hero {
-            padding: 72px 0 44px;
-            background: #ffffff;
-            border-bottom: 1px solid #d9d9d9;
-        }
-        .sitemap-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f5f5f5;
-            border: 1px solid #d9d9d9;
-            color: #000000;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 4px 12px;
-            border-radius: 0px !important;
-            margin-bottom: 16px;
-        }
-        .sitemap-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            color: #000000;
-            letter-spacing: -0.04em;
-            margin-bottom: 12px;
-        }
-        .sitemap-subtitle {
-            font-size: 15px;
-            color: #666666;
-            max-width: 680px;
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-        .sitemap-body {
-            padding: 60px 0 80px;
-            background: #f5f5f5;
-        }
-        .sitemap-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        .sitemap-card {
-            background: #ffffff;
-            border: 1px solid #d9d9d9;
-            border-radius: 0px !important;
-            padding: 28px 24px;
-            box-shadow: none !important;
-            transition: border-color 0.15s ease, background-color 0.15s ease;
-        }
-        .sitemap-card:hover {
-            border-color: #000000;
-            box-shadow: none !important;
-            transform: none !important;
-        }
-        .sitemap-card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #d9d9d9;
-        }
-        .sitemap-card-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 0px !important;
-            background: #f5f5f5;
-            border: 1px solid #d9d9d9;
-            display: grid;
-            place-items: center;
-            font-size: 1.1rem;
-            color: #000000;
-        }
-        .sitemap-card-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: #000000;
-            letter-spacing: -0.02em;
-            margin: 0;
-        }
-        .sitemap-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .sitemap-list li a {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: #222222;
-            text-decoration: none;
-            padding: 9px 12px;
-            border-radius: 0px !important;
-            background: #ffffff;
-            border: 1px solid #e5e5e5;
-            transition: all 0.15s ease;
-        }
-        .sitemap-list li a:hover {
-            background: #000000;
-            color: #ffffff;
-            border-color: #000000;
-        }
-        .sitemap-list li a i {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-        @media(max-width:992px){
-            .sitemap-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media(max-width:576px){
-            .sitemap-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
+
+  <meta name="app-base" content="">
+
+  <title>Sitemap Directory — TCM One</title>
+  <meta name="description" content="Complete overview and directory of all courses, learning tracks, live workshops, institutional programs, and legal policies at TCM One.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://thecodemunk.in/sitemap">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="https://thecodemunk.in/sitemap">
+  <meta property="og:title" content="Sitemap Directory — TCM One">
+  <meta property="og:description" content="Complete directory of all 31 courses, 7 specialization tracks, live workshops, and institutional partnerships.">
+  <meta property="og:image" content="https://thecodemunk.in/assets/tcm-og-share.png">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="./assets/tcm-design-system.css">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css">
+  <link rel="stylesheet" href="./assets/cai-assistant.css">
+
+  <style>
+    .sitemap-card {
+      background: var(--tcm-surface);
+      border: 1px solid var(--tcm-border);
+      padding: 32px 28px;
+      height: 100%;
+    }
+    .sitemap-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--tcm-fg);
+      margin: 0 0 18px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--tcm-border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sitemap-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sitemap-links li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .sitemap-links a {
+      color: var(--tcm-fg);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.15s ease;
+    }
+    .sitemap-links a:hover {
+      color: var(--tcm-accent);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ========== HEADER ========== -->
-            <!-- ===== TCM ONE 2-TIER UNIVERSAL HEADER ===== -->
-    <header class="header">
-        <!-- Tier 1: Desktop Top Utility Bar (>= 1200px) -->
-        <div class="header-top-bar d-none d-xl-block">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="header-top-left d-flex align-items-center gap-2">
-                        <span class="header-top-kicker"><i class="bi bi-patch-check-fill"></i> Industry-Grade Live Learning</span>
-                        <span class="header-top-divider">•</span>
-                        <a href="/download-brochure" class="header-top-brochure btn-trigger-brochure" data-trigger-brochure="true">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Official Course Brochure PDF
-                        </a>
-                    </div>
+  <!-- Header -->
+  <header class="tcm-header" role="banner">
+    <div class="tcm-container">
+      <div class="tcm-header-inner">
+        <a href="/" class="tcm-brand" aria-label="TCM One Home">
+          <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+        </a>
 
-                    <div class="header-top-right d-flex align-items-center gap-3">
-                        <!-- Language Picker -->
-                        <div class="desktop-lang-picker mobile-lang-picker">
-                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                <i class="bi bi-translate"></i>
-                                <span>Language</span>
-                                <strong class="mobile-lang-code">EN</strong>
-                            </button>
-                            <div class="mobile-lang-menu" role="menu">
-                                <button type="button" data-lang="en" role="menuitem">English</button>
-                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                <button type="button" data-lang="fr" role="menuitem">French</button>
-                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                <button type="button" data-lang="de" role="menuitem">German</button>
-                                <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                            </div>
-                        </div>
+        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+          <div class="tcm-nav-item">
+            <a href="/courses" class="tcm-nav-link">Courses</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/workshops" class="tcm-nav-link">Workshops</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/for-institutions" class="tcm-nav-link">For Institutions</a>
+          </div>
+          <div class="tcm-nav-item">
+            <a href="/about" class="tcm-nav-link">About</a>
+          </div>
+        </nav>
 
-                        <span class="header-top-divider">|</span>
-                        <a href="login.php" class="header-top-login"><i class="bi bi-person"></i> Log in</a>
-                    </div>
-                </div>
-            </div>
+        <div class="tcm-header-actions">
+          <a href="/contact" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
+          <a href="/courses" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+            <span>Explore Courses</span>
+            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+            <i class="bi bi-list" style="font-size: 22px;"></i>
+          </button>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- Tier 2: Main Navigation Bar -->
-        <div class="header-main-bar">
-            <div class="container">
-                <nav class="navbar navbar-expand-xl p-0">
-                    <div class="header-nav-top">
-                        <!-- Column 1 (Left on Desktop): Brand Logo + Primary Nav Links -->
-                        <div class="header-nav-left d-flex align-items-center">
-                            <a class="navbar-brand logo" href="index.html">
-                                <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                                <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">ONE</span></span>
-                            </a>
+  <!-- Mobile Drawer -->
+  <div class="tcm-drawer-backdrop"></div>
+  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+    <a href="/" class="tcm-drawer-link">Home</a>
+    <a href="/courses" class="tcm-drawer-link">Courses</a>
+    <a href="/workshops" class="tcm-drawer-link">Workshops</a>
+    <a href="/for-institutions" class="tcm-drawer-link">For Institutions</a>
+    <a href="/about" class="tcm-drawer-link">About TCM One</a>
+    <a href="/contact" class="tcm-drawer-link">Contact</a>
+  </aside>
 
-                            <!-- Desktop Navigation Links (Column 1) -->
-                            <div class="header-desktop-links d-none d-xl-flex align-items-center">
-                                <ul class="navbar-nav flex-row align-items-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="workshops.html">Workshops</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="insights.html">TCM Insights</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="community.html">Community</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="contact.html">Contact</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="partner.html">Become a Partner</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+  <main id="mainContent">
 
-                        <!-- Column 2 (Right on Desktop): Primary CTA "Book a Demo" -->
-                        <div class="header-desktop-actions d-none d-xl-flex align-items-center">
-                            <button type="button" class="join-btn demo-trigger">Book a Demo</button>
-                        </div>
-
-                        <!-- Mobile Header Right: Strictly Language + Book a Demo + Hamburger (< 1200px) -->
-                        <div class="header-mobile-right d-xl-none">
-                            <div class="mobile-lang-picker">
-                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                    <i class="bi bi-translate"></i>
-                                    <span class="mobile-lang-code">EN</span>
-                                </button>
-                                <div class="mobile-lang-menu" role="menu">
-                                    <button type="button" data-lang="en" role="menuitem">English</button>
-                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                    <button type="button" data-lang="fr" role="menuitem">French</button>
-                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                    <button type="button" data-lang="de" role="menuitem">German</button>
-                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                                </div>
-                            </div>
-
-                            <button type="button" class="mobile-head-btn mobile-demo-btn demo-trigger" aria-label="Book a Demo">
-                                <span class="mobile-head-text">Book a Demo</span>
-                            </button>
-
-                            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="bi bi-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Collapsible Drawer Menu (< 1200px) -->
-                    <div class="collapse navbar-collapse d-xl-none" id="navbarMenu">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link " href="workshops.html">Workshops</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="insights.html">TCM Insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="community.html">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="contact.html">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="partner.html">Become a Partner</a>
-                            </li>
-                        </ul>
-
-                        <div class="header-drawer-actions">
-                            <a href="/download-brochure" class="drawer-brochure-link btn-trigger-brochure" data-trigger-brochure="true">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
-                            </a>
-                            <a href="login.php" class="drawer-login-link">Log in</a>
-                            <button type="button" class="join-btn drawer-demo-btn demo-trigger">Book a Free Demo</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+    <!-- Hero -->
+    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: 40px; border-bottom: 1px solid var(--tcm-border);">
+      <div class="tcm-container text-center">
+        <div style="max-width: 760px; margin: 0 auto;">
+          <div class="tcm-eyebrow">INDEX &amp; DIRECTORY</div>
+          <h1 class="tcm-h1" style="margin: 8px 0 16px 0;">
+            Platform <span class="font-editorial-serif">Sitemap</span>
+          </h1>
+          <p class="tcm-lead" style="margin: 0;">
+            Complete directory of all 31 verified engineering courses, 7 specialization tracks, live workshops, institutional collaboration frameworks, and policies.
+          </p>
         </div>
-    </header>
-
-    <!-- ========== HERO ========== -->
-    <section class="sitemap-hero text-center">
-        <div class="container">
-            <span class="sitemap-hero-badge">
-                <i class="bi bi-diagram-3"></i> PLATFORM DIRECTORY
-            </span>
-            <h1 class="sitemap-title">Site Map</h1>
-            <p class="sitemap-subtitle mx-auto">
-                Explore the complete hierarchy of pages, programs, community hubs, and resources across TCM One.
-            </p>
-        </div>
+      </div>
     </section>
 
-    <!-- ========== BODY CONTENT ========== -->
-    <section class="sitemap-body">
-        <div class="container">
-            <div class="sitemap-grid">
+    <!-- Directory Grid -->
+    <section class="tcm-section" style="background-color: var(--tcm-bg);">
+      <div class="tcm-container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
 
-                <!-- Card 1: Main Pages -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-house-door"></i></div>
-                        <h3 class="sitemap-card-title">Main Navigation</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="index.html"><span>Home Page</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="programs.html"><span>Programs &amp; Courses</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="insights.html"><span>TCM Insights (About)</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="community.html"><span>Developer Community</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="contact.html"><span>Contact &amp; Support</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="partner.html"><span>Become a Partner</span> <i class="bi bi-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- Card 2: Tech Courses -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-code-slash"></i></div>
-                        <h3 class="sitemap-card-title">Tech Courses</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="/courses/full-stack-web-development"><span>Full Stack Web Dev</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="/courses/python-programming-automation"><span>Python &amp; Automation</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="/courses/data-science-machine-learning-foundations"><span>Data Science &amp; AI</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="/courses/dsa-problem-solving-java"><span>DSA &amp; Problem Solving</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="/courses/docker-devops-cicd-essentials"><span>Cloud &amp; DevOps</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="learners-reviews.html"><span>Learner Reviews</span> <i class="bi bi-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- Card 3: Ecosystem Verticals -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-grid-1x2"></i></div>
-                        <h3 class="sitemap-card-title">Ecosystem Verticals</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="programs.html"><span>Full Stack Web Dev</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="programs.html"><span>Data Science &amp; AI</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="programs.html"><span>Cloud DevOps &amp; System Design</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="programs.html"><span>Python &amp; Automation</span> <i class="bi bi-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- Card 4: Community Platforms -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-people"></i></div>
-                        <h3 class="sitemap-card-title">Community Channels</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank"><span>Instagram Hub</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank"><span>YouTube Channel</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://discord.gg/ERrrxgePj" target="_blank"><span>Discord Server</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank"><span>Slack Workspaces</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="https://github.com/tcmone" target="_blank"><span>GitHub Repos</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- Card 5: Student App Portal -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-speedometer2"></i></div>
-                        <h3 class="sitemap-card-title">Student App Portal</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="login.php"><span>Sign In</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="login.php"><span>Join Free</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="login.php"><span>Dashboard</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                        <li><a href="login.php"><span>Certificates</span> <i class="bi bi-box-arrow-up-right"></i></a></li>
-                    </ul>
-                </div>
-
-                <!-- Card 6: Legal & Policies -->
-                <div class="sitemap-card">
-                    <div class="sitemap-card-header">
-                        <div class="sitemap-card-icon"><i class="bi bi-shield-check"></i></div>
-                        <h3 class="sitemap-card-title">Legal &amp; Policies</h3>
-                    </div>
-                    <ul class="sitemap-list">
-                        <li><a href="privacy.html"><span>Privacy Policy</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="terms.html"><span>Terms &amp; Conditions</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="sitemap.html"><span>Site Map Directory</span> <i class="bi bi-arrow-right"></i></a></li>
-                        <li><a href="partner.html"><span>Partnership Policy</span> <i class="bi bi-arrow-right"></i></a></li>
-                    </ul>
-                </div>
-
+          <!-- Core Pages -->
+          <div>
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-compass"></i> Core Navigation</h2>
+              <ul class="sitemap-links">
+                <li><a href="/">Home (Learning Tracks &amp; Cohorts)</a></li>
+                <li><a href="/courses">All Courses &amp; Career Paths</a></li>
+                <li><a href="/workshops">Live Workshops &amp; Challenges</a></li>
+                <li><a href="/for-institutions">College &amp; Institutional Partnerships</a></li>
+                <li><a href="/about">About TCM One Mission &amp; Mentors</a></li>
+                <li><a href="/contact">Contact Admissions &amp; Counselors</a></li>
+                <li><a href="/download-brochure">Official Course Brochure PDF</a></li>
+                <li><a href="/download-partner-proposal">Institutional Proposal PDF</a></li>
+              </ul>
             </div>
+          </div>
+
+          <!-- Specialization Tracks -->
+          <div>
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-layers"></i> Specialization Tracks</h2>
+              <ul class="sitemap-links">
+                <li><a href="/courses?cat=AI%20%26%20Automation">AI &amp; Automation (8 Programs)</a></li>
+                <li><a href="/courses?cat=Web%20%26%20Mobile%20Development">Web &amp; Mobile Development (7 Programs)</a></li>
+                <li><a href="/courses?cat=Programming%20Foundations">Programming Foundations (4 Programs)</a></li>
+                <li><a href="/courses?cat=Data%20%26%20Analytics">Data &amp; Analytics (4 Programs)</a></li>
+                <li><a href="/courses?cat=Cloud%20%26%20DevOps">Cloud &amp; DevOps (3 Programs)</a></li>
+                <li><a href="/courses?cat=Career%20%26%20DSA">Career &amp; DSA (3 Programs)</a></li>
+                <li><a href="/courses?cat=Design%20%26%20Business">Design &amp; Business (2 Programs)</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Live Workshops -->
+          <div>
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-broadcast"></i> Live Cohorts &amp; Workshops</h2>
+              <ul class="sitemap-links">
+                      <li>
+        <a href="/workshops/python-starter-workshop">Python Starter Workshop</a>
+      </li>
+      <li>
+        <a href="/workshops/frontend-website-challenge-7-days">7-Day Frontend Website Challenge</a>
+      </li>
+
+                <li><a href="/workshops">View All Upcoming Cohort Dates &rarr;</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Policies & Governance -->
+          <div>
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-shield-check"></i> Governance &amp; Policies</h2>
+              <ul class="sitemap-links">
+                <li><a href="/privacy.html">Privacy Policy (DPDP Act 2023)</a></li>
+                <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+                <li><a href="/partner-policy.html">Institutional Partnership Policy</a></li>
+                <li><a href="/sitemap.html">Sitemap Directory</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Student & Portals -->
+          <div>
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-person-badge"></i> Student &amp; Admissions</h2>
+              <ul class="sitemap-links">
+                <li><a href="/auth/login">Student Login</a></li>
+                <li><a href="/auth/register">Create Student Account</a></li>
+                <li><a href="https://wa.me/919238695500" target="_blank" rel="noopener">WhatsApp Admissions Counselor (+91 9238695500)</a></li>
+                <li><a href="mailto:hello@thecodemunk.com">General Inquiry: hello@thecodemunk.com</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- All 31 Courses Full Syllabi -->
+          <div style="grid-column: 1 / -1;">
+            <div class="sitemap-card">
+              <h2 class="sitemap-card-title"><i class="bi bi-journal-code"></i> All 31 Verified Programs &amp; Curricula</h2>
+              <ul class="sitemap-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px 24px;">
+                      <li>
+        <a href="/courses/machine-learning-python-projects">Machine Learning with Python Projects</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Data &amp; Analytics</span>
+      </li>
+      <li>
+        <a href="/courses/chatgpt-gemini-ai-productivity-tools">ChatGPT, Gemini &amp; AI Productivity Tools</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/ai-agents-workflow-automation">AI Agents &amp; Workflow Automation</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/prompt-engineering-generative-ai">Prompt Engineering &amp; Generative AI</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/ai-machine-learning-fundamentals">AI &amp; Machine Learning Fundamentals</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/artificial-intelligence-machine-learning">Artificial Intelligence &amp; Machine Learning (AI &amp; ML) Masterclass</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/data-science-machine-learning-foundations">Data Science &amp; Machine Learning Foundations</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Data &amp; Analytics</span>
+      </li>
+      <li>
+        <a href="/courses/generative-ai-agent-engineering">Generative AI &amp; AI Agent Engineering</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/data-analytics-excel-sql-powerbi">Data Analytics with Excel, SQL &amp; Power BI</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Data &amp; Analytics</span>
+      </li>
+      <li>
+        <a href="/courses/ai-tools-for-study-work">AI Tools for Study &amp; Work</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/dsa-problem-solving-java">DSA &amp; Problem Solving with Java</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Career &amp; DSA</span>
+      </li>
+      <li>
+        <a href="/courses/python-programming-automation">Python Programming &amp; Automation</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Programming Foundations</span>
+      </li>
+      <li>
+        <a href="/courses/frontend-development-with-react">Frontend Development with React</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/full-stack-web-development">Full Stack Web Development (MERN)</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/python-for-ai-ml">Python for AI &amp; ML</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Programming Foundations</span>
+      </li>
+      <li>
+        <a href="/courses/cybersecurity-ethical-security-foundations">Cybersecurity &amp; Ethical Security Foundations</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Cloud &amp; DevOps</span>
+      </li>
+      <li>
+        <a href="/courses/system-design-microservices-foundations">System Design &amp; Microservices Foundations</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Career &amp; DSA</span>
+      </li>
+      <li>
+        <a href="/courses/core-java-object-oriented-programming">Core Java &amp; Object-Oriented Programming</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Programming Foundations</span>
+      </li>
+      <li>
+        <a href="/courses/digital-marketing-seo-analytics">Digital Marketing, SEO &amp; Analytics</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Design &amp; Business</span>
+      </li>
+      <li>
+        <a href="/courses/software-testing-qa-playwright">Software Testing &amp; QA with Playwright</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/ui-ux-design-with-figma">UI/UX Design with Figma</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Design &amp; Business</span>
+      </li>
+      <li>
+        <a href="/courses/docker-devops-cicd-essentials">Docker, DevOps &amp; CI/CD Essentials</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Cloud &amp; DevOps</span>
+      </li>
+      <li>
+        <a href="/courses/mobile-app-development-react-native">Mobile App Development with React Native</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/backend-development-nodejs-apis">Backend Development with Node.js &amp; APIs</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/react-nextjs-frontend-engineering">React &amp; Next.js Frontend Engineering</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/ai-automation-nocode-tools">AI Automation with No-Code Tools</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">AI &amp; Automation</span>
+      </li>
+      <li>
+        <a href="/courses/tech-career-launchpad">Tech Career Launchpad</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Career &amp; DSA</span>
+      </li>
+      <li>
+        <a href="/courses/build-your-first-website">Build Your First Website</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Web &amp; Mobile Development</span>
+      </li>
+      <li>
+        <a href="/courses/digital-skills-computer-fundamentals">Digital Skills &amp; Computer Fundamentals</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Programming Foundations</span>
+      </li>
+      <li>
+        <a href="/courses/aws-cloud-deployment-fundamentals">AWS Cloud &amp; Deployment Fundamentals</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Cloud &amp; DevOps</span>
+      </li>
+      <li>
+        <a href="/courses/sql-database-fundamentals">SQL &amp; Database Fundamentals</a>
+        <span style="font-size: 11px; color: var(--tcm-muted); text-transform: uppercase; margin-left: 6px;">Data &amp; Analytics</span>
+      </li>
+
+              </ul>
+            </div>
+          </div>
+
         </div>
+      </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
-        <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
+  </main>
 
-                    <!-- Brand Column -->
-                    <div class="footer-brand">
-                        <a href="index.html" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>
-                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
-                        </p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
-                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
-                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
-                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
-                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
-                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
-                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        </div>
-                        <div class="footer-tag">
-                            <i class="bi bi-patch-check-fill text-success"></i>
-                            Student-Focused Learning Platform
-                        </div>
-                    </div>
-
-                    <!-- Navigation Links Columns -->
-                    <div class="footer-links">
-
-                        <div class="footer-column">
-                            <h4>Learn &amp; Programs</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                            <a href="workshops.html">Live Workshops</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Ecosystem</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Cloud DevOps</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Legal &amp; Policy</h4>
-                            <a href="privacy.html">Privacy Policy</a>
-                            <a href="terms.html">Terms &amp; Conditions</a>
-                            <a href="sitemap.html">Site Map</a>
-                            <a href="partner.html">Partnership Policy</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company &amp; Help</h4>
-                            <a href="insights.html">About Us</a>
-                            <a href="community.html">Community</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="login.php">Student Sign In</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Footer Bottom Strip -->
-                <!-- Trending & Popular Courses (SEO Keywords) -->
-                <div class="footer-trending-seo">
-                    <div class="footer-seo-header">
-                        <span class="footer-seo-title"><i class="bi bi-fire text-danger"></i> Trending &amp; Popular Courses</span>
-                        <span class="footer-seo-badge">Popular Tech Searches</span>
-                    </div>
-                    <div class="footer-seo-tags">
-                        <a href="programs.html">Full Stack Web Development</a>
-                        <a href="programs.html">Generative AI &amp; Agentic AI</a>
-                        <a href="programs.html">Data Science with AI</a>
-                        <a href="programs.html">Playwright with TypeScript</a>
-                        <a href="programs.html">DSA with AI Engineer Program</a>
-                        <a href="programs.html">Microsoft Fabric Data Engineer (DP-700)</a>
-                        <a href="programs.html">DevOps &amp; Multi-Cloud (AWS, Azure, GCP)</a>
-                        <a href="programs.html">Docker &amp; Kubernetes</a>
-                        <a href="programs.html">Cyber Security &amp; Ethical Hacking</a>
-                        <a href="programs.html">Spring Boot &amp; Microservices</a>
-                        <a href="programs.html">Python Programming &amp; Automation</a>
-                        <a href="programs.html">NumPy, Pandas &amp; Matplotlib</a>
-                        <a href="programs.html">React.js &amp; Node.js</a>
-                        <a href="programs.html">Linux Administration &amp; SRE</a>
-                        <a href="programs.html">Power BI &amp; Power Apps</a>
-                        <a href="programs.html">Tableau Data Visualization</a>
-                        <a href="programs.html">Snowflake Data Cloud</a>
-                        <a href="programs.html">Azure Data Factory &amp; DevOps (AZ-400)</a>
-                        <a href="programs.html">Django with REST API</a>
-                        <a href="programs.html">Core Java &amp; Real-Time Projects</a>
-                        <a href="programs.html">DSA using Java &amp; Python</a>
-                        <a href="programs.html">MySQL, SQL Server &amp; MongoDB</a>
-                        <a href="programs.html">Selenium &amp; Manual Testing</a>
-                        <a href="programs.html">UI / UX Design &amp; Figma</a>
-                        <a href="programs.html">MLOps &amp; AIOps</a>
-                        <a href="programs.html">Salesforce CRM &amp; LWC</a>
-                        <a href="programs.html">Backend Development</a>
-                        <a href="programs.html">ASP.NET Core &amp; C#.NET</a>
-                        <a href="programs.html">Digital Marketing &amp; SEO</a>
-                        <a href="programs.html">Spoken English &amp; Soft Skills</a>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <p>&copy; 2026 The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="privacy.html">Privacy Policy</a>
-                        <a href="terms.html">Terms of Service</a>
-                        <a href="sitemap.html">Sitemap</a>
-                        <a href="contact.html">Contact</a>
-                        <a href="insights.html">About</a>
-                    </div>
-                </div>
-            </div>
+  <!-- Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="/" class="tcm-brand">
+            <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+          </a>
+          <p class="tcm-footer-brand-p">
+            Practical tech education through live classes, guided projects, and industry-focused learning.
+          </p>
         </div>
-    </footer>
+        <div>
+          <h4 class="tcm-footer-col-title">Platform</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="/courses">All Courses</a></li>
+            <li><a href="/workshops">Live Workshops</a></li>
+            <li><a href="/for-institutions">For Institutions</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="tcm-footer-col-title">Policies &amp; Legal</h4>
+          <ul class="tcm-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+            <li><a href="/partner-policy.html">Partnership Policy</a></li>
+            <li><a href="/sitemap.html" style="font-weight: 600; color: var(--tcm-fg);">Sitemap Directory</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/skeleton.js"></script>
-    <script src="./assets/auth.js?v=2.2.4"></script>
-    <script src="./assets/tcm-app.js?v=2.2.4"></script>
+  <!-- Scripts -->
+  <script src="./assets/tcm-editorial.js"></script>
+  <script src="./assets/cai-assistant.js"></script>
 </body>
 </html>
-

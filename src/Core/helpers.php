@@ -49,8 +49,17 @@ if (!function_exists('base_url')) {
     function base_url(string $path = ''): string
     {
         $base = (string) config('app.base_path', '');
+        if ($base === '' && isset($_SERVER['SCRIPT_NAME'])) {
+            $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+            if ($dir !== '/' && $dir !== '.' && $dir !== '') {
+                $base = rtrim($dir, '/');
+            }
+        }
         $path = '/' . ltrim($path, '/');
-        return $base . ($path === '/' ? '' : $path);
+        if ($path === '/') {
+            return $base !== '' ? $base : '/';
+        }
+        return $base . $path;
     }
 }
 
