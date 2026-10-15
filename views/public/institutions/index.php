@@ -100,106 +100,15 @@
 
   <!-- Design System & Partner Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/style.css?v=2.2.1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/partner.css?v=2.2.1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.11') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
-  <style>
-    /* Strict 0px Border-Radius Everywhere */
-    *, *::before, *::after {
-      border-radius: 0px !important;
-    }
-
-    /* Editorial Typography Alignment */
-    .partner-hero h1,
-    .ptr-header h2,
-    .ptr-cta-banner h2,
-    .ptr-proposal-card h3,
-    .ptr-model-card h3,
-    .ptr-calc-title {
-      font-family: 'Instrument Serif', Georgia, serif;
-    }
-
-    /* Buttons Unified Sharp Styling */
-    .partner-hero-btns .primary-btn,
-    .partner-hero-btns .secondary-btn,
-    .primary-btn,
-    .secondary-btn {
-      font-family: var(--tcm-font-sans);
-      border-radius: 0px !important;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-
-    .primary-btn {
-      background: var(--tcm-fg);
-      color: #FFF;
-      border: 1.5px solid var(--tcm-fg);
-    }
-    .primary-btn:hover {
-      background: #222;
-      border-color: #222;
-      color: #FFF;
-    }
-
-    .secondary-btn {
-      background: #FFF;
-      color: var(--tcm-fg);
-      border: 1.5px solid var(--tcm-fg);
-    }
-    .secondary-btn:hover {
-      background: #F5F5F5;
-      color: var(--tcm-fg);
-    }
-
-    /* Video Wrapper Sharp 0px */
-    .ptr-video-wrapper {
-      border-radius: 0px !important;
-      border: 1.5px solid var(--tcm-fg);
-      background: #000;
-    }
-
-    /* Custom Form & Field Improvements */
-    .ptr-input, .ptr-select {
-      border-radius: 0px !important;
-      border: 1px solid var(--tcm-border);
-      background: #FFF;
-      font-family: var(--tcm-font-sans);
-    }
-    .ptr-input:focus, .ptr-select:focus {
-      border-color: var(--tcm-fg);
-      box-shadow: none;
-    }
-    .ptr-slider {
-      background: #DEDDD8;
-      border-radius: 0px !important;
-    }
-    .ptr-slider::-webkit-slider-thumb {
-      border-radius: 0px !important;
-      background: var(--tcm-fg);
-    }
-    .ptr-slider::-moz-range-thumb {
-      border-radius: 0px !important;
-      background: var(--tcm-fg);
-    }
-  </style>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-institutions.css?v=1') ?>">
 </head>
-<body>
+<body class="tcm-institutions">
 
-  <!-- Announcement Bar -->
-  <div class="tcm-announcement" role="region" aria-label="Announcement">
-    <div class="tcm-container tcm-announcement-content">
-      <span><strong>Institutional Partnerships 2026:</strong> Zero Upfront Software &amp; Curriculum Licensing for Colleges &amp; Academies.</span>
-      <a href="#partnership-application">Apply Now &rarr;</a>
-    </div>
-  </div>
 
   <!-- Header Navigation -->
   <header class="tcm-header" role="banner">
@@ -254,66 +163,39 @@
     </div>
   </aside>
 
-  <main>
+  <main id="mainContent">
 
     <!-- ===== SECTION 1: HERO SECTION ===== -->
-    <section class="partner-hero">
+    <section class="partner-hero" aria-labelledby="institutions-title">
       <div class="container">
-        <div class="partner-hero-inner">
-          <span class="partner-hero-tag">
-            <i class="bi bi-stars"></i> TCM ONE &middot; TALENT &amp; CAREER MISSION
-          </span>
-          
-          <h1>Become a Partner with TCM One</h1>
-          
-          <div class="partner-hero-sub">
-            Build Skills. Create Opportunities. Transform Careers.
-          </div>
-          
-          <p class="partner-hero-desc">
-            The world of education is changing. Students are looking beyond certificates &mdash; they demand 
-            <strong>practical skills, real-world projects, mentor guidance, AI tools, and career pipelines</strong>. 
-            TCM One offers a <strong>Zero Upfront Software &amp; Curriculum Licensing Model</strong> for colleges, universities, and training institutes &mdash; enabling you to deliver industry-grade tech education without capital expenditure.
-          </p>
-
-          <!-- Ecosystem Formula Bar -->
-          <div class="partner-formula-bar">
-            <span>Students</span> <span class="plus">+</span>
-            <span>Institutes</span> <span class="plus">+</span>
-            <span>Mentors</span> <span class="plus">+</span>
-            <span>AI</span> <span class="plus">+</span>
-            <span>Practical Learning</span> <span class="plus">+</span>
-            <span>Career Opportunities</span>
-          </div>
-
-          <div class="partner-hero-btns mb-4">
-            <a href="#partnership-application" class="primary-btn">
-              <span>Become a Partner</span>
-              <i class="bi bi-arrow-right"></i>
-            </a>
-            <a href="#calculator" class="secondary-btn">
-              <i class="bi bi-calculator"></i>
-              <span>Calculate Earnings</span>
-            </a>
-            <a href="#book-call" class="secondary-btn">
-              <i class="bi bi-telephone-fill"></i>
-              <span>Book a Discovery Call</span>
-            </a>
-            <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" class="secondary-btn ptr-btn-sm" download="TCM-One-Institutional-Partnership-Proposal.pdf" title="Download Official Institutional Partnership Proposal PDF">
-              <i class="bi bi-file-earmark-arrow-down"></i>
-              <span>Download Partnership Brochure PDF</span>
-            </a>
-          </div>
-
-          <!-- Hero Intro Video -->
-          <div class="row justify-content-center mt-4">
-            <div class="col-lg-10">
-              <div class="ptr-video-wrapper">
-                <iframe src="https://www.youtube.com/embed/3hKm1id9pOY?rel=0" class="ptr-video-iframe" title="TCM One Partnership Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              </div>
+        <div class="inst-hero-grid">
+          <div class="inst-hero-copy">
+            <div class="tcm-eyebrow">FOR COLLEGES &amp; TRAINING INSTITUTES</div>
+            <h1 id="institutions-title">Practical learning.<br><span class="font-editorial-serif">Built for your campus.</span></h1>
+            <p class="partner-hero-desc">Bring industry-focused courses, live mentorship, AI learning support and real projects to your students. Build with TCM One through an approved partnership, with no upfront platform setup fee.</p>
+            <div class="inst-hero-actions">
+              <a href="#partnership-application" class="tcm-btn tcm-btn-primary">Become a Partner <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+              <a href="#models" class="tcm-btn tcm-btn-secondary">Explore the Models</a>
+            </div>
+            <div class="inst-hero-links">
+              <a href="#book-call">Book a discovery call &rarr;</a>
+              <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" download="TCM-One-Institutional-Partnership-Proposal.pdf">Download partnership brochure &darr;</a>
             </div>
           </div>
+          <aside class="inst-hero-panel" aria-label="The TCM One learning ecosystem">
+            <div class="tcm-eyebrow">YOUR CAMPUS. OUR ECOSYSTEM.</div>
+            <h2>Everything your students need.<br><span class="font-editorial-serif">Connected.</span></h2>
+            <div class="inst-learning-step"><span>01</span><div><strong>Learn with structure</strong><p>Curriculum, resources and a clear learning path.</p></div><i class="bi bi-arrow-up-right" aria-hidden="true"></i></div>
+            <div class="inst-learning-step"><span>02</span><div><strong>Build with guidance</strong><p>Practical projects, AI help and mentor support.</p></div><i class="bi bi-arrow-up-right" aria-hidden="true"></i></div>
+            <div class="inst-learning-step"><span>03</span><div><strong>Grow with proof</strong><p>Portfolio work, assessments and career readiness.</p></div><i class="bi bi-arrow-up-right" aria-hidden="true"></i></div>
+          </aside>
         </div>
+        <nav class="inst-section-nav" aria-label="Explore institutional partnerships">
+          <a href="#models">01 &nbsp; Partnership models</a>
+          <a href="#calculator">02 &nbsp; Revenue calculator</a>
+          <a href="#platform">03 &nbsp; Learning platform</a>
+          <a href="#partnership-application">04 &nbsp; Start an application</a>
+        </nav>
       </div>
     </section>
 
@@ -369,6 +251,11 @@
         <div class="ptr-objective-box">
           <strong>Our Objective:</strong> Help institutions move from traditional course delivery towards a more <strong>outcome-oriented learning experience</strong>.
         </div>
+        <details class="inst-video">
+          <summary>Watch the TCM One partnership overview</summary>
+          <div class="ptr-video-wrapper"><iframe src="https://www.youtube.com/embed/3hKm1id9pOY?rel=0" class="ptr-video-iframe" title="TCM One Partnership Video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        </details>
+
       </div>
     </section>
 
@@ -482,7 +369,7 @@
       <div class="container">
         <div class="ptr-header">
           <span class="ptr-tag">DELIVERABLES</span>
-          <h2>What Do We Provide?</h2>
+          <h2>A complete learning ecosystem.</h2>
           <p>When you partner with TCM One, you get access to 7 integrated ecosystem pillars:</p>
         </div>
 
@@ -566,7 +453,7 @@
         </div>
 
         <!-- APP SHOWCASE & DIGITAL PRESENCE SECTION -->
-        <div class="ptr-app-box">
+        <div id="platform" class="ptr-app-box">
           <div class="text-center max-w-700 mx-auto mb-5">
             <span class="ptr-app-step-badge"><i class="bi bi-phone"></i> MOBILE APP EXPERIENCE</span>
             <h3 class="fw-extrabold text-dark mb-2 fs-2">How Your Institution Appears in the TCM App</h3>
@@ -770,7 +657,7 @@
       <div class="container">
         <div class="ptr-header">
           <span class="ptr-tag">COMMERCIAL PROJECTIONS</span>
-          <h2>Smart Partnership Revenue Calculator</h2>
+          <h2>Plan your next cohort.</h2>
           <p>Estimate institutional revenue shares and commercial collections instantly based on student strength, program fees, and delivery models.</p>
         </div>
 
@@ -887,7 +774,7 @@
       <div class="container">
         <div class="ptr-header">
           <span class="ptr-tag">PARTNERSHIP OPTIONS</span>
-          <h2>Our Partnership Models</h2>
+          <h2>Two ways to build together.</h2>
           <p>Choose the operational model that best fits your institution's infrastructure, faculty bandwidth, and strategic goals:</p>
         </div>
 
@@ -902,7 +789,7 @@
                 <p class="ptr-model-desc">
                   Built for colleges, training centers, and academic organizations that want to offer high-demand career tracks without taking operational responsibility for daily classroom delivery.
                 </p>
-                
+
                 <div class="p-3 bg-light border mb-3">
                   <div class="small fw-bold text-dark mb-1"><i class="bi bi-person-check me-1"></i> Who is this model suitable for?</div>
                   <div class="small text-secondary">Colleges, degree academies, polytechnics, and skill communities wanting to test student demand with zero operational burden.</div>
@@ -1194,7 +1081,7 @@
       <div class="container">
         <div class="ptr-header">
           <span class="ptr-tag">PROGRESSION ROADMAP</span>
-          <h2>8-Stage Partnership Journey</h2>
+          <h2>From first conversation to first cohort.</h2>
           <p>A structured, predictable operational roadmap from initial exploration to long-term cohort scaling:</p>
         </div>
 
@@ -1267,27 +1154,27 @@
             <form id="ptrMeetingForm">
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Institution Name *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetInstName">Institution Name *</label>
                   <input type="text" class="ptr-input" id="ptrMeetInstName" required placeholder="e.g. Government Engineering College">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Contact Person &amp; Title *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetPerson">Contact Person &amp; Title *</label>
                   <input type="text" class="ptr-input" id="ptrMeetPerson" required placeholder="Dr. Sharma / Principal / HoD">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Official Phone Number *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetPhone">Official Phone Number *</label>
                   <input type="tel" class="ptr-input" id="ptrMeetPhone" required placeholder="+91 98765 43210">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Institutional Email *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetEmail">Institutional Email *</label>
                   <input type="email" class="ptr-input" id="ptrMeetEmail" required placeholder="director@college.edu.in">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Preferred Meeting Date *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetingDate">Preferred Meeting Date *</label>
                   <input type="date" class="ptr-input" id="ptrMeetingDate" required>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label fw-bold small text-uppercase">Preferred Time Slot *</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetingTime">Preferred Time Slot *</label>
                   <select class="ptr-select" id="ptrMeetingTime" required>
                     <option value="10:00 AM - 11:30 AM">Morning: 10:00 AM - 11:30 AM</option>
                     <option value="11:30 AM - 01:00 PM" selected>Mid-Day: 11:30 AM - 01:00 PM</option>
@@ -1296,7 +1183,7 @@
                   </select>
                 </div>
                 <div class="col-md-12">
-                  <label class="form-label fw-bold small text-uppercase">Partnership Model of Interest</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetModel">Partnership Model of Interest</label>
                   <select class="ptr-select" id="ptrMeetModel">
                     <option value="Academic Partnership">Academic Partnership (On-Campus Delivery &middot; 40% Institute / 60% TCM One)</option>
                     <option value="Referral Model">Referral Model (Online Delivery &middot; 15% Commission)</option>
@@ -1304,7 +1191,7 @@
                   </select>
                 </div>
                 <div class="col-12">
-                  <label class="form-label fw-bold small text-uppercase">Topics to Discuss / Specific Goals</label>
+                  <label class="form-label fw-bold small text-uppercase" for="ptrMeetNotes">Topics to Discuss / Specific Goals</label>
                   <textarea class="ptr-input" id="ptrMeetNotes" rows="2" placeholder="e.g. Planning a Full Stack track for 3rd-year CS students starting next month..."></textarea>
                 </div>
               </div>
@@ -1346,7 +1233,7 @@
       <div class="container">
         <div class="ptr-header">
           <span class="ptr-tag">FORMAL ONBOARDING</span>
-          <h2>Partnership Application Wizard</h2>
+          <h2>Your next chapter starts here.</h2>
           <p>Provide your institution details in two simple steps to initiate formal accreditation review.</p>
         </div>
 
@@ -1546,69 +1433,69 @@
         <div style="max-width: 820px; margin: 0 auto;">
           <div class="ptr-header">
             <span class="ptr-tag">QUESTIONS &amp; ANSWERS</span>
-            <h2>Frequently Asked Questions by Institutions</h2>
+            <h2>A few things you might be wondering.</h2>
             <p>Everything you need to know about our technology partnerships, lab readiness, and commercial revenue disbursements.</p>
           </div>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
+          <details class="tcm-faq-item" name="institutions-faq">
+            <summary class="tcm-faq-summary">
               <span>What partnership models does TCM One offer to colleges?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            </summary>
+            <div class="tcm-faq-body">
               <p>
                 TCM One offers two flexible models: the <strong>Referral Model (15% commission)</strong> with zero operational load where students learn online, and the <strong>Academic Partnership Model (40% Institute / 60% TCM One)</strong> where practical tracks are co-delivered for dedicated batches in your computer labs.
               </p>
             </div>
-          </div>
+          </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
+          <details class="tcm-faq-item" name="institutions-faq">
+            <summary class="tcm-faq-summary">
               <span>What are the minimum computer lab requirements for students?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            </summary>
+            <div class="tcm-faq-body">
               <p>
                 Standard college computer systems with modern browsers (Google Chrome or Firefox) and a stable internet connection (20Mbps+) are sufficient. All programming environments run on lightweight local setups or cloud browser IDEs (VS Code / GitHub Codespaces), requiring zero specialized server hardware.
               </p>
             </div>
-          </div>
+          </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
+          <details class="tcm-faq-item" name="institutions-faq">
+            <summary class="tcm-faq-summary">
               <span>Can the sessions be scheduled within our regular college timetable?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            </summary>
+            <div class="tcm-faq-body">
               <p>
                 Yes. We customize batch timings to match your timetable: weekday afternoon lab slots, dedicated Saturday morning cohorts, or intensive vacation bootcamps during semester breaks.
               </p>
             </div>
-          </div>
+          </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
+          <details class="tcm-faq-item" name="institutions-faq">
+            <summary class="tcm-faq-summary">
               <span>How are student completion certificates verified by recruiters?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            </summary>
+            <div class="tcm-faq-body">
               <p>
                 Each certificate carries a unique cryptographic ID and a QR code pointing to an online verification portal at TCM One. Recruiters and companies can immediately authenticate the student's capstone repository and verified skill breakdown.
               </p>
             </div>
-          </div>
+          </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
+          <details class="tcm-faq-item" name="institutions-faq">
+            <summary class="tcm-faq-summary">
               <span>What is the typical lead time to initiate a cohort after MoU signing?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
+              <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            </summary>
+            <div class="tcm-faq-body">
               <p>
                 Following bilateral MoU signing and lab readiness verification, student portal provisioning, mentor briefing, and cohort launch typically complete within 7 to 14 business days.
               </p>
             </div>
-          </div>
+          </details>
         </div>
       </div>
     </section>
