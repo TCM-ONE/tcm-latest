@@ -21,20 +21,73 @@
 
   <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
 
-  <title><?= e($title ?? 'Institutional & College Partnerships — TCM One') ?></title>
-  <meta name="description" content="<?= e($description ?? 'Partner with TCM One to offer structured technical training, practical projects, and career-focused learning to your students.') ?>">
+  <title><?= e($title ?? 'College & Training Institute Partnerships | TCM One') ?></title>
+  <meta name="description" content="<?= e($description ?? 'Partner with TCM One to offer practical technology programs, structured curricula and mentor-supported learning through flexible institutional models.') ?>">
+  <meta name="keywords" content="TCM One partnership, college coding partner, university coding courses, TCM One Lab, tech education partner, mentor-led learning ecosystem">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TCM One">
-  <meta property="og:url" content="<?= e($canonical) ?>">
-  <meta property="og:title" content="College &amp; Training Institute Partnerships &mdash; TCM One">
-  <meta property="og:description" content="<?= e($description) ?>">
-  <meta property="og:image" content="<?= e($ogImage) ?>">
+  <meta property="og:url" content="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
+  <meta property="og:title" content="College &amp; Training Institute Partnerships | TCM One">
+  <meta property="og:description" content="<?= e($description ?? 'Partner with TCM One to offer practical technology programs, structured curricula and mentor-supported learning through flexible institutional models.') ?>">
+  <meta property="og:image" content="<?= e($ogImage ?? base_url('/assets/tcm-og-share.png')) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://thecodemunk.in/#organization",
+        "name": "TCM One (The Code Munk)",
+        "url": "https://thecodemunk.in",
+        "logo": "https://thecodemunk.in/assets/logo.png",
+        "sameAs": [
+          "https://github.com/tcmone",
+          "https://youtube.com/@tcmoneindia",
+          "https://www.instagram.com/tcmoneindia"
+        ],
+        "description": "Talent & Career Mission — Mentor-led tech education ecosystem partnering with colleges and institutions across India."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://thecodemunk.in/for-institutions#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What partnership models does TCM One offer to colleges?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TCM One offers two primary models: Referral Partnership with 15% commission on verified paid enrollments and Academic Partnership with a 40% Institute / 60% TCM One revenue share, subject to the approved policy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly can a partnership batch be launched?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Following MoU signing and lab readiness verification, cohort onboarding typically completes within 7 to 14 days."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does TCM One provide curriculum alignment and faculty training?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. TCM One provides complete outcome-focused curriculum, industry LMS access, Faculty Development Programs (FDP), continuous mentor support, and placement readiness drives."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,130 +95,99 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <!-- Design System Stylesheets -->
+  <!-- Core Bootstrap 5 CSS for Grid & Utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Design System & Partner Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/style.css?v=2.2.1') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/partner.css?v=2.2.1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <style>
-    .inst-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-    @media (min-width: 992px) {
-      .inst-grid-2 {
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-      }
-    }
-    .inst-track-card {
-      background: var(--tcm-surface);
-      border: 1px solid var(--tcm-border);
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: border-color 0.15s ease;
-    }
-    .inst-track-card:hover {
-      border-color: var(--tcm-fg);
-    }
-    .inst-step-num {
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 36px;
-      color: var(--tcm-muted);
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-    .ptr-zero-card {
-      background: var(--tcm-surface);
-      border: 1px solid var(--tcm-border);
-      padding: 24px;
-      height: 100%;
-      transition: border-color 0.15s ease;
-    }
-    .ptr-zero-card:hover {
-      border-color: var(--tcm-fg);
-    }
-    .ptr-model-toggle {
-      display: inline-flex;
-      border: 1px solid var(--tcm-border);
-      background: var(--tcm-bg);
-      padding: 3px;
-      gap: 4px;
-    }
-    .ptr-model-toggle-btn {
-      background: transparent;
-      border: none;
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--tcm-fg);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      font-family: var(--tcm-font-sans);
-    }
-    .ptr-model-toggle-btn.active {
-      background: var(--tcm-fg);
-      color: #FFF;
-      font-weight: 600;
-    }
-    .ptr-pct-presets {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .ptr-pct-btn {
-      padding: 4px 12px;
-      font-size: 12px;
-      border: 1px solid var(--tcm-border);
-      background: var(--tcm-surface);
-      cursor: pointer;
-      font-weight: 500;
-      font-family: var(--tcm-font-sans);
-    }
-    .ptr-pct-btn.active {
-      background: var(--tcm-fg);
-      color: #FFF;
-      border-color: var(--tcm-fg);
-    }
-    .ptr-slider {
-      width: 100%;
-      height: 6px;
-      background: #DEDDD8;
-      outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-      margin: 10px 0 6px 0;
-    }
-    .ptr-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      background: var(--tcm-fg);
-      cursor: pointer;
+    /* Strict 0px Border-Radius Everywhere */
+    *, *::before, *::after {
       border-radius: 0px !important;
     }
-    .ptr-calc-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
+
+    /* Editorial Typography Alignment */
+    .partner-hero h1,
+    .ptr-header h2,
+    .ptr-cta-banner h2,
+    .ptr-proposal-card h3,
+    .ptr-model-card h3,
+    .ptr-calc-title {
+      font-family: 'Instrument Serif', Georgia, serif;
     }
-    .ptr-calc-val-pill {
-      font-size: 12px;
+
+    /* Buttons Unified Sharp Styling */
+    .partner-hero-btns .primary-btn,
+    .partner-hero-btns .secondary-btn,
+    .primary-btn,
+    .secondary-btn {
+      font-family: var(--tcm-font-sans);
+      border-radius: 0px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       font-weight: 700;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .primary-btn {
       background: var(--tcm-fg);
       color: #FFF;
-      padding: 2px 8px;
+      border: 1.5px solid var(--tcm-fg);
     }
-    .ptr-calc-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 13.5px;
-      border-bottom: 1px solid var(--tcm-border);
+    .primary-btn:hover {
+      background: #222;
+      border-color: #222;
+      color: #FFF;
+    }
+
+    .secondary-btn {
+      background: #FFF;
+      color: var(--tcm-fg);
+      border: 1.5px solid var(--tcm-fg);
+    }
+    .secondary-btn:hover {
+      background: #F5F5F5;
+      color: var(--tcm-fg);
+    }
+
+    /* Video Wrapper Sharp 0px */
+    .ptr-video-wrapper {
+      border-radius: 0px !important;
+      border: 1.5px solid var(--tcm-fg);
+      background: #000;
+    }
+
+    /* Custom Form & Field Improvements */
+    .ptr-input, .ptr-select {
+      border-radius: 0px !important;
+      border: 1px solid var(--tcm-border);
+      background: #FFF;
+      font-family: var(--tcm-font-sans);
+    }
+    .ptr-input:focus, .ptr-select:focus {
+      border-color: var(--tcm-fg);
+      box-shadow: none;
+    }
+    .ptr-slider {
+      background: #DEDDD8;
+      border-radius: 0px !important;
+    }
+    .ptr-slider::-webkit-slider-thumb {
+      border-radius: 0px !important;
+      background: var(--tcm-fg);
+    }
+    .ptr-slider::-moz-range-thumb {
+      border-radius: 0px !important;
+      background: var(--tcm-fg);
     }
   </style>
 </head>
@@ -174,8 +196,8 @@
   <!-- Announcement Bar -->
   <div class="tcm-announcement" role="region" aria-label="Announcement">
     <div class="tcm-container tcm-announcement-content">
-      <span><strong>Institutional Partnerships 2026:</strong> Empower your engineering or BCA campus with outcome-based tech cohorts.</span>
-      <a href="#partner-form">Submit Proposal &rarr;</a>
+      <span><strong>Institutional Partnerships 2026:</strong> Zero Upfront Software &amp; Curriculum Licensing for Colleges &amp; Academies.</span>
+      <a href="#partnership-application">Apply Now &rarr;</a>
     </div>
   </div>
 
@@ -198,7 +220,7 @@
 
         <div class="tcm-header-actions">
           <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
-          <a href="#partner-form" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+          <a href="#partnership-application" class="tcm-btn tcm-btn-primary tcm-btn-sm">
             <span>Partner With Us</span>
             <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </a>
@@ -228,524 +250,708 @@
     </nav>
     <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--tcm-border); display: flex; flex-direction: column; gap: 12px;">
       <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-secondary" style="width: 100%;">Sign In</a>
-      <a href="#partner-form" class="tcm-btn tcm-btn-primary" style="width: 100%;">Partner With Us</a>
+      <a href="#partnership-application" class="tcm-btn tcm-btn-primary" style="width: 100%;">Partner With Us</a>
     </div>
   </aside>
 
   <main>
-    <!-- Hero Section -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 52px) 0 clamp(24px, 3vw, 36px); position: relative; overflow: hidden;">
-      <div class="tcm-container">
-        <div style="max-width: 840px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 14px;">ACADEMIC &amp; CAMPUS COLLABORATION</div>
-          <h1 class="tcm-h1" style="font-size: clamp(34px, 5vw, 56px); line-height: 1.1; margin-bottom: 22px;">
-            Bridge the Industry Gap for Your Engineering &amp; BCA Students.
-          </h1>
-          <p class="tcm-lead" style="font-size: 19px; line-height: 1.6; margin-bottom: 32px; color: var(--tcm-muted);">
-            TCM One collaborates with universities, engineering colleges, and training institutes across India to deliver practical, project-first software education. Zero theory bloat. 100% production codebases.
+
+    <!-- ===== SECTION 1: HERO SECTION ===== -->
+    <section class="partner-hero">
+      <div class="container">
+        <div class="partner-hero-inner">
+          <span class="partner-hero-tag">
+            <i class="bi bi-stars"></i> TCM ONE &middot; TALENT &amp; CAREER MISSION
+          </span>
+          
+          <h1>Become a Partner with TCM One</h1>
+          
+          <div class="partner-hero-sub">
+            Build Skills. Create Opportunities. Transform Careers.
+          </div>
+          
+          <p class="partner-hero-desc">
+            The world of education is changing. Students are looking beyond certificates &mdash; they demand 
+            <strong>practical skills, real-world projects, mentor guidance, AI tools, and career pipelines</strong>. 
+            TCM One offers a <strong>Zero Upfront Software &amp; Curriculum Licensing Model</strong> for colleges, universities, and training institutes &mdash; enabling you to deliver industry-grade tech education without capital expenditure.
           </p>
 
-          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
-            <a href="#partner-form" class="tcm-btn tcm-btn-primary">
-              <span>Submit Partnership Enquiry</span>
-              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          <!-- Ecosystem Formula Bar -->
+          <div class="partner-formula-bar">
+            <span>Students</span> <span class="plus">+</span>
+            <span>Institutes</span> <span class="plus">+</span>
+            <span>Mentors</span> <span class="plus">+</span>
+            <span>AI</span> <span class="plus">+</span>
+            <span>Practical Learning</span> <span class="plus">+</span>
+            <span>Career Opportunities</span>
+          </div>
+
+          <div class="partner-hero-btns mb-4">
+            <a href="#partnership-application" class="primary-btn">
+              <span>Become a Partner</span>
+              <i class="bi bi-arrow-right"></i>
             </a>
-            <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I am writing from an academic institution to discuss partnership opportunities.') ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary">
-              <i class="bi bi-whatsapp"></i> Speak to Academic Lead
+            <a href="#calculator" class="secondary-btn">
+              <i class="bi bi-calculator"></i>
+              <span>Calculate Earnings</span>
             </a>
+            <a href="#book-call" class="secondary-btn">
+              <i class="bi bi-telephone-fill"></i>
+              <span>Book a Discovery Call</span>
+            </a>
+            <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" class="secondary-btn ptr-btn-sm" download="TCM-One-Institutional-Partnership-Proposal.pdf" title="Download Official Institutional Partnership Proposal PDF">
+              <i class="bi bi-file-earmark-arrow-down"></i>
+              <span>Download Partnership Brochure PDF</span>
+            </a>
+          </div>
+
+          <!-- Hero Intro Video -->
+          <div class="row justify-content-center mt-4">
+            <div class="col-lg-10">
+              <div class="ptr-video-wrapper">
+                <iframe src="https://www.youtube.com/embed/3hKm1id9pOY?rel=0" class="ptr-video-iframe" title="TCM One Partnership Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Key Institutional Pillars Grid -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border);">
-      <div class="tcm-container">
-        <div style="margin-bottom: 40px; max-width: 700px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">PEDAGOGY THAT DELIVERS</div>
-          <h2 class="tcm-h2">Why Colleges Choose TCM One</h2>
-          <p style="color: var(--tcm-muted); font-size: 15px; margin: 8px 0 0;">
-            Most college students graduate with theoretical knowledge but struggle to write production-grade software. We solve this directly.
-          </p>
+    <!-- ===== SECTION 2: WHAT IS TCM ONE? ===== -->
+    <section class="ptr-section">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">ECOSYSTEM OVERVIEW</span>
+          <h2>What is TCM One?</h2>
+          <p class="fw-bold text-dark fs-5 mb-2">Learning should not stop when the classroom ends.</p>
+          <p>TCM One is a learning and career ecosystem built around connecting structured training with practical career outcomes.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-          <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 28px;">
-            <div style="font-size: 22px; margin-bottom: 14px; color: var(--tcm-fg);"><i class="bi bi-terminal"></i></div>
-            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 8px;">Production Code Pedagogy</h3>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Students learn using industry tools: Git, GitHub, modern terminal commands, Docker, and REST APIs. They graduate with live GitHub portfolios, not rote memorization.
-            </p>
+        <div class="row g-3">
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-journal-code"></i> Structured Courses</div>
           </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-laptop"></i> Practical Learning</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-file-earmark-text"></i> Study Materials</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-kanban"></i> Assignments &amp; Projects</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-cpu"></i> AI-Assisted Learning</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-person-badge"></i> Mentor Support</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-question-circle"></i> Doubt Resolution</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-compass"></i> Career Guidance</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-briefcase"></i> Jobs &amp; Internships</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-graph-up-arrow"></i> Progress Tracking</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-folder-symlink"></i> Digital Resources</div>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <div class="ptr-offering-item"><i class="bi bi-people"></i> Community Network</div>
+          </div>
+        </div>
 
-          <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 28px;">
-            <div style="font-size: 22px; margin-bottom: 14px; color: var(--tcm-fg);"><i class="bi bi-person-video3"></i></div>
-            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 8px;">Live Mentor Instruction</h3>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Classes are taught live by practicing software engineers. Direct code reviews, interactive debugging sessions, and real-time Q&amp;A keep engagement exceptionally high.
-            </p>
-          </div>
-
-          <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 28px;">
-            <div style="font-size: 22px; margin-bottom: 14px; color: var(--tcm-fg);"><i class="bi bi-mortarboard"></i></div>
-            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 8px;">Faculty Development (FDP)</h3>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Every partnership includes complimentary enablement workshops for your department faculty, keeping educators aligned with modern industry technology stacks.
-            </p>
-          </div>
-
-          <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 28px;">
-            <div style="font-size: 22px; margin-bottom: 14px; color: var(--tcm-fg);"><i class="bi bi-qr-code-scan"></i></div>
-            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 8px;">Verifiable Credentials</h3>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Each enrolled student receives a cryptographically verifiable completion certificate with dedicated verification URLs to showcase on LinkedIn and resumes.
-            </p>
-          </div>
+        <div class="ptr-objective-box">
+          <strong>Our Objective:</strong> Help institutions move from traditional course delivery towards a more <strong>outcome-oriented learning experience</strong>.
         </div>
       </div>
     </section>
 
-    <!-- No Upfront Platform Fee & Partner Commercial Advantage -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border); background: var(--tcm-bg);" id="zero-investment">
-      <div class="tcm-container">
-        <div style="margin-bottom: 36px; max-width: 820px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">PARTNER ADVANTAGE &amp; COMMERCIAL TERMS</div>
-          <h2 class="tcm-h2">No Upfront Platform Fee for Institutes</h2>
-          <p style="color: var(--tcm-fg); font-size: 16px; font-weight: 600; margin: 8px 0 6px;">
+    <!-- ===== SECTION 3: NO UPFRONT PLATFORM FEE & COMMERCIAL TERMS ===== -->
+    <section class="ptr-section ptr-section-alt" id="zero-investment">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag"><i class="bi bi-graph-up-arrow me-1"></i> PARTNER ADVANTAGE &amp; COMMERCIAL TERMS</span>
+          <h2>No Upfront Platform Fee for Institutes</h2>
+          <p class="lead text-dark fw-semibold mt-2 mb-3">
             Launch high-demand technology &amp; career programs without capital risk.
           </p>
-          <p style="color: var(--tcm-muted); font-size: 14.5px; line-height: 1.6; margin: 0;">
-            Your institution does not pay an upfront setup fee to start an approved partnership model. Referral partners receive <strong>15% commission</strong>, while academic partners follow our approved <strong>40% Institute / 60% TCM One</strong> revenue share. TCM One collects student fees and releases approved payouts by the <strong>15th of the following month</strong>.
+          <p class="text-secondary">
+            <strong>No Upfront Platform Fee:</strong> Your institution does not pay a platform setup fee to start an approved partnership model.
+            <br>
+            <strong>Transparent Commercial Terms:</strong> Referral partners receive 15% commission, while academic partners follow the approved 40% Institute / 60% TCM One revenue share. TCM One collects student fees and releases approved payouts by the 15th of the following month.
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
-          <div class="ptr-zero-card">
-            <div style="font-size: 24px; color: var(--tcm-fg); margin-bottom: 12px;"><i class="bi bi-wallet2"></i></div>
-            <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">₹0 Upfront Platform Fee</h4>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.55; margin: 0;">
-              Zero platform setup fee or licensing overhead to begin an approved referral or campus partnership.
-            </p>
+        <div class="row g-4 mb-5">
+          <div class="col-md-6 col-lg-3">
+            <div class="ptr-zero-card">
+              <div class="ptr-zero-icon"><i class="bi bi-wallet2"></i></div>
+              <h4>₹0 Upfront Platform Fee</h4>
+              <p>No platform setup fee is required to begin an approved referral or academic partnership.</p>
+            </div>
           </div>
-
-          <div class="ptr-zero-card">
-            <div style="font-size: 24px; color: var(--tcm-fg); margin-bottom: 12px;"><i class="bi bi-currency-rupee"></i></div>
-            <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Transparent Revenue Share</h4>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.55; margin: 0;">
-              Policy-backed commercial terms: 15% referral commission or 40% academic institutional revenue share.
-            </p>
+          <div class="col-md-6 col-lg-3">
+            <div class="ptr-zero-card">
+              <div class="ptr-zero-icon"><i class="bi bi-currency-rupee"></i></div>
+              <h4>Clear Revenue Share</h4>
+              <p>Use fixed, policy-backed commercial models instead of unclear earning promises.</p>
+            </div>
           </div>
-
-          <div class="ptr-zero-card">
-            <div style="font-size: 24px; color: var(--tcm-fg); margin-bottom: 12px;"><i class="bi bi-cpu"></i></div>
-            <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">24×7 Ask AI &amp; Platform</h4>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.55; margin: 0;">
-              Students access real-time AI doubt solving, progress tracking, problem sets, and repository reviews.
-            </p>
+          <div class="col-md-6 col-lg-3">
+            <div class="ptr-zero-card">
+              <div class="ptr-zero-icon"><i class="bi bi-cpu"></i></div>
+              <h4>Complete AI &amp; Platform Support</h4>
+              <p>Students access 24×7 AI doubt clearing, live dashboard, automated progress tracking, and study materials.</p>
+            </div>
           </div>
-
-          <div class="ptr-zero-card">
-            <div style="font-size: 24px; color: var(--tcm-fg); margin-bottom: 12px;"><i class="bi bi-award"></i></div>
-            <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Accredited Co-Branding</h4>
-            <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.55; margin: 0;">
-              Deliver co-branded programs with verified cryptographic certificates and direct placement exposure.
-            </p>
+          <div class="col-md-6 col-lg-3">
+            <div class="ptr-zero-card">
+              <div class="ptr-zero-icon"><i class="bi bi-award"></i></div>
+              <h4>Co-Branded Learning</h4>
+              <p>Offer structured learning programs with TCM One curriculum, platform support and career guidance.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- The 2 Core Partnership Models -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border);" id="models">
-      <div class="tcm-container">
-        <div style="margin-bottom: 36px; max-width: 760px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">PARTNERSHIP OPTIONS</div>
-          <h2 class="tcm-h2">Our Partnership Models</h2>
-          <p style="color: var(--tcm-muted); font-size: 15px; margin: 8px 0 0;">
-            Choose the operational model that best fits your institution's infrastructure, faculty bandwidth, and strategic goals.
-          </p>
+    <!-- ===== SECTION 4: WHAT PROBLEM ARE WE SOLVING? ===== -->
+    <section class="ptr-section">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">THE INDUSTRY GAP</span>
+          <h2>What Problem Are We Solving?</h2>
+          <p>Many educational institutions face similar systemic challenges when updating technical training:</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
-          <!-- Model 1: Referral Model -->
-          <div class="inst-track-card">
-            <div>
-              <span class="tcm-badge" style="margin-bottom: 14px;">MODEL 01</span>
-              <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 8px; font-family: 'Instrument Serif', Georgia, serif;">
-                Referral Model (15% Commission)
-              </h3>
-              <div style="font-size: 13.5px; font-weight: 600; color: var(--tcm-fg); margin-bottom: 12px;">
-                Refer Students &middot; Zero Faculty Overhead &middot; Monthly Payouts
-              </div>
-              <p style="font-size: 14px; color: var(--tcm-muted); line-height: 1.6; margin-bottom: 18px;">
-                Designed for colleges, training academies, and student chapters who want to offer industry-standard career tracks without taking operational load for daily classroom teaching.
-              </p>
-
-              <div style="background: var(--tcm-bg); border: 1px solid var(--tcm-border); padding: 14px 18px; margin-bottom: 18px;">
-                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--tcm-fg); margin-bottom: 4px;">Who is this for?</div>
-                <div style="font-size: 13px; color: var(--tcm-muted); line-height: 1.5;">Engineering colleges, BCA polytechnics, and faculty clubs wanting to test student demand with zero operational burden.</div>
-              </div>
-
-              <ul style="list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--tcm-fg);">
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Institute Role:</strong> Share verified partner link, promote cohorts to students</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>TCM One Role:</strong> Complete curriculum, live sessions, 24×7 AI doubt solving</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Tracking:</strong> Dedicated Institutional Partner Code and admissions ledger</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Commercial:</strong> 15% commission per verified student enrollment</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Settlement:</strong> Payouts released by 15th of following month</li>
-              </ul>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-exclamation-triangle"></i></div>
+              <p>Students complete courses but lack practical hands-on exposure.</p>
             </div>
-            <button type="button" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center;" data-select-partner-model="Referral">
-              <i class="bi bi-calculator"></i> Simulate Referral Earnings
-            </button>
           </div>
-
-          <!-- Model 2: Academic Partnership Model -->
-          <div class="inst-track-card" style="border-top: 3px solid var(--tcm-fg);">
-            <div>
-              <span class="tcm-badge" style="margin-bottom: 14px; background: #111; color: #FFF;">MODEL 02 &middot; MOST POPULAR</span>
-              <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 8px; font-family: 'Instrument Serif', Georgia, serif;">
-                Academic Partnership (40% Institute / 60% TCM)
-              </h3>
-              <div style="font-size: 13.5px; font-weight: 600; color: var(--tcm-fg); margin-bottom: 12px;">
-                Co-Deliver on Campus &middot; Minimum 20 Students / Batch
-              </div>
-              <p style="font-size: 14px; color: var(--tcm-muted); line-height: 1.6; margin-bottom: 18px;">
-                A comprehensive collaboration where the institution and TCM One co-deliver full-stack web, AI, or data cohorts to student groups with lab delivery and co-branded credentials.
-              </p>
-
-              <div style="background: var(--tcm-bg); border: 1px solid var(--tcm-border); padding: 14px 18px; margin-bottom: 18px;">
-                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--tcm-fg); margin-bottom: 4px;">Cohort &amp; Lab Standards:</div>
-                <div style="font-size: 13px; color: var(--tcm-muted); line-height: 1.5;">Min. 20 students per batch. College lab provides 1 PC per student, projector, and stable broadband connection.</div>
-              </div>
-
-              <ul style="list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--tcm-fg);">
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Mentorship:</strong> Nominated faculty trained by TCM One or dedicated TCM mentors</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Institute Role:</strong> Lab scheduling, internal attendance &amp; student coordinator</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>TCM One Role:</strong> Full curriculum, project repositories, LMS access, AI doubt solver</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Revenue Share:</strong> 40% Institute / 60% TCM One on program collections</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> <strong>Settlement:</strong> Direct monthly payout release by 15th of following month</li>
-              </ul>
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-book"></i></div>
+              <p>Mentors have subject knowledge but need structured curriculum and teaching resources.</p>
             </div>
-            <button type="button" class="tcm-btn tcm-btn-primary" style="width: 100%; justify-content: center;" data-select-partner-model="Academic">
-              <i class="bi bi-calculator"></i> Simulate Partnership Share
-            </button>
           </div>
-        </div>
-
-        <!-- Matrix Comparison Table -->
-        <div style="margin-top: 48px;">
-          <div style="max-width: 680px; margin-bottom: 20px;">
-            <div class="tcm-eyebrow">FEATURE COMPARISON</div>
-            <h3 class="tcm-h3" style="margin: 4px 0 8px;">Detailed Model Comparison Matrix</h3>
-            <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
-              Side-by-side breakdown of operational responsibilities and commercial terms:
-            </p>
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-clock-history"></i></div>
+              <p>Developing new curriculum internally takes significant time and heavy financial resources.</p>
+            </div>
           </div>
-
-          <div class="tcm-matrix-wrap">
-            <table class="tcm-matrix-table">
-              <thead>
-                <tr>
-                  <th style="min-width: 220px;">Feature &amp; Scope</th>
-                  <th style="min-width: 200px;">Referral Model</th>
-                  <th style="min-width: 220px;">Academic Partnership</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Student Discovery &amp; Referral</strong></td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                </tr>
-                <tr>
-                  <td><strong>TCM One LMS &amp; Course Materials</strong></td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                </tr>
-                <tr>
-                  <td><strong>24×7 Ask AI Doubt Clearing</strong></td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Included</td>
-                </tr>
-                <tr>
-                  <td><strong>Live Mentor Support</strong></td>
-                  <td>TCM One Dedicated</td>
-                  <td>College Faculty / TCM One</td>
-                </tr>
-                <tr>
-                  <td><strong>Faculty Development (FDP)</strong></td>
-                  <td>Standard Briefing</td>
-                  <td><i class="bi bi-check-circle-fill" style="color: #059669;"></i> Comprehensive FDP &amp; Onboarding</td>
-                </tr>
-                <tr>
-                  <td><strong>Institute Operational Effort</strong></td>
-                  <td>Low (Zero Faculty Load)</td>
-                  <td>Medium (Classroom / Lab Coordination)</td>
-                </tr>
-                <tr>
-                  <td><strong>Dedicated Campus Lab Setup</strong></td>
-                  <td>Not Required</td>
-                  <td>1 PC/Student, Broadband, Projector</td>
-                </tr>
-                <tr>
-                  <td><strong>Co-Branded Recognition</strong></td>
-                  <td>Standard Partner Link</td>
-                  <td>Accredited Co-Branded Cohort</td>
-                </tr>
-                <tr>
-                  <td><strong>Minimum Batch Size</strong></td>
-                  <td>No minimum requirement</td>
-                  <td>Min. 20 Students / Batch</td>
-                </tr>
-                <tr>
-                  <td><strong>Revenue Accrual &amp; Payout</strong></td>
-                  <td><strong>15% Commission</strong></td>
-                  <td><strong>40% Institute / 60% TCM One</strong></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-headset"></i></div>
+              <p>Students lack access to 24×7 learning support outside classroom hours.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-signpost-split"></i></div>
+              <p>Career guidance is often disconnected from day-to-day academic learning.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="ptr-problem-card">
+              <div class="ptr-problem-icon"><i class="bi bi-hdd-network"></i></div>
+              <p>Institutes lack the technology infrastructure required for modern digital learning.</p>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="ptr-problem-card bg-white border border-dark">
+              <div class="ptr-problem-icon"><i class="bi bi-award"></i></div>
+              <p class="fs-6"><strong>Employer Expectations Shift:</strong> Employers increasingly demand verified skills, practical projects, and real capability rather than traditional certificates alone.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 3 Partnership Tracks -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-bg); border-bottom: 1px solid var(--tcm-border);">
-      <div class="tcm-container">
-        <div style="margin-bottom: 48px; max-width: 760px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">OFFERINGS FOR CAMPUSES</div>
-          <h2 class="tcm-h2">Curated Institutional Tracks</h2>
-          <p style="color: var(--tcm-muted); font-size: 15px; margin: 8px 0 0;">
-            Select the training format that best aligns with your college academic calendar and departmental objectives.
-          </p>
+    <!-- ===== SECTION 5: 7 PILLARS OF TCM ONE ===== -->
+    <section class="ptr-section">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">DELIVERABLES</span>
+          <h2>What Do We Provide?</h2>
+          <p>When you partner with TCM One, you get access to 7 integrated ecosystem pillars:</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
-          
-          <!-- Track 1 -->
-          <div class="inst-track-card">
-            <div>
-              <span class="tcm-badge" style="margin-bottom: 16px;">TRACK 01</span>
-              <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: 'Instrument Serif', Georgia, serif;">
-                Semester Curriculum Integration
-              </h3>
-              <p style="font-size: 14px; color: var(--tcm-muted); line-height: 1.6; margin-bottom: 20px;">
-                Comprehensive 40 to 80-hour hands-on tracks delivered across the academic semester. Covers Full Stack Web Development, Python &amp; Data Science, or Cloud &amp; DevOps.
-              </p>
-              <ul style="list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--tcm-fg);">
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Aligned with department timetable</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Weekly assignments &amp; code reviews</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Capstone project evaluation</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> LMS &amp; student progress dashboards</li>
-              </ul>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-journal-code"></i></div>
+              <h4>1. Structured Curriculum</h4>
+              <p>Designed around defined learning outcomes: module-wise learning, practical tasks, assignments, projects, assessments, and revision resources.</p>
             </div>
-            <a href="#partner-form" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center;">
-              Inquire for Semester Track
-            </a>
           </div>
 
-          <!-- Track 2 -->
-          <div class="inst-track-card" style="border-top: 3px solid var(--tcm-fg);">
-            <div>
-              <span class="tcm-badge" style="margin-bottom: 16px; background: #111; color: #FFF;">TRACK 02 &middot; POPULAR</span>
-              <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: 'Instrument Serif', Georgia, serif;">
-                Campus Bootcamps &amp; Hackathons
-              </h3>
-              <p style="font-size: 14px; color: var(--tcm-muted); line-height: 1.6; margin-bottom: 20px;">
-                High-intensity 3 to 7-day technical immersion bootcamps. Students build real-world web apps or automation scrapers and showcase them in an intra-college hackathon.
-              </p>
-              <ul style="list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--tcm-fg);">
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> 3 to 7-day intensive format</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Hands-on live coding every single day</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Hackathon jury &amp; awards</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Ideal for pre-placement preparation</li>
-              </ul>
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-display"></i></div>
+              <h4>2. TCM One Platform</h4>
+              <p>Single digital environment for student learning: course content, assignments, assessments, AI assistance, mentor communication, and progress tracking.</p>
             </div>
-            <a href="#partner-form" class="tcm-btn tcm-btn-primary" style="width: 100%; justify-content: center;">
-              Book Campus Bootcamp
-            </a>
           </div>
 
-          <!-- Track 3 -->
-          <div class="inst-track-card">
-            <div>
-              <span class="tcm-badge" style="margin-bottom: 16px;">TRACK 03</span>
-              <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: 'Instrument Serif', Georgia, serif;">
-                Center of Excellence (CoE) MoU
-              </h3>
-              <p style="font-size: 14px; color: var(--tcm-muted); line-height: 1.6; margin-bottom: 20px;">
-                Multi-year institutional partnership establishing a dedicated TCM One Software Engineering Hub inside your campus for continuous student upskilling.
-              </p>
-              <ul style="list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--tcm-fg);">
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Formal MoU with institutional accreditation</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Continuous mentor-in-residence access</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Direct recruitment drive linkages</li>
-                <li><i class="bi bi-check2" style="margin-right: 6px;"></i> Ongoing faculty upskilling credits</li>
-              </ul>
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-cpu"></i></div>
+              <h4>3. Ask with AI</h4>
+              <p>Instant explanations when students get stuck. AI provides immediate first-line support without replacing human mentors.</p>
             </div>
-            <a href="#partner-form" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center;">
-              Explore MoU Partnership
-            </a>
           </div>
 
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-person-badge"></i></div>
+              <h4>4. Mentor Support</h4>
+              <p>Structured orientation and onboarding for mentors (institute mentors or TCM mentors) covering guidelines, methodologies, and standards.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-kanban"></i></div>
+              <h4>5. Practical Learning</h4>
+              <p>Students apply what they learn through case studies, real-world projects, problem-solving, and portfolio-oriented work.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="ptr-pillar-card">
+              <div class="ptr-pillar-icon"><i class="bi bi-briefcase"></i></div>
+              <h4>6. Career Opportunities</h4>
+              <p>Connects <strong>Learning &rarr; Skills &rarr; Projects &rarr; Opportunities</strong> (Jobs, internships, career events, skill updates).</p>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="ptr-pillar-card d-flex align-items-center gap-4 flex-wrap">
+              <div class="ptr-pillar-icon mb-0"><i class="bi bi-people"></i></div>
+              <div>
+                <h4 class="mb-1">7. Student Engagement</h4>
+                <p class="mb-0">Keep students active beyond classroom hours with community participation, experience sharing, and digital learning profile building.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI + Human Mentor Workflow Box -->
+        <div class="ptr-ai-box">
+          <span class="badge bg-light text-dark fw-bold px-3 py-2 rounded-pill mb-3">LEARNING SUPPORT WORKFLOW</span>
+          <h3 class="fw-extrabold text-white mb-2">AI + Human Mentor Learning Model</h3>
+          <p class="text-white-50 mb-0">Instant AI help when stuck &rarr; Escalate to assigned mentor when human guidance is needed.</p>
+
+          <div class="ptr-ai-flow">
+            <div class="ptr-ai-step"><i class="bi bi-question-circle"></i> Student Doubt</div>
+            <i class="bi bi-arrow-right ptr-ai-arrow d-none d-md-inline"></i>
+            <div class="ptr-ai-step"><i class="bi bi-cpu"></i> Ask AI</div>
+            <i class="bi bi-arrow-right ptr-ai-arrow d-none d-md-inline"></i>
+            <div class="ptr-ai-step"><i class="bi bi-lightbulb"></i> AI Explains</div>
+            <i class="bi bi-arrow-right ptr-ai-arrow d-none d-md-inline"></i>
+            <div class="ptr-ai-step"><i class="bi bi-person-up"></i> Escalate to Mentor</div>
+            <i class="bi bi-arrow-right ptr-ai-arrow d-none d-md-inline"></i>
+            <div class="ptr-ai-step"><i class="bi bi-check-circle"></i> Human Guidance</div>
+          </div>
+        </div>
+
+        <!-- APP SHOWCASE & DIGITAL PRESENCE SECTION -->
+        <div class="ptr-app-box">
+          <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="ptr-app-step-badge"><i class="bi bi-phone"></i> MOBILE APP EXPERIENCE</span>
+            <h3 class="fw-extrabold text-dark mb-2 fs-2">How Your Institution Appears in the TCM App</h3>
+            <p class="text-secondary fs-6 mb-0">Neeche app ke screenshots aur unki poori step-by-step jankari di gayi hai ki kaise students <strong>app.thecodemunk.in</strong> par aapke campus ko discover karte hain.</p>
+          </div>
+
+          <!-- STEP 1 ROW -->
+          <div class="ptr-app-step-row">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-4 col-md-5">
+                <div class="ptr-phone-mockup-wrap">
+                  <div class="ptr-phone-mockup">
+                    <img src="<?= base_url('/assets/app-preview/app-learn-dashboard.png') ?>" alt="Learn Dashboard Screenshot">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                <div class="ptr-app-step-info">
+                  <span class="ptr-app-step-badge">SCREEN 1 OF 4 &middot; LEARN DASHBOARD</span>
+                  <h4>1. Student Dashboard &amp; Career Roadmap</h4>
+                  <p>
+                    TCM Mobile App ke main <strong>Learn</strong> tab me student jab login karta hai, to usko sabse pehle <strong>Plan My Learning Roadmap</strong> (Interactive AI Career &amp; Budget Guide) milta hai. Iske neeche featured live masterclasses (jaise <em>Data Science &amp; AI Masterclass</em>) show hoti hain jaha se student <strong>Join Batch &rarr;</strong> par click karke direct batch me enroll ho sakta hai.
+                  </p>
+                  <ul class="ptr-app-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Interactive AI Roadmap:</strong> Career options and budget guidance tool for students.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Featured Masterclasses:</strong> Direct batch enrollment for authorized partner courses.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Search &amp; Skill Filter:</strong> Instant search bar for topics, skills, and batches.</li>
+                  </ul>
+                  <div class="ptr-app-tag-wrap">
+                    <span class="ptr-app-tag-item">AI Career Guide</span>
+                    <span class="ptr-app-tag-item">Batch Enrollment</span>
+                    <span class="ptr-app-tag-item">Skill Filters</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2 ROW -->
+          <div class="ptr-app-step-row">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-4 col-md-5">
+                <div class="ptr-phone-mockup-wrap">
+                  <div class="ptr-phone-mockup">
+                    <img src="<?= base_url('/assets/app-preview/app-explore-tcm.png') ?>" alt="Explore TCM Screenshot">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                <div class="ptr-app-step-info">
+                  <span class="ptr-app-step-badge">SCREEN 2 OF 4 &middot; EXPLORE TCM &amp; ACCREDITED NETWORK</span>
+                  <h4>2. Explore TCM &amp; Accredited Partner Network</h4>
+                  <p>
+                    App ke <strong>Explore TCM</strong> section me aapki institution core tech verticals me featured hoti hai: <strong>TCM Inform Tech</strong> (Live Classes, Notes &amp; Assignments), <strong>TCM Academy</strong> (Specialized Full Stack, AI &amp; Cloud Tracks), aur <strong>TCM Career</strong> (Internships, Real-world Projects &amp; Tech Placements). Neeche <strong>All Partners &amp; Collaborators</strong> section me aapka campus <strong>`ACCREDITED NETWORK`</strong> badge ke sath highlight hota hai.
+                  </p>
+                  <ul class="ptr-app-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Core Tech Disciplines:</strong> Web Dev, AI &amp; Data, Cloud &amp; Career Placements.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Accredited Network Verification:</strong> Verified tag for verified IT Labs &amp; Colleges.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Continue Learning Tracker:</strong> Keeps students connected to their enrolled active courses.</li>
+                  </ul>
+                  <div class="ptr-app-tag-wrap">
+                    <span class="ptr-app-tag-item">Inform Tech</span>
+                    <span class="ptr-app-tag-item">TCM Academy</span>
+                    <span class="ptr-app-tag-item">TCM Career</span>
+                    <span class="ptr-app-tag-item">Accredited Network</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3 ROW -->
+          <div class="ptr-app-step-row">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-4 col-md-5">
+                <div class="ptr-phone-mockup-wrap">
+                  <div class="ptr-phone-mockup">
+                    <img src="<?= base_url('/assets/app-preview/app-discover-partners.png') ?>" alt="Discover Partners Screenshot">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                <div class="ptr-app-step-info">
+                  <span class="ptr-app-step-badge">SCREEN 3 OF 4 &middot; DISCOVER PARTNERS &amp; CITY FILTERS</span>
+                  <h4>3. Discover Partners &amp; City Geo-Location Search</h4>
+                  <p>
+                    App ke <strong>Discover Partners</strong> page par nearby students apne City (jaise <em>Bilaspur, Raipur, Durg</em>) aur partner type (<em>IT Partners, Gov Institutions, Academics</em>) ke basis par filter karke aapke campus ko search karte hain. System automated distance tracking (e.g. <em>1.2 km away</em>), photos, ratings (<em>4.6★</em>), hourly lab access fee (<em>₹0 - ₹100/hr</em>), aur amenities (<strong>Lab Access, WiFi, Project Support</strong>) display karta hai.
+                  </p>
+                  <ul class="ptr-app-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>City-wise Filtering:</strong> Fast filtering by Bilaspur, Raipur, Durg, and nearby cities.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Geo-Distance Tracking:</strong> Real-time distance calculation for local students.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Facility Tags &amp; Pricing:</strong> Clear specs like Lab Access, High Speed WiFi &amp; hourly pricing.</li>
+                  </ul>
+                  <div class="ptr-app-tag-wrap">
+                    <span class="ptr-app-tag-item">City Filters</span>
+                    <span class="ptr-app-tag-item">Geo Location</span>
+                    <span class="ptr-app-tag-item">Lab Access Fee</span>
+                    <span class="ptr-app-tag-item">WiFi &amp; Projects</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4 ROW -->
+          <div class="ptr-app-step-row">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-4 col-md-5">
+                <div class="ptr-phone-mockup-wrap">
+                  <div class="ptr-phone-mockup">
+                    <img src="<?= base_url('/assets/app-preview/app-partner-profile.png') ?>" alt="Partner Profile Screenshot">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                <div class="ptr-app-step-info">
+                  <span class="ptr-app-step-badge">SCREEN 4 OF 4 &middot; VERIFIED PARTNER PROFILE</span>
+                  <h4>4. Dedicated Partner Profile, Gallery &amp; Directions</h4>
+                  <p>
+                    Har verified partner ko app me ek dedicated <strong>Partner Profile</strong> milti hai. Yaha aapki campus ki Cover Image, Lab Photo Gallery (4+ Photos), <strong>TCM Verified Partner</strong> badge, recommendation score (<em>95% Recommended</em>), quick specifications grid (Lab Access: Yes, WiFi: High Speed, Project Support: Yes, Mentor Support: Yes), aur direct <strong>Get Directions</strong> GPS navigation link dikhta hai.
+                  </p>
+                  <ul class="ptr-app-feature-list">
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>TCM Verified Partner Badge:</strong> Establishes instant credibility among students.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>Campus Gallery Showcase:</strong> Highlighting lab infrastructure and classroom photos.</li>
+                    <li><i class="bi bi-check-circle-fill"></i> <strong>GPS Navigation Map Link:</strong> Allows students to navigate directly to your campus.</li>
+                  </ul>
+                  <div class="ptr-app-tag-wrap">
+                    <span class="ptr-app-tag-item">Verified Badge</span>
+                    <span class="ptr-app-tag-item">Photo Gallery</span>
+                    <span class="ptr-app-tag-item">95% Recommended</span>
+                    <span class="ptr-app-tag-item">GPS Directions</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECTION 6: INSTITUTIONAL ADVANTAGE ===== -->
+    <section class="ptr-section ptr-section-alt">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">INSTITUTIONAL ADVANTAGE</span>
+          <h2>Why Should Your Institution Partner With TCM One?</h2>
+          <p>Get a technology-enabled learning ecosystem without building everything from scratch.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-rocket-takeoff"></i></div>
+              <h4>Launch Programs Faster</h4>
+              <p>Skip months of R&amp;D on curriculum, study materials, LMS platforms, and mentor frameworks.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+              <h4>Expand Course Portfolio</h4>
+              <p>Offer high-demand career programs based on student demand, industry relevance, and mentor availability.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-stars"></i></div>
+              <h4>Improve Student Value</h4>
+              <p>Provide <strong>Course + Platform + AI + Mentor + Projects + Career Exposure</strong> in a single package.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-shield-check"></i></div>
+              <h4>Zero Tech Infrastructure Burden</h4>
+              <p>No need to maintain complex LMS or AI infrastructure. TCM One handles the complete technology layer.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-person-up"></i></div>
+              <h4>Support Your Faculty &amp; Mentors</h4>
+              <p>Give your teaching staff a structured framework, guidelines, and evaluation resources.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ptr-adv-card">
+              <div class="ptr-adv-icon"><i class="bi bi-trophy"></i></div>
+              <h4>Improve Differentiation</h4>
+              <p>Position your institution as a leader in practical, technology-enabled, and career-oriented learning.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Delivery Process: 4 Clear Steps -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border);">
-      <div class="tcm-container">
-        <div style="margin-bottom: 40px; max-width: 600px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">HOW IT WORKS</div>
-          <h2 class="tcm-h2">Smooth 4-Step Rollout</h2>
+    <!-- ===== SECTION 7: SMART PARTNERSHIP REVENUE CALCULATOR ===== -->
+    <section class="ptr-section" id="calculator">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">COMMERCIAL PROJECTIONS</span>
+          <h2>Smart Partnership Revenue Calculator</h2>
+          <p>Estimate institutional revenue shares and commercial collections instantly based on student strength, program fees, and delivery models.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
-          <div style="border-top: 1px solid var(--tcm-border); padding-top: 20px;">
-            <div class="inst-step-num">01</div>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Needs Assessment</h3>
-            <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              We review your department syllabus, student year, and lab infrastructure to map the ideal learning track.
-            </p>
-          </div>
+        <div class="col-lg-11 mx-auto">
+          <div class="ptr-calc-card">
+            <div class="ptr-calc-header">
+              <div>
+                <div class="ptr-calc-title">Interactive Revenue Estimator</div>
+                <div class="ptr-calc-subtitle">Simulate student batch economics with transparent, real-time calculation.</div>
+              </div>
+              <div class="ptr-model-toggle" role="group" aria-label="Select Partnership Model">
+                <button type="button" class="ptr-model-toggle-btn active" id="calcModelAcademic">Academic Partnership (40%)</button>
+                <button type="button" class="ptr-model-toggle-btn" id="calcModelReferral">Referral Model (15%)</button>
+              </div>
+            </div>
 
-          <div style="border-top: 1px solid var(--tcm-border); padding-top: 20px;">
-            <div class="inst-step-num">02</div>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">MoU &amp; Scheduling</h3>
-            <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Sign the institutional agreement and set batch timetables that seamlessly fit into your academic calendar.
-            </p>
-          </div>
+            <div class="ptr-calc-grid">
+              <!-- Inputs Column -->
+              <div class="ptr-calc-inputs">
+                <!-- Input 1: Students -->
+                <div class="ptr-calc-input-group">
+                  <div class="ptr-calc-label-row">
+                    <label class="ptr-calc-label" for="calcStudentSlider">Expected Students (Per Batch)</label>
+                    <span class="ptr-calc-val-pill" id="calcStudentVal">40 Students</span>
+                  </div>
+                  <input type="range" class="ptr-slider" id="calcStudentSlider" min="15" max="300" step="5" value="40" aria-label="Students per batch">
+                  <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                    <span>Min. 15 students</span>
+                    <span>Max. 300 students</span>
+                  </div>
+                </div>
 
-          <div style="border-top: 1px solid var(--tcm-border); padding-top: 20px;">
-            <div class="inst-step-num">03</div>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Live Cohort Delivery</h3>
-            <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Our engineers conduct live sessions, review student code repos, and resolve doubts with real-time feedback.
-            </p>
-          </div>
+                <!-- Input 2: Fee -->
+                <div class="ptr-calc-input-group">
+                  <div class="ptr-calc-label-row">
+                    <label class="ptr-calc-label" for="calcFeeSlider">Course Fee Per Student</label>
+                    <span class="ptr-calc-val-pill" id="calcFeeVal">&#8377;5,000</span>
+                  </div>
+                  <input type="range" class="ptr-slider" id="calcFeeSlider" min="2500" max="15000" step="500" value="5000" aria-label="Course fee per student">
+                  <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                    <span>&#8377;2,500</span>
+                    <span>&#8377;15,000</span>
+                  </div>
+                </div>
 
-          <div style="border-top: 1px solid var(--tcm-border); padding-top: 20px;">
-            <div class="inst-step-num">04</div>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Outcomes &amp; Showcase</h3>
-            <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
-              Students deploy capstone projects, earn verified credentials, and participate in placement readiness prep.
-            </p>
+                <!-- Input 3: Batches -->
+                <div class="ptr-calc-input-group">
+                  <div class="ptr-calc-label-row">
+                    <label class="ptr-calc-label" for="calcBatchesSlider">Expected Batches Per Year</label>
+                    <span class="ptr-calc-val-pill" id="calcBatchesVal">2 Batches</span>
+                  </div>
+                  <input type="range" class="ptr-slider" id="calcBatchesSlider" min="1" max="8" step="1" value="2" aria-label="Batches per year">
+                  <div class="d-flex justify-content-between text-muted small mt-1" style="font-size:11px;">
+                    <span>1 Batch</span>
+                    <span>8 Batches</span>
+                  </div>
+                </div>
+
+                <!-- Input 4: Share Percentage -->
+                <div class="ptr-calc-input-group">
+                  <div class="ptr-calc-label-row">
+                    <label class="ptr-calc-label" for="calcPctSlider">Institutional Share / Commission</label>
+                    <span class="ptr-calc-val-pill" id="calcPctVal">40%</span>
+                  </div>
+                  <input type="range" class="ptr-slider" id="calcPctSlider" min="15" max="40" step="5" value="40" aria-label="Institutional share percentage">
+                  <div class="ptr-pct-presets">
+                    <button type="button" class="ptr-pct-btn" data-pct="15">15%</button>
+                    <button type="button" class="ptr-pct-btn active" data-pct="40">40%</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Outputs Column -->
+              <div class="ptr-calc-output-box">
+                <div>
+                  <div class="ptr-calc-hero-metric">
+                    <div class="metric-tag" id="calcOutModelLabel">Est. Institute Revenue Share</div>
+                    <div class="metric-num" id="calcOutInstitute">&#8377;1,60,000</div>
+                    <div class="metric-sub" id="calcOutBatchesCombined">&#8377;1,60,000 across 2 batches</div>
+                  </div>
+
+                  <div class="ptr-calc-breakdown-row">
+                    <span class="label">Total Student Collections:</span>
+                    <span class="val" id="calcOutTotal">&#8377;4,00,000</span>
+                  </div>
+                  <div class="ptr-calc-breakdown-row">
+                    <span class="label">Estimated TCM One Platform &amp; Delivery:</span>
+                    <span class="val" id="calcOutTcm">&#8377;2,40,000</span>
+                  </div>
+                  <div class="ptr-calc-breakdown-row">
+                    <span class="label">Estimated Institute Earnings Per Batch:</span>
+                    <span class="val" id="calcOutPerBatch">&#8377;80,000</span>
+                  </div>
+                </div>
+
+                <div>
+                  <a href="#partnership-application" class="primary-btn w-100 justify-content-center mt-3 py-3" id="calcDiscussBtn">
+                    <span>Discuss This Partnership</span>
+                    <i class="bi bi-arrow-right ms-2"></i>
+                  </a>
+                  <div class="ptr-calc-disclaimer">
+                    <i class="bi bi-info-circle me-1"></i> <strong>Commercial Transparency:</strong> Figures shown above are illustrative projections based on user-entered variables. Commercial percentages, milestone schedules, GST treatment, and student dropout clauses are formalized exclusively in the bilateral Memorandum of Understanding (MoU).
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    <!-- Smart Partnership Revenue Calculator -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-bottom: 1px solid var(--tcm-border); background: var(--tcm-bg);" id="calculator">
-      <div class="tcm-container">
-        <div style="margin-bottom: 32px; max-width: 760px;">
-          <div class="tcm-eyebrow" style="margin-bottom: 8px;">COMMERCIAL PROJECTIONS</div>
-          <h2 class="tcm-h2">Smart Partnership Revenue Calculator</h2>
-          <p style="color: var(--tcm-muted); font-size: 15px; margin: 8px 0 0;">
-            Estimate institutional revenue shares and commercial collections instantly based on student strength, program fees, and delivery models.
-          </p>
+    </section>
+
+    <!-- ===== SECTION 8: TWO PARTNERSHIP MODELS ===== -->
+    <section class="ptr-section ptr-section-alt" id="models">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">PARTNERSHIP OPTIONS</span>
+          <h2>Our Partnership Models</h2>
+          <p>Choose the operational model that best fits your institution's infrastructure, faculty bandwidth, and strategic goals:</p>
         </div>
 
-        <div class="tcm-calc-box" id="instRevenueCalc">
-          <div class="tcm-calc-header">
-            <div>
-              <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 4px 0;">Interactive Revenue Estimator</h3>
-              <div style="font-size: 13px; color: var(--tcm-muted);">Simulate batch economics with transparent, real-time calculations.</div>
-            </div>
-            <div class="ptr-model-toggle" role="group" aria-label="Select Partnership Model">
-              <button type="button" class="ptr-model-toggle-btn active" id="calcModelAcademic">Academic Partnership (40%)</button>
-              <button type="button" class="ptr-model-toggle-btn" id="calcModelReferral">Referral Model (15%)</button>
-            </div>
-          </div>
-
-          <div class="tcm-calc-grid">
-            <!-- Inputs Column -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-              <!-- Input 1: Students -->
+        <div class="row g-4">
+          <!-- MODEL 1 -->
+          <div class="col-lg-6">
+            <div class="ptr-model-card h-100 d-flex flex-column justify-content-between">
               <div>
-                <div class="ptr-calc-label-row">
-                  <label for="calcStudentSlider" class="tcm-form-label" style="margin: 0; font-size: 12px;">Expected Students (Per Batch)</label>
-                  <span class="ptr-calc-val-pill" id="calcStudentVal">40 Students</span>
-                </div>
-                <input type="range" class="ptr-slider" id="calcStudentSlider" min="15" max="300" step="5" value="40" aria-label="Students per batch">
-                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--tcm-muted);">
-                  <span>Min. 15 students</span>
-                  <span>Max. 300 students</span>
-                </div>
-              </div>
-
-              <!-- Input 2: Fee -->
-              <div>
-                <div class="ptr-calc-label-row">
-                  <label for="calcFeeSlider" class="tcm-form-label" style="margin: 0; font-size: 12px;">Course Fee Per Student</label>
-                  <span class="ptr-calc-val-pill" id="calcFeeVal">₹5,000</span>
-                </div>
-                <input type="range" class="ptr-slider" id="calcFeeSlider" min="2500" max="15000" step="500" value="5000" aria-label="Course fee per student">
-                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--tcm-muted);">
-                  <span>₹2,500</span>
-                  <span>₹15,000</span>
-                </div>
-              </div>
-
-              <!-- Input 3: Batches -->
-              <div>
-                <div class="ptr-calc-label-row">
-                  <label for="calcBatchesSlider" class="tcm-form-label" style="margin: 0; font-size: 12px;">Expected Batches Per Year</label>
-                  <span class="ptr-calc-val-pill" id="calcBatchesVal">2 Batches</span>
-                </div>
-                <input type="range" class="ptr-slider" id="calcBatchesSlider" min="1" max="8" step="1" value="2" aria-label="Batches per year">
-                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--tcm-muted);">
-                  <span>1 Batch</span>
-                  <span>8 Batches</span>
-                </div>
-              </div>
-
-              <!-- Input 4: Share Percentage -->
-              <div>
-                <div class="ptr-calc-label-row">
-                  <label for="calcPctSlider" class="tcm-form-label" style="margin: 0; font-size: 12px;">Institutional Share / Commission</label>
-                  <span class="ptr-calc-val-pill" id="calcPctVal">40%</span>
-                </div>
-                <input type="range" class="ptr-slider" id="calcPctSlider" min="15" max="40" step="5" value="40" aria-label="Institutional share percentage">
-                <div class="ptr-pct-presets">
-                  <button type="button" class="ptr-pct-btn" data-pct="15">15% Referral</button>
-                  <button type="button" class="ptr-pct-btn active" data-pct="40">40% Academic MoU</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Outputs Column -->
-            <div style="display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div class="tcm-calc-metric">
-                  <div class="tcm-eyebrow" id="calcOutModelLabel" style="margin-bottom: 4px;">Est. Institute Revenue Share (40%)</div>
-                  <div class="tcm-calc-metric-num" id="calcOutInstitute">₹1,60,000</div>
-                  <div style="font-size: 13px; color: var(--tcm-muted);" id="calcOutBatchesCombined">₹1,60,000 across 2 batches</div>
-                </div>
-
-                <div style="margin-top: 16px;">
-                  <div class="ptr-calc-row">
-                    <span style="color: var(--tcm-muted);">Total Student Collections:</span>
-                    <strong id="calcOutTotal">₹4,00,000</strong>
-                  </div>
-                  <div class="ptr-calc-row">
-                    <span style="color: var(--tcm-muted);">Estimated TCM Delivery &amp; LMS:</span>
-                    <strong id="calcOutTcm">₹2,40,000</strong>
-                  </div>
-                  <div class="ptr-calc-row">
-                    <span style="color: var(--tcm-muted);">Estimated Earnings Per Batch:</span>
-                    <strong id="calcOutPerBatch">₹80,000</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div style="margin-top: 24px;">
-                <a href="#partner-form" class="tcm-btn tcm-btn-primary" style="width: 100%; justify-content: center;">
-                  <span>Discuss This Partnership Proposal</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </a>
-                <p style="font-size: 11.5px; color: var(--tcm-muted); line-height: 1.5; margin: 12px 0 0;">
-                  <i class="bi bi-info-circle" style="margin-right: 4px;"></i> <strong>Commercial Transparency:</strong> Projections shown above are illustrative. Formal percentages, milestones, and GST treatments are finalized in the bilateral MoU.
+                <span class="ptr-model-badge">MODEL 1</span>
+                <h3>Referral Model</h3>
+                <div class="ptr-model-sub">Refer Students. Zero Faculty Overhead. Transparent Monthly Payouts.</div>
+                <p class="ptr-model-desc">
+                  Built for colleges, training centers, and academic organizations that want to offer high-demand career tracks without taking operational responsibility for daily classroom delivery.
                 </p>
+                
+                <div class="p-3 bg-light border mb-3">
+                  <div class="small fw-bold text-dark mb-1"><i class="bi bi-person-check me-1"></i> Who is this model suitable for?</div>
+                  <div class="small text-secondary">Colleges, degree academies, polytechnics, and skill communities wanting to test student demand with zero operational burden.</div>
+                </div>
+
+                <ul class="ptr-model-list">
+                  <li><i class="bi bi-check2"></i> <strong>Institute Role:</strong> Promote courses, share verified institutional link, counsel interested students.</li>
+                  <li><i class="bi bi-check2"></i> <strong>TCM One Role:</strong> Complete curriculum, live sessions, 24×7 Ask AI doubt clearing, assignments &amp; certificates.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Referral Tracking:</strong> Dedicated Institutional Partner Code and portal attribution ledger.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Commercial Commission:</strong> 15% commission per verified, paid student enrollment.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Payout Eligibility:</strong> Approved payouts are released by the 15th of the following month.</li>
+                </ul>
+              </div>
+              <div class="mt-4 pt-3 border-top">
+                <button type="button" class="btn btn-outline-dark btn-sm w-100 fw-bold py-2" data-select-partner-model="Referral">
+                  <i class="bi bi-calculator me-1"></i> Simulate Referral Earnings
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODEL 2 -->
+          <div class="col-lg-6">
+            <div class="ptr-model-card featured h-100 d-flex flex-column justify-content-between">
+              <div>
+                <span class="ptr-model-badge">MODEL 2 &middot; MOST POPULAR</span>
+                <h3>Academic Partnership Model</h3>
+                <div class="ptr-model-sub">Co-Deliver Practical Programs on Campus &middot; 40% Institute / 60% TCM One</div>
+                <p class="ptr-model-desc">
+                  A structured institutional collaboration where the institute and TCM One co-deliver full-stack, AI, or data programs to dedicated student cohorts with co-branded recognition.
+                </p>
+
+                <div class="p-3 bg-light border mb-3">
+                  <div class="small fw-bold text-dark mb-1"><i class="bi bi-people-fill me-1"></i> Cohort Eligibility &amp; Lab Standards:</div>
+                  <div class="small text-secondary">Minimum batch size: <strong>20 students</strong>. Campus lab requires 1 PC per student, projector, and 20Mbps+ stable broadband.</div>
+                </div>
+
+                <ul class="ptr-model-list">
+                  <li><i class="bi bi-check2"></i> <strong>Flexible Mentorship:</strong> Nominated faculty trained by TCM One or dedicated TCM industry mentors.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Institute Role:</strong> Lab scheduling, internal attendance monitoring, and coordinator supervision.</li>
+                  <li><i class="bi bi-check2"></i> <strong>TCM One Role:</strong> Full curriculum, project repositories, LMS access, AI engine, and career placement support.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Revenue-Sharing:</strong> 40% Institute / 60% TCM One on approved academic partnership collections.</li>
+                  <li><i class="bi bi-check2"></i> <strong>Settlement Process:</strong> TCM One collects fees and releases approved payouts by the 15th of the following month, subject to policy.</li>
+                </ul>
+              </div>
+              <div class="mt-4 pt-3 border-top">
+                <button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 text-white" data-select-partner-model="Academic">
+                  <i class="bi bi-calculator me-1"></i> Simulate Partnership Share
+                </button>
               </div>
             </div>
           </div>
@@ -753,114 +959,608 @@
       </div>
     </section>
 
-    <!-- Institutional Lead Form Section -->
-    <section id="partner-form" style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface);">
-      <div class="tcm-container">
-        <div class="inst-grid-2">
-          
-          <div>
-            <div class="tcm-eyebrow" style="margin-bottom: 12px;">INITIATE PARTNERSHIP</div>
-            <h2 class="tcm-h2" style="font-size: clamp(28px, 4vw, 42px); line-height: 1.15; margin-bottom: 18px;">
-              Request a Custom Proposal for Your Campus
-            </h2>
-            <p style="color: var(--tcm-muted); font-size: 15px; line-height: 1.6; margin-bottom: 28px;">
-              Fill in your institution details below. Our Academic Partnerships Director will connect with you within 24 hours with syllabus mapping and batch cost schedules.
-            </p>
+    <!-- ===== SECTION 9: MATRIX COMPARISON TABLE ===== -->
+    <section class="ptr-section ptr-section-alt">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">MATRIX COMPARISON</span>
+          <h2>Comparing the Models</h2>
+          <p>Detailed feature matrix across Referral and Partnership models:</p>
+        </div>
 
-            <div style="background: var(--tcm-bg); border: 1px solid var(--tcm-border); padding: 24px; margin-bottom: 24px;">
-              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 10px;">Direct Academic Contacts</h4>
-              <p style="font-size: 13.5px; color: var(--tcm-muted); margin: 0 0 8px;">
-                <strong>WhatsApp / Phone:</strong> <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-              </p>
-              <p style="font-size: 13.5px; color: var(--tcm-muted); margin: 0 0 8px;">
-                <strong>Email:</strong> <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-              </p>
-              <p style="font-size: 12.5px; color: var(--tcm-muted); margin: 0;">
-                Campus Visits: Available in Bengaluru &amp; Bhubaneswar
-              </p>
+        <div class="ptr-table-scroll-hint">
+          <i class="bi bi-arrows-expand me-1"></i> Swipe horizontally to view full comparison matrix on mobile
+        </div>
+
+        <div class="ptr-table-wrap table-responsive">
+          <table class="ptr-table">
+            <thead>
+              <tr>
+                <th style="min-width:180px;">Feature &amp; Scope</th>
+                <th style="min-width:160px;">Referral Model</th>
+                <th style="min-width:180px;">Academic Partnership</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Student Discovery &amp; Referral</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td></tr>
+              <tr><td>TCM One Learning Platform</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td></tr>
+              <tr><td>Structured Curriculum &amp; Notes</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td></tr>
+              <tr><td>24×7 Ask AI Doubt Clearing</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Included</td></tr>
+              <tr><td>Live Mentor Support</td><td>TCM One Dedicated</td><td>Institute Faculty / TCM One</td></tr>
+              <tr><td>Mentor Training &amp; Orientation</td><td>Standard Briefing</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Comprehensive Onboarding</td></tr>
+              <tr><td>Institute Operational Effort</td><td>Low (Zero Faculty Load)</td><td>Medium (Classroom / Lab Coordination)</td></tr>
+              <tr><td>Dedicated Campus Lab Setup</td><td>Not Required</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> 1 PC/Student, Broadband, Projector</td></tr>
+              <tr><td>Co-Branded Recognition</td><td>Standard Partner Link</td><td><i class="bi bi-check-circle-fill text-dark me-1"></i> Accredited Co-Branded Cohort</td></tr>
+              <tr><td>Minimum Batch Size</td><td>No minimum requirement</td><td>Min. 20 Students / Batch</td></tr>
+              <tr><td>Revenue Accrual &amp; Payout</td><td>15% Commission</td><td>40% Institute / 60% TCM One</td></tr>
+              <tr><td><strong>Best For</strong></td><td>Referrals &amp; Growth</td><td>Full Course Delivery &amp; Labs</td></tr>
+              <tr style="background:#fcfcfc;">
+                <td><strong>Select &amp; Estimate</strong></td>
+                <td>
+                  <button type="button" class="btn btn-outline-dark btn-sm w-100 fw-bold py-2" data-select-partner-model="Referral">
+                    Select Referral Model
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-dark btn-sm w-100 fw-bold py-2 text-white" data-select-partner-model="Academic">
+                    Select Academic Partnership
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Selector Guide -->
+        <div class="row g-4 mt-4">
+          <div class="col-md-6">
+            <div class="p-4 bg-white border text-center h-100">
+              <h5 class="fw-bold">Choose Referral Model if:</h5>
+              <p class="small text-muted mb-3">You want to introduce TCM One to students with zero faculty overhead. Simple, flexible, monthly payouts.</p>
+              <a href="#calculator" class="btn btn-outline-dark btn-sm fw-bold px-3 py-2" data-select-partner-model="Referral">
+                Calculate Referral Commission <i class="bi bi-arrow-right ms-1"></i>
+              </a>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="p-4 bg-white border border-dark text-center h-100">
+              <h5 class="fw-bold">Choose Academic Partnership if:</h5>
+              <p class="small text-muted mb-3">You want to deliver structured semester cohorts with dedicated campus labs and high profit shares.</p>
+              <a href="#calculator" class="btn btn-dark btn-sm fw-bold px-3 py-2 text-white" data-select-partner-model="Academic">
+                Calculate Partnership Share <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
 
-          <!-- The Lead Form -->
-          <div>
-            <div style="background: var(--tcm-bg); border: 1px solid var(--tcm-border); padding: 36px;">
-              
-              <div id="instNotice" style="display: none;"></div>
+        <!-- Proposal Download Highlight Banner -->
+        <div class="mt-5">
+          <div class="ptr-proposal-card">
+            <div>
+              <div class="badge bg-light text-dark fw-bold px-2 py-1 mb-2" style="font-size:11px;">OFFICIAL INSTITUTIONAL PROPOSAL &amp; BROCHURE</div>
+              <h3>Download TCM One Partnership Brochure &amp; Proposal (PDF)</h3>
+              <p>Detailed institutional document covering ecosystem overview, curriculum tracks, LMS and AI mentor frameworks, commercial batch examples, and onboarding steps.</p>
+            </div>
+            <div>
+              <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" class="ptr-btn-download-white" download="TCM-One-Institutional-Partnership-Proposal.pdf">
+                <i class="bi bi-file-earmark-arrow-down-fill fs-5"></i>
+                <span>Download Partnership Brochure PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-              <form id="tcmInstitutionForm" novalidate>
-                <div class="tcm-form-group">
-                  <label for="instName" class="tcm-form-label">College / University Name *</label>
-                  <input type="text" id="instName" class="tcm-form-input" placeholder="e.g. National Institute of Technology" required>
+    <!-- ===== SECTION 10: RESPONSIBILITIES & GOVERNANCE ===== -->
+    <section class="ptr-section">
+      <div class="container">
+        <div class="row g-5">
+          <div class="col-lg-6">
+            <h3 class="fw-extrabold mb-4"><i class="bi bi-building me-2"></i> What Institute Provides</h3>
+            <ul class="list-unstyled d-grid gap-3">
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Student Mobilisation:</strong> Awareness, enrollment, and student data sharing.</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Coordination:</strong> Institutional coordinator, timetable, and internal support.</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Infrastructure:</strong> Classrooms, computer labs, internet (as per chosen model).</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Mentors:</strong> Nominated faculty where institute provides the mentor.</div></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6">
+            <h3 class="fw-extrabold mb-4"><i class="bi bi-cpu me-2"></i> What TCM One Provides</h3>
+            <ul class="list-unstyled d-grid gap-3">
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Academic:</strong> Curriculum, study resources, assignments, projects, assessments.</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Technology:</strong> Learning platform, AI support, progress tracking, access control.</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Mentorship &amp; Career:</strong> Mentor onboarding, teaching frameworks, jobs &amp; internship ecosystem.</div></li>
+              <li class="d-flex gap-3"><i class="bi bi-check-circle-fill text-dark fs-5"></i> <div><strong>Support:</strong> Platform assistance, program coordination, and quality monitoring.</div></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Role Access & IP Notice -->
+        <div class="mt-5 p-4 bg-light border">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <h5 class="fw-bold"><i class="bi bi-shield-lock me-2"></i> Role-Based Access Control</h5>
+              <p class="small text-muted mb-0">Role-specific logins for <strong>Students</strong> (content &amp; progress), <strong>Mentors</strong> (assigned batches &amp; evaluation), <strong>Institutes</strong> (operational reports), and <strong>Admins</strong> (platform management).</p>
+            </div>
+            <div class="col-md-6">
+              <h5 class="fw-bold"><i class="bi bi-patch-check me-2"></i> Content &amp; IP Protection</h5>
+              <p class="small text-muted mb-0">TCM One curriculum, AI models, and resources remain proprietary IP. Usage rights are granted strictly for authorized programs and enrolled students.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 11: PARTNER DASHBOARD & REPORTING PREVIEW ===== -->
+    <section class="ptr-section ptr-section-alt" id="dashboard-preview">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">TRANSPARENT OPERATIONS</span>
+          <h2>Partner Portal &amp; Reporting Preview</h2>
+          <p>Track student enrollments, batch progress, milestone completion, and revenue disbursements through a transparent institutional portal.</p>
+        </div>
+
+        <div class="col-lg-11 mx-auto">
+          <div class="ptr-preview-wrap">
+            <div class="ptr-preview-head">
+              <div>
+                <span class="badge bg-dark text-white fw-bold px-2 py-1 mb-1" style="font-size:11px;">SAMPLE PREVIEW</span>
+                <h4 class="mb-0 fw-bold">Institutional Partnership Ledger</h4>
+              </div>
+              <div class="small text-muted">
+                <i class="bi bi-shield-check text-success me-1"></i> Live Portal provisioned upon formal MoU execution
+              </div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="ptr-preview-metrics">
+              <div class="ptr-preview-tile">
+                <div class="tile-lbl">Referred Leads</div>
+                <div class="tile-num">64</div>
+                <div class="tile-trend text-muted">Active admissions cycle</div>
+              </div>
+              <div class="ptr-preview-tile">
+                <div class="tile-lbl">Confirmed Enrollments</div>
+                <div class="tile-num">52</div>
+                <div class="tile-trend text-dark fw-bold">81.2% Conversion Rate</div>
+              </div>
+              <div class="ptr-preview-tile">
+                <div class="tile-lbl">Active Cohorts</div>
+                <div class="tile-num">2</div>
+                <div class="tile-trend text-muted">On-Campus &amp; Live</div>
+              </div>
+              <div class="ptr-preview-tile">
+                <div class="tile-lbl">Total Institute Accrual</div>
+                <div class="tile-num">&#8377;2,08,000</div>
+                <div class="tile-trend text-dark fw-bold">&#8377;1,50,000 Disbursed</div>
+              </div>
+              <div class="ptr-preview-tile">
+                <div class="tile-lbl">Pending Settlement</div>
+                <div class="tile-num">&#8377;58,000</div>
+                <div class="tile-trend text-muted">Due at Mid-Cohort</div>
+              </div>
+            </div>
+
+            <!-- Sample Batch Ledger Table -->
+            <div class="table-responsive">
+              <table class="ptr-preview-table">
+                <thead>
+                  <tr>
+                    <th>Cohort Name</th>
+                    <th>Program Track</th>
+                    <th>Students</th>
+                    <th>Model</th>
+                    <th>Avg. Attendance</th>
+                    <th>Accrued Share</th>
+                    <th>Settlement Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Cohort 2026-A</strong></td>
+                    <td>Full Stack Web Development</td>
+                    <td>28 Students</td>
+                    <td>Academic Partnership (40%)</td>
+                    <td><strong>94.2%</strong></td>
+                    <td>&#8377;1,12,000</td>
+                    <td><span class="ptr-preview-badge active"><i class="bi bi-check-circle-fill me-1"></i> Disbursed</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Cohort 2026-B</strong></td>
+                    <td>Python, AI &amp; Automation</td>
+                    <td>24 Students</td>
+                    <td>Academic Partnership (40%)</td>
+                    <td><strong>89.6%</strong></td>
+                    <td>&#8377;96,000</td>
+                    <td><span class="ptr-preview-badge"><i class="bi bi-clock-history me-1"></i> Processing</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top flex-wrap gap-2 text-muted small">
+              <span><i class="bi bi-info-circle me-1"></i> Sample illustrative data. Real cohorts show live student-by-student completion and downloadable payment vouchers.</span>
+              <a href="<?= base_url('/partner-policy.html') ?>" class="text-dark fw-bold text-decoration-none">Review Settlement Policy &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 12: 8-STAGE PARTNERSHIP JOURNEY ===== -->
+    <section class="ptr-section" id="journey">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">PROGRESSION ROADMAP</span>
+          <h2>8-Stage Partnership Journey</h2>
+          <p>A structured, predictable operational roadmap from initial exploration to long-term cohort scaling:</p>
+        </div>
+
+        <div class="ptr-lifecycle-grid">
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 1</div>
+            <h5>1. Explore Models</h5>
+            <p class="small text-muted mb-0">Evaluate Referral vs Academic Partnership models based on your campus goals.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 2</div>
+            <h5>2. Calculate Projections</h5>
+            <p class="small text-muted mb-0">Simulate cohort student counts, fees, and institutional profit shares with our calculator.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 3</div>
+            <h5>3. Quick Application</h5>
+            <p class="small text-muted mb-0">Submit institution details and course preferences via our 2-step form.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 4</div>
+            <h5>4. Discovery Call</h5>
+            <p class="small text-muted mb-0">Meet with our Academic Director to review syllabus fit, lab readiness, and dates.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 5</div>
+            <h5>5. Bilateral MoU</h5>
+            <p class="small text-muted mb-0">Execute a formal Memorandum of Understanding with clear commercial terms and roles.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 6</div>
+            <h5>6. Onboard &amp; Train</h5>
+            <p class="small text-muted mb-0">Nominated faculty receive syllabus orientation, guidelines, and evaluation rubrics.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 7</div>
+            <h5>7. Cohort Launch</h5>
+            <p class="small text-muted mb-0">Students access the LMS, Ask AI doubt clearing, projects, and live masterclasses.</p>
+          </div>
+          <div class="ptr-lifecycle-card">
+            <div class="ptr-lc-num">STAGE 8</div>
+            <h5>8. Ledger &amp; Scale</h5>
+            <p class="small text-muted mb-0">Receive automated monthly disbursements, progress audits, and scale into new verticals.</p>
+          </div>
+        </div>
+
+        <div class="ptr-progression-banner mt-5">
+          <h4 class="fw-extrabold mb-1">Start With What Fits. Scale With Confidence.</h4>
+          <p class="text-muted mb-3">Many partners begin with a single trial cohort or referral track, expanding into multiple on-campus batches as student feedback validates the outcomes.</p>
+          <div class="ptr-progression-steps">
+            <a href="#calculator" class="ptr-prog-pill text-decoration-none">Referral Model</a>
+            <i class="bi bi-arrow-right fs-4 text-muted"></i>
+            <a href="#calculator" class="ptr-prog-pill text-decoration-none">Academic Partnership</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 13: BOOK A PARTNERSHIP CONSULTATION ===== -->
+    <section class="ptr-section ptr-section-alt" id="book-call">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">DIRECT CONSULTATION</span>
+          <h2>Book a Partnership Discovery Call</h2>
+          <p>Discuss curriculum mapping, campus lab requirements, timetable scheduling, and commercial revenue shares directly with our institutional director.</p>
+        </div>
+
+        <div class="col-lg-9 mx-auto">
+          <div class="ptr-meeting-box">
+            <form id="ptrMeetingForm">
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Institution Name *</label>
+                  <input type="text" class="ptr-input" id="ptrMeetInstName" required placeholder="e.g. Government Engineering College">
                 </div>
-
-                <div class="tcm-form-group">
-                  <label for="instPerson" class="tcm-form-label">Contact Person &amp; Designation *</label>
-                  <input type="text" id="instPerson" class="tcm-form-input" placeholder="e.g. Dr. A. Sharma (HOD - CSE / TPO)" required>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Contact Person &amp; Title *</label>
+                  <input type="text" class="ptr-input" id="ptrMeetPerson" required placeholder="Dr. Sharma / Principal / HoD">
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                  <div class="tcm-form-group">
-                    <label for="instEmail" class="tcm-form-label">Official Email *</label>
-                    <input type="email" id="instEmail" class="tcm-form-input" placeholder="e.g. hod.cse@college.edu" required>
-                  </div>
-                  <div class="tcm-form-group">
-                    <label for="instPhone" class="tcm-form-label">Phone / Mobile *</label>
-                    <input type="tel" id="instPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
-                  </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Official Phone Number *</label>
+                  <input type="tel" class="ptr-input" id="ptrMeetPhone" required placeholder="+91 98765 43210">
                 </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Institutional Email *</label>
+                  <input type="email" class="ptr-input" id="ptrMeetEmail" required placeholder="director@college.edu.in">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Preferred Meeting Date *</label>
+                  <input type="date" class="ptr-input" id="ptrMeetingDate" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-bold small text-uppercase">Preferred Time Slot *</label>
+                  <select class="ptr-select" id="ptrMeetingTime" required>
+                    <option value="10:00 AM - 11:30 AM">Morning: 10:00 AM - 11:30 AM</option>
+                    <option value="11:30 AM - 01:00 PM" selected>Mid-Day: 11:30 AM - 01:00 PM</option>
+                    <option value="02:00 PM - 03:30 PM">Afternoon: 02:00 PM - 03:30 PM</option>
+                    <option value="04:00 PM - 05:30 PM">Evening: 04:00 PM - 05:30 PM</option>
+                  </select>
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label fw-bold small text-uppercase">Partnership Model of Interest</label>
+                  <select class="ptr-select" id="ptrMeetModel">
+                    <option value="Academic Partnership">Academic Partnership (On-Campus Delivery &middot; 40% Institute / 60% TCM One)</option>
+                    <option value="Referral Model">Referral Model (Online Delivery &middot; 15% Commission)</option>
+                    <option value="Undecided">Undecided / Open to Recommendation</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-bold small text-uppercase">Topics to Discuss / Specific Goals</label>
+                  <textarea class="ptr-input" id="ptrMeetNotes" rows="2" placeholder="e.g. Planning a Full Stack track for 3rd-year CS students starting next month..."></textarea>
+                </div>
+              </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                  <div class="tcm-form-group">
-                    <label for="instCity" class="tcm-form-label">City &amp; State *</label>
-                    <input type="text" id="instCity" class="tcm-form-input" placeholder="e.g. Bengaluru, Karnataka" required>
+              <div class="text-center">
+                <button type="submit" class="primary-btn w-100 justify-content-center py-3 fs-6">
+                  <i class="bi bi-calendar2-check me-2"></i>
+                  <span>Request Partnership Meeting</span>
+                </button>
+                <p class="small text-muted mt-2 mb-0">Our partnership desk confirms schedules within 24 business hours. No spam, ever.</p>
+              </div>
+            </form>
+
+            <!-- Success State -->
+            <div id="ptrMeetingSuccess" style="display:none;" class="ptr-success-card">
+              <div class="ptr-success-icon"><i class="bi bi-check2"></i></div>
+              <h3 class="fw-extrabold mb-2">Meeting Request Logged</h3>
+              <p class="text-secondary mb-3">
+                Thank you! Your consultation request has been submitted. Our institutional director will review your schedule and connect with you.
+              </p>
+              <div class="p-3 bg-light border d-inline-block text-start mb-4">
+                <div><strong>Reference ID:</strong> <span id="ptrMeetingRefCode" class="font-monospace fw-bold">TCM-CALL-LOGGED</span></div>
+                <div class="small text-muted mt-1">A calendar invitation will be dispatched to your email address.</div>
+              </div>
+              <div>
+                <a href="https://wa.me/919238695500" id="ptrMeetingWaBtn" target="_blank" rel="noopener noreferrer" class="primary-btn d-inline-flex justify-content-center">
+                  <i class="bi bi-whatsapp me-2"></i>
+                  <span>Connect with Partnership Desk on WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION 14: TWO-STEP PARTNERSHIP APPLICATION WIZARD ===== -->
+    <section class="ptr-section" id="partnership-application">
+      <div class="container">
+        <div class="ptr-header">
+          <span class="ptr-tag">FORMAL ONBOARDING</span>
+          <h2>Partnership Application Wizard</h2>
+          <p>Provide your institution details in two simple steps to initiate formal accreditation review.</p>
+        </div>
+
+        <div class="col-lg-10 mx-auto">
+          <div class="ptr-form-card">
+            <!-- Progress Stepper -->
+            <div class="ptr-wizard-stepper">
+              <div class="ptr-step-item active" id="ptrStepIndicator1">
+                <span class="ptr-step-num">1</span>
+                <span>Step 1: Institutional Contact</span>
+              </div>
+              <div class="ptr-step-item" id="ptrStepIndicator2">
+                <span class="ptr-step-num">2</span>
+                <span>Step 2: Operational Scope &amp; Cohort</span>
+              </div>
+            </div>
+
+            <form id="tcmPartnerForm">
+              <!-- ================= STEP 1 ================= -->
+              <div class="ptr-form-pane active" id="ptrStep1Pane">
+                <div class="ptr-form-sec-title">1. Institution &amp; Primary Coordinator</div>
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrInstName">Institution Name *</label>
+                    <input type="text" class="ptr-input" id="ptrInstName" required placeholder="e.g. ABC Institute of Technology">
+                    <div class="ptr-field-error">Please enter the official institution name.</div>
                   </div>
-                  <div class="tcm-form-group">
-                    <label for="instStudents" class="tcm-form-label">Expected Batch Size</label>
-                    <select id="instStudents" class="tcm-form-input">
-                      <option value="50-100 Students">50 &ndash; 100 Students</option>
-                      <option value="100-250 Students" selected>100 &ndash; 250 Students</option>
-                      <option value="250-500 Students">250 &ndash; 500 Students</option>
-                      <option value="500+ Students">500+ Campus-wide</option>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrContactPerson">Contact Person *</label>
+                    <input type="text" class="ptr-input" id="ptrContactPerson" required placeholder="Dr. / Prof. / Mr. / Ms. Full Name">
+                    <div class="ptr-field-error">Please provide the coordinator's name.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrDesignation">Designation *</label>
+                    <input type="text" class="ptr-input" id="ptrDesignation" required placeholder="Director / Principal / HoD / TPO">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrPhone">Direct Mobile / WhatsApp *</label>
+                    <input type="tel" class="ptr-input" id="ptrPhone" required placeholder="+91 98765 43210">
+                    <div class="ptr-field-error">Please provide a valid contact number (at least 8 digits).</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrEmail">Institutional Email *</label>
+                    <input type="email" class="ptr-input" id="ptrEmail" required placeholder="director@institution.edu.in">
+                    <div class="ptr-field-error">Please enter a valid email address.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrCity">City *</label>
+                    <input type="text" class="ptr-input" id="ptrCity" required placeholder="e.g. Bilaspur / Raipur / Durg / Bengaluru">
+                    <div class="ptr-field-error">Please enter the institution's city.</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="ptrModelInput">Partnership Model of Interest *</label>
+                    <select class="ptr-select" id="ptrModelInput" required>
+                      <option value="Academic Partnership Model" selected>Academic Partnership Model (On-Campus Batch &middot; 40% Institute / 60% TCM One)</option>
+                      <option value="Referral Model">Referral Model (Online Delivery &middot; 15% Commission)</option>
+                      <option value="Undecided">Undecided &mdash; Recommend a Model for us</option>
                     </select>
                   </div>
                 </div>
 
-                <div class="tcm-form-group">
-                  <label for="instModel" class="tcm-form-label">Partnership Track / Model *</label>
-                  <select id="instModel" class="tcm-form-input" required>
-                    <option value="Academic Partnership Model" selected>Academic Partnership Model (40% Institute / 60% TCM)</option>
-                    <option value="Referral Model">Referral Model (15% Commission)</option>
-                    <option value="Semester Curriculum Integration">Semester Curriculum Integration</option>
-                    <option value="Campus Bootcamp & Hackathon">Campus Bootcamp &amp; Hackathon (3 to 7 Days)</option>
-                    <option value="Center of Excellence (MoU)">Center of Excellence (MoU)</option>
-                    <option value="Faculty Development Program (FDP)">Faculty Development Program (FDP)</option>
-                  </select>
+                <div class="text-end">
+                  <button type="button" class="primary-btn px-4 py-3 justify-content-center" id="ptrToStep2Btn">
+                    <span>Continue to Step 2: Operational Scope</span>
+                    <i class="bi bi-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- ================= STEP 2 ================= -->
+              <div class="ptr-form-pane" id="ptrStep2Pane">
+                <div class="ptr-form-sec-title">2. Infrastructure, Batches &amp; Timelines</div>
+                <div class="row g-3 mb-4">
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold" for="ptrInstType">Institution Type</label>
+                    <select class="ptr-select" id="ptrInstType">
+                      <option value="Engineering College">Engineering College</option>
+                      <option value="University">University / Deemed University</option>
+                      <option value="Polytechnic / Diploma">Polytechnic / Diploma College</option>
+                      <option value="Degree College">Degree College (BCA / BSc / MCA)</option>
+                      <option value="Training Academy">Training Academy / Skill Centre</option>
+                      <option value="Other">Other Educational Entity</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold" for="ptrState">State</label>
+                    <input type="text" class="ptr-input" id="ptrState" placeholder="e.g. Karnataka / Chhattisgarh / Odisha">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label fw-semibold" for="ptrWebsite">Website</label>
+                    <input type="url" class="ptr-input" id="ptrWebsite" placeholder="https://college.edu.in">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrStudentsInput">Expected Student Count (Per Cohort) *</label>
+                    <input type="number" class="ptr-input" id="ptrStudentsInput" min="15" max="1000" value="40" required placeholder="Number of students">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrBatchesInput">Expected Batches Per Year</label>
+                    <input type="number" class="ptr-input" id="ptrBatchesInput" min="1" max="12" value="2" placeholder="e.g. 2">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrMentorsInput">Faculty / Mentorship Arrangement</label>
+                    <select class="ptr-select" id="ptrMentorsInput">
+                      <option value="Institute Faculty (TCM One to train)">Institute Faculty (TCM One to train faculty)</option>
+                      <option value="Dedicated TCM Mentors needed">Need dedicated TCM One mentors for delivery</option>
+                      <option value="Hybrid mentorship">Hybrid (Faculty + TCM Industry Mentors)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrLabInput">Campus Lab Readiness</label>
+                    <select class="ptr-select" id="ptrLabInput">
+                      <option value="Available (1 PC per student + Internet)">Available (1 PC per student + High Speed Internet)</option>
+                      <option value="Being upgraded">Currently being prepared</option>
+                      <option value="Online / Remote only">No physical lab (Online Delivery preferred)</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrStartDate">Target Launch Month</label>
+                    <input type="date" class="ptr-input" id="ptrStartDate">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold" for="ptrCoursesInput">Courses / Tracks of Interest *</label>
+                    <input type="text" class="ptr-input" id="ptrCoursesInput" required value="Full Stack Web Development, Python &amp; AI" placeholder="e.g. Full Stack, AI &amp; Python, DSA">
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="ptrReqsInput">Specific Objectives or Custom Requirements</label>
+                    <textarea class="ptr-input" id="ptrReqsInput" rows="3" placeholder="Share any specific syllabus alignment, credit integration, or batch schedule constraints..."></textarea>
+                  </div>
                 </div>
 
-                <div class="tcm-form-group">
-                  <label for="instMessage" class="tcm-form-label">Additional Requirements or Preferred Dates</label>
-                  <textarea id="instMessage" class="tcm-form-input" rows="3" placeholder="Tell us about your student year, key objectives, or target start month..."></textarea>
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="consentCheck" required>
+                  <label class="form-check-label text-muted small" for="consentCheck">
+                    I confirm that I am authorized to represent this institution and agree to the <a href="<?= base_url('/partner-policy.html') ?>" target="_blank" class="text-dark fw-bold">TCM One Partnership Policy</a>. I understand this application initiates review and does not constitute a binding contract until a bilateral MoU is signed.
+                  </label>
                 </div>
 
-                <button type="submit" class="tcm-btn tcm-btn-primary" id="instSubmitBtn" style="width: 100%; height: 50px;">
-                  <span>Submit Partnership Enquiry</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </form>
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                  <button type="button" class="btn btn-outline-dark fw-bold px-4 py-2" id="ptrBackToStep1Btn">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Step 1
+                  </button>
+                  <button type="submit" class="primary-btn px-5 py-3 justify-content-center" id="ptrSubmitBtn">
+                    <span>Submit Partnership Application</span>
+                    <i class="bi bi-send-fill ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
 
+            <!-- Success Card (Hidden until successful server response) -->
+            <div id="ptrSuccessCard" style="display:none;" class="ptr-success-card">
+              <div class="ptr-success-icon"><i class="bi bi-patch-check"></i></div>
+              <h2 class="fw-extrabold mb-2">Application Received Successfully</h2>
+              <p class="text-secondary mb-3 max-w-600 mx-auto">
+                Thank you! Your institutional partnership application has been securely recorded. Our Academic Director will review your campus profile and follow up within 24 business hours.
+              </p>
+              <div class="p-3 bg-light border d-inline-block text-start mb-4">
+                <div><strong>Assigned Reference ID:</strong> <span id="ptrSuccessRefCode" class="font-monospace fw-bold fs-5 text-dark">TCM-PTR-RECORDED</span></div>
+                <div class="small text-muted mt-1">Please quote this reference in any correspondence with the partnership desk.</div>
+              </div>
+              <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="https://wa.me/919238695500" id="ptrSuccessWaBtn" target="_blank" rel="noopener noreferrer" class="primary-btn">
+                  <i class="bi bi-whatsapp me-2"></i>
+                  <span>Immediate WhatsApp Coordination</span>
+                </a>
+                <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" class="secondary-btn ptr-btn-sm" download="TCM-One-Institutional-Partnership-Proposal.pdf">
+                  <i class="bi bi-file-earmark-arrow-down me-1"></i>
+                  <span>Download Partnership Brochure PDF</span>
+                </a>
+              </div>
             </div>
           </div>
-
         </div>
+
+        <!-- Closing CTA Banner -->
+        <div class="ptr-cta-banner">
+          <h2>Your Students. Your Institution. Our Ecosystem.</h2>
+          <p>Together, let's turn learning into skills, skills into opportunities, and opportunities into careers.</p>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="#partnership-application" class="btn btn-light fw-semibold text-dark px-3 py-2 rounded-0 small">Become a Partner</a>
+            <a href="#book-call" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-0 small">Book a Discovery Call</a>
+            <a href="<?= base_url('/assets/tcm-partnership-proposal.pdf') ?>" class="btn btn-outline-light fw-semibold px-3 py-2 rounded-0 small" download="TCM-One-Institutional-Partnership-Proposal.pdf">Download Partnership Brochure PDF</a>
+          </div>
+          <div class="mt-4 text-white-50 small fw-bold">TCM ONE &middot; TALENT &amp; CAREER MISSION &middot; LEARN. BUILD. GROW.</div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Institutional FAQ Accordion -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; border-top: 1px solid var(--tcm-border);">
-      <div class="tcm-container">
-        <div style="max-width: 760px; margin: 0 auto;">
-          <div class="tcm-eyebrow" style="text-align: center; margin-bottom: 8px;">QUESTIONS &amp; ANSWERS</div>
-          <h2 class="tcm-h2" style="text-align: center; margin-bottom: 36px;">Frequently Asked Questions by Institutions</h2>
+    <!-- ===== SECTION 15: INSTITUTIONAL FAQ ACCORDION ===== -->
+    <section class="ptr-section" id="faq">
+      <div class="container">
+        <div style="max-width: 820px; margin: 0 auto;">
+          <div class="ptr-header">
+            <span class="ptr-tag">QUESTIONS &amp; ANSWERS</span>
+            <h2>Frequently Asked Questions by Institutions</h2>
+            <p>Everything you need to know about our technology partnerships, lab readiness, and commercial revenue disbursements.</p>
+          </div>
+
+          <div class="tcm-faq-item">
+            <button type="button" class="tcm-faq-question">
+              <span>What partnership models does TCM One offer to colleges?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="tcm-faq-answer">
+              <p>
+                TCM One offers two flexible models: the <strong>Referral Model (15% commission)</strong> with zero operational load where students learn online, and the <strong>Academic Partnership Model (40% Institute / 60% TCM One)</strong> where practical tracks are co-delivered for dedicated batches in your computer labs.
+              </p>
+            </div>
+          </div>
 
           <div class="tcm-faq-item">
             <button type="button" class="tcm-faq-question">
@@ -869,7 +1569,7 @@
             </button>
             <div class="tcm-faq-answer">
               <p>
-                Standard college computer systems with modern browsers (Google Chrome or Firefox) and a stable internet connection are sufficient. All programming environments run on lightweight local setups or cloud browser IDEs (VS Code / GitHub Codespaces), requiring zero specialized server hardware.
+                Standard college computer systems with modern browsers (Google Chrome or Firefox) and a stable internet connection (20Mbps+) are sufficient. All programming environments run on lightweight local setups or cloud browser IDEs (VS Code / GitHub Codespaces), requiring zero specialized server hardware.
               </p>
             </div>
           </div>
@@ -905,7 +1605,7 @@
             </button>
             <div class="tcm-faq-answer">
               <p>
-                Once the institutional agreement is signed, student portal provisioning, lab checks, and instructor allocation are completed within 7 to 14 business days.
+                Following bilateral MoU signing and lab readiness verification, student portal provisioning, mentor briefing, and cohort launch typically complete within 7 to 14 business days.
               </p>
             </div>
           </div>
@@ -916,49 +1616,11 @@
   </main>
 
   <!-- Site Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live cohorts, real-world project portfolios, and direct mentorship.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Admissions &amp; Partnerships</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-          <p style="font-size: 12px; color: var(--tcm-muted); margin: 0;">
-            Bengaluru &middot; Bhubaneswar, India
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
+  <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.2.5') ?>"></script>
 </body>
 </html>

@@ -76,7 +76,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css">
-  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.8">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.10">
   <link rel="stylesheet" href="./assets/cai-assistant.css">
 
   <!-- Structured Data (JSON-LD) -->
@@ -103,6 +103,7 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
 </head>
 <body>
 
@@ -1194,91 +1195,22 @@
     <!-- ========================================================================
          SECTION 10: INDUSTRY-RECOGNIZED CERTIFICATIONS (Dual Credentials)
          ======================================================================== -->
-    <section class="tcm-cert-section" id="certifications">
+    <section class="tcm-cert-section" id="certifications" aria-labelledby="certifications-title">
       <div class="tcm-container">
-        <div style="text-align: center; max-width: 820px; margin: 0 auto;">
+        <div class="tcm-cert-heading">
           <div class="tcm-cert-eyebrow">CERTIFICATIONS</div>
-          <h2 class="tcm-h2" style="color: #FFFFFF; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.15; margin: 12px 0 16px 0;">
+          <h2 id="certifications-title" class="tcm-h2 tcm-cert-heading-title">
             Industry-Recognized Software Engineering<br>
-            <span class="font-editorial-serif" style="font-style: italic; font-weight: 400; color: #FFFFFF;">Certifications</span>
+            <span class="font-editorial-serif">Certifications</span>
           </h2>
-          <p style="color: #94A3B8; font-size: 15.5px; line-height: 1.6; margin: 0 auto; max-width: 660px;">
-            Dual-tier accreditation: Earn a verified TCM One Program Certificate upon code review completion, alongside competencies aligned with national digital skilling frameworks.
-          </p>
         </div>
-
-        <!-- 2-Column Certificate Display Grid -->
         <div class="tcm-cert-grid">
-          <!-- Card 1: Learner Program Certificate -->
-          <div class="tcm-cert-card" data-cert-src="./assets/cert-tcm-student.png" data-cert-title="TCM One Verified Engineering Specialization Certificate">
-            <div class="tcm-cert-top">
-              <span>01 &middot; LEARNER CREDENTIAL</span>
-              <span class="tcm-cert-zoom-hint"><i class="bi bi-arrows-fullscreen"></i> Click to Zoom</span>
-            </div>
-            <div class="tcm-cert-img-wrap">
-              <img src="./assets/cert-tcm-student.png" alt="TCM One Verified Software Engineering Program Certificate" class="tcm-cert-img" loading="lazy">
-            </div>
-            <div class="tcm-cert-body">
-              <h3 class="tcm-cert-title">TCM One Program Certificate</h3>
-              <p class="tcm-cert-desc">
-                Awarded upon live module completion, GitHub repository milestones, and rigorous mentor code evaluations. Backed by tamper-proof verification ID and instant LinkedIn 1-click credential addition.
-              </p>
-              <div class="tcm-cert-tags">
-                <span class="tcm-cert-tag"><i class="bi bi-qr-code" style="margin-right: 4px;"></i> Verifiable ID</span>
-                <span class="tcm-cert-tag"><i class="bi bi-linkedin" style="margin-right: 4px;"></i> LinkedIn Integration</span>
-                <span class="tcm-cert-tag"><i class="bi bi-git" style="margin-right: 4px;"></i> Capstone Linked</span>
-                <span class="tcm-cert-tag"><i class="bi bi-patch-check" style="margin-right: 4px;"></i> Lifetime Validity</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2: Industry & Partner Accreditation -->
-          <div class="tcm-cert-card" data-cert-src="./assets/cert-nasscom-partner.png" data-cert-title="NASSCOM IT-ITeS SSC & FutureSkills Prime Aligned Recognition">
-            <div class="tcm-cert-top">
-              <span>02 &middot; INDUSTRY RECOGNITION</span>
-              <span class="tcm-cert-zoom-hint"><i class="bi bi-arrows-fullscreen"></i> Click to Zoom</span>
-            </div>
-            <div class="tcm-cert-img-wrap">
-              <img src="./assets/cert-nasscom-partner.png" alt="NASSCOM IT-ITeS SSC Partner Skilling Certificate" class="tcm-cert-img" loading="lazy">
-            </div>
-            <div class="tcm-cert-body">
-              <h3 class="tcm-cert-title">NASSCOM &amp; FutureSkills Prime Alignment</h3>
-              <p class="tcm-cert-desc">
-                Curriculum mapped to National Occupational Standards (NOS) developed under IT-ITeS SSC NASSCOM, MeitY, and Skill India frameworks, ensuring immediate relevance to top engineering employers.
-              </p>
-              <div class="tcm-cert-tags">
-                <span class="tcm-cert-tag"><i class="bi bi-award" style="margin-right: 4px;"></i> NASSCOM NOS Mapped</span>
-                <span class="tcm-cert-tag"><i class="bi bi-shield-check" style="margin-right: 4px;"></i> FutureSkills Prime</span>
-                <span class="tcm-cert-tag"><i class="bi bi-check2-circle" style="margin-right: 4px;"></i> Skill India Aligned</span>
-                <span class="tcm-cert-tag"><i class="bi bi-building" style="margin-right: 4px;"></i> 120+ Hiring Partners</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trust Highlights Bar -->
-        <div class="tcm-cert-trust-bar">
-          <div class="tcm-cert-trust-item">
-            <i class="bi bi-shield-lock" style="color: #38BDF8;"></i>
-            <div>
-              <strong style="display: block; color: #FFFFFF; font-size: 14px;">100% Cryptographically Verifiable</strong>
-              <span style="font-size: 12px; color: #94A3B8;">Every certificate has an unforgeable public credential URL for employers.</span>
-            </div>
-          </div>
-          <div class="tcm-cert-trust-item">
-            <i class="bi bi-linkedin" style="color: #38BDF8;"></i>
-            <div>
-              <strong style="display: block; color: #FFFFFF; font-size: 14px;">Direct LinkedIn Integration</strong>
-              <span style="font-size: 12px; color: #94A3B8;">Add licenses &amp; certifications to your LinkedIn profile in one single tap.</span>
-            </div>
-          </div>
-          <div class="tcm-cert-trust-item">
-            <i class="bi bi-briefcase" style="color: #38BDF8;"></i>
-            <div>
-              <strong style="display: block; color: #FFFFFF; font-size: 14px;">Employer-Recognized Portfolio</strong>
-              <span style="font-size: 12px; color: #94A3B8;">Tied directly to your deployed projects, live code repositories, and metrics.</span>
-            </div>
-          </div>
+          <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-tcm-student.png" data-cert-title="TCM One Program Certificate" aria-label="View TCM One Program Certificate">
+            <img src="./assets/cert-tcm-student.png" alt="TCM One software engineering program certificate" class="tcm-cert-img" loading="lazy" width="1200" height="835">
+          </button>
+          <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-nasscom-partner.png" data-cert-title="Industry Recognition Certificate" aria-label="View Industry Recognition Certificate">
+            <img src="./assets/cert-nasscom-partner.png" alt="Industry recognition certificate preview" class="tcm-cert-img" loading="lazy" width="1200" height="823">
+          </button>
         </div>
       </div>
     </section>
@@ -1397,78 +1329,62 @@
        SECTION 13: FOOTER
        ======================================================================== -->
   <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <!-- Brand & Mission -->
-        <div>
-          <a href="/" class="tcm-brand">
-            <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live classes, guided projects, and industry-focused learning. Building real engineering capability since 2024.
-          </p>
-          <div style="display: flex; gap: 16px; font-size: 18px;">
-            <a href="https://www.instagram.com/tcmone.academy" target="_blank" rel="noopener" aria-label="Instagram" style="color: var(--tcm-muted);"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/company/thecodemunk" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--tcm-muted);"><i class="bi bi-linkedin"></i></a>
-            <a href="https://www.youtube.com/@thecodemunk" target="_blank" rel="noopener" aria-label="YouTube" style="color: var(--tcm-muted);"><i class="bi bi-youtube"></i></a>
-            <a href="https://wa.me/919238695500" target="_blank" rel="noopener" aria-label="WhatsApp" style="color: var(--tcm-muted);"><i class="bi bi-whatsapp"></i></a>
-          </div>
-        </div>
-
-        <!-- Navigation Links -->
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="/courses">All Courses</a></li>
-            <li><a href="/workshops">Live Workshops</a></li>
-            <li><a href="/for-institutions">For Institutions</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-
-        <!-- Learning Tracks -->
-        <div>
-          <h4 class="tcm-footer-col-title">Tracks</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="/courses?cat=Web%20%26%20Mobile%20Development">Full Stack Web</a></li>
-            <li><a href="/courses?cat=Programming%20Foundations">Python &amp; OOP</a></li>
-            <li><a href="/courses?cat=AI%20%26%20Automation">AI &amp; Automation</a></li>
-            <li><a href="/courses?cat=Data%20%26%20Analytics">Data Analytics</a></li>
-            <li><a href="/courses?cat=Career%20%26%20DSA">DSA &amp; Problem Solving</a></li>
-          </ul>
-        </div>
-
-        <!-- Direct Contact -->
-        <div>
-          <h4 class="tcm-footer-col-title">Direct Contact</h4>
-          <p style="font-size: 13px; color: var(--tcm-muted); margin: 0 0 10px 0;">
-            Admissions Helpline (Mon–Sat, 10 AM–8 PM IST):
-          </p>
-          <p style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">
-            <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); text-decoration: none;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 16px 0;">
-            <a href="mailto:hello@thecodemunk.com" style="color: inherit; text-decoration: none;">hello@thecodemunk.com</a>
-          </p>
-          <a href="/download-brochure" class="tcm-btn tcm-btn-secondary tcm-btn-sm tcm-trigger-brochure" style="width: 100%;">
-            <i class="bi bi-file-earmark-pdf"></i> Download Brochure
-          </a>
+  <div class="tcm-footer-container">
+    <div class="tcm-footer-grid">
+      <div>
+        <a href="./" class="tcm-footer-brand" aria-label="TCM One home">
+          <img src="./assets/logo.png" alt="" width="36" height="36" loading="lazy">
+          <span><strong>TCM</strong> ONE</span>
+        </a>
+        <p class="tcm-footer-brand-p">Practical tech education through live classes, guided projects, and direct mentorship.</p>
+        <div class="tcm-footer-social" aria-label="Social channels">
+          <a href="https://www.instagram.com/tcmone.academy" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/company/thecodemunk" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/@thecodemunk" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+          <a href="https://wa.me/919238695500" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
         </div>
       </div>
-
-      <!-- Bottom Bar -->
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
-        <div style="display: flex; gap: 20px;">
-          <a href="/terms.html" style="color: var(--tcm-muted); text-decoration: none;">Terms of Service</a>
-          <a href="/privacy.html" style="color: var(--tcm-muted); text-decoration: none;">Privacy Policy</a>
-          <a href="/partner-policy.html" style="color: var(--tcm-muted); text-decoration: none;">Partner Policy</a>
-        </div>
+      <div>
+        <h2 class="tcm-footer-col-title">Platform</h2>
+        <ul class="tcm-footer-links">
+          <li><a href="./courses">All Courses</a></li>
+          <li><a href="./workshops">Live Workshops</a></li>
+          <li><a href="./for-institutions">For Institutions</a></li>
+          <li><a href="./about">About Us</a></li>
+          <li><a href="./contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="tcm-footer-col-title">Learning Tracks</h2>
+        <ul class="tcm-footer-links">
+          <li><a href="./courses?cat=Web%20%26%20Mobile%20Development">Full Stack Web</a></li>
+          <li><a href="./courses?cat=Programming%20Foundations">Python &amp; OOP</a></li>
+          <li><a href="./courses?cat=AI%20%26%20Automation">AI &amp; Automation</a></li>
+          <li><a href="./courses?cat=Data%20%26%20Analytics">Data Analytics</a></li>
+          <li><a href="./courses?cat=Career%20%26%20DSA">DSA &amp; Problem Solving</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="tcm-footer-col-title">Direct Contact</h2>
+        <p class="tcm-footer-contact">Admissions &amp; support<br>Mon–Sat, 10 AM–7 PM IST</p>
+        <ul class="tcm-footer-links">
+          <li><a href="https://wa.me/919238695500" target="_blank" rel="noopener">+91 9238695500</a></li>
+          <li><a href="mailto:thecodemunk@gmail.com">thecodemunk@gmail.com</a></li>
+        </ul>
+        <p class="tcm-footer-contact">Bengaluru · Bhubaneswar, India</p>
       </div>
     </div>
-  </footer>
+    <div class="tcm-footer-bottom">
+      <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+      <nav class="tcm-footer-legal" aria-label="Policies and site information">
+        <a href="./terms.html">Terms of Service</a>
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./partner-policy.html">Partner Policy</a>
+        <a href="./sitemap.html">Sitemap</a>
+      </nav>
+    </div>
+  </div>
+</footer>
 
   <!-- ========================================================================
        MODAL: WORKSHOP SEAT RESERVATION
@@ -1616,8 +1532,8 @@
   </div>
 
   <!-- Certificate Zoom Modal -->
-  <div id="certZoomModal" class="tcm-modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 10001; background: rgba(5, 8, 17, 0.94); backdrop-filter: blur(8px); padding: 20px;" role="dialog" aria-modal="true">
-    <div style="background: #0D1322; border: 1px solid rgba(255,255,255,0.18); max-width: 960px; width: 100%; padding: 24px; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);">
+  <div id="certZoomModal" class="tcm-modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 10001; background: rgba(0, 0, 0, 0.94); padding: 20px;" role="dialog" aria-modal="true" aria-labelledby="certZoomTitle">
+    <div style="background: #111; border: 1px solid #444; max-width: 960px; width: 100%; padding: 24px; position: relative;">
       <button type="button" id="certZoomClose" style="position: absolute; top: 16px; right: 16px; background: transparent; border: 1px solid rgba(255,255,255,0.25); width: 34px; height: 34px; color: #FFFFFF; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease;" aria-label="Close Preview">&times;</button>
       <div id="certZoomTitle" style="color: #FFFFFF; font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-right: 48px;"></div>
       <div style="border: 1px solid rgba(255,255,255,0.1); background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -1627,7 +1543,7 @@
   </div>
 
   <!-- Client-side Scripts -->
-  <script src="./assets/tcm-editorial.js"></script>
+  <script src="./assets/tcm-editorial.js?v=2.9"></script>
   <script src="./assets/cai-assistant.js"></script>
 </body>
 </html>

@@ -42,7 +42,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.11') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <!-- Structured Data (JSON-LD) -->
@@ -63,6 +63,7 @@
     }
   ?>
   <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body>
 
@@ -133,18 +134,38 @@
           </p>
         </div>
 
-        <!-- Filter & Search Controls -->
+        <!-- Search toolbar and collapsed filters -->
         <div class="tcm-filter-container">
-          <!-- Search Bar -->
-          <div style="position: relative;">
-            <input type="text" id="catalogSearch" class="tcm-form-input" placeholder="Search by course title, skill, or tool (e.g. Python, React, SQL, DevOps)..." style="padding-left: 42px;">
-            <i class="bi bi-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--tcm-muted); font-size: 15px;"></i>
+          <div class="tcm-catalog-toolbar">
+            <div class="tcm-catalog-search">
+              <label for="catalogSearch" class="tcm-visually-hidden">Search courses</label>
+              <i class="bi bi-search" aria-hidden="true"></i>
+              <input type="search" id="catalogSearch" class="tcm-form-input" placeholder="Search courses, skills or tools...">
+            </div>
+            <button type="button" class="tcm-btn tcm-btn-secondary tcm-catalog-filter-toggle" id="catalogFilterToggle" aria-expanded="false" aria-controls="catalogFilterPanel">
+              <i class="bi bi-sliders2" aria-hidden="true"></i>
+              <span>Filters</span>
+              <span class="tcm-catalog-filter-count" id="catalogFilterCount" hidden></span>
+              <i class="bi bi-chevron-down tcm-catalog-filter-chevron" aria-hidden="true"></i>
+            </button>
+            <div class="tcm-catalog-sort">
+              <label for="catalogSort" class="tcm-visually-hidden">Sort courses</label>
+              <select id="catalogSort" class="tcm-form-select">
+                  <option value="relevance">Relevance</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="newest">Newest Cohorts</option>
+                </select>
+            </div>
           </div>
-
-          <!-- Category Track Button Toggle Pills -->
-          <div class="tcm-filter-group">
-            <label class="tcm-filter-label">Filter by Category Track</label>
-            <div class="tcm-filter-pills" id="catalogCategoryPills">
+          <div class="tcm-catalog-filter-panel" id="catalogFilterPanel" role="region" aria-labelledby="catalogFilterTitle" hidden>
+            <div class="tcm-catalog-filter-heading">
+              <h2 id="catalogFilterTitle">Refine your courses</h2>
+              <button type="button" class="tcm-catalog-reset" id="catalogResetFilters">Reset all</button>
+            </div>
+            <div class="tcm-filter-group tcm-catalog-categories" role="group" aria-labelledby="catalogCategoryLabel">
+              <div id="catalogCategoryLabel" class="tcm-filter-label">Category track</div>
+              <div class="tcm-filter-pills" id="catalogCategoryPills">
               <button type="button" class="tcm-pill-btn active" data-filter="cat" data-value="">All Categories</button>
               <?php foreach (($categories ?? []) as $cat): ?>
                 <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="<?= e($cat['name']) ?>"><?= e($cat['name']) ?></button>
@@ -157,12 +178,9 @@
                 <option value="<?= e($cat['name']) ?>"><?= e($cat['name']) ?></option>
               <?php endforeach; ?>
             </select>
-          </div>
-
-          <!-- Secondary Row: Skill Level Toggle Pills & Sort / Price -->
-          <div class="tcm-filter-subrow">
-            <div class="tcm-filter-group" style="flex: 1; min-width: 260px;">
-              <label class="tcm-filter-label">Skill Level</label>
+            </div>
+            <div class="tcm-filter-group" role="group" aria-labelledby="catalogLevelLabel">
+              <div id="catalogLevelLabel" class="tcm-filter-label">Skill level</div>
               <div class="tcm-filter-pills" id="catalogLevelPills">
                 <button type="button" class="tcm-pill-btn tcm-pill-btn-sm active" data-filter="level" data-value="">All Levels</button>
                 <button type="button" class="tcm-pill-btn tcm-pill-btn-sm" data-filter="level" data-value="beginner">Beginner</button>
@@ -176,29 +194,19 @@
                 <option value="advanced">Advanced</option>
               </select>
             </div>
-
-            <!-- Price & Sorting Dropdowns -->
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
-              <div style="min-width: 160px;">
-                <label for="catalogPrice" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Pricing</label>
-                <select id="catalogPrice" class="tcm-form-select" style="height: 38px; font-size: 13px;">
+            <div class="tcm-filter-group">
+              <label for="catalogPrice" class="tcm-filter-label">Pricing</label>
+              <select id="catalogPrice" class="tcm-form-select">
                   <option value="">All Pricing</option>
                   <option value="under-2k">Under ₹2,000 (&lt;$25 USD)</option>
                   <option value="2k-5k">₹2,000 – ₹5,000 ($25–$60 USD)</option>
                   <option value="5k-10k">₹5,000 – ₹10,000 ($60–$120 USD)</option>
                   <option value="above-10k">Above ₹10,000 ($120+ USD)</option>
                 </select>
-              </div>
-
-              <div style="min-width: 160px;">
-                <label for="catalogSort" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Sort By</label>
-                <select id="catalogSort" class="tcm-form-select" style="height: 38px; font-size: 13px;">
-                  <option value="relevance">Relevance</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="newest">Newest Cohorts</option>
-                </select>
-              </div>
+            </div>
+            <div class="tcm-catalog-filter-actions">
+              <p>Results update as you choose.</p>
+              <button type="button" id="catalogFilterDone" class="tcm-btn tcm-btn-primary tcm-btn-sm">Show courses <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -266,46 +274,10 @@
   </main>
 
   <!-- Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live classes, guided projects, and industry-focused learning.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Help &amp; Admissions</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            Admissions Counselor: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.11') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
 </body>
 </html>

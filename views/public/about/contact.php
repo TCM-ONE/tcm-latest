@@ -44,7 +44,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.10') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <style>
@@ -52,10 +52,22 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 40px;
+      align-items: start;
+    }
+    .contact-grid > *, .contact-form-row > * { min-width: 0; }
+    .contact-form-card {
+      background: var(--tcm-surface);
+      border: 1px solid var(--tcm-border);
+      padding: clamp(20px, 3vw, 36px);
+    }
+    .contact-form-row { display: grid; grid-template-columns: 1fr; gap: 0 16px; }
+    #contact-faq { scroll-margin-top: 90px; }
+    @media (min-width: 600px) {
+      .contact-form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (min-width: 992px) {
       .contact-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 56px;
       }
     }
@@ -81,17 +93,12 @@
       border-color: var(--tcm-fg);
       background: var(--tcm-surface);
     }
+    .contact-quick-link > :first-child { flex-shrink: 0; }
+    .contact-quick-link > :last-child { min-width: 0; overflow-wrap: anywhere; }
   </style>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body>
-
-  <!-- Site Announcement -->
-  <div class="tcm-announcement" role="region" aria-label="Announcement">
-    <div class="tcm-container tcm-announcement-content">
-      <span><strong>Direct Admissions Desk:</strong> Speak directly to our academic team on WhatsApp at +91 9238695500.</span>
-      <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have a question about courses.') ?>" target="_blank" rel="noopener">Open WhatsApp &rarr;</a>
-    </div>
-  </div>
 
   <!-- Header Navigation -->
   <header class="tcm-header" role="banner">
@@ -176,7 +183,7 @@
 
             <!-- WhatsApp Quick Card -->
             <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One Admissions! I have an inquiry.') ?>" target="_blank" rel="noopener" class="contact-quick-link">
-              <div style="font-size: 28px; color: #25D366;"><i class="bi bi-whatsapp"></i></div>
+              <div style="font-size: 28px; color: var(--tcm-fg);"><i class="bi bi-whatsapp"></i></div>
               <div>
                 <strong style="display: block; font-size: 15px; margin-bottom: 2px;">Chat on WhatsApp</strong>
                 <span style="font-size: 13px; color: var(--tcm-muted);">+91 9238695500 &middot; Fastest response (10 AM &ndash; 7 PM IST)</span>
@@ -184,11 +191,11 @@
             </a>
 
             <!-- Email Quick Card -->
-            <a href="mailto:hello@thecodemunk.com" class="contact-quick-link">
+            <a href="mailto:thecodemunk@gmail.com" class="contact-quick-link">
               <div style="font-size: 28px; color: var(--tcm-fg);"><i class="bi bi-envelope"></i></div>
               <div>
                 <strong style="display: block; font-size: 15px; margin-bottom: 2px;">Admissions &amp; General Email</strong>
-                <span style="font-size: 13px; color: var(--tcm-muted);">hello@thecodemunk.com &middot; Reply within 24 hours</span>
+                <span style="font-size: 13px; color: var(--tcm-muted);">thecodemunk@gmail.com &middot; Reply within 24 hours</span>
               </div>
             </a>
 
@@ -229,32 +236,32 @@
 
           <!-- Right Column: Interactive Contact Form -->
           <div>
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 36px;">
+            <div class="contact-form-card">
               <div class="tcm-eyebrow" style="margin-bottom: 8px;">SEND A MESSAGE</div>
               <h3 class="tcm-h3" style="margin-bottom: 18px;">Drop Us a Line</h3>
               
-              <div id="ctNotice" style="display: none;"></div>
+              <div id="ctNotice" role="status" aria-live="polite" style="display: none;"></div>
 
               <form id="tcmContactForm" novalidate>
                 <div class="tcm-form-group">
                   <label for="ctName" class="tcm-form-label">Full Name *</label>
-                  <input type="text" id="ctName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
+                  <input type="text" id="ctName" name="name" autocomplete="name" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="contact-form-row">
                   <div class="tcm-form-group">
                     <label for="ctEmail" class="tcm-form-label">Email Address *</label>
-                    <input type="email" id="ctEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
+                    <input type="email" id="ctEmail" name="email" autocomplete="email" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
                   </div>
                   <div class="tcm-form-group">
                     <label for="ctPhone" class="tcm-form-label">WhatsApp Number</label>
-                    <input type="tel" id="ctPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14">
+                    <input type="tel" id="ctPhone" name="phone" autocomplete="tel" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14">
                   </div>
                 </div>
 
                 <div class="tcm-form-group">
                   <label for="ctSubject" class="tcm-form-label">Inquiry Topic *</label>
-                  <select id="ctSubject" class="tcm-form-input" required>
+                  <select id="ctSubject" name="subject" class="tcm-form-select" required>
                     <option value="Course Syllabus & Enrollment" selected>Course Syllabus &amp; Enrollment</option>
                     <option value="Workshop Registration Help">Workshop Registration Help</option>
                     <option value="Fee Structure & Payment">Fee Structure &amp; Payment Options</option>
@@ -265,7 +272,7 @@
 
                 <div class="tcm-form-group">
                   <label for="ctMessage" class="tcm-form-label">Your Message *</label>
-                  <textarea id="ctMessage" class="tcm-form-input" rows="4" placeholder="How can we help? Tell us about your background or questions..." required></textarea>
+                  <textarea id="ctMessage" name="message" class="tcm-form-textarea" rows="5" minlength="5" placeholder="How can we help? Tell us about your background or questions..." required></textarea>
                 </div>
 
                 <button type="submit" class="tcm-btn tcm-btn-primary" id="ctSubmitBtn" style="width: 100%; height: 50px;">
@@ -281,46 +288,48 @@
     </section>
 
     <!-- Contact FAQ Accordion -->
-    <section style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-top: 1px solid var(--tcm-border);">
+    <section id="contact-faq" aria-labelledby="contact-faq-title" style="padding: clamp(40px, 4.5vw, 56px) 0; background: var(--tcm-surface); border-top: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 760px; margin: 0 auto;">
           <div class="tcm-eyebrow" style="text-align: center; margin-bottom: 8px;">HELPFUL INFORMATION</div>
-          <h2 class="tcm-h2" style="text-align: center; margin-bottom: 36px;">Admissions &amp; Enrollment FAQ</h2>
+          <h2 id="contact-faq-title" class="tcm-h2" style="text-align: center; margin-bottom: 36px;">Admissions &amp; Enrollment FAQ</h2>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
-              <span>How soon will I receive a reply after submitting?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
-              <p>
-                Our admissions team monitors inquiries Monday through Saturday from 10:00 AM to 7:00 PM IST. You will typically receive an email or WhatsApp response within 2 to 4 business hours.
-              </p>
-            </div>
-          </div>
+          <div class="tcm-faq-list" style="margin-top: 0;">
+            <details class="tcm-faq-item" name="contact-faq" open>
+              <summary class="tcm-faq-summary">
+                <span>How soon will I receive a reply after submitting?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  Our admissions team monitors inquiries Monday through Saturday from 10:00 AM to 7:00 PM IST. You will typically receive an email or WhatsApp response within 2 to 4 business hours.
+                </p>
+              </div>
+            </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
-              <span>Can I speak directly with a mentor before enrolling?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
-              <p>
-                Yes! If you are deciding between different technical tracks, message our WhatsApp line (+91 9238695500) and request a 15-minute 1-on-1 counseling call with an engineering mentor to assess your current skill level and goals.
-              </p>
-            </div>
-          </div>
+            <details class="tcm-faq-item" name="contact-faq">
+              <summary class="tcm-faq-summary">
+                <span>Can I speak directly with a mentor before enrolling?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  Yes! If you are deciding between different technical tracks, message our WhatsApp line (+91 9238695500) and request a 15-minute 1-on-1 counseling call with an engineering mentor to assess your current skill level and goals.
+                </p>
+              </div>
+            </details>
 
-          <div class="tcm-faq-item">
-            <button type="button" class="tcm-faq-question">
-              <span>What payment options do you support?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="tcm-faq-answer">
-              <p>
-                We accept all major Indian payment methods through Razorpay: UPI (GPay, PhonePe, Paytm), Net Banking, Debit Cards, and Credit Cards. For long-format courses priced at ₹5,000 or above, flexible 3-month no-cost EMI options are available at checkout.
-              </p>
-            </div>
+            <details class="tcm-faq-item" name="contact-faq">
+              <summary class="tcm-faq-summary">
+                <span>What payment options do you support?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  We accept all major Indian payment methods through Razorpay: UPI (GPay, PhonePe, Paytm), Net Banking, Debit Cards, and Credit Cards. For long-format courses priced at ₹5,000 or above, flexible 3-month no-cost EMI options are available at checkout.
+                </p>
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -329,49 +338,10 @@
   </main>
 
   <!-- Site Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live cohorts, real-world project portfolios, and direct mentorship.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Admissions &amp; Queries</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-          <p style="font-size: 12px; color: var(--tcm-muted); margin: 0;">
-            Bengaluru &middot; Bhubaneswar, India
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.9') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
 </body>
 </html>

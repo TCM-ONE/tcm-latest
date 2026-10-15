@@ -42,11 +42,12 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="/tcm/assets/tcm-design-system.css">
-  <link rel="stylesheet" href="/tcm/assets/tcm-editorial.css">
+  <link rel="stylesheet" href="/tcm/assets/tcm-editorial.css?v=2.11">
   <link rel="stylesheet" href="/tcm/assets/cai-assistant.css">
 
   <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"/courses/machine-learning-python-projects","name":"Machine Learning with Python Projects"},{"@type":"ListItem","position":2,"url":"/courses/chatgpt-gemini-ai-productivity-tools","name":"ChatGPT, Gemini & AI Productivity Tools"},{"@type":"ListItem","position":3,"url":"/courses/ai-agents-workflow-automation","name":"AI Agents & Workflow Automation"},{"@type":"ListItem","position":4,"url":"/courses/prompt-engineering-generative-ai","name":"Prompt Engineering & Generative AI"},{"@type":"ListItem","position":5,"url":"/courses/ai-machine-learning-fundamentals","name":"AI & Machine Learning Fundamentals"},{"@type":"ListItem","position":6,"url":"/courses/artificial-intelligence-machine-learning","name":"Artificial Intelligence & Machine Learning (AI & ML) Masterclass"},{"@type":"ListItem","position":7,"url":"/courses/data-science-machine-learning-foundations","name":"Data Science & Machine Learning Foundations"},{"@type":"ListItem","position":8,"url":"/courses/generative-ai-agent-engineering","name":"Generative AI & AI Agent Engineering"},{"@type":"ListItem","position":9,"url":"/courses/data-analytics-excel-sql-powerbi","name":"Data Analytics with Excel, SQL & Power BI"},{"@type":"ListItem","position":10,"url":"/courses/ai-tools-for-study-work","name":"AI Tools for Study & Work"},{"@type":"ListItem","position":11,"url":"/courses/dsa-problem-solving-java","name":"DSA & Problem Solving with Java"},{"@type":"ListItem","position":12,"url":"/courses/python-programming-automation","name":"Python Programming & Automation"},{"@type":"ListItem","position":13,"url":"/courses/frontend-development-with-react","name":"Frontend Development with React"},{"@type":"ListItem","position":14,"url":"/courses/full-stack-web-development","name":"Full Stack Web Development (MERN)"},{"@type":"ListItem","position":15,"url":"/courses/python-for-ai-ml","name":"Python for AI & ML"},{"@type":"ListItem","position":16,"url":"/courses/cybersecurity-ethical-security-foundations","name":"Cybersecurity & Ethical Security Foundations"},{"@type":"ListItem","position":17,"url":"/courses/system-design-microservices-foundations","name":"System Design & Microservices Foundations"},{"@type":"ListItem","position":18,"url":"/courses/core-java-object-oriented-programming","name":"Core Java & Object-Oriented Programming"},{"@type":"ListItem","position":19,"url":"/courses/digital-marketing-seo-analytics","name":"Digital Marketing, SEO & Analytics"},{"@type":"ListItem","position":20,"url":"/courses/software-testing-qa-playwright","name":"Software Testing & QA with Playwright"},{"@type":"ListItem","position":21,"url":"/courses/ui-ux-design-with-figma","name":"UI/UX Design with Figma"},{"@type":"ListItem","position":22,"url":"/courses/docker-devops-cicd-essentials","name":"Docker, DevOps & CI/CD Essentials"},{"@type":"ListItem","position":23,"url":"/courses/mobile-app-development-react-native","name":"Mobile App Development with React Native"},{"@type":"ListItem","position":24,"url":"/courses/backend-development-nodejs-apis","name":"Backend Development with Node.js & APIs"},{"@type":"ListItem","position":25,"url":"/courses/react-nextjs-frontend-engineering","name":"React & Next.js Frontend Engineering"},{"@type":"ListItem","position":26,"url":"/courses/ai-automation-nocode-tools","name":"AI Automation with No-Code Tools"},{"@type":"ListItem","position":27,"url":"/courses/tech-career-launchpad","name":"Tech Career Launchpad"},{"@type":"ListItem","position":28,"url":"/courses/build-your-first-website","name":"Build Your First Website"},{"@type":"ListItem","position":29,"url":"/courses/digital-skills-computer-fundamentals","name":"Digital Skills & Computer Fundamentals"},{"@type":"ListItem","position":30,"url":"/courses/aws-cloud-deployment-fundamentals","name":"AWS Cloud & Deployment Fundamentals"},{"@type":"ListItem","position":31,"url":"/courses/sql-database-fundamentals","name":"SQL & Database Fundamentals"}]}</script>
+  <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
 </head>
 <body>
 
@@ -117,18 +118,38 @@
           </p>
         </div>
 
-        <!-- Filter & Search Controls -->
+        <!-- Search toolbar and collapsed filters -->
         <div class="tcm-filter-container">
-          <!-- Search Bar -->
-          <div style="position: relative;">
-            <input type="text" id="catalogSearch" class="tcm-form-input" placeholder="Search by course title, skill, or tool (e.g. Python, React, SQL, DevOps)..." style="padding-left: 42px;">
-            <i class="bi bi-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--tcm-muted); font-size: 15px;"></i>
+          <div class="tcm-catalog-toolbar">
+            <div class="tcm-catalog-search">
+              <label for="catalogSearch" class="tcm-visually-hidden">Search courses</label>
+              <i class="bi bi-search" aria-hidden="true"></i>
+              <input type="search" id="catalogSearch" class="tcm-form-input" placeholder="Search courses, skills or tools...">
+            </div>
+            <button type="button" class="tcm-btn tcm-btn-secondary tcm-catalog-filter-toggle" id="catalogFilterToggle" aria-expanded="false" aria-controls="catalogFilterPanel">
+              <i class="bi bi-sliders2" aria-hidden="true"></i>
+              <span>Filters</span>
+              <span class="tcm-catalog-filter-count" id="catalogFilterCount" hidden></span>
+              <i class="bi bi-chevron-down tcm-catalog-filter-chevron" aria-hidden="true"></i>
+            </button>
+            <div class="tcm-catalog-sort">
+              <label for="catalogSort" class="tcm-visually-hidden">Sort courses</label>
+              <select id="catalogSort" class="tcm-form-select">
+                  <option value="relevance">Relevance</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="newest">Newest Cohorts</option>
+                </select>
+            </div>
           </div>
-
-          <!-- Category Track Button Toggle Pills -->
-          <div class="tcm-filter-group">
-            <label class="tcm-filter-label">Filter by Category Track</label>
-            <div class="tcm-filter-pills" id="catalogCategoryPills">
+          <div class="tcm-catalog-filter-panel" id="catalogFilterPanel" role="region" aria-labelledby="catalogFilterTitle" hidden>
+            <div class="tcm-catalog-filter-heading">
+              <h2 id="catalogFilterTitle">Refine your courses</h2>
+              <button type="button" class="tcm-catalog-reset" id="catalogResetFilters">Reset all</button>
+            </div>
+            <div class="tcm-filter-group tcm-catalog-categories" role="group" aria-labelledby="catalogCategoryLabel">
+              <div id="catalogCategoryLabel" class="tcm-filter-label">Category track</div>
+              <div class="tcm-filter-pills" id="catalogCategoryPills">
               <button type="button" class="tcm-pill-btn active" data-filter="cat" data-value="">All Categories</button>
               <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="AI &amp; Automation">AI &amp; Automation</button>
               <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="Beginners &amp; Non-IT">Beginners &amp; Non-IT</button>
@@ -155,12 +176,9 @@
               <option value="Web &amp; Mobile Development">Web &amp; Mobile Development</option>
               <option value="Working Professionals">Working Professionals</option>
             </select>
-          </div>
-
-          <!-- Secondary Row: Skill Level Toggle Pills & Sort / Price -->
-          <div class="tcm-filter-subrow">
-            <div class="tcm-filter-group" style="flex: 1; min-width: 260px;">
-              <label class="tcm-filter-label">Skill Level</label>
+            </div>
+            <div class="tcm-filter-group" role="group" aria-labelledby="catalogLevelLabel">
+              <div id="catalogLevelLabel" class="tcm-filter-label">Skill level</div>
               <div class="tcm-filter-pills" id="catalogLevelPills">
                 <button type="button" class="tcm-pill-btn tcm-pill-btn-sm active" data-filter="level" data-value="">All Levels</button>
                 <button type="button" class="tcm-pill-btn tcm-pill-btn-sm" data-filter="level" data-value="beginner">Beginner</button>
@@ -174,29 +192,19 @@
                 <option value="advanced">Advanced</option>
               </select>
             </div>
-
-            <!-- Price & Sorting Dropdowns -->
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
-              <div style="min-width: 160px;">
-                <label for="catalogPrice" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Pricing</label>
-                <select id="catalogPrice" class="tcm-form-select" style="height: 38px; font-size: 13px;">
+            <div class="tcm-filter-group">
+              <label for="catalogPrice" class="tcm-filter-label">Pricing</label>
+              <select id="catalogPrice" class="tcm-form-select">
                   <option value="">All Pricing</option>
                   <option value="under-2k">Under ₹2,000 (&lt;$25 USD)</option>
                   <option value="2k-5k">₹2,000 – ₹5,000 ($25–$60 USD)</option>
                   <option value="5k-10k">₹5,000 – ₹10,000 ($60–$120 USD)</option>
                   <option value="above-10k">Above ₹10,000 ($120+ USD)</option>
                 </select>
-              </div>
-
-              <div style="min-width: 160px;">
-                <label for="catalogSort" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Sort By</label>
-                <select id="catalogSort" class="tcm-form-select" style="height: 38px; font-size: 13px;">
-                  <option value="relevance">Relevance</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="newest">Newest Cohorts</option>
-                </select>
-              </div>
+            </div>
+            <div class="tcm-catalog-filter-actions">
+              <p>Results update as you choose.</p>
+              <button type="button" id="catalogFilterDone" class="tcm-btn tcm-btn-primary tcm-btn-sm">Show courses <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
@@ -1063,45 +1071,65 @@
 
   <!-- Footer -->
   <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="/tcm" class="tcm-brand">
-            <img src="/tcm/assets/logo.png" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live classes, guided projects, and industry-focused learning.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="/tcm/courses">All Courses</a></li>
-            <li><a href="/tcm/workshops">Live Workshops</a></li>
-            <li><a href="/tcm/for-institutions">For Institutions</a></li>
-            <li><a href="/tcm/about">About Us</a></li>
-            <li><a href="/tcm/contact">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Help &amp; Admissions</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            Admissions Counselor: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
+  <div class="tcm-footer-container">
+    <div class="tcm-footer-grid">
+      <div>
+        <a href="./" class="tcm-footer-brand" aria-label="TCM One home">
+          <img src="./assets/logo.png" alt="" width="36" height="36" loading="lazy">
+          <span><strong>TCM</strong> ONE</span>
+        </a>
+        <p class="tcm-footer-brand-p">Practical tech education through live classes, guided projects, and direct mentorship.</p>
+        <div class="tcm-footer-social" aria-label="Social channels">
+          <a href="https://www.instagram.com/tcmone.academy" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/company/thecodemunk" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/@thecodemunk" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+          <a href="https://wa.me/919238695500" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
         </div>
       </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+      <div>
+        <h2 class="tcm-footer-col-title">Platform</h2>
+        <ul class="tcm-footer-links">
+          <li><a href="./courses">All Courses</a></li>
+          <li><a href="./workshops">Live Workshops</a></li>
+          <li><a href="./for-institutions">For Institutions</a></li>
+          <li><a href="./about">About Us</a></li>
+          <li><a href="./contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="tcm-footer-col-title">Learning Tracks</h2>
+        <ul class="tcm-footer-links">
+          <li><a href="./courses?cat=Web%20%26%20Mobile%20Development">Full Stack Web</a></li>
+          <li><a href="./courses?cat=Programming%20Foundations">Python &amp; OOP</a></li>
+          <li><a href="./courses?cat=AI%20%26%20Automation">AI &amp; Automation</a></li>
+          <li><a href="./courses?cat=Data%20%26%20Analytics">Data Analytics</a></li>
+          <li><a href="./courses?cat=Career%20%26%20DSA">DSA &amp; Problem Solving</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="tcm-footer-col-title">Direct Contact</h2>
+        <p class="tcm-footer-contact">Admissions &amp; support<br>Mon–Sat, 10 AM–7 PM IST</p>
+        <ul class="tcm-footer-links">
+          <li><a href="https://wa.me/919238695500" target="_blank" rel="noopener">+91 9238695500</a></li>
+          <li><a href="mailto:thecodemunk@gmail.com">thecodemunk@gmail.com</a></li>
+        </ul>
+        <p class="tcm-footer-contact">Bengaluru · Bhubaneswar, India</p>
       </div>
     </div>
-  </footer>
+    <div class="tcm-footer-bottom">
+      <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+      <nav class="tcm-footer-legal" aria-label="Policies and site information">
+        <a href="./terms.html">Terms of Service</a>
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./partner-policy.html">Partner Policy</a>
+        <a href="./sitemap.html">Sitemap</a>
+      </nav>
+    </div>
+  </div>
+</footer>
 
   <!-- Scripts -->
-  <script src="/tcm/assets/tcm-editorial.js"></script>
+  <script src="/tcm/assets/tcm-editorial.js?v=2.11"></script>
   <script src="/tcm/assets/cai-assistant.js"></script>
 </body>
 </html>

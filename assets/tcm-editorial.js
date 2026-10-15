@@ -302,10 +302,62 @@
     var sortSelect = document.getElementById('catalogSort');
     var catPillsWrap = document.getElementById('catalogCategoryPills');
     var levelPillsWrap = document.getElementById('catalogLevelPills');
+    var filterToggle = document.getElementById('catalogFilterToggle');
+    var filterPanel = document.getElementById('catalogFilterPanel');
+    var filterCount = document.getElementById('catalogFilterCount');
+    var filterDone = document.getElementById('catalogFilterDone');
+    var filterReset = document.getElementById('catalogResetFilters');
 
     if (!grid) return;
 
     var allCourses = [];
+
+    function setFiltersOpen(open, restoreFocus) {
+      if (!filterToggle || !filterPanel) return;
+      filterPanel.hidden = !open;
+      filterToggle.setAttribute('aria-expanded', String(open));
+      if (restoreFocus) filterToggle.focus();
+    }
+
+    if (filterToggle && filterPanel) {
+      filterToggle.addEventListener('click', function () {
+        setFiltersOpen(filterPanel.hidden, false);
+      });
+      filterPanel.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          setFiltersOpen(false, true);
+        }
+      });
+    }
+    if (filterDone) filterDone.addEventListener('click', function () { setFiltersOpen(false, true); });
+    if (filterReset) filterReset.addEventListener('click', resetCatalogFilters);
+
+    function updateFilterSummary() {
+      var count = [catSelect, levelSelect, priceSelect].filter(function (select) {
+        return select && select.value;
+      }).length;
+      if (filterCount) {
+        filterCount.textContent = String(count);
+        filterCount.hidden = count === 0;
+      }
+      [catPillsWrap, levelPillsWrap].forEach(function (group) {
+        if (!group) return;
+        group.querySelectorAll('.tcm-pill-btn').forEach(function (pill) {
+          pill.setAttribute('aria-pressed', String(pill.classList.contains('active')));
+        });
+      });
+    }
+
+    function resetCatalogFilters() {
+      if (searchInput) searchInput.value = '';
+      if (priceSelect) priceSelect.value = '';
+      if (sortSelect) sortSelect.value = 'relevance';
+      selectCategoryValue('');
+      selectLevelValue('');
+      syncUrlParams();
+      applyFilters();
+    }
 
     // Parse URL query parameters
     var params = new URLSearchParams(window.location.search);
@@ -396,6 +448,7 @@
     }
 
     function applyFilters() {
+      updateFilterSummary();
       if (!allCourses.length) return;
 
       var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
@@ -476,17 +529,7 @@
         );
         var resetBtn = document.getElementById('resetCatalogFilters');
         if (resetBtn) {
-          resetBtn.addEventListener('click', function () {
-            if (searchInput) searchInput.value = '';
-            if (catSelect) catSelect.value = '';
-            if (levelSelect) levelSelect.value = '';
-            if (priceSelect) priceSelect.value = '';
-            if (sortSelect) sortSelect.value = 'relevance';
-            selectCategoryValue('');
-            selectLevelValue('');
-            syncUrlParams();
-            applyFilters();
-          });
+          resetBtn.addEventListener('click', resetCatalogFilters);
         }
       } else {
         grid.innerHTML = filtered.map(renderCourseCard).join('');
@@ -915,7 +958,7 @@
       }
 
       if (!name) return showNotice('Please enter your name.', false);
-      if (!email || email.indexOf('@') === -1) return showNotice('Please enter a valid email address.', false);
+      if (!email || !document.getElementById('ctEmail').validity.valid) return showNotice('Please enter a valid email address.', false);
       if (!message || message.length < 5) return showNotice('Please write a message of at least 5 characters.', false);
 
       if (submitBtn) {
@@ -1150,22 +1193,28 @@
     var cards = document.querySelectorAll('.tcm-cert-card');
 
     if (!modal || !cards.length) return;
+    var activeCard = null;
+    var previousOverflow = '';
 
     function openCert(src, title) {
+      previousOverflow = document.body.style.overflow;
       if (imgEl) imgEl.src = src;
       if (titleEl) titleEl.textContent = title || 'Certificate Preview';
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
     }
 
     function closeCert() {
       modal.style.display = 'none';
       if (imgEl) imgEl.src = '';
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      if (activeCard) activeCard.focus();
     }
 
     cards.forEach(function (card) {
       card.addEventListener('click', function () {
+        activeCard = card;
         var src = card.getAttribute('data-cert-src');
         var title = card.getAttribute('data-cert-title');
         if (src) openCert(src, title);
