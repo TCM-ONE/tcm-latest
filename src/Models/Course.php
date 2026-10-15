@@ -172,6 +172,27 @@ final class Course extends Model
     {
         self::ensureThumbnails();
         self::ensureBrochureColumns();
+
+        $aliases = [
+            'python-programming-automation'            => 'python-programming',
+            'dsa-problem-solving-java'                 => 'dsa-with-java',
+            'sql-database-fundamentals'                => 'sql-database-management',
+            'data-analytics-excel-sql-powerbi'         => 'data-analysis',
+            'data-science-machine-learning-foundations' => 'data-science',
+            'ui-ux-design-with-figma'                  => 'ui-ux-design',
+            'react-nextjs-frontend-engineering'        => 'nextjs-modern-react',
+            'backend-development-nodejs-apis'          => 'backend-development-with-nodejs',
+            'generative-ai-agent-engineering'          => 'generative-ai-prompt-engineering',
+            'build-your-first-website'                 => 'web-development-fundamentals',
+            'tech-career-launchpad'                    => 'resume-interview-preparation',
+            'ai-tools-for-study-work'                  => 'ai-tools-for-coding',
+            'core-java-object-oriented-programming'    => 'core-java-programming',
+            'artificial-intelligence-machine-learning' => 'ai-machine-learning-fundamentals',
+        ];
+        if (isset($aliases[$slug])) {
+            $slug = $aliases[$slug];
+        }
+
         $course = Database::first(
             'SELECT c.*, cat.name AS category_name FROM courses c
              LEFT JOIN categories cat ON cat.id = c.category_id

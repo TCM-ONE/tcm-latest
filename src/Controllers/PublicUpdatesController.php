@@ -58,16 +58,37 @@ final class PublicUpdatesController extends Controller
             "SELECT id, title, slug, excerpt, category, published_at FROM posts WHERE status = 'published' AND id <> ? AND category = ? ORDER BY published_at DESC, id DESC LIMIT 3",
             [(int) $post['id'], (string) $post['category']]
         );
-        $comments = Database::all(
-            "SELECT c.id, c.body, c.created_at, u.name FROM post_comments c INNER JOIN users u ON u.id = c.user_id WHERE c.post_id = ? AND c.status = 'approved' ORDER BY c.created_at ASC",
-            [(int) $post['id']]
-        );
-        $likes = (int) Database::scalar("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction = 'like'", [(int) $post['id']]);
+        $this->ensureEngagementTables();
+
+        $comments = [];
+        try {
+            $comments = Database::all(
+                "SELECT c.id, c.body, c.created_at, u.name FROM post_comments c INNER JOIN users u ON u.id = c.user_id WHERE c.post_id = ? AND c.status = 'approved' ORDER BY c.created_at ASC",
+                [(int) $post['id']]
+            );
+        } catch (\Throwable $e) {
+            $comments = [];
+        }
+
+        $likes = 0;
+        try {
+            $likes = (int) Database::scalar("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction = 'like'", [(int) $post['id']]);
+        } catch (\Throwable $e) {
+            $likes = 0;
+        }
+
         $user = Auth::user();
-        $liked = $user !== null && (int) Database::scalar(
-            "SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND user_id = ? AND reaction = 'like'",
-            [(int) $post['id'], (int) $user['id']]
-        ) > 0;
+        $liked = false;
+        if ($user !== null) {
+            try {
+                $liked = (int) Database::scalar(
+                    "SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND user_id = ? AND reaction = 'like'",
+                    [(int) $post['id'], (int) $user['id']]
+                ) > 0;
+            } catch (\Throwable $e) {
+                $liked = false;
+            }
+        }
 
         $this->view('public/updates/show', [
             'title'       => $post['title'] . ' — TCM One Tech Updates',
@@ -95,6 +116,7 @@ final class PublicUpdatesController extends Controller
             redirect('/tech-updates');
         }
 
+        $this->ensureEngagementTables();
         $existing = (int) Database::scalar(
             "SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND user_id = ? AND reaction = 'like'",
             [(int) $post['id'], (int) $user['id']]
@@ -142,6 +164,7 @@ final class PublicUpdatesController extends Controller
             flash('error', 'Your comment must be between 3 and 2,000 characters.');
             redirect('/tech-updates/' . rawurlencode((string) $post['slug']) . '#discussion');
         }
+        $this->ensureEngagementTables();
         Database::insert('post_comments', ['post_id' => (int) $post['id'], 'user_id' => (int) $user['id'], 'body' => $body, 'status' => 'pending']);
         if (Request::isJson()) {
             Response::success([
@@ -174,5 +197,44 @@ final class PublicUpdatesController extends Controller
     {
         $post = Post::findBySlug($slug);
         return $post !== null && ($post['status'] ?? '') === 'published' ? $post : null;
+    }
+
+    private function ensureEngagementTables(): void
+    {
+        static $checked = false;
+        if ($checked) return;
+        $checked = true;
+
+        try {
+            Database::run("
+                CREATE TABLE IF NOT EXISTS post_reactions (
+                    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                    post_id BIGINT UNSIGNED NOT NULL,
+                    user_id BIGINT UNSIGNED NOT NULL,
+                    reaction VARCHAR(20) NOT NULL DEFAULT 'like',
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (id),
+                    UNIQUE KEY uniq_post_user_reaction (post_id, user_id, reaction),
+                    KEY idx_post_reactions_post (post_id)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
+
+            Database::run("
+                CREATE TABLE IF NOT EXISTS post_comments (
+                    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                    post_id BIGINT UNSIGNED NOT NULL,
+                    user_id BIGINT UNSIGNED NOT NULL,
+                    body TEXT NOT NULL,
+                    status ENUM('pending','approved','hidden') NOT NULL DEFAULT 'pending',
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    PRIMARY KEY (id),
+                    KEY idx_post_comments_post_status (post_id, status, created_at),
+                    KEY idx_post_comments_status (status)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            ");
+        } catch (\Throwable $e) {
+            // Self-healing: Ignore if user has restricted table creation permissions
+        }
     }
 }

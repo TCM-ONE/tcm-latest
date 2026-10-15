@@ -65,17 +65,15 @@ final class PublicPaymentController extends Controller
                     if ($wsDef !== null) {
                         try {
                             Database::run("
-                                INSERT INTO events (title, slug, subtitle, description, category, type, status, price, mode, duration, total_seats, seats_filled)
-                                VALUES (?, ?, ?, ?, 'general', ?, 'upcoming', ?, 'online', ?, 50, 0)
+                                INSERT INTO events (title, slug, description, category, type, status, price, mode, total_seats, seats_filled)
+                                VALUES (?, ?, ?, 'general', ?, 'upcoming', ?, 'online', 50, 0)
                                 ON DUPLICATE KEY UPDATE title = VALUES(title), price = VALUES(price)
                             ", [
                                 $wsDef['title'],
                                 $resolvedSlug,
-                                $wsDef['tagline'] ?? $wsDef['short_title'] ?? '',
                                 $wsDef['description'] ?? '',
                                 ((float) $wsDef['price'] > 0 ? 'paid' : 'free'),
-                                (float) $wsDef['price'],
-                                $wsDef['duration'] ?? 'Live Workshop'
+                                (float) $wsDef['price']
                             ]);
                             $workshop = Event::findBySlug($resolvedSlug);
                         } catch (\Throwable $e) {
