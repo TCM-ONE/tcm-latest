@@ -126,6 +126,12 @@ final class DashboardController extends Controller
         if ($ensureCol($pdo, 'courses', 'brochure_name', "brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file")) {
             $results[] = 'Added courses.brochure_name column';
         }
+        if ($ensureCol($pdo, 'orders', 'txnid', "txnid VARCHAR(100) DEFAULT NULL AFTER payment_ref")) {
+            $results[] = 'Added orders.txnid column';
+        }
+        if ($ensureCol($pdo, 'orders', 'raw_response', "raw_response TEXT DEFAULT NULL AFTER txnid")) {
+            $results[] = 'Added orders.raw_response column';
+        }
 
         // 2. Supporting Tables
         $pdo->exec("

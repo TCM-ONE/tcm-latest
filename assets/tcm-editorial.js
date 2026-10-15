@@ -614,7 +614,30 @@
   }
 
   /* ==========================================================================
-     WORKSHOP RESERVATION MODAL
+     PAYU PAYMENT INTEGRATION HELPERS
+     ========================================================================== */
+  function submitPayUForm(action, params) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = action;
+    form.style.display = 'none';
+
+    for (var k in params) {
+      if (Object.prototype.hasOwnProperty.call(params, k)) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = k;
+        input.value = params[k];
+        form.appendChild(input);
+      }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  /* ==========================================================================
+     WORKSHOP RESERVATION MODAL (PayU Integration)
      ========================================================================== */
   function wireWorkshopModal() {
     var overlay = document.getElementById('tcmWsModalOverlay');
@@ -640,7 +663,11 @@
     function openModal(slug, title, price) {
       if (slugInput) slugInput.value = slug || '';
       if (titleEl) titleEl.textContent = title || 'Live Cohort Workshop';
-      if (priceEl) priceEl.textContent = 'Fee: ₹' + (price || '99');
+      if (priceEl) priceEl.textContent = 'Cohort Fee: ₹' + (price || '99') + ' (All Taxes Included)';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Book My Seat &middot; ₹' + (price || '99') + '</span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
+      }
 
       if (feedback) {
         feedback.style.display = 'none';
@@ -726,31 +753,31 @@
 
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Reserving Seat...';
+          submitBtn.textContent = 'Connecting to PayU...';
         }
 
-        postJSON(apiUrl('/api/workshops/register'), {
-          full_name: name,
+        postJSON(apiUrl('/payment/initiate'), {
+          item_type: 'workshop',
+          slug: slug,
+          name: name,
           email: email,
           phone: phone,
-          workshop_slug: slug,
           utm_source: utmSource,
           utm_medium: utmMedium,
           utm_campaign: utmCampaign,
           landing_page: window.location.pathname
         }).then(function (res) {
-          if (res && res.success) {
-            trackEvent('workshop_lead_created', { workshop_slug: slug });
-            showFeedback(res.message || 'Seat reserved! Check WhatsApp & Email for confirmation.', true);
+          if (res && res.success && res.data && res.data.action && res.data.params) {
+            trackEvent('workshop_checkout_initiated', { workshop_slug: slug, order: res.data.order_number });
+            showFeedback('Redirecting to PayU secure payment...', true);
+            if (submitBtn) {
+              submitBtn.textContent = 'Redirecting to PayU...';
+            }
             setTimeout(function () {
-              closeModal();
-              if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Reserve My Seat';
-              }
-            }, 2500);
+              submitPayUForm(res.data.action, res.data.params);
+            }, 300);
           } else {
-            showFeedback((res && res.message) ? res.message : 'Unable to reserve seat.', false);
+            showFeedback((res && res.message) ? res.message : 'Unable to initiate payment.', false);
             if (submitBtn) {
               submitBtn.disabled = false;
               submitBtn.textContent = 'Reserve My Seat';
@@ -761,6 +788,166 @@
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Reserve My Seat';
+          }
+        });
+      });
+    }
+
+    function showFeedback(msg, ok) {
+      if (!feedback) return;
+      feedback.style.display = 'block';
+      feedback.style.padding = '12px 16px';
+      feedback.style.marginBottom = '16px';
+      feedback.style.border = '1px solid ' + (ok ? '#111111' : '#E23');
+      feedback.style.background = ok ? '#FFFFFF' : '#FFF0F0';
+      feedback.style.color = ok ? '#111111' : '#E23';
+      feedback.style.fontSize = '13px';
+      feedback.textContent = msg;
+    }
+  }
+
+  /* ==========================================================================
+     COURSE ENROLLMENT MODAL (PayU Integration)
+     ========================================================================== */
+  function wireCourseEnrollModal() {
+    var overlay = document.getElementById('tcmCourseModalOverlay');
+    if (!overlay) return;
+
+    var closeBtn = document.getElementById('tcmCourseCloseBtn');
+    var form = document.getElementById('tcmCourseForm');
+    var titleEl = document.getElementById('tcmCourseModalTitle');
+    var priceEl = document.getElementById('tcmCoursePrice');
+    var slugInput = document.getElementById('tcmCourseSlug');
+    var nameInput = document.getElementById('tcmCourseName');
+    var emailInput = document.getElementById('tcmCourseEmail');
+    var phoneInput = document.getElementById('tcmCoursePhone');
+    var feedback = document.getElementById('tcmCourseFeedback');
+    var submitBtn = document.getElementById('tcmCourseSubmitBtn');
+
+    function openModal(slug, title, price) {
+      if (slugInput) slugInput.value = slug || '';
+      if (titleEl) titleEl.textContent = title ? ('Enroll in ' + title) : 'Course Enrollment';
+      if (priceEl && price) priceEl.textContent = 'Tuition Fee: ₹' + Number(price).toLocaleString('en-IN') + ' (All Taxes Included)';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        var pText = price ? (' · ₹' + Number(price).toLocaleString('en-IN')) : '';
+        submitBtn.innerHTML = '<span>Proceed to Pay' + pText + '</span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
+      }
+
+      if (feedback) {
+        feedback.style.display = 'none';
+        feedback.innerHTML = '';
+      }
+
+      try {
+        if (nameInput && !nameInput.value) nameInput.value = localStorage.getItem('tcm_lead_name') || '';
+        if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('tcm_lead_email') || '';
+        if (phoneInput && !phoneInput.value) phoneInput.value = localStorage.getItem('tcm_lead_phone') || '';
+      } catch (e) {}
+
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      setTimeout(function () {
+        var first = (nameInput && !nameInput.value) ? nameInput : phoneInput;
+        if (first) first.focus();
+      }, 100);
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+    });
+
+    // Delegate clicks on .tcm-trigger-course-enroll
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.tcm-trigger-course-enroll');
+      if (!btn) return;
+      e.preventDefault();
+
+      var slug = btn.getAttribute('data-slug') || '';
+      var title = btn.getAttribute('data-title') || '';
+      var price = btn.getAttribute('data-price') || '0';
+
+      openModal(slug, title, price);
+      trackEvent('course_checkout_started', {
+        course_slug: slug,
+        price: Number(price || 0)
+      });
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (nameInput ? nameInput.value : '').trim();
+        var email = (emailInput ? emailInput.value : '').trim();
+        var phone = (phoneInput ? phoneInput.value : '').trim();
+        var slug = (slugInput ? slugInput.value : '').trim();
+
+        if (!name) {
+          showFeedback('Please enter your full name.', false);
+          if (nameInput) nameInput.focus();
+          return;
+        }
+        if (!email || email.indexOf('@') === -1) {
+          showFeedback('Please enter a valid email address.', false);
+          if (emailInput) emailInput.focus();
+          return;
+        }
+        var cleanPhone = phone.replace(/[^\d]/g, '');
+        if (cleanPhone.length < 10) {
+          showFeedback('Please enter a valid 10-digit mobile number.', false);
+          if (phoneInput) phoneInput.focus();
+          return;
+        }
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Connecting to PayU...';
+        }
+
+        postJSON(apiUrl('/payment/initiate'), {
+          item_type: 'course',
+          slug: slug,
+          name: name,
+          email: email,
+          phone: phone
+        }).then(function (res) {
+          if (res && res.success && res.data && res.data.action && res.data.params) {
+            trackEvent('course_checkout_initiated', { course_slug: slug, order: res.data.order_number });
+            showFeedback('Redirecting to PayU secure payment...', true);
+            if (submitBtn) {
+              submitBtn.textContent = 'Redirecting to PayU...';
+            }
+            setTimeout(function () {
+              submitPayUForm(res.data.action, res.data.params);
+            }, 300);
+          } else {
+            showFeedback((res && res.message) ? res.message : 'Unable to initiate payment.', false);
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Proceed to Pay';
+            }
+          }
+        }).catch(function () {
+          showFeedback('Network error. Please try again or reach out on WhatsApp.', false);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Proceed to Pay';
           }
         });
       });
@@ -1872,6 +2059,7 @@
     hydrateHomeCourses();
     initCourseCatalog();
     wireWorkshopModal();
+    wireCourseEnrollModal();
     wireBrochureModal();
     wireContactForm();
     wireInstitutionForm();

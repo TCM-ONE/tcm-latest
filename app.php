@@ -20,7 +20,8 @@ require __DIR__ . '/src/bootstrap.php';
 
 // CSRF protection for state-changing web requests.
 // JSON/AJAX requests from the frontend modal are exempt (same-origin fetch).
-if (!str_starts_with(Request::path(), '/api') && !Request::isJson()) {
+// PayU hosted checkout callbacks are external POST requests.
+if (!str_starts_with(Request::path(), '/api') && !str_starts_with(Request::path(), '/payment/payu') && !Request::isJson()) {
     Csrf::check();
 }
 
@@ -254,6 +255,15 @@ $router->get('/admin/payments/{id}', ['TCM\Controllers\Admin\PaymentController',
 $router->post('/admin/payments/{id}/approve', ['TCM\Controllers\Admin\PaymentController', 'approve']);
 $router->post('/admin/payments/{id}/reject', ['TCM\Controllers\Admin\PaymentController', 'reject']);
 $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentController', 'viewScreenshot']);
+
+// --------------------------------------------------------------------- //
+// PayU Online Payment Gateway (Courses & Workshops)
+// --------------------------------------------------------------------- //
+$router->post('/payment/initiate',     ['TCM\Controllers\PublicPaymentController', 'initiate']);
+$router->post('/payment/payu/success', ['TCM\Controllers\PublicPaymentController', 'payuSuccess']);
+$router->post('/payment/payu/failure', ['TCM\Controllers\PublicPaymentController', 'payuFailure']);
+$router->get('/payment/success',       ['TCM\Controllers\PublicPaymentController', 'successView']);
+$router->get('/payment/failure',       ['TCM\Controllers\PublicPaymentController', 'failureView']);
 
 // Lead capture + WhatsApp hand-off (used by the static site CTAs and dashboards)
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);

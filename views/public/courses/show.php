@@ -359,6 +359,7 @@
                       ₹<?= number_format($origPrice, 0) ?>
                     </span>
                   <?php endif; ?>
+                </div>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
                   All taxes included &middot; Billed in INR
                 </div>
@@ -388,13 +389,17 @@
               <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
 <!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title'] . '. Please share the registration details.') ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary" style="width: 100%;">
-                  <span>Enroll Now</span>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" style="width: 100%; height: 50px;">
+                  <span>Enroll Now &mdash; ₹<?= number_format($price, 0) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+
+                <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center; height: 44px;">
+                  <i class="bi bi-whatsapp"></i> Chat on WhatsApp
                 </a>
 
-                <button type="button" class="tcm-btn tcm-btn-secondary tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" style="width: 100%;">
-                  <i class="bi bi-file-earmark-pdf"></i> Download Brochure PDF
+                <button type="button" class="tcm-btn tcm-btn-outline tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" style="width: 100%; justify-content: center; height: 42px;">
+                  <i class="bi bi-file-earmark-pdf"></i> Download Syllabus PDF
                 </button>
               </div>
 
@@ -428,14 +433,14 @@
               </div>
             </div>
             <div class="tcm-sticky-bottom-actions">
-              <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
-                <i class="bi bi-file-earmark-pdf"></i>
-                <span class="d-none d-sm-inline" style="margin-left: 2px;">Syllabus</span>
-              </button>
-              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
-                <span>Enroll Now</span>
-                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">Chat</span>
               </a>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>">
+                <span>Enroll Now &middot; ₹<?= number_format($price, 0) ?></span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </button>
             </div>
           </div>
         </div>
@@ -446,6 +451,44 @@
 
   <!-- Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
+
+  <!-- Course Enrollment Modal -->
+  <div class="tcm-modal-overlay" id="tcmCourseModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmCourseModalTitle">
+    <div class="tcm-modal">
+      <button type="button" class="tcm-modal-close" id="tcmCourseCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT ENROLLMENT</div>
+      <h3 id="tcmCourseModalTitle" class="tcm-h3" style="margin-bottom: 4px;">Enroll in <?= e($course['title']) ?></h3>
+      <div id="tcmCoursePrice" style="font-size: 14.5px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;">
+        Tuition Fee: ₹<?= number_format($price, 0) ?> (All Taxes Included)
+      </div>
+      <div id="tcmCourseFeedback" style="display: none;"></div>
+
+      <form id="tcmCourseForm" novalidate>
+        <input type="hidden" id="tcmCourseSlug" value="<?= e($course['slug']) ?>">
+        <div class="tcm-form-group">
+          <label for="tcmCourseName" class="tcm-form-label">Full Name *</label>
+          <input type="text" id="tcmCourseName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmCourseEmail" class="tcm-form-label">Email Address (for LMS &amp; Receipts) *</label>
+          <input type="email" id="tcmCourseEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
+        </div>
+        <div class="tcm-form-group">
+          <label for="tcmCoursePhone" class="tcm-form-label">WhatsApp / Phone Number *</label>
+          <input type="tel" id="tcmCoursePhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
+        </div>
+        <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmCourseSubmitBtn" style="width: 100%; height: 50px;">
+          <span>Proceed to Pay &middot; ₹<?= number_format($price, 0) ?></span>
+          <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </button>
+      </form>
+
+      <div style="margin-top: 16px; font-size: 11.5px; color: var(--tcm-muted); text-align: center; line-height: 1.5;">
+        <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
+        UPI (GPay / PhonePe / Paytm), Credit/Debit Cards, NetBanking supported.
+      </div>
+    </div>
+  </div>
 
   <!-- Brochure Modal -->
   <div class="tcm-modal-overlay" id="tcmBrochureOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmBrochureTitle">
@@ -477,7 +520,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

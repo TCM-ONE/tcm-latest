@@ -122,4 +122,15 @@ return $GLOBALS['__TCM_CONFIG'] = [
     'openrouter' => [
         'api_key' => env('OPENROUTER_API_KEY', ''),
     ],
+
+    // ----------------------------------------------------------------- //
+    // PayU Payment Gateway (India)
+    // ----------------------------------------------------------------- //
+    'payu' => [
+        'mode'          => env('PAYU_MODE', 'production'),
+        'key'           => env('PAYU_KEY', ''),
+        'salt'          => env('PAYU_SALT', ''),
+        'client_id'     => env('PAYU_CLIENT_ID', ''),
+        'client_secret' => env('PAYU_CLIENT_SECRET', ''),
+    ],
 ];
