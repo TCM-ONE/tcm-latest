@@ -15,7 +15,7 @@ ALTER TABLE `courses` ADD COLUMN IF NOT EXISTS `brochure_file` VARCHAR(255) DEFA
 ALTER TABLE `courses` ADD COLUMN IF NOT EXISTS `brochure_name` VARCHAR(255) DEFAULT NULL AFTER `brochure_file`;
 
 -- ── 2. Clean & Sync Canonical Categories ─────────────────────────
-TRUNCATE TABLE `categories`;
+DELETE FROM `categories`;
 INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `audience`, `sort_order`, `status`) VALUES
 (1, 'Programming Foundations',    'programming-foundations',    'Core programming logic, languages and fundamentals',     'bi-code-square',     'beginners', 1, 'active'),
 (2, 'Web & Mobile Development',   'web-mobile-development',     'Modern full stack, frontend, backend and mobile apps',    'bi-window-stack',    'college',   2, 'active'),
