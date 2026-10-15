@@ -206,9 +206,15 @@
           <input type="tel" id="tcmWsPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
         </div>
         <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmWsSubmitBtn" style="width: 100%; height: 50px;">
-          Reserve My Seat
+          <span>Reserve My Seat</span>
+          <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
         </button>
       </form>
+
+      <div style="margin-top: 16px; font-size: 11.5px; color: var(--tcm-muted); text-align: center; line-height: 1.5;">
+        <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
+        Instant confirmation via WhatsApp &amp; Email upon payment.
+      </div>
     </div>
   </div>
 

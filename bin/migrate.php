@@ -35,6 +35,8 @@ try {
     // -----------------------------------------------------------------
     $ensureColumn($pdo, 'courses', 'brochure_file', "brochure_file VARCHAR(255) DEFAULT NULL AFTER thumbnail");
     $ensureColumn($pdo, 'courses', 'brochure_name', "brochure_name VARCHAR(255) DEFAULT NULL AFTER brochure_file");
+    $ensureColumn($pdo, 'orders', 'txnid', "txnid VARCHAR(100) DEFAULT NULL AFTER payment_ref");
+    $ensureColumn($pdo, 'orders', 'raw_response', "raw_response TEXT DEFAULT NULL AFTER txnid");
 
     // -----------------------------------------------------------------
     // 2. Ensure Supporting Tables Exist
