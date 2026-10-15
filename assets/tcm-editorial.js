@@ -300,6 +300,8 @@
     var levelSelect = document.getElementById('catalogLevel');
     var priceSelect = document.getElementById('catalogPrice');
     var sortSelect = document.getElementById('catalogSort');
+    var catPillsWrap = document.getElementById('catalogCategoryPills');
+    var levelPillsWrap = document.getElementById('catalogLevelPills');
 
     if (!grid) return;
 
@@ -310,29 +312,81 @@
     if (params.get('q') && searchInput) searchInput.value = params.get('q');
     
     function selectCategoryValue(val) {
-      if (!catSelect || !val) return;
-      var target = String(val).trim().toLowerCase();
+      var target = String(val || '').trim().toLowerCase();
       var slugTarget = target.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      for (var i = 0; i < catSelect.options.length; i++) {
-        var opt = catSelect.options[i];
-        var optVal = opt.value.trim().toLowerCase();
-        var optSlug = optVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-        if (optVal === target || optSlug === slugTarget || (target && optVal.indexOf(target) !== -1)) {
-          catSelect.selectedIndex = i;
-          return;
+      if (catSelect) {
+        for (var i = 0; i < catSelect.options.length; i++) {
+          var opt = catSelect.options[i];
+          var optVal = opt.value.trim().toLowerCase();
+          var optSlug = optVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if ((!target && !optVal) || (target && (optVal === target || optSlug === slugTarget || optVal.indexOf(target) !== -1))) {
+            catSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      if (catPillsWrap) {
+        var pills = catPillsWrap.querySelectorAll('.tcm-pill-btn');
+        var matched = false;
+        pills.forEach(function (pill) {
+          var pVal = (pill.getAttribute('data-value') || '').trim().toLowerCase();
+          var pSlug = pVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if ((!target && !pVal) || (target && (pVal === target || pSlug === slugTarget || pVal.indexOf(target) !== -1))) {
+            pill.classList.add('active');
+            matched = true;
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+        if (!matched && pills.length && !target) {
+          pills[0].classList.add('active');
         }
       }
     }
+
+    function selectLevelValue(val) {
+      var target = String(val || '').trim().toLowerCase();
+      if (levelSelect) levelSelect.value = target;
+      if (levelPillsWrap) {
+        var pills = levelPillsWrap.querySelectorAll('.tcm-pill-btn-sm');
+        pills.forEach(function (pill) {
+          var pVal = (pill.getAttribute('data-value') || '').trim().toLowerCase();
+          if ((!target && !pVal) || (target && pVal === target)) {
+            pill.classList.add('active');
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+      }
+    }
+
     if (params.get('cat')) selectCategoryValue(params.get('cat'));
-    if (params.get('level') && levelSelect) levelSelect.value = params.get('level');
+    if (params.get('level')) selectLevelValue(params.get('level'));
     if (params.get('price') && priceSelect) priceSelect.value = params.get('price');
     if (params.get('sort') && sortSelect) sortSelect.value = params.get('sort');
 
     function syncUrlParams() {
       var nextParams = new URLSearchParams();
       if (searchInput && searchInput.value.trim()) nextParams.set('q', searchInput.value.trim());
-      if (catSelect && catSelect.value) nextParams.set('cat', catSelect.value);
-      if (levelSelect && levelSelect.value) nextParams.set('level', levelSelect.value);
+
+      var catVal = '';
+      if (catPillsWrap) {
+        var activeCatPill = catPillsWrap.querySelector('.tcm-pill-btn.active');
+        if (activeCatPill) catVal = (activeCatPill.getAttribute('data-value') || '').trim();
+      } else if (catSelect) {
+        catVal = catSelect.value.trim();
+      }
+      if (catVal) nextParams.set('cat', catVal);
+
+      var lvlVal = '';
+      if (levelPillsWrap) {
+        var activeLvlPill = levelPillsWrap.querySelector('.tcm-pill-btn-sm.active');
+        if (activeLvlPill) lvlVal = (activeLvlPill.getAttribute('data-value') || '').trim();
+      } else if (levelSelect) {
+        lvlVal = levelSelect.value.trim();
+      }
+      if (lvlVal) nextParams.set('level', lvlVal);
+
       if (priceSelect && priceSelect.value) nextParams.set('price', priceSelect.value);
       if (sortSelect && sortSelect.value && sortSelect.value !== 'relevance') nextParams.set('sort', sortSelect.value);
 
@@ -345,8 +399,23 @@
       if (!allCourses.length) return;
 
       var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
-      var cat = catSelect ? catSelect.value.toLowerCase() : '';
-      var lvl = levelSelect ? levelSelect.value.toLowerCase() : '';
+
+      var cat = '';
+      if (catPillsWrap) {
+        var activeCatPill = catPillsWrap.querySelector('.tcm-pill-btn.active');
+        if (activeCatPill) cat = (activeCatPill.getAttribute('data-value') || '').trim().toLowerCase();
+      } else if (catSelect) {
+        cat = catSelect.value.trim().toLowerCase();
+      }
+
+      var lvl = '';
+      if (levelPillsWrap) {
+        var activeLvlPill = levelPillsWrap.querySelector('.tcm-pill-btn-sm.active');
+        if (activeLvlPill) lvl = (activeLvlPill.getAttribute('data-value') || '').trim().toLowerCase();
+      } else if (levelSelect) {
+        lvl = levelSelect.value.trim().toLowerCase();
+      }
+
       var prc = priceSelect ? priceSelect.value : '';
       var sort = sortSelect ? sortSelect.value : 'relevance';
 
@@ -413,6 +482,8 @@
             if (levelSelect) levelSelect.value = '';
             if (priceSelect) priceSelect.value = '';
             if (sortSelect) sortSelect.value = 'relevance';
+            selectCategoryValue('');
+            selectLevelValue('');
             syncUrlParams();
             applyFilters();
           });
@@ -433,7 +504,7 @@
         }
         allCourses = res.data;
 
-        // Populate category dropdown options dynamically
+        // Populate category dropdown options dynamically if needed
         if (catSelect && catSelect.options.length <= 1) {
           var seenCats = {};
           allCourses.forEach(function (c) {
@@ -446,8 +517,10 @@
               catSelect.appendChild(opt);
             }
           });
-          if (params.get('cat')) selectCategoryValue(params.get('cat'));
         }
+
+        if (params.get('cat')) selectCategoryValue(params.get('cat'));
+        if (params.get('level')) selectLevelValue(params.get('level'));
 
         applyFilters();
       })
@@ -459,10 +532,42 @@
     if (searchInput) {
       searchInput.addEventListener('input', function () { applyFilters(); });
     }
-    if (catSelect) catSelect.addEventListener('change', applyFilters);
-    if (levelSelect) levelSelect.addEventListener('change', applyFilters);
+    if (catSelect) catSelect.addEventListener('change', function () {
+      selectCategoryValue(catSelect.value);
+      applyFilters();
+    });
+    if (levelSelect) levelSelect.addEventListener('change', function () {
+      selectLevelValue(levelSelect.value);
+      applyFilters();
+    });
     if (priceSelect) priceSelect.addEventListener('change', applyFilters);
     if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+
+    if (catPillsWrap) {
+      catPillsWrap.addEventListener('click', function (e) {
+        var btn = e.target.closest('.tcm-pill-btn');
+        if (!btn) return;
+        var pills = catPillsWrap.querySelectorAll('.tcm-pill-btn');
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        var val = btn.getAttribute('data-value') || '';
+        if (catSelect) catSelect.value = val;
+        applyFilters();
+      });
+    }
+
+    if (levelPillsWrap) {
+      levelPillsWrap.addEventListener('click', function (e) {
+        var btn = e.target.closest('.tcm-pill-btn-sm');
+        if (!btn) return;
+        var pills = levelPillsWrap.querySelectorAll('.tcm-pill-btn-sm');
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        var val = btn.getAttribute('data-value') || '';
+        if (levelSelect) levelSelect.value = val;
+        applyFilters();
+      });
+    }
   }
 
   /* ==========================================================================
@@ -919,6 +1024,122 @@
   }
 
   /* ==========================================================================
+     INSTITUTIONAL SMART REVENUE CALCULATOR
+     ========================================================================== */
+  function wireInstitutionCalculator() {
+    var card = document.getElementById('instRevenueCalc');
+    if (!card) return;
+
+    var btnAcademic = document.getElementById('calcModelAcademic');
+    var btnReferral = document.getElementById('calcModelReferral');
+    var sliderStudents = document.getElementById('calcStudentSlider');
+    var sliderFee = document.getElementById('calcFeeSlider');
+    var sliderBatches = document.getElementById('calcBatchesSlider');
+    var sliderPct = document.getElementById('calcPctSlider');
+    var pctBtns = card.querySelectorAll('.ptr-pct-btn');
+
+    var valStudents = document.getElementById('calcStudentVal');
+    var valFee = document.getElementById('calcFeeVal');
+    var valBatches = document.getElementById('calcBatchesVal');
+    var valPct = document.getElementById('calcPctVal');
+
+    var outInstitute = document.getElementById('calcOutInstitute');
+    var outBatchesCombined = document.getElementById('calcOutBatchesCombined');
+    var outTotal = document.getElementById('calcOutTotal');
+    var outTcm = document.getElementById('calcOutTcm');
+    var outPerBatch = document.getElementById('calcOutPerBatch');
+    var outModelLabel = document.getElementById('calcOutModelLabel');
+
+    var currentModel = 'Academic';
+    var currentPct = 40;
+
+    function updateCalc() {
+      var students = parseInt(sliderStudents ? sliderStudents.value : 40, 10) || 40;
+      var fee = parseInt(sliderFee ? sliderFee.value : 5000, 10) || 5000;
+      var batches = parseInt(sliderBatches ? sliderBatches.value : 2, 10) || 2;
+      var pct = currentPct;
+
+      if (valStudents) valStudents.textContent = students + ' Students';
+      if (valFee) valFee.textContent = '₹' + fee.toLocaleString('en-IN');
+      if (valBatches) valBatches.textContent = batches + (batches === 1 ? ' Batch' : ' Batches');
+      if (valPct) valPct.textContent = pct + '%';
+
+      var totalCollections = students * fee * batches;
+      var instituteShare = Math.round(totalCollections * (pct / 100));
+      var tcmShare = totalCollections - instituteShare;
+      var perBatch = Math.round(instituteShare / batches);
+
+      if (outInstitute) outInstitute.textContent = '₹' + instituteShare.toLocaleString('en-IN');
+      if (outBatchesCombined) outBatchesCombined.textContent = '₹' + instituteShare.toLocaleString('en-IN') + ' across ' + batches + (batches === 1 ? ' batch' : ' batches');
+      if (outTotal) outTotal.textContent = '₹' + totalCollections.toLocaleString('en-IN');
+      if (outTcm) outTcm.textContent = '₹' + tcmShare.toLocaleString('en-IN');
+      if (outPerBatch) outPerBatch.textContent = '₹' + perBatch.toLocaleString('en-IN');
+      if (outModelLabel) {
+        outModelLabel.textContent = currentModel === 'Academic' ? 'Est. Institute Revenue Share (40%)' : 'Est. Referral Commission (15%)';
+      }
+    }
+
+    function setModel(model) {
+      currentModel = model;
+      if (model === 'Academic') {
+        currentPct = 40;
+        if (btnAcademic) btnAcademic.classList.add('active');
+        if (btnReferral) btnReferral.classList.remove('active');
+        if (sliderPct) sliderPct.value = 40;
+      } else {
+        currentPct = 15;
+        if (btnReferral) btnReferral.classList.add('active');
+        if (btnAcademic) btnAcademic.classList.remove('active');
+        if (sliderPct) sliderPct.value = 15;
+      }
+      pctBtns.forEach(function (btn) {
+        var p = parseInt(btn.getAttribute('data-pct'), 10);
+        btn.classList.toggle('active', p === currentPct);
+      });
+
+      // Sync form dropdown if present
+      var instModelSelect = document.getElementById('instModel');
+      if (instModelSelect) {
+        instModelSelect.value = model === 'Academic' ? 'Academic Partnership Model' : 'Referral Model';
+      }
+
+      updateCalc();
+    }
+
+    if (btnAcademic) btnAcademic.addEventListener('click', function () { setModel('Academic'); });
+    if (btnReferral) btnReferral.addEventListener('click', function () { setModel('Referral'); });
+
+    if (sliderStudents) sliderStudents.addEventListener('input', updateCalc);
+    if (sliderFee) sliderFee.addEventListener('input', updateCalc);
+    if (sliderBatches) sliderBatches.addEventListener('input', updateCalc);
+    if (sliderPct) sliderPct.addEventListener('input', function () {
+      currentPct = parseInt(sliderPct.value, 10) || 40;
+      updateCalc();
+    });
+
+    pctBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var p = parseInt(btn.getAttribute('data-pct'), 10) || 40;
+        currentPct = p;
+        if (p === 15) setModel('Referral');
+        else setModel('Academic');
+      });
+    });
+
+    // Handle external trigger buttons with data-select-partner-model
+    document.querySelectorAll('[data-select-partner-model]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var m = btn.getAttribute('data-select-partner-model');
+        setModel(m === 'Referral' ? 'Referral' : 'Academic');
+        var calcSec = document.getElementById('calculator');
+        if (calcSec) calcSec.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    updateCalc();
+  }
+
+  /* ==========================================================================
      CERTIFICATE ZOOM MODAL
      ========================================================================== */
   function wireCertificateModal() {
@@ -1318,6 +1539,7 @@
     wireBrochureModal();
     wireContactForm();
     wireInstitutionForm();
+    wireInstitutionCalculator();
     wireCertificateModal();
 
     // Check auth status

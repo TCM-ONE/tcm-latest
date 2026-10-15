@@ -134,31 +134,42 @@
         </div>
 
         <!-- Filter & Search Controls -->
-        <div style="margin-top: 24px; padding: 24px; background-color: var(--tcm-surface); border: 1px solid var(--tcm-border);">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
-            <!-- Search -->
-            <div style="grid-column: 1 / -1;" class="d-md-block">
-              <div style="position: relative;">
-                <input type="text" id="catalogSearch" class="tcm-form-input" placeholder="Search by course title, skill, or tool (e.g. Python, React, SQL, DevOps)..." style="padding-left: 42px;">
-                <i class="bi bi-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--tcm-muted); font-size: 15px;"></i>
+        <div class="tcm-filter-container">
+          <!-- Search Bar -->
+          <div style="position: relative;">
+            <input type="text" id="catalogSearch" class="tcm-form-input" placeholder="Search by course title, skill, or tool (e.g. Python, React, SQL, DevOps)..." style="padding-left: 42px;">
+            <i class="bi bi-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--tcm-muted); font-size: 15px;"></i>
+          </div>
+
+          <!-- Category Track Button Toggle Pills -->
+          <div class="tcm-filter-group">
+            <label class="tcm-filter-label">Filter by Category Track</label>
+            <div class="tcm-filter-pills" id="catalogCategoryPills">
+              <button type="button" class="tcm-pill-btn active" data-filter="cat" data-value="">All Categories</button>
+              <?php foreach (($categories ?? []) as $cat): ?>
+                <button type="button" class="tcm-pill-btn" data-filter="cat" data-value="<?= e($cat['name']) ?>"><?= e($cat['name']) ?></button>
+              <?php endforeach; ?>
+            </div>
+            <!-- Hidden fallback select for programmatic sync -->
+            <select id="catalogCategory" style="display: none;">
+              <option value="">All Categories</option>
+              <?php foreach (($categories ?? []) as $cat): ?>
+                <option value="<?= e($cat['name']) ?>"><?= e($cat['name']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
+          <!-- Secondary Row: Skill Level Toggle Pills & Sort / Price -->
+          <div class="tcm-filter-subrow">
+            <div class="tcm-filter-group" style="flex: 1; min-width: 260px;">
+              <label class="tcm-filter-label">Skill Level</label>
+              <div class="tcm-filter-pills" id="catalogLevelPills">
+                <button type="button" class="tcm-pill-btn tcm-pill-btn-sm active" data-filter="level" data-value="">All Levels</button>
+                <button type="button" class="tcm-pill-btn tcm-pill-btn-sm" data-filter="level" data-value="beginner">Beginner</button>
+                <button type="button" class="tcm-pill-btn tcm-pill-btn-sm" data-filter="level" data-value="intermediate">Intermediate</button>
+                <button type="button" class="tcm-pill-btn tcm-pill-btn-sm" data-filter="level" data-value="advanced">Advanced</button>
               </div>
-            </div>
-
-            <!-- Category -->
-            <div>
-              <label for="catalogCategory" class="tcm-form-label" style="font-size: 11px;">Category Track</label>
-              <select id="catalogCategory" class="tcm-form-select">
-                <option value="">All Categories</option>
-                <?php foreach (($categories ?? []) as $cat): ?>
-                  <option value="<?= e($cat['name']) ?>"><?= e($cat['name']) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-
-            <!-- Skill Level -->
-            <div>
-              <label for="catalogLevel" class="tcm-form-label" style="font-size: 11px;">Skill Level</label>
-              <select id="catalogLevel" class="tcm-form-select">
+              <select id="catalogLevel" style="display: none;">
                 <option value="">All Levels</option>
                 <option value="beginner">Beginner</option>
                 <option value="intermediate">Intermediate</option>
@@ -166,27 +177,28 @@
               </select>
             </div>
 
-            <!-- Price Range -->
-            <div>
-              <label for="catalogPrice" class="tcm-form-label" style="font-size: 11px;">Price Range</label>
-              <select id="catalogPrice" class="tcm-form-select">
-                <option value="">All Pricing</option>
-                <option value="under-2k">Under ₹2,000 (&lt;$25 USD)</option>
-                <option value="2k-5k">₹2,000 – ₹5,000 ($25–$60 USD)</option>
-                <option value="5k-10k">₹5,000 – ₹10,000 ($60–$120 USD)</option>
-                <option value="above-10k">Above ₹10,000 ($120+ USD)</option>
-              </select>
-            </div>
+            <!-- Price & Sorting Dropdowns -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+              <div style="min-width: 160px;">
+                <label for="catalogPrice" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Pricing</label>
+                <select id="catalogPrice" class="tcm-form-select" style="height: 38px; font-size: 13px;">
+                  <option value="">All Pricing</option>
+                  <option value="under-2k">Under ₹2,000 (&lt;$25 USD)</option>
+                  <option value="2k-5k">₹2,000 – ₹5,000 ($25–$60 USD)</option>
+                  <option value="5k-10k">₹5,000 – ₹10,000 ($60–$120 USD)</option>
+                  <option value="above-10k">Above ₹10,000 ($120+ USD)</option>
+                </select>
+              </div>
 
-            <!-- Sorting -->
-            <div>
-              <label for="catalogSort" class="tcm-form-label" style="font-size: 11px;">Sort By</label>
-              <select id="catalogSort" class="tcm-form-select">
-                <option value="relevance">Relevance</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="newest">Newest Cohorts</option>
-              </select>
+              <div style="min-width: 160px;">
+                <label for="catalogSort" class="tcm-filter-label" style="display: block; margin-bottom: 6px;">Sort By</label>
+                <select id="catalogSort" class="tcm-form-select" style="height: 38px; font-size: 13px;">
+                  <option value="relevance">Relevance</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="newest">Newest Cohorts</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>

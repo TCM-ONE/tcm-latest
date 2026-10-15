@@ -220,16 +220,6 @@
 </head>
 <body>
 
-  <!-- Site Announcement Bar -->
-  <div class="tcm-announcement" role="region" aria-label="Announcement">
-    <div class="tcm-container tcm-announcement-content">
-      <span><strong>Live Cohort:</strong> Intensive <?= e($duration) ?> workshop with direct mentor support. Limited seats available.</span>
-      <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hi TCM One, I have a query about the ' . $workshop['title']) ?>" target="_blank" rel="noopener">
-        Ask a Counselor &rarr;
-      </a>
-    </div>
-  </div>
-
   <!-- Header Navigation -->
   <header class="tcm-header" role="banner">
     <div class="tcm-container">

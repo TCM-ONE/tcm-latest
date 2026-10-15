@@ -281,6 +281,11 @@ $router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopCo
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
 $router->get('/for-institutions',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/for-institutions.html',        ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partner',                      ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partner.html',                 ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partners',                     ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/become-a-partner',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
 $router->get('/about',                        ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/about.html',                   ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/contact',                      ['TCM\Controllers\PublicWorkshopController', 'contact']);
