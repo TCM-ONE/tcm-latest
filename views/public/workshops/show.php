@@ -512,34 +512,35 @@
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Workshop Enrollment Bar">
       <div class="tcm-container">
         <div class="tcm-sticky-bottom-inner">
-          <div class="tcm-sticky-bottom-info d-none d-lg-flex">
-            <span class="tcm-badge"><?= e($category) ?></span>
+          <div class="tcm-sticky-bottom-info d-none d-md-flex">
             <div class="tcm-sticky-bottom-title"><?= e($workshop['title']) ?></div>
           </div>
-          <div class="tcm-sticky-bottom-pricing">
-            <div class="tcm-sticky-bottom-price-row">
-              <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
-              <?php if ($origPrice > $price): ?>
-                <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
-              <?php endif; ?>
+          <div class="tcm-sticky-bottom-right">
+            <div class="tcm-sticky-bottom-pricing">
+              <div class="tcm-sticky-bottom-price-row">
+                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <?php if ($origPrice > $price): ?>
+                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                <?php endif; ?>
+              </div>
+              <div class="tcm-sticky-bottom-sub">
+                <span><?= e($duration) ?> Intensive</span>
+              </div>
             </div>
-            <div class="tcm-sticky-bottom-sub">
-              <span><?= e($duration) ?> Intensive</span>
+            <div class="tcm-sticky-bottom-actions">
+              <?php
+                $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
+                $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
+              ?>
+              <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Register via WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">WhatsApp</span>
+              </a>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
+                <span>Reserve Seat</span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </button>
             </div>
-          </div>
-          <div class="tcm-sticky-bottom-actions">
-            <?php
-              $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
-              $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
-            ?>
-            <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Register via WhatsApp">
-              <i class="bi bi-whatsapp"></i>
-              <span class="d-none d-sm-inline" style="margin-left: 4px;">WhatsApp</span>
-            </a>
-            <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
-              <span>Reserve Seat</span>
-              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-            </button>
           </div>
         </div>
       </div>

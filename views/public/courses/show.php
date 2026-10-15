@@ -398,30 +398,31 @@
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Course Enrollment Bar">
       <div class="tcm-container">
         <div class="tcm-sticky-bottom-inner">
-          <div class="tcm-sticky-bottom-info d-none d-lg-flex">
-            <span class="tcm-badge"><?= e($category) ?></span>
+          <div class="tcm-sticky-bottom-info d-none d-md-flex">
             <div class="tcm-sticky-bottom-title"><?= e($course['title']) ?></div>
           </div>
-          <div class="tcm-sticky-bottom-pricing">
-            <div class="tcm-sticky-bottom-price-row">
-              <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
-              <?php if ($origPrice > $price): ?>
-                <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
-              <?php endif; ?>
+          <div class="tcm-sticky-bottom-right">
+            <div class="tcm-sticky-bottom-pricing">
+              <div class="tcm-sticky-bottom-price-row">
+                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <?php if ($origPrice > $price): ?>
+                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                <?php endif; ?>
+              </div>
+              <div class="tcm-sticky-bottom-sub">
+                <span><?= e($duration) ?> Cohort</span>
+              </div>
             </div>
-            <div class="tcm-sticky-bottom-sub">
-              <span><?= e($duration) ?> Cohort</span>
+            <div class="tcm-sticky-bottom-actions">
+              <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">Syllabus</span>
+              </button>
+              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
+                <span>Enroll Now</span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </a>
             </div>
-          </div>
-          <div class="tcm-sticky-bottom-actions">
-            <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
-              <i class="bi bi-file-earmark-pdf"></i>
-              <span class="d-none d-sm-inline" style="margin-left: 4px;">Syllabus</span>
-            </button>
-            <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
-              <span>Enroll Now</span>
-              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-            </a>
           </div>
         </div>
       </div>
