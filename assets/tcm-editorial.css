@@ -475,14 +475,22 @@
   background: #ffffff;
   border: 1px solid var(--tcm-fg);
   box-shadow: 0 14px 34px rgba(17, 17, 17, 0.16);
-  z-index: 1010;
+  z-index: 99999;
   display: none;
   flex-direction: column;
   box-sizing: border-box;
 }
 
 .tcm-lang-picker.open .tcm-lang-dropdown {
-  display: flex;
+  display: flex !important;
+}
+
+.tcm-mobile-drawer .tcm-lang-dropdown {
+  position: static !important;
+  width: 100% !important;
+  margin-top: 6px;
+  max-height: 240px;
+  box-shadow: none;
 }
 
 .tcm-lang-dropdown-header {
@@ -2908,4 +2916,45 @@ textarea.tcm-form-input {
   margin: 8px 0;
 }
 
+/* ==========================================================================
+   TOOLS & LANGUAGES — editorial typography and a monochrome toolkit directory
+   ========================================================================== */
+.tcm-tools-section {
+  padding: clamp(40px, 5vw, 64px) 0;
+  background: var(--tcm-surface);
+  border-block: 1px solid var(--tcm-border);
+  scroll-margin-top: 90px;
+}
+.tcm-tools-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: center; }
+.tcm-tools-copy, .tcm-tools-directory { min-width: 0; }
+.tcm-tools-eyebrow { margin-bottom: 18px; }
+.tcm-tools-heading { margin: 0 0 20px; max-width: 560px; }
+.tcm-tools-desc { font-family: var(--tcm-font-sans); font-size: 15px; line-height: 1.75; color: var(--tcm-muted); margin: 0 0 28px; max-width: 520px; }
+.tcm-tools-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tcm-tools-directory-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; }
+.tcm-tools-directory-header > :last-child { color: var(--tcm-muted); font-size: 12px; }
+.tcm-tools-cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--tcm-border); border-left: 1px solid var(--tcm-border); }
+.tcm-tool-card { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 76px; padding: 18px; background: var(--tcm-surface); border: 0; border-right: 1px solid var(--tcm-border); border-bottom: 1px solid var(--tcm-border); border-radius: 0; box-shadow: none; }
+.tcm-tool-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; filter: grayscale(1); }
+.tcm-tool-icon svg { width: 100%; height: 100%; display: block; }
+.tcm-tool-name { font-family: var(--tcm-font-sans); font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--tcm-fg); overflow-wrap: anywhere; }
+@media (min-width: 1024px) {
+  .tcm-tools-grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr); gap: clamp(36px, 4vw, 64px); }
+}
+@media (max-width: 639px) {
+  .tcm-tools-directory-header { flex-wrap: wrap; gap: 8px; }
+  .tcm-tools-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tcm-tool-card { padding: 16px; }
+  .tcm-tool-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (max-width: 379px) {
+  .tcm-tool-card { flex-direction: column; align-items: flex-start; gap: 10px; min-height: 100px; }
+  .tcm-tool-card:last-child:nth-child(odd) { flex-direction: row; align-items: center; min-height: 66px; }
+  .tcm-tools-actions { align-items: stretch; flex-direction: column; }
+}
 
+/* Shared decorative markers used by the demo dialog. */
+.tool-dot { width: 8px; height: 8px; display: inline-block; flex-shrink: 0; }
+.tool-dot-blue { background-color: #2563eb; }
+.tool-dot-orange { background-color: #ea580c; }
+.tcm-btn-pill { border-radius: 6px !important; height: 44px; padding: 0 22px; font-size: 14px; font-weight: 600; }

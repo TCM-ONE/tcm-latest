@@ -1574,20 +1574,6 @@
   }
 
   /* ==========================================================================
-     BOOTSTRAP
-     ========================================================================== */
-  function boot() {
-    normalizeSiteLinks();
-    wireNavigation();
-    wireHeroWorkshopDeck();
-    wirePlacementReportModal();
-    hydrateHomeCategoryTracks();
-    hydrateHomeCourses();
-    initCourseCatalog();
-    wireWorkshopModal();
-    wireBrochureModal();
-    wireContactForm();
-  /* ==========================================================================
      LANGUAGE SELECTOR & GOOGLE TRANSLATE CLIENT
      ========================================================================== */
   function wireLanguageSelector() {
@@ -1780,12 +1766,106 @@
   }
 
   /* ==========================================================================
+     BOOK A DEMO MODAL
+     ========================================================================== */
+  function wireDemoModal() {
+    var overlay = document.getElementById('tcmDemoModalOverlay');
+    var closeBtn = document.getElementById('tcmDemoCloseBtn');
+    var form = document.getElementById('tcmDemoForm');
+    var successState = document.getElementById('demoSuccessState');
+
+    function openModal() {
+      if (!overlay) return;
+      overlay.style.display = 'flex';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (form) form.style.display = 'block';
+      if (successState) successState.style.display = 'none';
+      var nameInput = document.getElementById('demoFullName');
+      if (nameInput) setTimeout(function () { nameInput.focus(); }, 120);
+    }
+
+    function closeModal() {
+      if (!overlay) return;
+      overlay.style.display = 'none';
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      var trigger = e.target && e.target.closest ? e.target.closest('.demo-trigger, #toolsBookDemoBtn, #openDemoModalBtn') : null;
+      if (trigger) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (document.getElementById('demoFullName') || {}).value || '';
+        var phone = (document.getElementById('demoPhone') || {}).value || '';
+        var email = (document.getElementById('demoEmail') || {}).value || '';
+        var track = (document.getElementById('demoTrack') || {}).value || '';
+        var stage = (document.getElementById('demoStage') || {}).value || '';
+
+        if (!name.trim() || !phone.trim() || !email.trim()) {
+          alert('Please fill in your name, phone number, and email.');
+          return;
+        }
+
+        postJSON(apiUrl('/api/contact'), {
+          name: name,
+          email: email,
+          phone: phone,
+          subject: 'Book a Demo Request: ' + track,
+          message: 'Stage: ' + stage + ' | Track: ' + track
+        }).catch(function () {});
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (form) form.style.display = 'none';
+        if (successState) successState.style.display = 'block';
+      });
+    }
+  }
+
+  function normalizeBrandLogos() {
+    var logos = document.querySelectorAll('.tcm-brand-logo');
+    logos.forEach(function (img) {
+      var src = img.getAttribute('src');
+      if (src === '/assets/logo.png') {
+        img.src = (BASE ? BASE : '.') + '/assets/logo.png';
+      }
+    });
+  }
+
+  /* ==========================================================================
      GLOBAL BOOT
      ========================================================================== */
   function boot() {
     normalizeSiteLinks();
+    normalizeBrandLogos();
     wireNavigation();
     wireLanguageSelector();
+    wireDemoModal();
     wireHeroWorkshopDeck();
     wirePlacementReportModal();
     hydrateHomeCategoryTracks();
