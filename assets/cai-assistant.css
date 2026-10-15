@@ -3,6 +3,11 @@
    Clean, Editorial, Unobtrusive on Mobile
    ========================================================================== */
 
+.cai-launcher,
+.cai-window {
+  display: none !important;
+}
+
 .cai-launcher {
   position: fixed;
   bottom: 24px;

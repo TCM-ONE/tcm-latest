@@ -77,7 +77,6 @@
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css">
   <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.10">
-  <link rel="stylesheet" href="./assets/cai-assistant.css">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -1190,21 +1189,53 @@
          SECTION 10: INDUSTRY-RECOGNIZED CERTIFICATIONS (Dual Credentials)
          ======================================================================== -->
     <section class="tcm-cert-section" id="certifications" aria-labelledby="certifications-title">
-      <div class="tcm-container">
-        <div class="tcm-cert-heading">
-          <div class="tcm-cert-eyebrow">CERTIFICATIONS</div>
-          <h2 id="certifications-title" class="tcm-h2 tcm-cert-heading-title">
-            Industry-Recognized Software Engineering<br>
-            <span class="font-editorial-serif">Certifications</span>
-          </h2>
-        </div>
-        <div class="tcm-cert-grid">
-          <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-tcm-student.png" data-cert-title="TCM One Program Certificate" aria-label="View TCM One Program Certificate">
-            <img src="./assets/cert-tcm-student.png" alt="TCM One software engineering program certificate" class="tcm-cert-img" loading="lazy" width="1024" height="682">
-          </button>
-          <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-nasscom-partner.png" data-cert-title="Cuboidsoft Partnership Certificate" aria-label="View Cuboidsoft Partnership Certificate">
-            <img src="./assets/cert-nasscom-partner.png" alt="Cuboidsoft and TCM One Recognised Training Partner Certificate" class="tcm-cert-img" loading="lazy" width="1024" height="724">
-          </button>
+      <div class="tcm-cert-heading">
+        <div class="tcm-cert-eyebrow">CERTIFICATIONS</div>
+        <h2 id="certifications-title" class="tcm-h2 tcm-cert-heading-title">
+          Industry-Recognized Software Engineering<br>
+          <span class="font-editorial-serif">Certifications</span>
+        </h2>
+      </div>
+
+      <div class="tcm-cert-blueprint-wrap">
+        <!-- Horizontal Guide Lines extending edge-to-edge -->
+        <div class="tcm-cert-guide-line tcm-cert-guide-top" aria-hidden="true"></div>
+        <div class="tcm-cert-guide-line tcm-cert-guide-bottom" aria-hidden="true"></div>
+
+        <div class="tcm-container tcm-cert-container">
+          <div class="tcm-cert-blueprint-grid">
+            <!-- Top Intersection Nodes -->
+            <span class="tcm-cert-node node-top-left" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-top-center" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-top-right" aria-hidden="true"></span>
+
+            <!-- Outer Extended Nodes -->
+            <span class="tcm-cert-node node-edge-left" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-edge-right" aria-hidden="true"></span>
+
+            <!-- Left Cell: TCM One Certificate -->
+            <div class="tcm-cert-cell">
+              <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-tcm-student.png" data-cert-title="TCM One Program Certificate" aria-label="View TCM One Program Certificate">
+                <img src="./assets/cert-tcm-student.png" alt="TCM One software engineering program certificate" class="tcm-cert-img" loading="lazy" width="1024" height="682">
+              </button>
+            </div>
+
+            <!-- Right Cell: Cuboidsoft Partner Certificate -->
+            <div class="tcm-cert-cell">
+              <button type="button" class="tcm-cert-card" data-cert-src="./assets/cert-nasscom-partner.png" data-cert-title="Cuboidsoft Partnership Certificate" aria-label="View Cuboidsoft Partnership Certificate">
+                <img src="./assets/cert-nasscom-partner.png" alt="Cuboidsoft and TCM One Recognised Training Partner Certificate" class="tcm-cert-img" loading="lazy" width="1024" height="724">
+              </button>
+            </div>
+
+            <!-- Bottom Intersection Nodes -->
+            <span class="tcm-cert-node node-bottom-left" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-bottom-center" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-bottom-right" aria-hidden="true"></span>
+
+            <!-- Bottom Outer Extended Nodes -->
+            <span class="tcm-cert-node node-bottom-edge-left" aria-hidden="true"></span>
+            <span class="tcm-cert-node node-bottom-edge-right" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
     </section>
@@ -1538,6 +1569,5 @@
 
   <!-- Client-side Scripts -->
   <script src="./assets/tcm-editorial.js?v=2.9"></script>
-  <script src="./assets/cai-assistant.js"></script>
 </body>
 </html>
