@@ -169,19 +169,21 @@
               <?php endif; ?>
 
               <div class="tcm-workshop-footer">
-                <div>
-                  <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
-                  <?php if ($origPrice > $price): ?>
-                    <span style="font-size: 13px; color: #999; text-decoration: line-through; margin-left: 6px;">
-                      ₹<?= number_format($origPrice, 0) ?>
-                    </span>
-                  <?php endif; ?>
-                  <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px;">
+                <div class="tcm-workshop-pricing">
+                  <div class="tcm-workshop-price-row">
+                    <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
+                    <?php if ($origPrice > $price): ?>
+                      <span class="tcm-workshop-price-orig">
+                        ₹<?= number_format($origPrice, 0) ?>
+                      </span>
+                    <?php endif; ?>
+                  </div>
+                  <div class="tcm-workshop-batch-meta">
                     Next Cohort Enrolling
                   </div>
                 </div>
 
-                <div style="display: flex; gap: 8px;">
+                <div class="tcm-workshop-actions">
                   <a href="<?= base_url('/workshops/' . rawurlencode($slug)) ?>" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                     Details
                   </a>
