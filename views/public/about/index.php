@@ -73,14 +73,6 @@
 </head>
 <body>
 
-  <!-- Site Announcement -->
-  <div class="tcm-announcement" role="region" aria-label="Announcement">
-    <div class="tcm-container tcm-announcement-content">
-      <span><strong>The TCM Philosophy:</strong> Learn by writing production software, not memorizing slides.</span>
-      <a href="<?= base_url('/courses') ?>">Explore Live Tracks &rarr;</a>
-    </div>
-  </div>
-
   <!-- Header Navigation -->
   <header class="tcm-header" role="banner">
     <div class="tcm-container">
