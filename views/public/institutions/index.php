@@ -112,11 +112,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Design System & Partner Stylesheets -->
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/partner.css?v=2.2.1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.11') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-institutions.css?v=2') ?>">
 </head>
@@ -1443,8 +1443,7 @@
             </summary>
             <div class="tcm-faq-body">
               <p>
-                Each certificate carries a unique cryptographic ID and a QR code pointing to an online verification portal at TCM One. Recruiters and companies can immediately authenticate the student's capstone repository and verified skill breakdown.
-              </p>
+                Eligible certificates carry a TCM certificate number. Recruiters can request record verification through thecodemunk@gmail.com with the learner’s authorisation where required. See the Certificate Policy for issuance and verification details.</p>
             </div>
           </details>
 
@@ -1470,7 +1469,7 @@
 
   <!-- Scripts -->
   <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.6') ?>"></script>
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.2.5') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

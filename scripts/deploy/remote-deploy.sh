@@ -49,6 +49,11 @@ rsync -a --delete-delay \
 
 chmod 0600 "$public_root/.env"
 
+if [[ -f "$public_root/bin/migrate.php" ]]; then
+  echo "Executing production database migration and course catalogue synchronization..."
+  php "$public_root/bin/migrate.php"
+fi
+
 curl --fail --silent --show-error --retry 3 --retry-delay 2 --max-time 15 "$health_url/health" >/dev/null
 curl --fail --silent --show-error --retry 3 --retry-delay 2 --max-time 15 "$health_url/" >/dev/null
 

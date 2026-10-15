@@ -111,10 +111,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Design System Stylesheets -->
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.12') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <style>
     *, *::before, *::after {
@@ -359,13 +359,14 @@
         </div>
       </div>
     </section>
-  </main>
+  <?php readfile(BASE_PATH . '/views/partials/business-identity.html'); ?>
+</main>
 
   <!-- Site Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.2.5') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

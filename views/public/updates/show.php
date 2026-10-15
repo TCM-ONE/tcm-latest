@@ -246,8 +246,8 @@ $breadcrumbSchema = [
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.15') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-updates.css?v=2.0') ?>">
 
@@ -462,7 +462,7 @@ $breadcrumbSchema = [
 <?php endif; ?>
 
 <?php \TCM\Core\View::partial('partials.public-footer'); ?>
-<script src="<?= base_url('/assets/tcm-editorial.js?v=2.15') ?>"></script>
+<script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
 
 <script>
 (function() {

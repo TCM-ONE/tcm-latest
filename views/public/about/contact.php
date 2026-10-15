@@ -62,7 +62,7 @@
       "alternateName": "The Code Munk",
       "url": "https://thecodemunk.in",
       "telephone": "+91-9238695500",
-      "email": "hello@thecodemunk.in",
+      "email": "thecodemunk@gmail.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda",
@@ -112,10 +112,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Design System Stylesheets -->
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.12') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <style>
     *, *::before, *::after {
@@ -236,7 +236,7 @@
               <div style="font-size: 26px; color: var(--tcm-fg);"><i class="bi bi-building"></i></div>
               <div>
                 <strong style="display: block; font-size: 15px; margin-bottom: 2px;">College &amp; Campus Partnerships</strong>
-                <span style="font-size: 13px; color: var(--tcm-muted);">Campus workshops, accredited curricula &amp; MoU partnerships &rarr;</span>
+                <span style="font-size: 13px; color: var(--tcm-muted);">Campus workshops, practical curricula &amp; MoU partnerships &rarr;</span>
               </div>
             </a>
 
@@ -343,7 +343,7 @@
               </summary>
               <div class="tcm-faq-body">
                 <p>
-                  Our admissions team monitors inquiries Monday through Saturday from 10:00 AM to 7:00 PM IST. You will typically receive an email or WhatsApp response within 2 to 4 business hours.
+                  Our admissions team monitors inquiries Monday through Saturday from 10:00 AM to 7:00 PM IST. You will typically receive an email or WhatsApp response during support hours, usually within one business day.
                 </p>
               </div>
             </details>
@@ -367,21 +367,21 @@
               </summary>
               <div class="tcm-faq-body">
                 <p>
-                  We accept all major Indian payment methods through Razorpay: UPI (GPay, PhonePe, Paytm), Net Banking, Debit Cards, and Credit Cards. For long-format courses priced at ₹5,000 or above, flexible 3-month no-cost EMI options are available at checkout.
-                </p>
+                  Payment methods are those offered through official TCM payment instructions at enrolment. The current student flow accepts a payment reference or receipt for manual verification before access is activated. Gateway payment methods and any instalment arrangement are available only when expressly offered; please confirm with admissions before paying.</p>
               </div>
             </details>
           </div>
         </div>
       </div>
     </section>
-  </main>
+  <?php readfile(BASE_PATH . '/views/partials/business-identity.html'); ?>
+</main>
 
   <!-- Site Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.2.5') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js?v=2.2.5') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

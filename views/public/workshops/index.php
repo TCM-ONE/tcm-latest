@@ -56,9 +56,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Design System Stylesheets -->
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <!-- Structured Data (JSON-LD) -->
   <?php
@@ -213,7 +213,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js') ?>"></script>
-  <script src="<?= base_url('/assets/cai-assistant.js') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>
