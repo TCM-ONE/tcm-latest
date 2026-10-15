@@ -133,9 +133,15 @@
     );
     document.body.appendChild(win);
 
-    loadKnowledge();
+    // Defer knowledge loading until user interacts or page is completely idle
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(function () { setTimeout(loadKnowledge, 1500); });
+    } else {
+      setTimeout(loadKnowledge, 2500);
+    }
 
     function openWin() {
+      loadKnowledge();
       win.classList.add('open');
       launcher.style.display = 'none';
       var input = document.getElementById('caiInput');
@@ -147,6 +153,7 @@
       launcher.style.display = 'flex';
     }
 
+    launcher.addEventListener('mouseenter', loadKnowledge, { once: true });
     launcher.addEventListener('click', openWin);
     var closeBtn = document.getElementById('caiCloseBtn');
     if (closeBtn) closeBtn.addEventListener('click', closeWin);
