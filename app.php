@@ -51,6 +51,7 @@ $router->get('/auth/google/callback', ['TCM\Controllers\GoogleAuthController', '
 // Admin dashboard
 // --------------------------------------------------------------------- //
 $router->get('/admin', ['TCM\Controllers\Admin\DashboardController', 'index']);
+$router->get('/admin/sync-database',        ['TCM\Controllers\Admin\DashboardController', 'syncDatabase']);
 $router->post('/admin/orders/{id}/delete', ['TCM\Controllers\Admin\DashboardController', 'deleteOrder']);
 $router->post('/admin/orders/clear',       ['TCM\Controllers\Admin\DashboardController', 'clearOrders']);
 $router->post('/admin/events/{id}/reset',  ['TCM\Controllers\Admin\DashboardController', 'resetEvent']);

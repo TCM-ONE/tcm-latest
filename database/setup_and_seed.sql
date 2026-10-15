@@ -39,12 +39,18 @@ ON DUPLICATE KEY UPDATE
   location = VALUES(location), college = VALUES(college);
 
 -- ── Categories ─────────────────────────────────────────────────
-INSERT INTO categories (id, name, slug, description, icon, audience, sort_order) VALUES
-(1, 'College Special',       'college-special',    'Job-ready programs built for college students', 'bi-mortarboard', 'college',    1),
-(2, 'Beginners & Non-IT',    'beginners-non-it',   'Start from scratch, no prior experience needed','bi-laptop',     'beginners',  2),
-(3, 'Working Professionals', 'working-professionals','Upskill and transition into tech',             'bi-briefcase',  'working',    3)
+INSERT INTO categories (id, name, slug, description, icon, audience, sort_order, status) VALUES
+(1, 'Programming Foundations',    'programming-foundations',    'Core programming logic, languages and fundamentals',     'bi-code-square',     'beginners', 1, 'active'),
+(2, 'Web & Mobile Development',   'web-mobile-development',     'Modern full stack, frontend, backend and mobile apps',    'bi-window-stack',    'college',   2, 'active'),
+(3, 'Data & Analytics',           'data-analytics',             'Data analysis, SQL, Power BI, Python and ML foundations', 'bi-graph-up',        'college',   3, 'active'),
+(4, 'AI & Automation',            'ai-automation',              'AI tools, Generative AI, AI agents and workflow automation','bi-robot',          'working',   4, 'active'),
+(5, 'Cloud & DevOps',             'cloud-devops',               'Cloud infrastructure, Docker, CI/CD, AWS and security',   'bi-cloud-check',     'working',   5, 'active'),
+(6, 'Career & DSA',               'career-dsa',                 'Data structures, algorithms, problem solving and career', 'bi-briefcase',       'college',   6, 'active'),
+(7, 'Design & Business',          'design-business',            'UI/UX design with Figma, digital marketing and growth',   'bi-palette',         'beginners', 7, 'active')
 ON DUPLICATE KEY UPDATE
-  name = VALUES(name), audience = VALUES(audience), sort_order = VALUES(sort_order);
+  name = VALUES(name), slug = VALUES(slug), description = VALUES(description), icon = VALUES(icon), audience = VALUES(audience), sort_order = VALUES(sort_order), status = VALUES(status);
+
+UPDATE categories SET status = 'inactive' WHERE slug IN ('college-special', 'beginners-non-it', 'working-professionals');
 
 -- ── Courses ─────────────────────────────────────────────────────
 INSERT INTO courses (id, category_id, instructor_id, title, slug, subtitle, description,
