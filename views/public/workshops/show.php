@@ -51,7 +51,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.16') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <?php
@@ -124,15 +124,44 @@
   </script>
 
   <style>
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     .ws-layout-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      width: 100%;
+      min-width: 0;
+    }
+    .ws-layout-grid > * {
+      min-width: 0;
+      max-width: 100%;
     }
     @media (min-width: 992px) {
       .ws-layout-grid {
-        grid-template-columns: 1fr 380px;
+        grid-template-columns: minmax(0, 1fr) 380px;
         gap: 48px;
+      }
+    }
+    .ws-card-pad {
+      padding: clamp(18px, 4vw, 32px);
+      box-sizing: border-box;
+      max-width: 100%;
+    }
+    .ws-mastery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 600px) {
+      .ws-mastery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
       }
     }
     .ws-sticky-panel {
@@ -140,24 +169,31 @@
       top: 96px;
       background: var(--tcm-surface);
       border: 1px solid var(--tcm-border);
-      padding: 28px;
+      padding: clamp(18px, 4vw, 28px);
+      box-sizing: border-box;
+      max-width: 100%;
     }
     .ws-curriculum-day {
       border: 1px solid var(--tcm-border);
       background: var(--tcm-surface);
       margin-bottom: 16px;
       transition: border-color 0.15s ease;
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow: hidden;
     }
     .ws-curriculum-day:hover {
       border-color: var(--tcm-fg);
     }
     .ws-day-header {
-      padding: 16px 20px;
+      padding: clamp(12px, 3vw, 16px) clamp(14px, 3.5vw, 20px);
       background: var(--tcm-surface);
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       border-bottom: 1px solid var(--tcm-border);
+      box-sizing: border-box;
+      flex-wrap: wrap;
     }
     .ws-day-pill {
       font-size: 11px;
@@ -167,16 +203,20 @@
       background: var(--tcm-fg);
       color: var(--tcm-bg);
       padding: 3px 8px;
+      flex-shrink: 0;
     }
     .ws-day-title {
       font-size: 15px;
       font-weight: 700;
       color: var(--tcm-fg);
       line-height: 1.4;
+      min-width: 0;
+      word-break: break-word;
     }
     .ws-day-body {
-      padding: 16px 20px 18px;
+      padding: clamp(14px, 3.5vw, 18px) clamp(14px, 3.5vw, 20px);
       background: var(--tcm-bg);
+      box-sizing: border-box;
     }
     .ws-topic-list {
       list-style: none;
@@ -192,6 +232,7 @@
       line-height: 1.55;
       position: relative;
       padding-left: 18px;
+      word-break: break-word;
     }
     .ws-topic-list li::before {
       content: "—";
@@ -200,21 +241,24 @@
       color: var(--tcm-fg);
       font-weight: 600;
     }
-    .ws-floating-mobile-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border-top: 1px solid var(--tcm-border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 900;
+    .ws-deliverables-box {
+      background: #111111;
+      color: #F8F7F4;
+      padding: clamp(20px, 4.5vw, 36px);
+      border: 1px solid #111111;
+      box-sizing: border-box;
+      max-width: 100%;
     }
-    @media (min-width: 992px) {
-      .ws-floating-mobile-bar { display: none !important; }
+    .ws-deliverables-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 600px) {
+      .ws-deliverables-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
     }
   </style>
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
@@ -282,9 +326,9 @@
             
             <!-- Highlights Section -->
             <?php if (!empty($workshop['highlights'])): ?>
-              <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 36px;">
+              <div class="ws-card-pad" style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); margin-bottom: 36px;">
                 <h2 class="tcm-h3" style="margin-bottom: 16px;">What You Will Master</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <div class="ws-mastery-grid">
                   <?php foreach ($workshop['highlights'] as $highlight): ?>
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
                       <i class="bi bi-check2-square" style="color: var(--tcm-fg); font-size: 16px; margin-top: 2px;"></i>
@@ -324,7 +368,7 @@
             </div>
 
             <!-- Target Audience -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 36px;">
+            <div class="ws-card-pad" style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); margin-bottom: 36px;">
               <h2 class="tcm-h3" style="margin-bottom: 18px;">Who Is This Workshop Built For?</h2>
               <div style="display: flex; flex-direction: column; gap: 16px;">
                 <?php if (!empty($workshop['target_audience'])): ?>
@@ -351,12 +395,12 @@
             </div>
 
             <!-- What You Receive Box -->
-            <div style="background: #111111; color: #F8F7F4; padding: 36px; border: 1px solid #111111;">
+            <div class="ws-deliverables-box" style="margin-bottom: 36px;">
               <div class="tcm-eyebrow" style="color: #999; margin-bottom: 8px;">DELIVERABLES INCLUDED</div>
-              <h2 class="tcm-h3" style="color: #FFF; font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; margin-bottom: 20px;">
+              <h2 class="tcm-h3" style="color: #FFF; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 3.5vw, 28px); margin-bottom: 20px;">
                 Everything Included with Your Workshop Pass
               </h2>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+              <div class="ws-deliverables-grid">
                 <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px;">
                   <strong style="font-size: 14.5px; display: block; color: #FFF; margin-bottom: 4px;">Live Interactive Classes</strong>
                   <span style="font-size: 12.5px; color: #BBB;">Direct audio/video question clearance with experienced instructors.</span>

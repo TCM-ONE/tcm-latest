@@ -44,7 +44,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.16') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <?php
@@ -93,14 +93,27 @@
   </script>
 
   <style>
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     .cd-layout-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      width: 100%;
+      min-width: 0;
+    }
+    .cd-layout-grid > * {
+      min-width: 0;
+      max-width: 100%;
     }
     @media (min-width: 992px) {
       .cd-layout-grid {
-        grid-template-columns: 1fr 380px;
+        grid-template-columns: minmax(0, 1fr) 380px;
         gap: 48px;
       }
     }
@@ -109,7 +122,9 @@
       top: 96px;
       background: var(--tcm-surface);
       border: 1px solid var(--tcm-border);
-      padding: 28px;
+      padding: clamp(18px, 4vw, 28px);
+      box-sizing: border-box;
+      max-width: 100%;
     }
     .cd-curriculum-module {
       border: 1px solid var(--tcm-border);
@@ -209,7 +224,7 @@
           <!-- Left Column: Detailed Course Modules -->
           <div>
             <!-- What You Will Learn -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); margin-bottom: 32px; box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">What You Will Learn</h2>
               <div style="font-size: 15px; line-height: 1.7; color: var(--tcm-fg);">
                 <?= nl2br(e($course['description'] ?: '')) ?>
@@ -257,7 +272,7 @@
             </div>
 
             <!-- Learning Methodology & Projects -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); margin-bottom: 32px; box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Learning Methodology</h2>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
                 <div>
@@ -272,7 +287,7 @@
             </div>
 
             <!-- Prerequisites & Audience -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Prerequisites</h2>
               <p class="tcm-body-muted" style="font-size: 14.5px; line-height: 1.6; margin: 0;">
                 No advanced background required unless specified. You will need a personal computer/laptop, internet connection, and dedication to attend live classes and submit assigned code tasks.

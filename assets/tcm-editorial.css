@@ -6,6 +6,15 @@
    Border-radius: 0px strictly
    ========================================================================== */
 
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
   --tcm-bg: #F8F7F4;
   --tcm-surface: #FFFFFF;
@@ -70,6 +79,20 @@
   .d-xl-flex { display: flex !important; }
   .d-xl-inline-flex { display: inline-flex !important; }
 }
+ 
+/* Layout & Spacing Utilities */
+.w-100, .w-full { width: 100% !important; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: 4px !important; }
+.mb-2 { margin-bottom: 8px !important; }
+.mb-3 { margin-bottom: 16px !important; }
+.mb-4 { margin-bottom: 24px !important; }
+.gap-1 { gap: 4px !important; }
+.gap-2 { gap: 8px !important; }
+.gap-3 { gap: 12px !important; }
+.gap-4 { gap: 16px !important; }
+.justify-content-between { justify-content: space-between !important; }
+.align-items-center { align-items: center !important; }
 
 /* ==========================================================================
    REUSABLE EDITORIAL BUTTON (EditorialButton)
@@ -126,14 +149,16 @@
   color: var(--tcm-bg) !important;
 }
 
-/* Variant: Secondary Outlined */
-.tcm-btn-secondary {
+/* Variant: Secondary Outlined / Outline */
+.tcm-btn-secondary,
+.tcm-btn-outline {
   background-color: var(--tcm-surface);
   color: var(--tcm-fg) !important;
   border: 1px solid var(--tcm-border);
 }
 
-.tcm-btn-secondary:hover {
+.tcm-btn-secondary:hover,
+.tcm-btn-outline:hover {
   border-color: var(--tcm-fg);
   background-color: var(--tcm-bg);
   color: var(--tcm-fg) !important;
@@ -487,12 +512,43 @@
   display: flex !important;
 }
 
+/* Specific styling for language selector inside Mobile Drawer */
+.tcm-mobile-drawer .tcm-lang-picker {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  position: static !important;
+  box-sizing: border-box !important;
+}
+
+.tcm-mobile-drawer .tcm-lang-btn {
+  display: flex !important;
+  width: 100% !important;
+  height: 42px;
+  padding: 0 14px;
+  background: var(--tcm-surface);
+  border: 1px solid var(--tcm-border) !important;
+  border-radius: 0 !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+  font-size: 13.5px;
+}
+
 .tcm-mobile-drawer .tcm-lang-dropdown {
   position: static !important;
   width: 100% !important;
+  max-width: 100% !important;
   margin-top: 6px;
-  max-height: 240px;
-  box-shadow: none;
+  max-height: 220px;
+  background: var(--tcm-surface);
+  border: 1px solid var(--tcm-border);
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+}
+
+.tcm-mobile-drawer .tcm-lang-list {
+  max-height: 180px;
 }
 
 .tcm-lang-dropdown-header {
@@ -587,7 +643,7 @@ body {
 }
 
 /* Mobile Header: Keep brand and toggle clean on small screens */
-@media (max-width: 639px) {
+@media (max-width: 767px) {
   .tcm-header-actions .tcm-btn,
   .tcm-nav-actions .tcm-btn {
     display: none !important;
@@ -613,20 +669,55 @@ body {
   top: 0;
   right: -100%;
   width: 100%;
-  max-width: 380px;
+  max-width: min(340px, 86vw);
   height: 100vh;
+  height: 100dvh;
   background-color: var(--tcm-bg);
   border-left: 1px solid var(--tcm-border);
   z-index: 200;
   display: flex;
   flex-direction: column;
-  padding: 32px 28px;
+  padding: 24px 20px;
+  box-sizing: border-box !important;
   transition: right 250ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  overflow-x: hidden !important;
 }
 
 .tcm-mobile-drawer.open {
   right: 0;
+}
+
+.tcm-mobile-drawer *,
+.tcm-mobile-drawer *::before,
+.tcm-mobile-drawer *::after {
+  box-sizing: border-box !important;
+}
+
+.tcm-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+}
+
+.tcm-mobile-drawer .tcm-btn {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  height: 46px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 0 !important;
+  text-decoration: none !important;
+}
+
+.tcm-mobile-drawer .tcm-btn.mb-2 {
+  margin-bottom: 10px !important;
 }
 
 .tcm-drawer-backdrop {
@@ -652,15 +743,16 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
 }
 
 .tcm-drawer-link {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--tcm-fg);
   text-decoration: none;
-  padding: 14px 0;
+  padding: 13px 0;
   border-bottom: 1px solid var(--tcm-border);
   display: flex;
   align-items: center;
