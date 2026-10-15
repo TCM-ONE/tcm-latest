@@ -613,8 +613,8 @@
 .tcm-hero-deck-topbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  margin-bottom: 28px;
   z-index: 12;
   position: relative;
 }
@@ -650,6 +650,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-left: auto;
 }
 
 .tcm-hero-deck-counter {
@@ -1004,7 +1005,7 @@
     font-size: 13px;
   }
   .tcm-hero-deck-topbar {
-    margin-bottom: 8px;
+    margin-bottom: 26px;
   }
 }
 
