@@ -8,6 +8,7 @@ use TCM\Core\Auth;
 use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\FirebaseNotification;
+use TCM\Core\Request;
 use TCM\Models\Notification;
 
 /**
@@ -38,9 +39,21 @@ final class GoogleAuthController extends Controller
             redirect('/auth/login');
         }
 
+        // Store intended return URL (e.g. blog post /tech-updates/{slug}#discussion)
+        $returnTo = Request::string('redirect') ?: Request::string('return_to');
+        if ($returnTo !== '' && str_starts_with($returnTo, '/') && !str_starts_with($returnTo, '//')) {
+            $_SESSION['auth_return_to'] = $returnTo;
+        }
+
         // CSRF state token stored in session
-        $state = bin2hex(random_bytes(16));
-        $_SESSION['google_oauth_state'] = $state;
+        $token = bin2hex(random_bytes(16));
+        $_SESSION['google_oauth_state'] = $token;
+
+        $statePayload = [
+            'token'     => $token,
+            'return_to' => $returnTo !== '' ? $returnTo : null,
+        ];
+        $state = rtrim(strtr(base64_encode((string) json_encode($statePayload)), '+/', '-_'), '=');
 
         $params = http_build_query([
             'client_id'     => $clientId,
@@ -60,11 +73,34 @@ final class GoogleAuthController extends Controller
     public function callback(): void
     {
         // Validate state to prevent CSRF
-        $state         = $_GET['state'] ?? '';
-        $sessionState  = $_SESSION['google_oauth_state'] ?? '';
+        $rawState     = $_GET['state'] ?? '';
+        $sessionState = $_SESSION['google_oauth_state'] ?? '';
         unset($_SESSION['google_oauth_state']);
 
-        if (empty($state) || $state !== $sessionState) {
+        $returnTo = $_SESSION['auth_return_to'] ?? null;
+        unset($_SESSION['auth_return_to']);
+
+        $tokenValid = false;
+        if (!empty($rawState)) {
+            if ($rawState === $sessionState) {
+                $tokenValid = true;
+            } else {
+                $padded = strtr($rawState, '-_', '+/');
+                $padLen = (4 - (strlen($padded) % 4)) % 4;
+                if ($padLen > 0) {
+                    $padded .= str_repeat('=', $padLen);
+                }
+                $decoded = json_decode((string) base64_decode($padded), true);
+                if (is_array($decoded) && isset($decoded['token']) && hash_equals((string) $sessionState, (string) $decoded['token'])) {
+                    $tokenValid = true;
+                    if (!empty($decoded['return_to'])) {
+                        $returnTo = (string) $decoded['return_to'];
+                    }
+                }
+            }
+        }
+
+        if (!$tokenValid) {
             flash('error', 'Invalid OAuth state. Please try again.');
             redirect('/auth/login');
         }
@@ -142,6 +178,10 @@ final class GoogleAuthController extends Controller
         }
 
         flash('success', 'Welcome, ' . $user['name'] . '!');
+
+        if (!empty($returnTo) && str_starts_with($returnTo, '/') && !str_starts_with($returnTo, '//')) {
+            redirect($returnTo);
+        }
 
         // Redirect based on role & onboarding
         if ($user['role'] === 'admin') {

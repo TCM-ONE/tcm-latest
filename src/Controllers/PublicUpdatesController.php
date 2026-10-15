@@ -8,6 +8,7 @@ use TCM\Core\Controller;
 use TCM\Core\Auth;
 use TCM\Core\Database;
 use TCM\Core\Request;
+use TCM\Core\Response;
 use TCM\Models\Post;
 
 final class PublicUpdatesController extends Controller
@@ -87,6 +88,9 @@ final class PublicUpdatesController extends Controller
         $user = Auth::require();
         $post = $this->publishedPost((string) ($params['slug'] ?? ''));
         if ($post === null) {
+            if (Request::isJson()) {
+                Response::error('This update is unavailable.', 404);
+            }
             flash('error', 'This update is unavailable.');
             redirect('/tech-updates');
         }
@@ -95,13 +99,27 @@ final class PublicUpdatesController extends Controller
             "SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND user_id = ? AND reaction = 'like'",
             [(int) $post['id'], (int) $user['id']]
         );
+        $liked = false;
         if ($existing > 0) {
             Database::run("DELETE FROM post_reactions WHERE post_id = ? AND user_id = ? AND reaction = 'like'", [(int) $post['id'], (int) $user['id']]);
-            flash('success', 'Like removed.');
+            $msg = 'Like removed.';
+            $liked = false;
         } else {
             Database::insert('post_reactions', ['post_id' => (int) $post['id'], 'user_id' => (int) $user['id'], 'reaction' => 'like']);
-            flash('success', 'Thanks for the like.');
+            $msg = 'Thanks for the like.';
+            $liked = true;
         }
+
+        $totalLikes = (int) Database::scalar("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction = 'like'", [(int) $post['id']]);
+
+        if (Request::isJson()) {
+            Response::success([
+                'liked' => $liked,
+                'likes' => $totalLikes,
+            ], $msg);
+        }
+
+        flash('success', $msg);
         redirect('/tech-updates/' . rawurlencode((string) $post['slug']) . '#discussion');
     }
 
@@ -110,15 +128,30 @@ final class PublicUpdatesController extends Controller
         $user = Auth::require();
         $post = $this->publishedPost((string) ($params['slug'] ?? ''));
         if ($post === null) {
+            if (Request::isJson()) {
+                Response::error('This update is unavailable.', 404);
+            }
             flash('error', 'This update is unavailable.');
             redirect('/tech-updates');
         }
         $body = trim(Request::string('body'));
         if (mb_strlen($body) < 3 || mb_strlen($body) > 2000) {
+            if (Request::isJson()) {
+                Response::error('Your comment must be between 3 and 2,000 characters.', 422);
+            }
             flash('error', 'Your comment must be between 3 and 2,000 characters.');
             redirect('/tech-updates/' . rawurlencode((string) $post['slug']) . '#discussion');
         }
         Database::insert('post_comments', ['post_id' => (int) $post['id'], 'user_id' => (int) $user['id'], 'body' => $body, 'status' => 'pending']);
+        if (Request::isJson()) {
+            Response::success([
+                'status' => 'pending',
+                'name' => $user['name'],
+                'body' => $body,
+                'initial' => strtoupper(mb_substr((string) $user['name'], 0, 1)),
+                'date' => date('d M Y'),
+            ], 'Thanks—your comment is awaiting review.');
+        }
         flash('success', 'Thanks—your comment is awaiting review.');
         redirect('/tech-updates/' . rawurlencode((string) $post['slug']) . '#discussion');
     }
