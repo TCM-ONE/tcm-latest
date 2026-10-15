@@ -67,57 +67,8 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="tcm-header" role="banner">
-    <div class="tcm-container">
-      <div class="tcm-header-inner">
-        <a href="<?= base_url('/') ?>" class="tcm-brand" aria-label="TCM One Home">
-          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-        </a>
-
-        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/courses') ?>" class="tcm-nav-link active">
-              <span>Courses</span>
-            </a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link">Workshops</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
-          </div>
-        </nav>
-
-        <div class="tcm-header-actions">
-          <a href="<?= base_url('/contact') ?>" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
-          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">
-            <span>Explore Courses</span>
-            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </a>
-          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
-            <i class="bi bi-list" style="font-size: 22px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer -->
-  <div class="tcm-drawer-backdrop"></div>
-  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
-    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
-    <a href="<?= base_url('/') ?>" class="tcm-drawer-link">Home</a>
-    <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">Courses</a>
-    <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link">Workshops</a>
-    <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
-    <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About TCM One</a>
-    <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link">Contact</a>
-  </aside>
+  <!-- Header Navigation & Mobile Drawer -->
+  <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main id="mainContent">
 

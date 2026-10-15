@@ -116,61 +116,8 @@
 </head>
 <body class="tcm-editorial">
 
-  <!-- Header Navigation -->
-  <header class="tcm-header" role="banner">
-    <div class="tcm-container">
-      <div class="tcm-header-inner">
-        <a href="<?= base_url('/') ?>" class="tcm-brand">
-          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="tcm-brand-logo">
-          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-        </a>
-
-        <nav class="tcm-nav" aria-label="Main Navigation">
-          <a href="<?= base_url('/courses') ?>" class="tcm-nav-link">Courses</a>
-          <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link">Workshops</a>
-          <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
-          <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
-          <a href="<?= base_url('/contact') ?>" class="tcm-nav-link active">Contact</a>
-        </nav>
-
-        <div class="tcm-header-actions">
-          <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
-          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">
-            <span>Explore Courses</span>
-            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </a>
-          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation">
-            <i class="bi bi-list" style="font-size: 22px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Backdrop & Drawer -->
-  <div class="tcm-drawer-backdrop" aria-hidden="true"></div>
-  <aside class="tcm-mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
-    <div class="tcm-drawer-head">
-      <a href="<?= base_url('/') ?>" class="tcm-brand">
-        <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="tcm-brand-logo">
-        <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-      </a>
-      <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
-    </div>
-    <div class="tcm-drawer-body">
-      <nav class="tcm-drawer-nav">
-        <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link">Courses</a>
-        <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link">Workshops</a>
-        <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
-        <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About</a>
-        <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link active">Contact</a>
-      </nav>
-      <div class="tcm-drawer-actions">
-        <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-outline w-100 mb-2">Sign In</a>
-        <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary w-100">Explore Courses</a>
-      </div>
-    </div>
-  </aside>
+  <!-- Header Navigation & Mobile Drawer -->
+  <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main id="main-content">
     <!-- Contact Hero -->

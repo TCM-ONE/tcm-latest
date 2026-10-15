@@ -1587,6 +1587,213 @@
     wireWorkshopModal();
     wireBrochureModal();
     wireContactForm();
+  /* ==========================================================================
+     LANGUAGE SELECTOR & GOOGLE TRANSLATE CLIENT
+     ========================================================================== */
+  function wireLanguageSelector() {
+    var pickers = document.querySelectorAll('.tcm-lang-picker');
+    if (!pickers.length) return;
+
+    var langLabels = {
+      en: 'EN',
+      hi: 'HI',
+      mr: 'MR',
+      gu: 'GU',
+      bn: 'BN',
+      ta: 'TA',
+      te: 'TE',
+      kn: 'KN',
+      ml: 'ML',
+      pa: 'PA',
+      ur: 'UR',
+      ar: 'AR',
+      fr: 'FR',
+      es: 'ES',
+      de: 'DE',
+      it: 'IT',
+      pt: 'PT',
+      ru: 'RU',
+      ko: 'KO',
+      'zh-CN': 'ZH',
+      ja: 'JA',
+      ne: 'NE',
+      th: 'TH',
+      vi: 'VI'
+    };
+
+    var savedLang = 'en';
+    try {
+      savedLang = localStorage.getItem('tcm_site_lang') || 'en';
+    } catch (e) {}
+
+    if (savedLang === 'en') {
+      var match = document.cookie.match(/(?:^|;\s*)googtrans=\/en\/([a-zA-Z\-]+)/);
+      if (match && match[1] && match[1] !== 'en') {
+        savedLang = match[1];
+      }
+    }
+
+    function syncLangUI(lang) {
+      var code = langLabels[lang] || lang.toUpperCase();
+      document.querySelectorAll('.tcm-lang-code').forEach(function (el) {
+        el.textContent = code;
+      });
+      document.querySelectorAll('.tcm-lang-option').forEach(function (opt) {
+        var optLang = opt.getAttribute('data-lang');
+        opt.classList.toggle('active', optLang === lang);
+      });
+    }
+
+    function ensureTranslateScript(cb) {
+      if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+        if (cb) cb();
+        return;
+      }
+      if (!document.getElementById('google_translate_element')) {
+        var el = document.createElement('div');
+        el.id = 'google_translate_element';
+        el.style.display = 'none';
+        document.body.appendChild(el);
+      }
+      window.tcmGoogleTranslateInit = function () {
+        try {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,ur,ar,fr,es,de,it,pt,ru,ko,zh-CN,ja,ne,th,vi',
+            autoDisplay: false
+          }, 'google_translate_element');
+          if (cb) cb();
+        } catch (err) {}
+      };
+
+      if (!document.getElementById('tcmGoogleTranslateScript')) {
+        var s = document.createElement('script');
+        s.id = 'tcmGoogleTranslateScript';
+        s.src = 'https://translate.google.com/translate_a/element.js?cb=tcmGoogleTranslateInit';
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    }
+
+    function applyTranslation(lang, attempts) {
+      attempts = attempts || 0;
+      var target = lang === 'en' ? '/en/en' : '/en/' + lang;
+      var expires = 'expires=Fri, 31 Dec 9999 23:59:59 GMT';
+      document.cookie = 'googtrans=' + target + '; ' + expires + '; path=/';
+      if (location.hostname.indexOf('.') !== -1) {
+        document.cookie = 'googtrans=' + target + '; ' + expires + '; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+      }
+
+      var combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        combo.value = lang === 'en' ? '' : lang;
+        combo.dispatchEvent(new Event('change'));
+        return;
+      }
+
+      ensureTranslateScript(function () {
+        var c = document.querySelector('.goog-te-combo');
+        if (c) {
+          c.value = lang === 'en' ? '' : lang;
+          c.dispatchEvent(new Event('change'));
+        } else if (attempts < 10) {
+          setTimeout(function () {
+            applyTranslation(lang, attempts + 1);
+          }, 300);
+        }
+      });
+    }
+
+    syncLangUI(savedLang);
+    if (savedLang !== 'en') {
+      ensureTranslateScript(function () {
+        applyTranslation(savedLang);
+      });
+    }
+
+    pickers.forEach(function (picker) {
+      var btn = picker.querySelector('.tcm-lang-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = picker.classList.contains('open');
+        document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+          p.classList.remove('open');
+          var b = p.querySelector('.tcm-lang-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          picker.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      picker.querySelectorAll('.tcm-lang-option').forEach(function (opt) {
+        opt.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var lang = opt.getAttribute('data-lang') || 'en';
+          try {
+            localStorage.setItem('tcm_site_lang', lang);
+          } catch (err) {}
+
+          syncLangUI(lang);
+          picker.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+
+          if (lang === 'en') {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            if (location.hostname.indexOf('.') !== -1) {
+              document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+            }
+            var combo = document.querySelector('.goog-te-combo');
+            if (combo) {
+              combo.value = '';
+              combo.dispatchEvent(new Event('change'));
+            } else {
+              window.location.reload();
+            }
+          } else {
+            applyTranslation(lang);
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.tcm-lang-picker')) return;
+      document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+        p.classList.remove('open');
+        var b = p.querySelector('.tcm-lang-btn');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+          p.classList.remove('open');
+          var b = p.querySelector('.tcm-lang-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+  }
+
+  /* ==========================================================================
+     GLOBAL BOOT
+     ========================================================================== */
+  function boot() {
+    normalizeSiteLinks();
+    wireNavigation();
+    wireLanguageSelector();
+    wireHeroWorkshopDeck();
+    wirePlacementReportModal();
+    hydrateHomeCategoryTracks();
+    hydrateHomeCourses();
+    initCourseCatalog();
+    wireWorkshopModal();
+    wireBrochureModal();
+    wireContactForm();
     wireInstitutionForm();
     wireInstitutionCalculator();
     wireCertificateModal();
