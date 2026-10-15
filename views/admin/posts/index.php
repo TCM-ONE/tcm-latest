@@ -1,6 +1,6 @@
 <div class="tcm-page-head">
-    <div><h2>Insights</h2><p>Blog posts and articles for the public site.</p></div>
-    <a class="tcm-btn primary" href="<?= base_url('/admin/posts/create') ?>"><i class="bi bi-plus-lg"></i> New Insight</a>
+    <div><h2>Tech Updates</h2><p>Publish articles, engineering notes, and practical learning updates for the public site.</p></div>
+    <a class="tcm-btn primary" href="<?= base_url('/admin/posts/create') ?>"><i class="bi bi-plus-lg"></i> New Update</a>
 </div>
 
 <div class="tcm-card">
@@ -24,7 +24,7 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-        <?php if ($posts === []): ?><tr><td colspan="5" class="muted">No insights yet.</td></tr><?php endif; ?>
+        <?php if ($posts === []): ?><tr><td colspan="5" class="muted">No updates yet. Create the first one.</td></tr><?php endif; ?>
         </tbody>
     </table>
 </div>

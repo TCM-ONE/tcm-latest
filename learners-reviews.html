@@ -1,1036 +1,912 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <meta name="description" content="Real student reviews and feedback from TCM learners. See what students say about our web development courses, mentorship and practical learning approach.">
-    <meta name="keywords" content="student reviews, TCM feedback, web development course reviews, coding bootcamp reviews">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="TCM - Talent & Career Mission">
-    <link rel="canonical" href="https://thecodemunk.in/learners-reviews.html">
-    
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="TCM - Talent & Career Mission">
-    <meta property="og:url" content="https://thecodemunk.in/learners-reviews.html">
-    <meta property="og:title" content="Student Reviews - TCM Learners Feedback">
-    <meta property="og:description" content="Real experiences from students who learned web development, gained confidence and built real projects with TCM.">
-    <meta property="og:image" content="https://thecodemunk.in/assets/tcm-og-default.svg">
-    
-    <title>Learners Reviews - TCM Student Feedback</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/style.css">
-    <link rel="stylesheet" href="./assets/site-polish.css">
-    <link rel="stylesheet" href="./assets/hero-effects.css">
-    <link rel="stylesheet" href="./assets/skeleton.css">
-    <link rel="stylesheet" href="./assets/auth.css">
-    <link rel="stylesheet" href="./assets/tcm-design-system.css">
-    
-    <style>
-        *, *::before, *::after {
-            border-radius: 0px !important;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Reviews Page - Intercom Monochrome Theme */
-        .reviews-hero {
-            padding: clamp(64px, 8vw, 110px) 0 clamp(48px, 6vw, 80px);
-            background: #000000;
-            color: #FFFFFF;
-            text-align: center;
-            border-bottom: 1px solid #D9D9D9;
-        }
-        
-        .reviews-hero h1 {
-            font-size: clamp(2.4rem, 5vw, 4rem);
-            font-weight: 800;
-            letter-spacing: -0.035em;
-            margin-bottom: 16px;
-            color: #FFFFFF;
-        }
-        
-        .reviews-hero p {
-            font-size: 1.0625rem;
-            max-width: 640px;
-            margin: 0 auto;
-            color: #A3A3A3;
-            line-height: 1.6;
-        }
-        
-        .reviews-stats {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            margin-top: 36px;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 32px;
-            font-weight: 800;
-            display: block;
-            color: #FFFFFF;
-            letter-spacing: -0.03em;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #A3A3A3;
-            font-weight: 600;
-        }
-        
-        .reviews-container {
-            padding: clamp(64px, 8vw, 100px) 0;
-            background: #F5F5F5;
-        }
-        
-        .review-detailed-card {
-            background: #FFFFFF;
-            border: 1px solid #D9D9D9;
-            border-radius: 0px !important;
-            padding: 32px;
-            margin-bottom: 24px;
-            transition: border-color 0.2s ease;
-            box-shadow: none !important;
-        }
-        
-        .review-detailed-card:hover {
-            border-color: #000000;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-        
-        .review-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .review-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 0px !important;
-            background: #000000;
-            border: 1px solid #000000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-weight: 700;
-            font-size: 16px;
-        }
-        
-        .review-user-info h4 {
-            margin: 0 0 4px 0;
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #000000;
-        }
-        
-        .review-course {
-            color: #666666;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
-        .review-rating {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .stars {
-            color: #000000;
-            font-size: 16px;
-        }
-        
-        .rating-score {
-            font-weight: 700;
-            font-size: 14px;
-            color: #000000;
-        }
-        
-        .review-content {
-            line-height: 1.65;
-            color: #333333;
-            font-size: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .review-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 24px;
-        }
-        
-        .highlight-item {
-            padding: 12px 14px;
-            background: #F5F5F5;
-            border-radius: 0px !important;
-            border: 1px solid #D9D9D9;
-            border-left: 3px solid #000000;
-        }
-        
-        .highlight-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #666666;
-            letter-spacing: 0.08em;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-        
-        .highlight-text {
-            font-weight: 600;
-            color: #000000;
-            font-size: 13.5px;
-        }
-        
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 44px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-tab {
-            background: #FFFFFF;
-            border: 1px solid #D9D9D9;
-            color: #000000;
-            padding: 8px 18px;
-            border-radius: 0px !important;
-            font-weight: 600;
-            transition: all 0.16s ease;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        
-        .filter-tab.active,
-        .filter-tab:hover {
-            background: #000000;
-            border-color: #000000;
-            color: #FFFFFF;
-        }
-        
-        .loading-spinner {
-            text-align: center;
-            padding: 60px;
-            color: #666666;
-        }
-        
-        .loading-spinner i {
-            font-size: 32px;
-            animation: spin 1s linear infinite;
-            color: #000000;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        
-        .section-tag {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #FFFFFF;
-            border: 1px solid #D9D9D9;
-            color: #000000;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            border-radius: 0px !important;
-            margin-bottom: 16px;
-        }
-        
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #000000;
-            margin-bottom: 16px;
-            line-height: 1.15;
-        }
-        
-        .section-description {
-            color: #666666;
-            font-size: 16px;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 768px) {
-            .reviews-hero {
-                padding: 56px 0 48px;
-            }
-            .reviews-hero h1 {
-                font-size: 28px;
-            }
-            .reviews-stats {
-                gap: 20px;
-            }
-            .review-detailed-card {
-                padding: 20px;
-            }
-            .review-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 12px;
-            }
-            .review-rating {
-                margin-left: 0;
-            }
-        }
-    </style>
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
+
+  <meta name="description" content="Authentic student reviews and verified feedback from TCM One learners. Real software projects, mentor support, and career acceleration.">
+  <meta name="keywords" content="TCM One reviews, student feedback, web development course reviews, live coding reviews">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="TCM One">
+  <link rel="canonical" href="https://thecodemunk.in/learners-reviews.html">
+  <link rel="alternate" hreflang="en-IN" href="https://thecodemunk.in/learners-reviews.html">
+  <link rel="alternate" hreflang="en-US" href="https://thecodemunk.in/learners-reviews.html">
+  <link rel="alternate" hreflang="x-default" href="https://thecodemunk.in/learners-reviews.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="https://thecodemunk.in/learners-reviews.html">
+  <meta property="og:title" content="Learner Reviews & Experiences — TCM One">
+  <meta property="og:description" content="Real experiences from students who learned web development, built real-world projects, and gained engineering confidence with TCM One.">
+  <meta property="og:image" content="https://thecodemunk.in/assets/logo.png">
+
+  <title>Learner Reviews & Experiences — TCM One</title>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Core Bootstrap 5 CSS for Grid & Utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="./assets/tcm-design-system.css">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.16">
+  <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
+  <link rel="stylesheet" href="./assets/cai-assistant.css">
+
+  <style>
+    *, *::before, *::after {
+      border-radius: 0px !important;
+    }
+
+    body {
+      background-color: var(--tcm-bg);
+      color: var(--tcm-fg);
+      font-family: var(--tcm-font-sans);
+      margin: 0;
+      padding: 0;
+    }
+
+    .reviews-page-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .reviews-page-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    .tcm-review-detailed-card {
+      background: #FFFFFF;
+      border: 1px solid var(--tcm-border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.15s ease;
+    }
+
+    .tcm-review-detailed-card:hover {
+      border-color: var(--tcm-fg);
+    }
+
+    .tcm-review-detailed-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tcm-review-rating-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tcm-stars-inline {
+      display: inline-flex;
+      gap: 3px;
+      color: #EAB308;
+      font-size: 13px;
+    }
+
+    .tcm-rating-score-pill {
+      font-size: 11px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #111111;
+      background: #F5F5F5;
+      border: 1px solid var(--tcm-border);
+      padding: 2px 6px;
+      line-height: 1;
+    }
+
+    .tcm-review-quote-main {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--tcm-fg);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .tcm-review-rec-text {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--tcm-muted);
+      margin-bottom: 20px;
+    }
+
+    .tcm-review-rec-text strong {
+      color: var(--tcm-fg);
+      font-weight: 600;
+    }
+
+    .tcm-review-highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: auto;
+      margin-bottom: 20px;
+    }
+
+    .tcm-review-hl-item {
+      background: #FAFAFA;
+      border: 1px solid var(--tcm-border);
+      padding: 8px 10px;
+    }
+
+    .tcm-review-hl-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tcm-muted);
+      margin-bottom: 2px;
+    }
+
+    .tcm-review-hl-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--tcm-fg);
+      line-height: 1.35;
+    }
+
+    .tcm-review-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--tcm-border);
+    }
+
+    .tcm-review-author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--tcm-fg);
+      line-height: 1.2;
+    }
+
+    .tcm-review-author-meta {
+      font-size: 11.5px;
+      color: var(--tcm-muted);
+      margin-top: 2px;
+    }
+
+    .tcm-review-date-pill {
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--tcm-muted);
+      white-space: nowrap;
+    }
+  </style>
 </head>
-<body>
-    <!-- Header -->
-            <!-- ===== TCM ONE 2-TIER UNIVERSAL HEADER ===== -->
-    <header class="header">
-        <!-- Tier 1: Desktop Top Utility Bar (>= 1200px) -->
-        <div class="header-top-bar d-none d-xl-block">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="header-top-left d-flex align-items-center gap-2">
-                        <span class="header-top-kicker"><i class="bi bi-patch-check-fill"></i> Industry-Grade Live Learning</span>
-                        <span class="header-top-divider">•</span>
-                        <a href="/download-brochure" class="header-top-brochure btn-trigger-brochure" data-trigger-brochure="true">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Official Course Brochure PDF
-                        </a>
-                    </div>
+<body class="tcm-editorial">
 
-                    <div class="header-top-right d-flex align-items-center gap-3">
-                        <!-- Language Picker -->
-                        <div class="desktop-lang-picker mobile-lang-picker">
-                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                <i class="bi bi-translate"></i>
-                                <span>Language</span>
-                                <strong class="mobile-lang-code">EN</strong>
-                            </button>
-                            <div class="mobile-lang-menu" role="menu">
-                                <button type="button" data-lang="en" role="menuitem">English</button>
-                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                <button type="button" data-lang="fr" role="menuitem">French</button>
-                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                <button type="button" data-lang="de" role="menuitem">German</button>
-                                <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                            </div>
-                        </div>
+  <!-- Universal Header Navigation -->
+  <!-- Header Navigation & Mobile Drawer -->
+<header class="tcm-header" role="banner">
+  <div class="tcm-container">
+    <div class="tcm-header-inner">
+      <!-- Logo Left -->
+      <a href="/" class="tcm-brand" aria-label="TCM One Home">
+        <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+        <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+      </a>
 
-                        <span class="header-top-divider">|</span>
-                        <a href="login.php" class="header-top-login"><i class="bi bi-person"></i> Log in</a>
-                    </div>
-                </div>
-            </div>
+      <!-- Desktop Navigation -->
+      <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+        <div class="tcm-nav-item">
+          <a href="/courses" class="tcm-nav-link">
+            <span>Courses</span>
+            <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
+          </a>
+          <div class="tcm-dropdown-menu" role="menu">
+            <a href="/courses?cat=Web%20%26%20Mobile%20Development" class="tcm-dropdown-item" role="menuitem">Web &amp; Mobile Development</a>
+            <a href="/courses?cat=Programming%20Foundations" class="tcm-dropdown-item" role="menuitem">Programming Foundations</a>
+            <a href="/courses?cat=AI%20%26%20Automation" class="tcm-dropdown-item" role="menuitem">AI &amp; Automation</a>
+            <a href="/courses?cat=Data%20%26%20Analytics" class="tcm-dropdown-item" role="menuitem">Data &amp; Analytics</a>
+            <a href="/courses?cat=Cloud%20%26%20DevOps" class="tcm-dropdown-item" role="menuitem">Cloud &amp; DevOps</a>
+            <a href="/courses?cat=Career%20%26%20DSA" class="tcm-dropdown-item" role="menuitem">Career &amp; DSA</a>
+            <div style="border-top: 1px solid var(--tcm-border); margin: 6px 0;"></div>
+            <a href="/courses" class="tcm-dropdown-item" style="font-weight: 600; color: var(--tcm-fg);" role="menuitem">View All Courses &rarr;</a>
+          </div>
         </div>
 
-        <!-- Tier 2: Main Navigation Bar -->
-        <div class="header-main-bar">
-            <div class="container">
-                <nav class="navbar navbar-expand-xl p-0">
-                    <div class="header-nav-top">
-                        <!-- Column 1 (Left on Desktop): Brand Logo + Primary Nav Links -->
-                        <div class="header-nav-left d-flex align-items-center">
-                            <a class="navbar-brand logo" href="index.html">
-                                <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                                <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">ONE</span></span>
-                            </a>
-
-                            <!-- Desktop Navigation Links (Column 1) -->
-                            <div class="header-desktop-links d-none d-xl-flex align-items-center">
-                                <ul class="navbar-nav flex-row align-items-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="workshops.html">Workshops</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="insights.html">TCM Insights</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="community.html">Community</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="contact.html">Contact</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="partner.html">Become a Partner</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Column 2 (Right on Desktop): Primary CTA "Book a Demo" -->
-                        <div class="header-desktop-actions d-none d-xl-flex align-items-center">
-                            <button type="button" class="join-btn demo-trigger">Book a Demo</button>
-                        </div>
-
-                        <!-- Mobile Header Right: Strictly Language + Book a Demo + Hamburger (< 1200px) -->
-                        <div class="header-mobile-right d-xl-none">
-                            <div class="mobile-lang-picker">
-                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                    <i class="bi bi-translate"></i>
-                                    <span class="mobile-lang-code">EN</span>
-                                </button>
-                                <div class="mobile-lang-menu" role="menu">
-                                    <button type="button" data-lang="en" role="menuitem">English</button>
-                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                    <button type="button" data-lang="fr" role="menuitem">French</button>
-                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                    <button type="button" data-lang="de" role="menuitem">German</button>
-                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                                </div>
-                            </div>
-
-                            <button type="button" class="mobile-head-btn mobile-demo-btn demo-trigger" aria-label="Book a Demo">
-                                <span class="mobile-head-text">Book a Demo</span>
-                            </button>
-
-                            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="bi bi-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Collapsible Drawer Menu (< 1200px) -->
-                    <div class="collapse navbar-collapse d-xl-none" id="navbarMenu">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link " href="workshops.html">Workshops</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="insights.html">TCM Insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="community.html">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="contact.html">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="partner.html">Become a Partner</a>
-                            </li>
-                        </ul>
-
-                        <div class="header-drawer-actions">
-                            <a href="/download-brochure" class="drawer-brochure-link btn-trigger-brochure" data-trigger-brochure="true">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
-                            </a>
-                            <a href="login.php" class="drawer-login-link">Log in</a>
-                            <button type="button" class="join-btn drawer-demo-btn demo-trigger">Book a Free Demo</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+        <div class="tcm-nav-item">
+          <a href="/workshops" class="tcm-nav-link">Workshops</a>
         </div>
-    </header>
 
+        <div class="tcm-nav-item">
+          <a href="/tech-updates" class="tcm-nav-link">Tech Updates</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/for-institutions" class="tcm-nav-link">For Institutions</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/about" class="tcm-nav-link">About</a>
+        </div>
+      </nav>
+
+      <!-- Right Side CTAs -->
+      <div class="tcm-header-actions">
+        <!-- Language Selector Dropdown -->
+        <div class="tcm-lang-picker">
+          <button type="button" class="tcm-lang-btn" aria-label="Change language" aria-expanded="false">
+            <i class="bi bi-translate"></i>
+            <span class="tcm-lang-code">EN</span>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </button>
+          <div class="tcm-lang-dropdown" role="menu">
+            <div class="tcm-lang-dropdown-header">Select Language</div>
+            <div class="tcm-lang-list">
+              <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign In Button (Strictly present in all headers) -->
+        <a href="/login" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
+
+        <!-- Primary CTA -->
+        <a href="/courses" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+          <span>Explore Courses</span>
+          <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+
+        <!-- Mobile Drawer Toggle -->
+        <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+          <i class="bi bi-list" style="font-size: 22px;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="tcm-drawer-backdrop"></div>
+<aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+  <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+  <a href="/" class="tcm-drawer-link">Home</a>
+  <a href="/courses" class="tcm-drawer-link">Courses</a>
+  <a href="/workshops" class="tcm-drawer-link">Workshops</a>
+  <a href="/tech-updates" class="tcm-drawer-link">Tech Updates</a>
+  <a href="/for-institutions" class="tcm-drawer-link">For Institutions</a>
+  <a href="/about" class="tcm-drawer-link">About TCM One</a>
+  <a href="/contact" class="tcm-drawer-link">Contact Admissions</a>
+  <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--tcm-border);">
+    <div style="margin-bottom: 14px;">
+      <!-- Mobile Language Picker -->
+      <div class="tcm-lang-picker w-100">
+        <button type="button" class="tcm-lang-btn w-100 justify-content-between" aria-label="Change language" aria-expanded="false">
+          <span class="d-inline-flex align-items-center gap-2">
+            <i class="bi bi-translate"></i>
+            <span>Language:</span>
+          </span>
+          <span class="d-inline-flex align-items-center gap-1">
+            <strong class="tcm-lang-code">EN</strong>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </span>
+        </button>
+        <div class="tcm-lang-dropdown w-100" role="menu">
+          <div class="tcm-lang-dropdown-header">Select Language</div>
+          <div class="tcm-lang-list">
+            <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tcm-drawer-actions">
+      <a href="/login" class="tcm-btn tcm-btn-outline w-100 mb-2 tcm-auth-link">Sign In</a>
+    <a href="/courses" class="tcm-btn tcm-btn-primary w-100">
+      <span>Explore Courses</span>
+      <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+    </div>
+  </div>
+</aside>
+
+
+
+
+  <main id="main-content">
     <!-- Hero Section -->
-    <section class="reviews-hero">
-        <div class="container">
-            <h1>Learners Reviews</h1>
-            <p>Real experiences from students who learned, built projects and gained confidence with TCM. Read authentic feedback from our community.</p>
+    <section class="tcm-reviews-hero">
+      <div class="tcm-container">
+        <div class="tcm-eyebrow">AUTHENTIC LEARNER EXPERIENCES</div>
+        <h1 class="tcm-h1" style="margin: 8px 0 14px 0;">
+          Real Experiences from <span class="font-editorial-serif">Verified Learners</span>
+        </h1>
+        <p class="tcm-body-muted" style="max-width: 680px; font-size: 15.5px; line-height: 1.65; margin: 0;">
+          Unfiltered feedback from students who built production software, solved complex engineering challenges with daily live mentors, and achieved verifiable coding competence.
+        </p>
+
+        <!-- Stats Strip -->
+        <div class="tcm-reviews-stats-strip">
+          <div class="tcm-reviews-stat-card">
+            <div class="tcm-reviews-stat-val" id="total-reviews">14</div>
+            <div class="tcm-reviews-stat-lbl">Verified Responses</div>
+          </div>
+          <div class="tcm-reviews-stat-card">
+            <div class="tcm-reviews-stat-val"><span id="avg-rating">9.3</span><span style="font-size: 16px; color: var(--tcm-muted); font-weight: 400;"> / 10</span></div>
+            <div class="tcm-reviews-stat-lbl">Average Rating</div>
+          </div>
+          <div class="tcm-reviews-stat-card">
+            <div class="tcm-reviews-stat-val">98%</div>
+            <div class="tcm-reviews-stat-lbl">Would Recommend</div>
+          </div>
+          <div class="tcm-reviews-stat-card">
+            <div class="tcm-reviews-stat-val">10/10</div>
+            <div class="tcm-reviews-stat-lbl">Doubt Resolution Score</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Filter & List Section -->
+    <section style="padding: clamp(36px, 5vw, 64px) 0 80px 0; background: #FAFAFA;">
+      <div class="tcm-container">
+        
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;">
+          <button type="button" class="tcm-pill-btn active" data-filter="all">All Reviews (<span id="count-all">14</span>)</button>
+          <button type="button" class="tcm-pill-btn" data-filter="Web Development">Web Development</button>
+          <button type="button" class="tcm-pill-btn" data-filter="high-rating">Top Rated (9-10/10)</button>
+          <button type="button" class="tcm-pill-btn" data-filter="recent">Most Recent</button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" style="text-align: center; padding: 60px 20px; color: var(--tcm-muted);">
+          <div class="spinner-border text-dark" role="status" style="width: 2rem; height: 2rem; border-width: 2px;">
+            <span class="visually-hidden">Loading reviews...</span>
+          </div>
+          <div style="margin-top: 14px; font-size: 13.5px;">Loading verified student reviews...</div>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div id="reviews-grid" class="reviews-page-grid" style="display: none;">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Universal Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-footer-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="./" class="tcm-footer-brand" aria-label="TCM One home">
+            <img src="./assets/logo.png" alt="" width="36" height="36" loading="lazy">
+            <span><strong>TCM</strong> ONE</span>
+          </a>
+          <p class="tcm-footer-brand-p">Practical tech education through live classes, guided projects, and direct mentorship.</p>
+          <div class="tcm-footer-social" aria-label="Social channels">
+            <a href="https://www.instagram.com/tcmone.academy" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/company/thecodemunk" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/@thecodemunk" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+            <a href="https://wa.me/919238695500" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div>
+          <h2 class="tcm-footer-col-title">Platform</h2>
+          <ul class="tcm-footer-links">
+            <li><a href="./courses">All Courses</a></li>
+            <li><a href="./workshops">Live Workshops</a></li>
+            <li><a href="./for-institutions">For Institutions</a></li>
+            <li><a href="./about">About Us</a></li>
+            <li><a href="./contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="tcm-footer-col-title">Learning Tracks</h2>
+          <ul class="tcm-footer-links">
+            <li><a href="./courses?cat=Web%20%26%20Mobile%20Development">Full Stack Web</a></li>
+            <li><a href="./courses?cat=Programming%20Foundations">Python &amp; OOP</a></li>
+            <li><a href="./courses?cat=AI%20%26%20Automation">AI &amp; Automation</a></li>
+            <li><a href="./courses?cat=Data%20%26%20Analytics">Data Analytics</a></li>
+            <li><a href="./courses?cat=Career%20%26%20DSA">DSA &amp; Problem Solving</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="tcm-footer-col-title">Direct Contact</h2>
+          <p class="tcm-footer-contact">Admissions &amp; support<br>Mon–Sat, 10 AM–7 PM IST</p>
+          <ul class="tcm-footer-links">
+            <li><a href="https://wa.me/919238695500" target="_blank" rel="noopener">+91 9238695500</a></li>
+            <li><a href="mailto:thecodemunk@gmail.com">thecodemunk@gmail.com</a></li>
+          </ul>
+          <p class="tcm-footer-contact">Bilaspur, Chhattisgarh, India<br><span style="font-size: 11px; opacity: 0.85;">Seepat Rd, near DLS college, Shree Vihar, Sarkanda 495006</span></p>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+        <nav class="tcm-footer-legal" aria-label="Policies and site information">
+          <a href="./terms.html">Terms of Service</a>
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./partner-policy.html">Partner Policy</a>
+          <a href="./sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./assets/tcm-editorial.js?v=2.2.5"></script>
+  <script src="./assets/cai-assistant.js?v=2.2.5"></script>
+
+  <script>
+    // Authentic Student Survey Responses
+    const reviewsData = [
+      {
+        name: "Sakshi Somnath Umbare",
+        course: "Web Development",
+        rating: 9,
+        beforeTCM: "Live mentor support nahi tha.",
+        joinReason: "I joined TCM One to learn, grow, and build a stable source of income while helping others succeed.",
+        classParticipation: "Har Class",
+        gainedSkills: "Practical Knowledge",
+        bestThing: "TCM One provides opportunities for personal growth and skill development. It helps improve communication, leadership, and confidence.",
+        practicalRating: 9,
+        doubtSolving: 10,
+        overallExperience: 9,
+        improvements: "TCM One can improve by providing more practical training and hands-on sessions.",
+        recommendation: "Yes, I would recommend TCM One to my friends because it helps improve skills, confidence, and personal growth.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Priyanshu Sarangpure",
+        course: "Web Development", 
+        rating: 7,
+        beforeTCM: "Practical projects par kaam karne ka mauka nahi milta tha.",
+        joinReason: "Learning skills & practical exposure",
+        classParticipation: "Har Class",
+        gainedSkills: "Coding Skills",
+        bestThing: "Peaceful learning atmosphere & supportive mentors",
+        practicalRating: 7,
+        doubtSolving: 7,
+        overallExperience: 7,
+        improvements: "Explaining at a steady pace for beginners",
+        recommendation: "You can join TCM One for coding skills",
+        wouldRecommend: "Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Harshit Nagpure",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Consistency maintain nahi ho paati thi.",
+        joinReason: "To maintain consistency & learn in team environment",
+        classParticipation: "Har Class", 
+        gainedSkills: "Team Collaboration",
+        bestThing: "Guidance and friendly learning environment with consistent coding momentum.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 10,
+        improvements: "All things are good",
+        recommendation: "Must join TCM One for web dev",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Disha Budhrani",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
+        joinReason: "I attended the demo class, and everything was explained clearly. I understood the concepts well.",
+        classParticipation: "Bahut Baar",
+        gainedSkills: "Real Projects",
+        bestThing: "My doubts are cleared properly, and the concepts are easy to understand. The instructor teaches very well.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 10,
+        improvements: "Everything is good.",
+        recommendation: "Concepts are easy to understand and doubts are cleared properly. Best choice!",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Adarsh Mahurkar",
+        course: "Web Development",
+        rating: 9,
+        beforeTCM: "Live mentor support nahi tha.",
+        joinReason: "To dive deep in web development",
+        classParticipation: "Har Class",
+        gainedSkills: "Coding Skills", 
+        bestThing: "The guidance of Ayushman sir and his ability of solving every problem with real engineering depth.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 9,
+        improvements: "Providing recorded lectures as well.",
+        recommendation: "I will recommend to join TCM One because I have a great learning experience here.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Khushi Chouhan",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Proper roadmap nahi tha.",
+        joinReason: "I want to improve my web development skills.",
+        classParticipation: "Bahut Baar",
+        gainedSkills: "Practical Knowledge",
+        bestThing: "Clear all doubts & structured practical training with real projects.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 10,
+        improvements: "All perfect",
+        recommendation: "Yes, I will definitely recommend TCM One.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Sakshi Goyal",
+        course: "Web Development", 
+        rating: 8,
+        beforeTCM: "Consistency maintain nahi ho paati thi.",
+        joinReason: "New coding skills seekhna aur practical projects banana",
+        classParticipation: "Har Class",
+        gainedSkills: "Team Collaboration",
+        bestThing: "TCM One join karke coding skills improve hui, team work sikh paye aur ek new experience mila.",
+        practicalRating: 8,
+        doubtSolving: 10,
+        overallExperience: 8,
+        improvements: "Recorded lectures access",
+        recommendation: "Yes, join for teamwork and practical coding",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Jyoti Soni",
+        course: "Web Development",
+        rating: 9,
+        beforeTCM: "Coding me confidence ki kami thi.",
+        joinReason: "To learn coding from scratch and build projects",
+        classParticipation: "Bahut Baar", 
+        gainedSkills: "Practical Knowledge",
+        bestThing: "Sir answers every question and helps with any issues that arise, ensuring we can handle everything ourselves.",
+        practicalRating: 9,
+        doubtSolving: 10,
+        overallExperience: 9,
+        improvements: "Everything is well managed.",
+        recommendation: "I will always recommend joining TCM One.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Emon Qureshi",
+        course: "Web Development",
+        rating: 9,
+        beforeTCM: "Consistency maintain nahi ho paati thi.",
+        joinReason: "I joined TCM One so that I could work on real-world projects alongside developing my skills.",
+        classParticipation: "Bahut Baar",
+        gainedSkills: "Coding Skills",
+        bestThing: "Real-world project execution with direct mentor guidance.",
+        practicalRating: 9,
+        doubtSolving: 9, 
+        overallExperience: 9,
+        improvements: "Online class connectivity optimization",
+        recommendation: "TCM One is a platform where you can learn skills and work on real-world projects.",
+        wouldRecommend: "Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Palash Thakur",
+        course: "Web Development",
+        rating: 9,
+        beforeTCM: "Consistency maintain nahi ho paati thi.",
+        joinReason: "Practical learning and internship opportunities",
+        classParticipation: "Bahut Baar",
+        gainedSkills: "Coding Skills",
+        bestThing: "Har student par individually dhyan dete hain aur live mentor support dete hain.",
+        practicalRating: 9,
+        doubtSolving: 9,
+        overallExperience: 9,
+        improvements: "All good",
+        recommendation: "Bahut achha experience hai, must join.",
+        wouldRecommend: "Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Diya Bijewar",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Practical projects par kaam karne ka mauka nahi milta tha.",
+        joinReason: "Learning web dev and working on real projects (internship)",
+        classParticipation: "Har Class",
+        gainedSkills: "Practical Knowledge",
+        bestThing: "The clear way of teaching and hands-on project guidance.",
+        practicalRating: 9,
+        doubtSolving: 9,
+        overallExperience: 10,
+        improvements: "All things are good",
+        recommendation: "Bina kisi doubt ke join kar lena chahiye!",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Jayesh Ghalekar",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
+        joinReason: "Practical learning, real projects aur placement preparation ke liye TCM One join kiya.",
+        classParticipation: "Bahut Baar",
+        gainedSkills: "Real Projects",
+        bestThing: "TCM One ki practical teaching, easy-to-understand classes, supportive mentors aur real projects sabse achhe lage.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 10,
+        improvements: "More mock interviews & live industry projects",
+        recommendation: "Main zarur recommend karunga. Agar aap coding ko practical tareeke se seekhna chahte hain, to TCM One best platform hai.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Pratham Soni",
+        course: "Web Development",
+        rating: 10,
+        beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
+        joinReason: "Job-ready skills and concept clarity",
+        classParticipation: "Har Class",
+        gainedSkills: "Confidence",
+        bestThing: "Jab tak doubt clear nahi hota, next concept me nahi jaate.",
+        practicalRating: 10,
+        doubtSolving: 10,
+        overallExperience: 10,
+        improvements: "Daily coding tasks",
+        recommendation: "Acchi class hai join kar lo, sab doubt solve hote hain.",
+        wouldRecommend: "Definitely Yes",
+        date: "10/07/2026"
+      },
+      {
+        name: "Palak Patle",
+        course: "Web Development",
+        rating: 8,
+        beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
+        joinReason: "TCM One join karne ka mera sabse bada reason practical learning, real project par kaam karna tha.",
+        classParticipation: "Har Class",
+        gainedSkills: "Problem Solving Skills",
+        bestThing: "Sirf theory nahi, balki real project ke through concepts samjhaye jaate hai, jisse skills aur confidence dono develop hote hai.",
+        practicalRating: 7,
+        doubtSolving: 8,
+        overallExperience: 8,
+        improvements: "Personalized feedback & extra live doubt sessions",
+        recommendation: "Yes, highly recommended for building practical skills.",
+        wouldRecommend: "Yes",
+        date: "11/07/2026"
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      displayReviews(reviewsData);
+      updateStats(reviewsData);
+      setupFilters();
+    });
+
+    function displayReviews(reviews) {
+      const grid = document.getElementById('reviews-grid');
+      const loading = document.getElementById('loading-state');
+      
+      loading.style.display = 'none';
+      grid.style.display = 'grid';
+      
+      grid.innerHTML = reviews.map(review => createReviewCard(review)).join('');
+    }
+
+    function createReviewCard(review) {
+      const stars = generateStars(review.rating);
+      
+      return `
+        <article class="tcm-review-detailed-card" data-course="${escapeHtml(review.course)}" data-rating="${review.rating}" data-date="${escapeHtml(review.date)}">
+          <div>
+            <div class="tcm-review-detailed-top">
+              <div class="tcm-review-rating-wrap">
+                <div class="tcm-stars-inline" aria-label="5 out of 5 stars">
+                  ${stars}
+                </div>
+                <span class="tcm-rating-score-pill">${review.rating}/10</span>
+              </div>
+              
+              <!-- Black Verified Badge (No Avatar) -->
+              <div class="tcm-review-badge">
+                <i class="bi bi-patch-check-fill"></i>
+                <span>Verified Learner</span>
+              </div>
+            </div>
             
-            <div class="reviews-stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="total-reviews">0</span>
-                    <span class="stat-label">Reviews</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="avg-rating">0.0</span>
-                    <span class="stat-label">Average Rating</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">98%</span>
-                    <span class="stat-label">Recommend TCM</span>
-                </div>
+            <p class="tcm-review-quote-main">
+              &ldquo;${escapeHtml(review.bestThing)}&rdquo;
+            </p>
+            
+            <div class="tcm-review-rec-text">
+              <strong>Recommendation:</strong> &ldquo;${escapeHtml(review.recommendation)}&rdquo;
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- Reviews Container -->
-    <section class="reviews-container">
-        <div class="container">
-            <!-- Filter Tabs -->
-            <div class="filter-tabs">
-                <button class="filter-tab active" data-filter="all">All Reviews</button>
-                <button class="filter-tab" data-filter="Web Development">Web Development</button>
-                <button class="filter-tab" data-filter="high-rating">5 Star Reviews</button>
-                <button class="filter-tab" data-filter="recent">Most Recent</button>
-            </div>
-
-            <!-- Loading State -->
-            <div id="loading-state" class="loading-spinner">
-                <i class="bi bi-arrow-clockwise"></i>
-                <p style="margin-top: 16px;">Loading student reviews...</p>
+          <div>
+            <div class="tcm-review-highlights-grid">
+              <div class="tcm-review-hl-item">
+                <div class="tcm-review-hl-label">Skills Gained</div>
+                <div class="tcm-review-hl-text">${escapeHtml(review.gainedSkills)}</div>
+              </div>
+              <div class="tcm-review-hl-item">
+                <div class="tcm-review-hl-label">Before TCM</div>
+                <div class="tcm-review-hl-text">${escapeHtml(review.beforeTCM || 'Self-learning')}</div>
+              </div>
+              <div class="tcm-review-hl-item">
+                <div class="tcm-review-hl-label">Participation</div>
+                <div class="tcm-review-hl-text">${escapeHtml(review.classParticipation)}</div>
+              </div>
+              <div class="tcm-review-hl-item">
+                <div class="tcm-review-hl-label">Would Recommend</div>
+                <div class="tcm-review-hl-text">${escapeHtml(review.wouldRecommend)}</div>
+              </div>
             </div>
 
-            <!-- Reviews Grid -->
-            <div id="reviews-grid" style="display: none;">
-                <!-- Reviews will be populated here -->
+            <!-- Author info without avatar -->
+            <div class="tcm-review-card-footer">
+              <div>
+                <div class="tcm-review-author-name">${escapeHtml(review.name)}</div>
+                <div class="tcm-review-author-meta">${escapeHtml(review.course)} Cohort &bull; Verified Learner</div>
+              </div>
+              <div class="tcm-review-date-pill">
+                <i class="bi bi-calendar3 me-1"></i>${escapeHtml(review.date)}
+              </div>
             </div>
-        </div>
-    </section>
-    <!-- Footer -->
-        <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
+          </div>
+        </article>
+      `;
+    }
 
-                    <!-- Brand Column -->
-                    <div class="footer-brand">
-                        <a href="index.html" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>
-                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
-                        </p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
-                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
-                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
-                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
-                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
-                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
-                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        </div>
-                        <div class="footer-tag">
-                            <i class="bi bi-patch-check-fill text-success"></i>
-                            Student-Focused Learning Platform
-                        </div>
-                    </div>
+    function generateStars(rating) {
+      const percentage = (rating / 10) * 5;
+      const fullStars = Math.floor(percentage);
+      const halfStar = (percentage % 1 >= 0.5) ? 1 : 0;
+      const emptyStars = 5 - fullStars - halfStar;
+      
+      let html = '';
+      for (let i = 0; i < fullStars; i++) html += '<i class="bi bi-star-fill"></i>';
+      if (halfStar) html += '<i class="bi bi-star-half"></i>';
+      for (let i = 0; i < emptyStars; i++) html += '<i class="bi bi-star"></i>';
+      return html;
+    }
 
-                    <!-- Navigation Links Columns -->
-                    <div class="footer-links">
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
-                        <div class="footer-column">
-                            <h4>Learn &amp; Programs</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                            <a href="workshops.html">Live Workshops</a>
-                        </div>
+    function updateStats(reviews) {
+      const totalReviews = reviews.length;
+      const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
+      
+      const totalEl = document.getElementById('total-reviews');
+      const avgEl = document.getElementById('avg-rating');
+      const countAllEl = document.getElementById('count-all');
+      
+      if (totalEl) totalEl.textContent = totalReviews;
+      if (avgEl) avgEl.textContent = avgRating.toFixed(1);
+      if (countAllEl) countAllEl.textContent = totalReviews;
+    }
 
-                        <div class="footer-column">
-                            <h4>Ecosystem</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Cloud DevOps</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Legal &amp; Policy</h4>
-                            <a href="privacy.html">Privacy Policy</a>
-                            <a href="terms.html">Terms &amp; Conditions</a>
-                            <a href="sitemap.html">Site Map</a>
-                            <a href="partner.html">Partnership Policy</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company &amp; Help</h4>
-                            <a href="insights.html">About Us</a>
-                            <a href="community.html">Community</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="login.php">Student Sign In</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Footer Bottom Strip -->
-                <!-- Trending & Popular Courses (SEO Keywords) -->
-                <div class="footer-trending-seo">
-                    <div class="footer-seo-header">
-                        <span class="footer-seo-title"><i class="bi bi-fire text-danger"></i> Trending &amp; Popular Courses</span>
-                        <span class="footer-seo-badge">Popular Tech Searches</span>
-                    </div>
-                    <div class="footer-seo-tags">
-                        <a href="programs.html">Full Stack Web Development</a>
-                        <a href="programs.html">Generative AI &amp; Agentic AI</a>
-                        <a href="programs.html">Data Science with AI</a>
-                        <a href="programs.html">Playwright with TypeScript</a>
-                        <a href="programs.html">DSA with AI Engineer Program</a>
-                        <a href="programs.html">Microsoft Fabric Data Engineer (DP-700)</a>
-                        <a href="programs.html">DevOps &amp; Multi-Cloud (AWS, Azure, GCP)</a>
-                        <a href="programs.html">Docker &amp; Kubernetes</a>
-                        <a href="programs.html">Cyber Security &amp; Ethical Hacking</a>
-                        <a href="programs.html">Spring Boot &amp; Microservices</a>
-                        <a href="programs.html">Python Programming &amp; Automation</a>
-                        <a href="programs.html">NumPy, Pandas &amp; Matplotlib</a>
-                        <a href="programs.html">React.js &amp; Node.js</a>
-                        <a href="programs.html">Linux Administration &amp; SRE</a>
-                        <a href="programs.html">Power BI &amp; Power Apps</a>
-                        <a href="programs.html">Tableau Data Visualization</a>
-                        <a href="programs.html">Snowflake Data Cloud</a>
-                        <a href="programs.html">Azure Data Factory &amp; DevOps (AZ-400)</a>
-                        <a href="programs.html">Django with REST API</a>
-                        <a href="programs.html">Core Java &amp; Real-Time Projects</a>
-                        <a href="programs.html">DSA using Java &amp; Python</a>
-                        <a href="programs.html">MySQL, SQL Server &amp; MongoDB</a>
-                        <a href="programs.html">Selenium &amp; Manual Testing</a>
-                        <a href="programs.html">UI / UX Design &amp; Figma</a>
-                        <a href="programs.html">MLOps &amp; AIOps</a>
-                        <a href="programs.html">Salesforce CRM &amp; LWC</a>
-                        <a href="programs.html">Backend Development</a>
-                        <a href="programs.html">ASP.NET Core &amp; C#.NET</a>
-                        <a href="programs.html">Digital Marketing &amp; SEO</a>
-                        <a href="programs.html">Spoken English &amp; Soft Skills</a>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <p>&copy; 2026 The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="privacy.html">Privacy Policy</a>
-                        <a href="terms.html">Terms of Service</a>
-                        <a href="sitemap.html">Sitemap</a>
-                        <a href="contact.html">Contact</a>
-                        <a href="insights.html">About</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/auth.js"></script>
-    
-    <script>
-        // Student Reviews Data (from Real Survey Sheet)
-        const reviewsData = [
-            {
-                name: "Sakshi Somnath Umbare",
-                course: "Web Development",
-                rating: 9,
-                beforeTCM: "Live mentor support nahi tha.",
-                joinReason: "I joined TCM One to learn, grow, and build a stable source of income while helping others succeed.",
-                classParticipation: "Har Class",
-                gainedSkills: "Practical Knowledge",
-                bestThing: "TCM One provides opportunities for personal growth and skill development. It helps improve communication, leadership, and confidence.",
-                practicalRating: 9,
-                doubtSolving: 10,
-                overallExperience: 9,
-                improvements: "TCM One can improve by providing more practical training and hands-on sessions.",
-                recommendation: "Yes, I would recommend TCM One to my friends because it helps improve skills, confidence, and personal growth.",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Priyanshu Sarangpure",
-                course: "Web Development", 
-                rating: 7,
-                beforeTCM: "Practical projects par kaam karne ka mauka nahi milta tha.",
-                joinReason: "Learning skills & practical exposure",
-                classParticipation: "Har Class",
-                gainedSkills: "Coding Skills",
-                bestThing: "Peaceful learning atmosphere & supportive mentors",
-                practicalRating: 7,
-                doubtSolving: 7,
-                overallExperience: 7,
-                improvements: "Explaining at a steady pace for beginners",
-                recommendation: "You can join TCM One for coding skills",
-                wouldRecommend: "Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Harshit Nagpure",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Consistency maintain nahi ho paati thi.",
-                joinReason: "To maintain consistency & learn in team environment",
-                classParticipation: "Har Class", 
-                gainedSkills: "Team Collaboration",
-                bestThing: "Guidance and friendly learning environment",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 10,
-                improvements: "All things are good",
-                recommendation: "Must join TCM One for web dev",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Disha Budhrani",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
-                joinReason: "I attended the demo class, and everything was explained clearly. I understood the concepts well.",
-                classParticipation: "Bahut Baar",
-                gainedSkills: "Real Projects",
-                bestThing: "My doubts are cleared properly, and the concepts are easy to understand. The instructor teaches very well.",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 10,
-                improvements: "Everything is good.",
-                recommendation: "Concepts are easy to understand and doubts are cleared properly. Best choice!",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Adarsh Mahurkar",
-                course: "Web Development",
-                rating: 9,
-                beforeTCM: "Live mentor support nahi tha.",
-                joinReason: "To dive deep in web development",
-                classParticipation: "Har Class",
-                gainedSkills: "Coding Skills", 
-                bestThing: "The behaviour of Ayushman sir and his ability of solving every problem and also his expertise.",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 9,
-                improvements: "Providing recorded lectures as well.",
-                recommendation: "I will recommend to join TCM One because I have a great learning experience here.",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Khushi Chouhan",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Proper roadmap nahi tha.",
-                joinReason: "I want to improve my web development skills.",
-                classParticipation: "Bahut Baar",
-                gainedSkills: "Practical Knowledge",
-                bestThing: "Clear all doubts & structured practical training",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 10,
-                improvements: "All perfect",
-                recommendation: "Yes, I will definitely recommend TCM One.",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Sakshi Goyal",
-                course: "Web Development", 
-                rating: 8,
-                beforeTCM: "Consistency maintain nahi ho paati thi.",
-                joinReason: "New coding skills seekhna aur practical projects banana",
-                classParticipation: "Har Class",
-                gainedSkills: "Team Collaboration",
-                bestThing: "TCM One join karke coding skills improve hui, team work sikh paye aur ek new experience mila.",
-                practicalRating: 8,
-                doubtSolving: 10,
-                overallExperience: 8,
-                improvements: "Recorded lectures access",
-                recommendation: "Yes, join for teamwork and practical coding",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Jyoti Soni",
-                course: "Web Development",
-                rating: 9,
-                beforeTCM: "Coding me confidence ki kami thi.",
-                joinReason: "To learn coding from scratch and build projects",
-                classParticipation: "Bahut Baar", 
-                gainedSkills: "Practical Knowledge",
-                bestThing: "Sir answers every question and helps with any issues that arise, at the same time, he also strives to ensure that we can handle everything ourselves.",
-                practicalRating: 9,
-                doubtSolving: 10,
-                overallExperience: 9,
-                improvements: "Everything is well managed.",
-                recommendation: "I will always recommend joining TCM One 👍🏻",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Emon Qureshi",
-                course: "Web Development",
-                rating: 9,
-                beforeTCM: "Consistency maintain nahi ho paati thi.",
-                joinReason: "I joined TCM One so that I could work on real-world projects alongside developing my skills.",
-                classParticipation: "Bahut Baar",
-                gainedSkills: "Coding Skills",
-                bestThing: "Real-world project execution with mentor guidance",
-                practicalRating: 9,
-                doubtSolving: 9, 
-                overallExperience: 9,
-                improvements: "Online class connectivity optimization",
-                recommendation: "TCM One is a platform where you can learn skills and work on real-world projects.",
-                wouldRecommend: "Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Palash Thakur",
-                course: "Web Development",
-                rating: 9,
-                beforeTCM: "Consistency maintain nahi ho paati thi.",
-                joinReason: "Practical learning and internship opportunities",
-                classParticipation: "Bahut Baar",
-                gainedSkills: "Coding Skills",
-                bestThing: "Har student par individually dhyan dete hain aur mentor support dete hain.",
-                practicalRating: 9,
-                doubtSolving: 9,
-                overallExperience: 9,
-                improvements: "All good",
-                recommendation: "Bahut achha experience hai, must join",
-                wouldRecommend: "Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Diya Bijewar",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Practical projects par kaam karne ka mauka nahi milta tha.",
-                joinReason: "Learning web dev and working on real projects (internship)",
-                classParticipation: "Har Class",
-                gainedSkills: "Practical Knowledge",
-                bestThing: "The clear way of teaching and hands-on project guidance.",
-                practicalRating: 9,
-                doubtSolving: 9,
-                overallExperience: 10,
-                improvements: "All things are good",
-                recommendation: "Bina kisi doubt ke join kar lena chahiye!",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Jayesh Ghalekar",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
-                joinReason: "Practical learning, real projects aur placement preparation ke liye TCM One join kiya.",
-                classParticipation: "Bahut Baar",
-                gainedSkills: "Real Projects",
-                bestThing: "TCM One ki practical teaching, easy-to-understand classes, supportive mentors aur real projects sabse achhe lage.",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 10,
-                improvements: "More mock interviews & live industry projects",
-                recommendation: "Main zarur recommend karunga. Agar aap coding ko practical tareeke se seekhna chahte hain, to TCM One best platform hai.",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Pratham Soni",
-                course: "Web Development",
-                rating: 10,
-                beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
-                joinReason: "Job-ready skills and concept clarity",
-                classParticipation: "Har Class",
-                gainedSkills: "Confidence",
-                bestThing: "Jab tak doubt clear nahi hota, next concept me nahi jaate.",
-                practicalRating: 10,
-                doubtSolving: 10,
-                overallExperience: 10,
-                improvements: "Daily coding tasks",
-                recommendation: "Acchi class hai join kar lo, sab doubt solve hote hain.",
-                wouldRecommend: "Definitely Yes",
-                date: "10/07/2026"
-            },
-            {
-                name: "Palak Patle",
-                course: "Web Development",
-                rating: 8,
-                beforeTCM: "Maine YouTube se padha lekin concepts clear nahi hote the.",
-                joinReason: "TCM One join karne ka mera sabse bada reason practical learning, real project par kaam karna tha.",
-                classParticipation: "Har Class",
-                gainedSkills: "Problem Solving Skills",
-                bestThing: "Sirf theory nahi, balki real project ke through concepts samjhaye jaate hai, jisse skills aur confidence dono develop hote hai.",
-                practicalRating: 7,
-                doubtSolving: 8,
-                overallExperience: 8,
-                improvements: "Personalized feedback & extra live doubt sessions",
-                recommendation: "Yes, highly recommended for building practical skills.",
-                wouldRecommend: "Yes",
-                date: "11/07/2026"
-            }
-        ];
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            displayReviews(reviewsData);
-            updateStats(reviewsData);
-            setupFilters();
+    function setupFilters() {
+      const filterTabs = document.querySelectorAll('.tcm-pill-btn[data-filter]');
+      
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          const filter = this.dataset.filter;
+          applyFilter(filter);
         });
+      });
+    }
 
-        function displayReviews(reviews) {
-            const grid = document.getElementById('reviews-grid');
-            const loading = document.getElementById('loading-state');
-            
-            // Hide loading, show grid
-            loading.style.display = 'none';
-            grid.style.display = 'block';
-            
-            grid.innerHTML = reviews.map(review => createReviewCard(review)).join('');
-        }
-
-        function createReviewCard(review) {
-            const initials = getInitials(review.name);
-            const stars = generateStars(review.rating);
-            
-            return `
-                <div class="review-detailed-card" data-course="${review.course}" data-rating="${review.rating}" data-date="${review.date}">
-                    <div class="review-header">
-                        <div class="review-avatar">${initials}</div>
-                        <div class="review-user-info">
-                            <h4>${escapeHtml(review.name)}</h4>
-                            <div class="review-course">${escapeHtml(review.course)}</div>
-                        </div>
-                        <div class="review-rating">
-                            <span class="stars">${stars}</span>
-                            <span class="rating-score">${review.rating}/10</span>
-                        </div>
-                    </div>
-                    
-                    <div class="review-content">
-                        <strong>Best thing about TCM:</strong> ${escapeHtml(review.bestThing)}
-                    </div>
-                    
-                    <div class="review-content">
-                        <strong>Recommendation:</strong> ${escapeHtml(review.recommendation)}
-                    </div>
-                    
-                    <div class="review-highlights">
-                        <div class="highlight-item">
-                            <div class="highlight-label">Skills Gained</div>
-                            <div class="highlight-text">${escapeHtml(review.gainedSkills)}</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-label">Join Reason</div>
-                            <div class="highlight-text">${escapeHtml(review.joinReason.slice(0, 50))}...</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-label">Class Participation</div>
-                            <div class="highlight-text">${escapeHtml(review.classParticipation)}</div>
-                        </div>
-                        <div class="highlight-item">
-                            <div class="highlight-label">Would Recommend</div>
-                            <div class="highlight-text">${escapeHtml(review.wouldRecommend)}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateStars(rating) {
-            const maxStars = 10;
-            const percentage = (rating / maxStars) * 5; // Convert to 5-star scale
-            const fullStars = Math.floor(percentage);
-            const halfStar = percentage % 1 >= 0.5 ? 1 : 0;
-            const emptyStars = 5 - fullStars - halfStar;
-            
-            return '★'.repeat(fullStars) + (halfStar ? '☆' : '') + '☆'.repeat(emptyStars);
-        }
-
-        function getInitials(name) {
-            return name.split(' ').map(word => word.charAt(0).toUpperCase()).join('').slice(0, 2);
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function updateStats(reviews) {
-            const totalReviews = reviews.length;
-            const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
-            
-            document.getElementById('total-reviews').textContent = totalReviews;
-            document.getElementById('avg-rating').textContent = avgRating.toFixed(1);
-        }
-        function setupFilters() {
-            const filterTabs = document.querySelectorAll('.filter-tab');
-            
-            filterTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Update active tab
-                    filterTabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Apply filter
-                    const filter = this.dataset.filter;
-                    applyFilter(filter);
-                });
-            });
-        }
-
-        function applyFilter(filter) {
-            let filteredReviews = reviewsData;
-            
-            switch(filter) {
-                case 'Web Development':
-                    filteredReviews = reviewsData.filter(review => review.course === 'Web Development');
-                    break;
-                case 'high-rating':
-                    filteredReviews = reviewsData.filter(review => review.rating >= 9);
-                    break;
-                case 'recent':
-                    filteredReviews = [...reviewsData].sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-                default:
-                    filteredReviews = reviewsData;
-            }
-            
-            displayReviews(filteredReviews);
-        }
-    </script>
+    function applyFilter(filter) {
+      let filteredReviews = reviewsData;
+      
+      switch(filter) {
+        case 'Web Development':
+          filteredReviews = reviewsData.filter(review => review.course === 'Web Development');
+          break;
+        case 'high-rating':
+          filteredReviews = reviewsData.filter(review => review.rating >= 9);
+          break;
+        case 'recent':
+          filteredReviews = [...reviewsData].sort((a, b) => {
+            const partsA = a.date.split('/');
+            const partsB = b.date.split('/');
+            const dateA = new Date(partsA[2], partsA[1] - 1, partsA[0]);
+            const dateB = new Date(partsB[2], partsB[1] - 1, partsB[0]);
+            return dateB - dateA;
+          });
+          break;
+        default:
+          filteredReviews = reviewsData;
+      }
+      
+      displayReviews(filteredReviews);
+    }
+  </script>
 </body>
 </html>

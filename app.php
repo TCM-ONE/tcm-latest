@@ -106,6 +106,8 @@ $router->post('/admin/posts', ['TCM\Controllers\Admin\PostController', 'store'])
 $router->get('/admin/posts/{id}/edit', ['TCM\Controllers\Admin\PostController', 'edit']);
 $router->post('/admin/posts/{id}', ['TCM\Controllers\Admin\PostController', 'update']);
 $router->post('/admin/posts/{id}/delete', ['TCM\Controllers\Admin\PostController', 'destroy']);
+$router->get('/admin/post-comments', ['TCM\Controllers\Admin\PostController', 'comments']);
+$router->post('/admin/post-comments/{id}', ['TCM\Controllers\Admin\PostController', 'updateComment']);
 
 $router->get('/admin/students', ['TCM\Controllers\Admin\StudentController', 'index']);
 $router->get('/admin/students/{id}', ['TCM\Controllers\Admin\StudentController', 'show']);
@@ -266,8 +268,8 @@ $router->get('/event-details.html', static function () {
     $slug = \TCM\Core\Request::string('slug');
     Response::redirect($slug !== '' ? ('/workshops/' . rawurlencode($slug)) : '/workshops');
 });
-$router->get('/insights',           static fn () => Response::redirect('/about'));
-$router->get('/insights.html',      static fn () => Response::redirect('/about'));
+$router->get('/insights',           static fn () => Response::redirect('/tech-updates'));
+$router->get('/insights.html',      static fn () => Response::redirect('/tech-updates'));
 
 // --------------------------------------------------------------------- //
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)
@@ -280,7 +282,16 @@ $router->get('/courses',                      ['TCM\Controllers\PublicWorkshopCo
 $router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
+$router->get('/tech-updates',                 ['TCM\Controllers\PublicUpdatesController', 'index']);
+$router->post('/tech-updates/{slug}/like',    ['TCM\Controllers\PublicUpdatesController', 'toggleLike']);
+$router->post('/tech-updates/{slug}/comments',['TCM\Controllers\PublicUpdatesController', 'storeComment']);
+$router->get('/tech-updates/{slug}',          ['TCM\Controllers\PublicUpdatesController', 'show']);
 $router->get('/for-institutions',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/for-institutions.html',        ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partner',                      ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partner.html',                 ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partners',                     ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/become-a-partner',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
 $router->get('/about',                        ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/about.html',                   ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/contact',                      ['TCM\Controllers\PublicWorkshopController', 'contact']);

@@ -35,6 +35,19 @@
   <meta property="og:image" content="<?= e($thumbUrl) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($course['title']) ?> — TCM One">
+  <meta name="twitter:description" content="<?= e($desc) ?>">
+  <meta name="twitter:image" content="<?= e($thumbUrl) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +57,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.16') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <?php
@@ -67,6 +80,15 @@
       'educationalLevel' => $level,
       'teaches' => $category,
       'courseMode' => 'online',
+      'hasCourseInstance' => [
+        '@type' => 'CourseInstance',
+        'courseMode' => 'online',
+        'courseWorkload' => $duration,
+        'instructor' => [
+          '@type' => 'Organization',
+          'name' => 'TCM One Mentors',
+        ],
+      ],
       'provider' => [
         '@type' => 'Organization',
         'name' => 'TCM One',
@@ -81,8 +103,34 @@
         'url' => $canonical,
       ],
     ];
+
+    $breadcrumbSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'BreadcrumbList',
+      'itemListElement' => [
+        [
+          '@type' => 'ListItem',
+          'position' => 1,
+          'name' => 'Home',
+          'item' => 'https://thecodemunk.in/',
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 2,
+          'name' => 'Courses',
+          'item' => 'https://thecodemunk.in/courses',
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 3,
+          'name' => (string) $course['title'],
+          'item' => $canonical,
+        ],
+      ],
+    ];
   ?>
   <script type="application/ld+json"><?= json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <script>
     gtag('event', 'course_view', {
       course_slug: <?= json_encode((string) $course['slug']) ?>,
@@ -93,14 +141,27 @@
   </script>
 
   <style>
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     .cd-layout-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      width: 100%;
+      min-width: 0;
+    }
+    .cd-layout-grid > * {
+      min-width: 0;
+      max-width: 100%;
     }
     @media (min-width: 992px) {
       .cd-layout-grid {
-        grid-template-columns: 1fr 380px;
+        grid-template-columns: minmax(0, 1fr) 380px;
         gap: 48px;
       }
     }
@@ -109,7 +170,9 @@
       top: 96px;
       background: var(--tcm-surface);
       border: 1px solid var(--tcm-border);
-      padding: 28px;
+      padding: clamp(18px, 4vw, 28px);
+      box-sizing: border-box;
+      max-width: 100%;
     }
     .cd-curriculum-module {
       border: 1px solid var(--tcm-border);
@@ -159,60 +222,17 @@
       .cd-floating-mobile-bar { display: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body style="padding-bottom: 72px;">
 
-  <!-- Header -->
-  <header class="tcm-header" role="banner">
-    <div class="tcm-container">
-      <div class="tcm-header-inner">
-        <a href="<?= base_url('/') ?>" class="tcm-brand" aria-label="TCM One Home">
-          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-        </a>
-
-        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/courses') ?>" class="tcm-nav-link active">Courses</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link">Workshops</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
-          </div>
-        </nav>
-
-        <div class="tcm-header-actions">
-          <a href="<?= base_url('/contact') ?>" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
-          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">Explore Courses</a>
-          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
-            <i class="bi bi-list" style="font-size: 22px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer -->
-  <div class="tcm-drawer-backdrop"></div>
-  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
-    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
-    <a href="<?= base_url('/') ?>" class="tcm-drawer-link">Home</a>
-    <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">Courses</a>
-    <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link">Workshops</a>
-    <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
-    <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About TCM One</a>
-    <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link">Contact</a>
-  </aside>
+  <!-- Header Navigation & Mobile Drawer -->
+  <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main id="mainContent" style="padding-bottom: 84px;">
 
     <!-- Course Hero -->
-    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(36px, 4vw, 56px); border-bottom: 1px solid var(--tcm-border);">
+    <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: clamp(24px, 3vw, 32px); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <!-- Breadcrumbs -->
         <nav aria-label="Breadcrumb" style="font-size: 12px; color: var(--tcm-muted); margin-bottom: 16px;">
@@ -245,14 +265,14 @@
     </section>
 
     <!-- Main Content & Sticky Enrollment Sidebar -->
-    <section class="tcm-section">
+    <section class="tcm-section" style="padding-top: clamp(28px, 3.5vw, 40px); padding-bottom: clamp(48px, 6vw, 64px);">
       <div class="tcm-container">
         <div class="cd-layout-grid">
 
           <!-- Left Column: Detailed Course Modules -->
           <div>
             <!-- What You Will Learn -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); margin-bottom: 32px; box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">What You Will Learn</h2>
               <div style="font-size: 15px; line-height: 1.7; color: var(--tcm-fg);">
                 <?= nl2br(e($course['description'] ?: '')) ?>
@@ -300,7 +320,7 @@
             </div>
 
             <!-- Learning Methodology & Projects -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); margin-bottom: 32px; box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Learning Methodology</h2>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
                 <div>
@@ -315,7 +335,7 @@
             </div>
 
             <!-- Prerequisites & Audience -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px;">
+            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Prerequisites</h2>
               <p class="tcm-body-muted" style="font-size: 14.5px; line-height: 1.6; margin: 0;">
                 No advanced background required unless specified. You will need a personal computer/laptop, internet connection, and dedication to attend live classes and submit assigned code tasks.
@@ -341,9 +361,11 @@
                       ₹<?= number_format($origPrice, 0) ?>
                     </span>
                   <?php endif; ?>
-                </div>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
-                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included
+                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included &middot; Billed in INR
+                </div>
+                <div style="font-size: 11.5px; color: var(--tcm-muted); margin-top: 6px;">
+                  <i class="bi bi-globe2"></i> <strong>Global Learners:</strong> Sessions in IST (UTC+5:30) with HD recordings &amp; weekend cohorts
                 </div>
 
                 <!-- STRICT EMI RULE: Only show EMI if course price >= 5,000 -->
@@ -397,30 +419,31 @@
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Course Enrollment Bar">
       <div class="tcm-container">
         <div class="tcm-sticky-bottom-inner">
-          <div class="tcm-sticky-bottom-info d-none d-lg-flex">
-            <span class="tcm-badge"><?= e($category) ?></span>
+          <div class="tcm-sticky-bottom-info d-none d-md-flex">
             <div class="tcm-sticky-bottom-title"><?= e($course['title']) ?></div>
           </div>
-          <div class="tcm-sticky-bottom-pricing">
-            <div class="tcm-sticky-bottom-price-row">
-              <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
-              <?php if ($origPrice > $price): ?>
-                <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
-              <?php endif; ?>
+          <div class="tcm-sticky-bottom-right">
+            <div class="tcm-sticky-bottom-pricing">
+              <div class="tcm-sticky-bottom-price-row">
+                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <?php if ($origPrice > $price): ?>
+                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                <?php endif; ?>
+              </div>
+              <div class="tcm-sticky-bottom-sub">
+                <span><?= e($duration) ?> Cohort</span>
+              </div>
             </div>
-            <div class="tcm-sticky-bottom-sub">
-              <span><?= e($duration) ?> Cohort</span>
+            <div class="tcm-sticky-bottom-actions">
+              <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">Syllabus</span>
+              </button>
+              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
+                <span>Enroll Now</span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </a>
             </div>
-          </div>
-          <div class="tcm-sticky-bottom-actions">
-            <button type="button" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn tcm-trigger-brochure" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" aria-label="Download Syllabus">
-              <i class="bi bi-file-earmark-pdf"></i>
-              <span class="d-none d-sm-inline" style="margin-left: 4px;">Syllabus</span>
-            </button>
-            <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I want to enroll in ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn">
-              <span>Enroll Now</span>
-              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-            </a>
           </div>
         </div>
       </div>
@@ -429,43 +452,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live classes, guided projects, and industry-focused learning.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Admissions</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One. All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Brochure Modal -->
   <div class="tcm-modal-overlay" id="tcmBrochureOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmBrochureTitle">

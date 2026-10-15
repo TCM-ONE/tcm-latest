@@ -42,11 +42,16 @@ final class AuthController extends Controller
             redirect('/auth/login');
         }
 
+        $returnTo = Request::string('redirect') ?: Request::string('return_to') ?: ($_SESSION['auth_return_to'] ?? null);
+        if ($returnTo !== null && (!str_starts_with($returnTo, '/') || str_starts_with($returnTo, '//'))) {
+            $returnTo = null;
+        }
+
         if (Request::isJson()) {
             \TCM\Core\Response::success([
-                'redirect' => $user['role'] === 'admin'
+                'redirect' => $returnTo ?: ($user['role'] === 'admin'
                     ? base_url('/admin')
-                    : ((int) $user['onboarded'] === 0 ? base_url('/student/onboarding') : base_url('/student')),
+                    : ((int) $user['onboarded'] === 0 ? base_url('/student/onboarding') : base_url('/student'))),
                 'name' => $user['name'],
             ], 'Welcome back, ' . $user['name'] . '!');
         }
@@ -64,6 +69,10 @@ final class AuthController extends Controller
         }
 
         flash('success', 'Welcome back, ' . $user['name'] . '!');
+        if ($returnTo !== null) {
+            unset($_SESSION['auth_return_to']);
+            redirect($returnTo);
+        }
         $this->redirectByRole();
     }
 
@@ -251,8 +260,13 @@ final class AuthController extends Controller
             Database::update('users', ['email_verified' => 1, 'last_login_at' => date('Y-m-d H:i:s')], ['id' => $user['id']]);
         }
 
+        $returnTo = Request::string('redirect') ?: Request::string('return_to') ?: ($_SESSION['auth_return_to'] ?? null);
+        if ($returnTo !== null && (!str_starts_with($returnTo, '/') || str_starts_with($returnTo, '//'))) {
+            $returnTo = null;
+        }
+        unset($_SESSION['auth_return_to']);
         Auth::login((int) $user['id']);
-        Response::success(['redirect' => $this->dashboardUrl($user, $isNew)], 'Signed in successfully.');
+        Response::success(['redirect' => $returnTo ?: $this->dashboardUrl($user, $isNew)], 'Signed in successfully.');
     }
 
     // ----------------------------------------------------------------- //

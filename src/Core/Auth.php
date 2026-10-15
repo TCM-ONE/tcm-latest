@@ -110,10 +110,16 @@ final class Auth
     {
         $user = self::user();
         if ($user === null) {
+            if (Request::isJson()) {
+                Response::error('Please sign in to continue.', 401);
+            }
             flash('error', 'Please sign in to continue.');
             redirect('/auth/login');
         }
         if ($role !== null && $user['role'] !== $role) {
+            if (Request::isJson()) {
+                Response::error('Forbidden: you do not have access to this area.', 403);
+            }
             http_response_code(403);
             echo 'Forbidden: you do not have access to this area.';
             exit;

@@ -1,665 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-19F749QEBF');
-    </script>
-    <meta name="app-base" content="">
-    <!-- SEO -->
-    <meta name="description" content="Get in touch with The Code Munk team. Ask about courses, enrollment, internships or partnership opportunities.">
-    <meta name="keywords" content="contact code munk, coding support, course enquiry, tech guidance india">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="The Code Munk">
-    <link rel="canonical" href="https://thecodemunk.in/contact.html">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="The Code Munk">
-    <meta property="og:url" content="https://thecodemunk.in/contact.html">
-    <meta property="og:title" content="Contact &mdash; The Code Munk">
-    <meta property="og:description" content="Get in touch with The Code Munk team. Ask about courses, enrollment, internships or partnership opportunities.">
-    <meta property="og:image" content="https://thecodemunk.in/assets/tcm-og-default.svg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="en_IN">
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@thecodemunk">
-    <meta name="twitter:title" content="Contact &mdash; The Code Munk">
-    <meta name="twitter:description" content="Get in touch with The Code Munk team. Ask about courses, enrollment, internships or partnership opportunities.">
-    <meta name="twitter:image" content="https://thecodemunk.in/assets/tcm-og-default.svg">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-19F749QEBF');
+  </script>
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#111111">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="TCM">
-    <!-- JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
-      "name": "The Code Munk",
-      "url": "https://thecodemunk.in",
-      "logo": "https://thecodemunk.in/assets/tcm-og-default.svg",
-      "description": "Get in touch with The Code Munk team. Ask about courses, enrollment, internships or partnership opportunities.",
-      "sameAs": [
-        "https://www.instagram.com/tcmone.academy",
-        "https://www.linkedin.com/company/thecodemunk",
-        "https://www.youtube.com/@thecodemunk"
-      ]
+  <meta name="app-base" content="">
+
+  <title>Contact Admissions & Mentors — TCM One</title>
+  <meta name="description" content="Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://thecodemunk.in/contact">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:url" content="https://thecodemunk.in/contact">
+  <meta property="og:title" content="Contact Admissions &amp; Mentors &mdash; TCM One">
+  <meta property="og:description" content="Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.">
+  <meta property="og:image" content="https://thecodemunk.in/assets/logo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Core Bootstrap 5 CSS for Grid & Utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Design System Stylesheets -->
+  <link rel="stylesheet" href="./assets/tcm-design-system.css">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.16">
+  <link rel="stylesheet" href="./assets/tcm-footer.css?v=1">
+  <link rel="stylesheet" href="./assets/cai-assistant.css">
+
+  <style>
+    *, *::before, *::after {
+      border-radius: 0px !important;
     }
-    </script>
-    <title>Contact &mdash; The Code Munk</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./assets/style.css">
-    <link rel="stylesheet" href="./assets/site-polish.css">
-    <link rel="stylesheet" href="./assets/tcm-design-system.css">
-    <link rel="stylesheet" href="./assets/contact.css">
-    <link rel="stylesheet" href="./assets/skeleton.css">
-    <link rel="stylesheet" href="./assets/auth.css">
+
+    body {
+      background-color: var(--tcm-bg);
+      color: var(--tcm-fg);
+      font-family: var(--tcm-font-sans);
+      margin: 0;
+      padding: 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .contact-grid > *, .contact-form-row > * { min-width: 0; }
+    .contact-form-card {
+      background: #FFFFFF;
+      border: 1px solid var(--tcm-border);
+      padding: clamp(24px, 3.5vw, 40px);
+    }
+    .contact-form-row { display: grid; grid-template-columns: 1fr; gap: 0 16px; }
+    #contact-faq { scroll-margin-top: 90px; }
+    @media (min-width: 600px) {
+      .contact-form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 992px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 56px;
+      }
+    }
+    .contact-card-info {
+      background: #FFFFFF;
+      border: 1px solid var(--tcm-border);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .contact-quick-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid var(--tcm-border);
+      background: #FFFFFF;
+      text-decoration: none;
+      color: var(--tcm-fg);
+      margin-bottom: 12px;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .contact-quick-link:hover {
+      border-color: var(--tcm-fg);
+      color: var(--tcm-fg);
+      transform: translateY(-1px);
+    }
+    .contact-quick-link > :first-child { flex-shrink: 0; }
+    .contact-quick-link > :last-child { min-width: 0; overflow-wrap: anywhere; }
+  </style>
 </head>
-<body>
+<body class="tcm-editorial">
 
-    <!-- ========== HEADER ========== -->
-                <!-- ===== TCM ONE 2-TIER UNIVERSAL HEADER ===== -->
-    <header class="header">
-        <!-- Tier 1: Desktop Top Utility Bar (>= 1200px) -->
-        <div class="header-top-bar d-none d-xl-block">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="header-top-left d-flex align-items-center gap-2">
-                        <span class="header-top-kicker"><i class="bi bi-patch-check-fill"></i> Industry-Grade Live Learning</span>
-                        <span class="header-top-divider">•</span>
-                        <a href="/download-brochure" class="header-top-brochure btn-trigger-brochure" data-trigger-brochure="true">
-                            <i class="bi bi-file-earmark-pdf"></i> Download Official Course Brochure PDF
-                        </a>
-                    </div>
+  <!-- Header Navigation & Mobile Drawer -->
+<header class="tcm-header" role="banner">
+  <div class="tcm-container">
+    <div class="tcm-header-inner">
+      <!-- Logo Left -->
+      <a href="/" class="tcm-brand" aria-label="TCM One Home">
+        <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+        <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
+      </a>
 
-                    <div class="header-top-right d-flex align-items-center gap-3">
-                        <!-- Language Picker -->
-                        <div class="desktop-lang-picker mobile-lang-picker">
-                            <button type="button" class="desktop-lang-toggle mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                <i class="bi bi-translate"></i>
-                                <span>Language</span>
-                                <strong class="mobile-lang-code">EN</strong>
-                            </button>
-                            <div class="mobile-lang-menu" role="menu">
-                                <button type="button" data-lang="en" role="menuitem">English</button>
-                                <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                <button type="button" data-lang="fr" role="menuitem">French</button>
-                                <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                <button type="button" data-lang="de" role="menuitem">German</button>
-                                <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                            </div>
-                        </div>
-
-                        <span class="header-top-divider">|</span>
-                        <a href="login.php" class="header-top-login"><i class="bi bi-person"></i> Log in</a>
-                    </div>
-                </div>
-            </div>
+      <!-- Desktop Navigation -->
+      <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
+        <div class="tcm-nav-item">
+          <a href="/courses" class="tcm-nav-link">
+            <span>Courses</span>
+            <i class="bi bi-chevron-down" style="font-size: 10px;"></i>
+          </a>
+          <div class="tcm-dropdown-menu" role="menu">
+            <a href="/courses?cat=Web%20%26%20Mobile%20Development" class="tcm-dropdown-item" role="menuitem">Web &amp; Mobile Development</a>
+            <a href="/courses?cat=Programming%20Foundations" class="tcm-dropdown-item" role="menuitem">Programming Foundations</a>
+            <a href="/courses?cat=AI%20%26%20Automation" class="tcm-dropdown-item" role="menuitem">AI &amp; Automation</a>
+            <a href="/courses?cat=Data%20%26%20Analytics" class="tcm-dropdown-item" role="menuitem">Data &amp; Analytics</a>
+            <a href="/courses?cat=Cloud%20%26%20DevOps" class="tcm-dropdown-item" role="menuitem">Cloud &amp; DevOps</a>
+            <a href="/courses?cat=Career%20%26%20DSA" class="tcm-dropdown-item" role="menuitem">Career &amp; DSA</a>
+            <div style="border-top: 1px solid var(--tcm-border); margin: 6px 0;"></div>
+            <a href="/courses" class="tcm-dropdown-item" style="font-weight: 600; color: var(--tcm-fg);" role="menuitem">View All Courses &rarr;</a>
+          </div>
         </div>
 
-        <!-- Tier 2: Main Navigation Bar -->
-        <div class="header-main-bar">
-            <div class="container">
-                <nav class="navbar navbar-expand-xl p-0">
-                    <div class="header-nav-top">
-                        <!-- Column 1 (Left on Desktop): Brand Logo + Primary Nav Links -->
-                        <div class="header-nav-left d-flex align-items-center">
-                            <a class="navbar-brand logo" href="index.html">
-                                <img src="./assets/logo.png" alt="TCM One Logo" class="logo-img">
-                                <span class="logo-text"><span class="logo-main">TCM</span><span class="logo-one">ONE</span></span>
-                            </a>
-
-                            <!-- Desktop Navigation Links (Column 1) -->
-                            <div class="header-desktop-links d-none d-xl-flex align-items-center">
-                                <ul class="navbar-nav flex-row align-items-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="workshops.html">Workshops</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="insights.html">TCM Insights</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="community.html">Community</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="contact.html">Contact</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="partner.html">Become a Partner</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Column 2 (Right on Desktop): Primary CTA "Book a Demo" -->
-                        <div class="header-desktop-actions d-none d-xl-flex align-items-center">
-                            <button type="button" class="join-btn demo-trigger">Book a Demo</button>
-                        </div>
-
-                        <!-- Mobile Header Right: Strictly Language + Book a Demo + Hamburger (< 1200px) -->
-                        <div class="header-mobile-right d-xl-none">
-                            <div class="mobile-lang-picker">
-                                <button type="button" class="mobile-head-btn mobile-lang-toggle" aria-label="Change language" aria-expanded="false">
-                                    <i class="bi bi-translate"></i>
-                                    <span class="mobile-lang-code">EN</span>
-                                </button>
-                                <div class="mobile-lang-menu" role="menu">
-                                    <button type="button" data-lang="en" role="menuitem">English</button>
-                                    <button type="button" data-lang="hi" role="menuitem">Hindi</button>
-                                    <button type="button" data-lang="mr" role="menuitem">Marathi</button>
-                                    <button type="button" data-lang="gu" role="menuitem">Gujarati</button>
-                                    <button type="button" data-lang="bn" role="menuitem">Bengali</button>
-                                    <button type="button" data-lang="ta" role="menuitem">Tamil</button>
-                                    <button type="button" data-lang="te" role="menuitem">Telugu</button>
-                                    <button type="button" data-lang="kn" role="menuitem">Kannada</button>
-                                    <button type="button" data-lang="ml" role="menuitem">Malayalam</button>
-                                    <button type="button" data-lang="pa" role="menuitem">Punjabi</button>
-                                    <button type="button" data-lang="ur" role="menuitem">Urdu</button>
-                                    <button type="button" data-lang="ar" role="menuitem">Arabic</button>
-                                    <button type="button" data-lang="fr" role="menuitem">French</button>
-                                    <button type="button" data-lang="es" role="menuitem">Spanish</button>
-                                    <button type="button" data-lang="de" role="menuitem">German</button>
-                                    <button type="button" data-lang="it" role="menuitem">Italian</button>
-                                    <button type="button" data-lang="pt" role="menuitem">Portuguese</button>
-                                    <button type="button" data-lang="ru" role="menuitem">Russian</button>
-                                    <button type="button" data-lang="ko" role="menuitem">Korean</button>
-                                    <button type="button" data-lang="zh-CN" role="menuitem">Chinese</button>
-                                    <button type="button" data-lang="ja" role="menuitem">Japanese</button>
-                                    <button type="button" data-lang="ne" role="menuitem">Nepali</button>
-                                    <button type="button" data-lang="th" role="menuitem">Thai</button>
-                                    <button type="button" data-lang="vi" role="menuitem">Vietnamese</button>
-                                </div>
-                            </div>
-
-                            <button type="button" class="mobile-head-btn mobile-demo-btn demo-trigger" aria-label="Book a Demo">
-                                <span class="mobile-head-text">Book a Demo</span>
-                            </button>
-
-                            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="bi bi-list"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Collapsible Drawer Menu (< 1200px) -->
-                    <div class="collapse navbar-collapse d-xl-none" id="navbarMenu">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link " href="workshops.html">Workshops</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="insights.html">TCM Insights</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="community.html">Community</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="contact.html">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="partner.html">Become a Partner</a>
-                            </li>
-                        </ul>
-
-                        <div class="header-drawer-actions">
-                            <a href="/download-brochure" class="drawer-brochure-link btn-trigger-brochure" data-trigger-brochure="true">
-                                <i class="bi bi-file-earmark-pdf"></i> Download Course Brochure PDF
-                            </a>
-                            <a href="login.php" class="drawer-login-link">Log in</a>
-                            <button type="button" class="join-btn drawer-demo-btn demo-trigger">Book a Free Demo</button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+        <div class="tcm-nav-item">
+          <a href="/workshops" class="tcm-nav-link">Workshops</a>
         </div>
-    </header>
 
-    <!-- ========== HERO ========== -->
-    <section class="ct-hero">
-        <div class="container">
-            <div class="ct-hero-inner">
-                <div class="ct-hero-label">
-                    <span class="ct-dot"></span>
-                    We respond within 24 hours
-                </div>
-                <h1>Let's Talk.<br>We're Listening.</h1>
-                <p>
-                    Have a question about a course, need career guidance,
-                    or just want to know if TCM is right for you?
-                    Reach out &mdash; we're real people and we reply.
+        <div class="tcm-nav-item">
+          <a href="/tech-updates" class="tcm-nav-link">Tech Updates</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/for-institutions" class="tcm-nav-link">For Institutions</a>
+        </div>
+
+        <div class="tcm-nav-item">
+          <a href="/about" class="tcm-nav-link">About</a>
+        </div>
+      </nav>
+
+      <!-- Right Side CTAs -->
+      <div class="tcm-header-actions">
+        <!-- Language Selector Dropdown -->
+        <div class="tcm-lang-picker">
+          <button type="button" class="tcm-lang-btn" aria-label="Change language" aria-expanded="false">
+            <i class="bi bi-translate"></i>
+            <span class="tcm-lang-code">EN</span>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </button>
+          <div class="tcm-lang-dropdown" role="menu">
+            <div class="tcm-lang-dropdown-header">Select Language</div>
+            <div class="tcm-lang-list">
+              <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+              <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sign In Button (Strictly present in all headers) -->
+        <a href="/login" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
+
+        <!-- Primary CTA -->
+        <a href="/courses" class="tcm-btn tcm-btn-primary tcm-btn-sm">
+          <span>Explore Courses</span>
+          <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+
+        <!-- Mobile Drawer Toggle -->
+        <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+          <i class="bi bi-list" style="font-size: 22px;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="tcm-drawer-backdrop"></div>
+<aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+  <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
+  <a href="/" class="tcm-drawer-link">Home</a>
+  <a href="/courses" class="tcm-drawer-link">Courses</a>
+  <a href="/workshops" class="tcm-drawer-link">Workshops</a>
+  <a href="/tech-updates" class="tcm-drawer-link">Tech Updates</a>
+  <a href="/for-institutions" class="tcm-drawer-link">For Institutions</a>
+  <a href="/about" class="tcm-drawer-link">About TCM One</a>
+  <a href="/contact" class="tcm-drawer-link">Contact Admissions</a>
+  <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--tcm-border);">
+    <div style="margin-bottom: 14px;">
+      <!-- Mobile Language Picker -->
+      <div class="tcm-lang-picker w-100">
+        <button type="button" class="tcm-lang-btn w-100 justify-content-between" aria-label="Change language" aria-expanded="false">
+          <span class="d-inline-flex align-items-center gap-2">
+            <i class="bi bi-translate"></i>
+            <span>Language:</span>
+          </span>
+          <span class="d-inline-flex align-items-center gap-1">
+            <strong class="tcm-lang-code">EN</strong>
+            <i class="bi bi-chevron-down tcm-lang-chevron"></i>
+          </span>
+        </button>
+        <div class="tcm-lang-dropdown w-100" role="menu">
+          <div class="tcm-lang-dropdown-header">Select Language</div>
+          <div class="tcm-lang-list">
+            <button type="button" class="tcm-lang-option active" data-lang="en"><span class="lang-name">English</span><span class="lang-code">EN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="hi"><span class="lang-name">हिन्दी (Hindi)</span><span class="lang-code">HI</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="mr"><span class="lang-name">मराठी (Marathi)</span><span class="lang-code">MR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="gu"><span class="lang-name">ગુજરાતી (Gujarati)</span><span class="lang-code">GU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="bn"><span class="lang-name">বাংলা (Bengali)</span><span class="lang-code">BN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ta"><span class="lang-name">தமிழ் (Tamil)</span><span class="lang-code">TA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="te"><span class="lang-name">తెలుగు (Telugu)</span><span class="lang-code">TE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="kn"><span class="lang-name">ಕನ್ನಡ (Kannada)</span><span class="lang-code">KN</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ml"><span class="lang-name">മലയാളം (Malayalam)</span><span class="lang-code">ML</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pa"><span class="lang-name">ਪੰਜਾਬੀ (Punjabi)</span><span class="lang-code">PA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ur"><span class="lang-name">اردو (Urdu)</span><span class="lang-code">UR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ar"><span class="lang-name">العربية (Arabic)</span><span class="lang-code">AR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="fr"><span class="lang-name">Français (French)</span><span class="lang-code">FR</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="es"><span class="lang-name">Español (Spanish)</span><span class="lang-code">ES</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="de"><span class="lang-name">Deutsch (German)</span><span class="lang-code">DE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="it"><span class="lang-name">Italiano (Italian)</span><span class="lang-code">IT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="pt"><span class="lang-name">Português (Portuguese)</span><span class="lang-code">PT</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ru"><span class="lang-name">Русский (Russian)</span><span class="lang-code">RU</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ko"><span class="lang-name">한국어 (Korean)</span><span class="lang-code">KO</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="zh-CN"><span class="lang-name">简体中文 (Chinese)</span><span class="lang-code">ZH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ja"><span class="lang-name">日本語 (Japanese)</span><span class="lang-code">JA</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="ne"><span class="lang-name">नेपाली (Nepali)</span><span class="lang-code">NE</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="th"><span class="lang-name">ไทย (Thai)</span><span class="lang-code">TH</span></button>
+            <button type="button" class="tcm-lang-option" data-lang="vi"><span class="lang-name">Tiếng Việt (Vietnamese)</span><span class="lang-code">VI</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tcm-drawer-actions">
+      <a href="/login" class="tcm-btn tcm-btn-outline w-100 mb-2 tcm-auth-link">Sign In</a>
+    <a href="/courses" class="tcm-btn tcm-btn-primary w-100">
+      <span>Explore Courses</span>
+      <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+    </div>
+  </div>
+</aside>
+
+
+
+
+  <main id="main-content">
+    <!-- Contact Hero -->
+    <section style="background: var(--tcm-bg); border-bottom: 1px solid var(--tcm-border); padding: clamp(48px, 6vw, 76px) 0 clamp(32px, 4vw, 52px);">
+      <div class="tcm-container">
+        <div style="max-width: 820px;">
+          <div class="tcm-eyebrow">ADMISSIONS &amp; DIRECT SUPPORT</div>
+          <h1 class="tcm-h1" style="margin: 8px 0 18px 0; font-size: clamp(2.4rem, 4.8vw, 3.8rem); line-height: 1.12;">
+            We're Here to Help You Choose the <span class="font-editorial-serif">Right Path.</span>
+          </h1>
+          <p class="tcm-lead" style="font-size: 17.5px; line-height: 1.65; color: var(--tcm-muted); margin: 0;">
+            Have questions about upcoming cohort dates, syllabus depth, prerequisites, or fee structures? Send us a message or connect directly on WhatsApp. We reply within 24 hours.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Content Layout -->
+    <section style="padding: clamp(48px, 6vw, 72px) 0; background: #FAFAFA;">
+      <div class="tcm-container">
+        <div class="contact-grid">
+
+          <!-- Left Column: Contact Channels & Locations -->
+          <div>
+            <div class="tcm-eyebrow">OFFICIAL CHANNELS</div>
+            <h2 class="tcm-h2" style="margin: 8px 0 20px 0;">
+              Direct Access <span class="font-editorial-serif">Points</span>
+            </h2>
+
+            <!-- WhatsApp Quick Card -->
+            <a href="https://wa.me/919238695500?text=Hello%20TCM%20One%20Admissions!%20I%20have%20an%20inquiry." target="_blank" rel="noopener" class="contact-quick-link">
+              <div style="font-size: 26px; color: var(--tcm-fg);"><i class="bi bi-whatsapp"></i></div>
+              <div>
+                <strong style="display: block; font-size: 15px; margin-bottom: 2px;">Chat on WhatsApp</strong>
+                <span style="font-size: 13px; color: var(--tcm-muted);">+91 9238695500 &middot; Fastest response (10 AM &ndash; 7 PM IST)</span>
+              </div>
+            </a>
+
+            <!-- Email Quick Card -->
+            <a href="mailto:thecodemunk@gmail.com" class="contact-quick-link">
+              <div style="font-size: 26px; color: var(--tcm-fg);"><i class="bi bi-envelope"></i></div>
+              <div>
+                <strong style="display: block; font-size: 15px; margin-bottom: 2px;">Admissions &amp; General Email</strong>
+                <span style="font-size: 13px; color: var(--tcm-muted);">thecodemunk@gmail.com &middot; Reply within 24 hours</span>
+              </div>
+            </a>
+
+            <!-- Institutional Quick Card -->
+            <a href="./for-institutions" class="contact-quick-link">
+              <div style="font-size: 26px; color: var(--tcm-fg);"><i class="bi bi-building"></i></div>
+              <div>
+                <strong style="display: block; font-size: 15px; margin-bottom: 2px;">College &amp; Campus Partnerships</strong>
+                <span style="font-size: 13px; color: var(--tcm-muted);">Campus workshops, accredited curricula &amp; MoU partnerships &rarr;</span>
+              </div>
+            </a>
+
+            <!-- Office Locations Card -->
+            <div class="contact-card-info" style="margin-top: 24px;">
+              <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--tcm-muted); margin-bottom: 16px;">
+                HEADQUARTERS &amp; LEARNING CAMPUS
+              </div>
+
+              <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px; margin-bottom: 16px;">
+                <strong style="display: block; font-size: 15px; margin-bottom: 6px; color: var(--tcm-fg);">Bilaspur Main Campus</strong>
+                <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0 0 10px;">
+                  Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006, India
                 </p>
-                <div class="ct-hero-tags">
-                    <span><i class="bi bi-clock"></i> Fast Replies</span>
-                    <span><i class="bi bi-patch-check"></i> No Sales Pressure</span>
-                    <span><i class="bi bi-heart"></i> Genuine Guidance</span>
-                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006" target="_blank" rel="noopener" class="tcm-btn tcm-btn-outline tcm-btn-sm" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;">
+                  <i class="bi bi-geo-alt-fill" style="color: var(--tcm-accent, #c5f467);"></i> View on Google Maps &rarr;
+                </a>
+              </div>
+
+              <div>
+                <strong style="display: block; font-size: 14.5px; margin-bottom: 4px; color: var(--tcm-fg);">Online Live Cohorts</strong>
+                <p style="font-size: 13px; color: var(--tcm-muted); line-height: 1.5; margin: 0;">
+                  Live interactive coding, screen debugging, and mentor office hours accessible across India and worldwide.
+                </p>
+              </div>
+
+              <div style="margin-top: 14px; border: 1px solid var(--tcm-border); overflow: hidden; height: 160px;">
+                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
             </div>
+
+            <div style="font-size: 12.5px; color: var(--tcm-muted); line-height: 1.6; padding: 14px; background: #FFFFFF; border: 1px solid var(--tcm-border);">
+              <i class="bi bi-info-circle me-1"></i> <strong>100% Online Delivery:</strong> We conduct all cohort classes via live interactive sessions, shared terminals, and screen debugging accessible from anywhere.
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Contact Form -->
+          <div>
+            <div class="contact-form-card">
+              <div class="tcm-eyebrow" style="margin-bottom: 8px;">SEND A MESSAGE</div>
+              <h3 class="tcm-h3" style="margin-bottom: 18px; font-size: 26px;">Drop Us a <span class="font-editorial-serif">Line</span></h3>
+              
+              <div id="ctNotice" role="status" aria-live="polite" style="display: none;"></div>
+
+              <form id="tcmContactForm" novalidate>
+                <div class="tcm-form-group" style="margin-bottom: 18px;">
+                  <label for="ctName" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Full Name *</label>
+                  <input type="text" id="ctName" name="name" autocomplete="name" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required style="width: 100%; height: 44px; padding: 10px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;">
+                </div>
+
+                <div class="contact-form-row" style="margin-bottom: 18px;">
+                  <div class="tcm-form-group">
+                    <label for="ctEmail" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Email Address *</label>
+                    <input type="email" id="ctEmail" name="email" autocomplete="email" class="tcm-form-input" placeholder="e.g. rahul@example.com" required style="width: 100%; height: 44px; padding: 10px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;">
+                  </div>
+                  <div class="tcm-form-group">
+                    <label for="ctPhone" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">WhatsApp Number</label>
+                    <input type="tel" id="ctPhone" name="phone" autocomplete="tel" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" style="width: 100%; height: 44px; padding: 10px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;">
+                  </div>
+                </div>
+
+                <div class="tcm-form-group" style="margin-bottom: 18px;">
+                  <label for="ctSubject" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Inquiry Topic *</label>
+                  <select id="ctSubject" name="subject" class="tcm-form-select" required style="width: 100%; height: 44px; padding: 10px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;">
+                    <option value="Course Syllabus & Enrollment" selected>Course Syllabus &amp; Enrollment</option>
+                    <option value="Workshop Registration Help">Workshop Registration Help</option>
+                    <option value="Fee Structure & Payment">Fee Structure &amp; Payment Options</option>
+                    <option value="College Partnership / MoU">College Partnership / MoU</option>
+                    <option value="General Question">General Question</option>
+                  </select>
+                </div>
+
+                <div class="tcm-form-group" style="margin-bottom: 24px;">
+                  <label for="ctMessage" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Your Message *</label>
+                  <textarea id="ctMessage" name="message" class="tcm-form-textarea" rows="5" minlength="5" placeholder="How can we help? Tell us about your technical background or questions..." required style="width: 100%; padding: 12px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;"></textarea>
+                </div>
+
+                <button type="submit" class="tcm-btn tcm-btn-primary" id="ctSubmitBtn" style="width: 100%; height: 46px; justify-content: center;">
+                  <span>Send Message</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+              </form>
+            </div>
+          </div>
+
         </div>
-        <div class="ct-hero-grid-bg"></div>
+      </div>
     </section>
 
-    <!-- ========== MAIN CONTACT GRID ========== -->
-    <section class="ct-main">
-        <div class="container">
-            <div class="ct-main-grid">
+    <!-- Contact FAQ Accordion -->
+    <section id="contact-faq" aria-labelledby="contact-faq-title" style="padding: clamp(48px, 6vw, 72px) 0; background: var(--tcm-bg); border-top: 1px solid var(--tcm-border);">
+      <div class="tcm-container">
+        <div style="max-width: 760px; margin: 0 auto;">
+          <div class="tcm-eyebrow" style="text-align: center; margin-bottom: 8px;">HELPFUL INFORMATION</div>
+          <h2 id="contact-faq-title" class="tcm-h2" style="text-align: center; margin-bottom: 36px;">
+            Admissions &amp; Enrollment <span class="font-editorial-serif">FAQ</span>
+          </h2>
 
-                <!-- ===== LEFT &mdash; FORM ===== -->
-                <div class="ct-form-col">
+          <div class="tcm-faq-list" style="margin-top: 0;">
+            <details class="tcm-faq-item" name="contact-faq" open>
+              <summary class="tcm-faq-summary">
+                <span>How soon will I receive a reply after submitting?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  Our admissions team monitors inquiries Monday through Saturday from 10:00 AM to 7:00 PM IST. You will typically receive an email or WhatsApp response within 2 to 4 business hours.
+                </p>
+              </div>
+            </details>
 
-                    <div class="ct-form-header">
-                        <span class="ct-tag">SEND A MESSAGE</span>
-                        <h2>Drop Us a Line</h2>
-                        <p>Fill in the form and we'll get back to you within 24 hours.</p>
-                    </div>
+            <details class="tcm-faq-item" name="contact-faq">
+              <summary class="tcm-faq-summary">
+                <span>Can I speak directly with a mentor before enrolling?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  Yes! If you are deciding between different technical tracks, message our WhatsApp line (+91 9238695500) and request a 15-minute 1-on-1 counseling call with an engineering mentor to assess your current skill level and goals.
+                </p>
+              </div>
+            </details>
 
-                    <form class="ct-form" id="contactForm" novalidate>
-
-                        <!-- Name row -->
-                        <div class="ct-form-row">
-                            <div class="ct-form-group">
-                                <label for="firstName">First Name <span>*</span></label>
-                                <input type="text" id="firstName" placeholder="Rahul" required>
-                                <span class="ct-field-err">Please enter your first name.</span>
-                            </div>
-                            <div class="ct-form-group">
-                                <label for="lastName">Last Name <span>*</span></label>
-                                <input type="text" id="lastName" placeholder="Sharma" required>
-                                <span class="ct-field-err">Please enter your last name.</span>
-                            </div>
-                        </div>
-
-                        <!-- Email + Phone -->
-                        <div class="ct-form-row">
-                            <div class="ct-form-group">
-                                <label for="email">Email Address <span>*</span></label>
-                                <input type="email" id="email" placeholder="rahul@gmail.com" required>
-                                <span class="ct-field-err">Please enter a valid email.</span>
-                            </div>
-                            <div class="ct-form-group">
-                                <label for="phone">Phone Number</label>
-                                <div class="ct-phone-wrap">
-                                    <span class="ct-phone-prefix">+91</span>
-                                    <input type="tel" id="phone" placeholder="98765 43210" maxlength="10" pattern="[0-9]{10}">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Topic -->
-                        <div class="ct-form-group">
-                            <label for="topic">What's This About? <span>*</span></label>
-                            <div class="ct-select-wrap">
-                                <select id="topic" required>
-                                    <option value="" disabled selected>Select a topic</option>
-                                    <option value="course">Course Enquiry</option>
-                                    <option value="consultation">Free Career Consultation</option>
-                                    <option value="partner">Become a Partner</option>
-                                    <option value="event">Event Registration Help</option>
-                                    <option value="community">Community & Membership</option>
-                                    <option value="internship">Internship / Cuboidsoft</option>
-                                    <option value="feedback">Feedback</option>
-                                    <option value="other">Something Else</option>
-                                </select>
-                                <i class="bi bi-chevron-down"></i>
-                            </div>
-                            <span class="ct-field-err">Please select a topic.</span>
-                        </div>
-
-                        <!-- Message -->
-                        <div class="ct-form-group">
-                            <label for="message">Your Message <span>*</span></label>
-                            <textarea id="message" rows="5" placeholder="Tell us what's on your mind&hellip;" required></textarea>
-                            <span class="ct-field-err">Please write a message.</span>
-                        </div>
-
-                        <!-- Consent -->
-                        <div class="ct-checkbox-group">
-                            <input type="checkbox" id="consent" required>
-                            <label for="consent">
-                                I'm okay with The Code Munk contacting me about my query.
-                            </label>
-                        </div>
-
-                        <button type="submit" class="ct-submit-btn" id="submitBtn">
-                            <span class="ct-btn-text">
-                                Send Message
-                                <i class="bi bi-arrow-right"></i>
-                            </span>
-                            <span class="ct-btn-loading" style="display:none;">
-                                <i class="bi bi-arrow-repeat ct-spin"></i>
-                                Sending&hellip;
-                            </span>
-                        </button>
-
-                        <!-- Success state -->
-                        <div class="ct-success" id="formSuccess" style="display:none;">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <strong>Message sent!</strong>
-                            <span>We'll get back to you within 24 hours.</span>
-                        </div>
-
-                    </form>
-
-                </div>
-
-                <!-- ===== RIGHT &mdash; INFO ===== -->
-                <div class="ct-info-col">
-
-                    <!-- Quick contact cards -->
-                    <div class="ct-contact-cards">
-
-                        <a href="https://wa.me/919238695500" target="_blank" class="ct-contact-card ct-wa">
-                            <div class="ct-cc-icon"><i class="bi bi-whatsapp"></i></div>
-                            <div class="ct-cc-content">
-                                <strong>WhatsApp</strong>
-                                <span>Fastest way to reach us</span>
-                                <p>+91 9238695500</p>
-                            </div>
-                            <i class="bi bi-arrow-up-right ct-cc-arrow"></i>
-                        </a>
-
-                        <a href="mailto:hello@thecodemunk.com" class="ct-contact-card ct-email">
-                            <div class="ct-cc-icon"><i class="bi bi-envelope-fill"></i></div>
-                            <div class="ct-cc-content">
-                                <strong>Email</strong>
-                                <span>For detailed queries</span>
-                                <p>hello@thecodemunk.com</p>
-                            </div>
-                            <i class="bi bi-arrow-up-right ct-cc-arrow"></i>
-                        </a>
-
-                        <a href="https://instagram.com/tcmone.academy" target="_blank" class="ct-contact-card ct-ig">
-                            <div class="ct-cc-icon"><i class="bi bi-instagram"></i></div>
-                            <div class="ct-cc-content">
-                                <strong>Instagram</strong>
-                                <span>DMs open, we reply!</span>
-                                <p>@tcmone.academy</p>
-                            </div>
-                            <i class="bi bi-arrow-up-right ct-cc-arrow"></i>
-                        </a>
-
-                    </div>
-
-                    <!-- Availability card -->
-                    <div class="ct-availability">
-                        <div class="ct-avail-header">
-                            <span class="ct-live-dot"></span>
-                            <strong>Currently Active</strong>
-                        </div>
-                        <p>Our team is available to answer queries Monday&mdash;Saturday, 10 AM &mdash; 8 PM IST.</p>
-                        <div class="ct-avail-days">
-                            <div class="ct-day active"><span>M</span></div>
-                            <div class="ct-day active"><span>T</span></div>
-                            <div class="ct-day active"><span>W</span></div>
-                            <div class="ct-day active"><span>T</span></div>
-                            <div class="ct-day active"><span>F</span></div>
-                            <div class="ct-day active"><span>S</span></div>
-                            <div class="ct-day off"><span>S</span></div>
-                        </div>
-                        <p class="ct-avail-note">Sunday is our rest day. We'll reply Monday morning.</p>
-                    </div>
-
-                    <!-- FAQ mini -->
-                    <div class="ct-mini-faq">
-                        <h4>Quick Answers</h4>
-                        <div class="ct-mini-faq-list">
-                            <details class="ct-mfaq-item" open>
-                                <summary class="ct-mfaq-summary">
-                                    <span>How do I enrol in a course?</span>
-                                    <i class="bi bi-plus-lg"></i>
-                                </summary>
-                                <div class="ct-mfaq-content">
-                                    Visit the Programs page, pick your course track, and click Get Road Map or contact our admissions team directly via WhatsApp.
-                                </div>
-                            </details>
-
-                            <details class="ct-mfaq-item">
-                                <summary class="ct-mfaq-summary">
-                                    <span>Are classes live or recorded?</span>
-                                    <i class="bi bi-plus-lg"></i>
-                                </summary>
-                                <div class="ct-mfaq-content">
-                                    All cohorts are 100% live interactive sessions with lifetime access to session recordings uploaded within 2-4 hours.
-                                </div>
-                            </details>
-
-                            <details class="ct-mfaq-item">
-                                <summary class="ct-mfaq-summary">
-                                    <span>How to become a partner?</span>
-                                    <i class="bi bi-plus-lg"></i>
-                                </summary>
-                                <div class="ct-mfaq-content">
-                                    Visit our Become a Partner page or select Partnership in the inquiry form on this page to connect with our campus & corporate relations team.
-                                </div>
-                            </details>
-
-                            <details class="ct-mfaq-item">
-                                <summary class="ct-mfaq-summary">
-                                    <span>Do you offer career guidance?</span>
-                                    <i class="bi bi-plus-lg"></i>
-                                </summary>
-                                <div class="ct-mfaq-content">
-                                    Yes! We provide free 1-on-1 career consultation calls, portfolio audits, resume reviews, and interview prep.
-                                </div>
-                            </details>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+            <details class="tcm-faq-item" name="contact-faq">
+              <summary class="tcm-faq-summary">
+                <span>What payment options do you support?</span>
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+              </summary>
+              <div class="tcm-faq-body">
+                <p>
+                  We accept all major Indian payment methods through Razorpay: UPI (GPay, PhonePe, Paytm), Net Banking, Debit Cards, and Credit Cards. For long-format courses priced at ₹5,000 or above, flexible 3-month no-cost EMI options are available at checkout.
+                </p>
+              </div>
+            </details>
+          </div>
         </div>
+      </div>
     </section>
+  </main>
 
-    <!-- ========== FOOTER ========== -->
-        <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-card">
-                <div class="footer-top">
-
-                    <!-- Brand Column -->
-                    <div class="footer-brand">
-                        <a href="index.html" class="footer-logo">TCM <span class="logo-one">One</span></a>
-                        <p>
-                            Learn industry-ready skills, build real-world projects and launch your tech career with The Code Munk.
-                        </p>
-                        <div class="footer-social">
-                            <a href="https://www.instagram.com/tcmoneindia?igsi=ZDdmM2xxZjNwNXIw&amp;utm_source=qr" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="https://youtube.com/@tcmoneindia?si=8K2zGA0ki3LWJt7g" target="_blank" rel="noopener" title="YouTube"><i class="bi bi-youtube"></i></a>
-                            <a href="https://discord.gg/ERrrxgePj" target="_blank" rel="noopener" title="Discord"><i class="bi bi-discord"></i></a>
-                            <a href="https://tcmone.slack.com/archives/D0BUKS3K38F" target="_blank" rel="noopener" title="Slack"><i class="bi bi-slack"></i></a>
-                            <a href="https://github.com/tcmone" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
-                            <a href="https://dev.to/tcmone" target="_blank" rel="noopener" title="Dev.to"><i class="bi bi-journal-code"></i></a>
-                            <a href="https://stackoverflow.com/users/33091425/tcmone" target="_blank" rel="noopener" title="Stack Overflow"><i class="bi bi-stack-overflow"></i></a>
-                            <a href="https://tcmonesspace.quora.com/?ch=17&amp;oid=8193858&amp;share=396067ef&amp;srid=5IUClU&amp;target_type=tribe" target="_blank" rel="noopener" title="Quora"><i class="bi bi-question-diamond"></i></a>
-                            <a href="https://www.facebook.com/share/1e8RrFuVeD/?mibextid=wwXIfr" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        </div>
-                        <div class="footer-tag">
-                            <i class="bi bi-patch-check-fill text-success"></i>
-                            Student-Focused Learning Platform
-                        </div>
-                    </div>
-
-                    <!-- Navigation Links Columns -->
-                    <div class="footer-links">
-
-                        <div class="footer-column">
-                            <h4>Learn &amp; Programs</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                            <a href="workshops.html">Live Workshops</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Ecosystem</h4>
-                            <a href="programs.html">Full Stack Web Dev</a>
-                            <a href="programs.html">Data Science &amp; AI</a>
-                            <a href="programs.html">Cloud DevOps</a>
-                            <a href="programs.html">Python &amp; Automation</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Legal &amp; Policy</h4>
-                            <a href="privacy.html">Privacy Policy</a>
-                            <a href="terms.html">Terms &amp; Conditions</a>
-                            <a href="sitemap.html">Site Map</a>
-                            <a href="partner.html">Partnership Policy</a>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company &amp; Help</h4>
-                            <a href="insights.html">About Us</a>
-                            <a href="community.html">Community</a>
-                            <a href="contact.html">Contact Us</a>
-                            <a href="login.php">Student Sign In</a>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Footer Bottom Strip -->
-                <!-- Trending & Popular Courses (SEO Keywords) -->
-                <div class="footer-trending-seo">
-                    <div class="footer-seo-header">
-                        <span class="footer-seo-title"><i class="bi bi-fire text-danger"></i> Trending &amp; Popular Courses</span>
-                        <span class="footer-seo-badge">Popular Tech Searches</span>
-                    </div>
-                    <div class="footer-seo-tags">
-                        <a href="programs.html">Full Stack Web Development</a>
-                        <a href="programs.html">Generative AI &amp; Agentic AI</a>
-                        <a href="programs.html">Data Science with AI</a>
-                        <a href="programs.html">Playwright with TypeScript</a>
-                        <a href="programs.html">DSA with AI Engineer Program</a>
-                        <a href="programs.html">Microsoft Fabric Data Engineer (DP-700)</a>
-                        <a href="programs.html">DevOps &amp; Multi-Cloud (AWS, Azure, GCP)</a>
-                        <a href="programs.html">Docker &amp; Kubernetes</a>
-                        <a href="programs.html">Cyber Security &amp; Ethical Hacking</a>
-                        <a href="programs.html">Spring Boot &amp; Microservices</a>
-                        <a href="programs.html">Python Programming &amp; Automation</a>
-                        <a href="programs.html">NumPy, Pandas &amp; Matplotlib</a>
-                        <a href="programs.html">React.js &amp; Node.js</a>
-                        <a href="programs.html">Linux Administration &amp; SRE</a>
-                        <a href="programs.html">Power BI &amp; Power Apps</a>
-                        <a href="programs.html">Tableau Data Visualization</a>
-                        <a href="programs.html">Snowflake Data Cloud</a>
-                        <a href="programs.html">Azure Data Factory &amp; DevOps (AZ-400)</a>
-                        <a href="programs.html">Django with REST API</a>
-                        <a href="programs.html">Core Java &amp; Real-Time Projects</a>
-                        <a href="programs.html">DSA using Java &amp; Python</a>
-                        <a href="programs.html">MySQL, SQL Server &amp; MongoDB</a>
-                        <a href="programs.html">Selenium &amp; Manual Testing</a>
-                        <a href="programs.html">UI / UX Design &amp; Figma</a>
-                        <a href="programs.html">MLOps &amp; AIOps</a>
-                        <a href="programs.html">Salesforce CRM &amp; LWC</a>
-                        <a href="programs.html">Backend Development</a>
-                        <a href="programs.html">ASP.NET Core &amp; C#.NET</a>
-                        <a href="programs.html">Digital Marketing &amp; SEO</a>
-                        <a href="programs.html">Spoken English &amp; Soft Skills</a>
-                    </div>
-                </div>
-
-                <div class="footer-bottom">
-                    <p>&copy; 2026 The Code Munk. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="privacy.html">Privacy Policy</a>
-                        <a href="terms.html">Terms of Service</a>
-                        <a href="sitemap.html">Sitemap</a>
-                        <a href="contact.html">Contact</a>
-                        <a href="insights.html">About</a>
-                    </div>
-                </div>
-            </div>
+  <!-- Universal Footer -->
+  <footer class="tcm-footer" role="contentinfo">
+    <div class="tcm-footer-container">
+      <div class="tcm-footer-grid">
+        <div>
+          <a href="./" class="tcm-footer-brand" aria-label="TCM One home">
+            <img src="./assets/logo.png" alt="" width="36" height="36" loading="lazy">
+            <span><strong>TCM</strong> ONE</span>
+          </a>
+          <p class="tcm-footer-brand-p">Practical tech education through live classes, guided projects, and direct mentorship.</p>
+          <div class="tcm-footer-social" aria-label="Social channels">
+            <a href="https://www.instagram.com/tcmone.academy" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/company/thecodemunk" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/@thecodemunk" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+            <a href="https://wa.me/919238695500" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp" aria-hidden="true"></i></a>
+          </div>
         </div>
-    </footer>
+        <div>
+          <h2 class="tcm-footer-col-title">Platform</h2>
+          <ul class="tcm-footer-links">
+            <li><a href="./courses">All Courses</a></li>
+            <li><a href="./workshops">Live Workshops</a></li>
+            <li><a href="./for-institutions">For Institutions</a></li>
+            <li><a href="./about">About Us</a></li>
+            <li><a href="./contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="tcm-footer-col-title">Learning Tracks</h2>
+          <ul class="tcm-footer-links">
+            <li><a href="./courses?cat=Web%20%26%20Mobile%20Development">Full Stack Web</a></li>
+            <li><a href="./courses?cat=Programming%20Foundations">Python &amp; OOP</a></li>
+            <li><a href="./courses?cat=AI%20%26%20Automation">AI &amp; Automation</a></li>
+            <li><a href="./courses?cat=Data%20%26%20Analytics">Data Analytics</a></li>
+            <li><a href="./courses?cat=Career%20%26%20DSA">DSA &amp; Problem Solving</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="tcm-footer-col-title">Direct Contact</h2>
+          <p class="tcm-footer-contact">Admissions &amp; support<br>Mon–Sat, 10 AM–7 PM IST</p>
+          <ul class="tcm-footer-links">
+            <li><a href="https://wa.me/919238695500" target="_blank" rel="noopener">+91 9238695500</a></li>
+            <li><a href="mailto:thecodemunk@gmail.com">thecodemunk@gmail.com</a></li>
+          </ul>
+          <p class="tcm-footer-contact">Bilaspur, Chhattisgarh, India<br><span style="font-size: 11px; opacity: 0.85;">Seepat Rd, near DLS college, Shree Vihar, Sarkanda 495006</span></p>
+        </div>
+      </div>
+      <div class="tcm-footer-bottom">
+        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
+        <nav class="tcm-footer-legal" aria-label="Policies and site information">
+          <a href="./terms.html">Terms of Service</a>
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./partner-policy.html">Partner Policy</a>
+          <a href="./sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
 
-    <script src="./assets/skeleton.js"></script>
-    <script src="./assets/auth.js?v=2.2.4"></script>
-    <script src="./assets/tcm-app.js?v=2.2.4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    (function () {
-        const form = document.getElementById('contactForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = submitBtn.querySelector('.ct-btn-text');
-        const btnLoad = submitBtn.querySelector('.ct-btn-loading');
-        const success = document.getElementById('formSuccess');
-
-        form.querySelectorAll('input[required], textarea[required], select[required]').forEach(el => {
-            el.addEventListener('input', () => validateField(el));
-            el.addEventListener('blur',  () => validateField(el));
-        });
-
-        function validateField(el) {
-            const group = el.closest('.ct-form-group') || el.closest('.ct-checkbox-group');
-            if (!group) return;
-            const valid = el.checkValidity() && el.value.trim() !== '';
-            group.classList.toggle('ct-invalid', !valid);
-            group.classList.toggle('ct-valid', valid);
-        }
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            let allValid = true;
-            form.querySelectorAll('input[required], textarea[required], select[required]').forEach(el => {
-                validateField(el);
-                if (!el.checkValidity() || el.value.trim() === '') allValid = false;
-            });
-            if (!allValid) return;
-
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            btnLoad.style.display = 'flex';
-
-            setTimeout(() => {
-                btnLoad.style.display = 'none';
-                success.style.display = 'flex';
-                submitBtn.style.display = 'none';
-                form.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
-                form.querySelectorAll('.ct-valid').forEach(el => el.classList.remove('ct-valid'));
-            }, 1600);
-        });
-    })();
-    </script>
+  <!-- Scripts -->
+  <script src="./assets/tcm-editorial.js?v=2.2.5"></script>
+  <script src="./assets/cai-assistant.js?v=2.2.5"></script>
 </body>
 </html>
-

@@ -35,13 +35,20 @@
   <meta property="og:image" content="<?= e($ogImage) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
   <meta name="twitter:url" content="<?= e($canonical) ?>">
   <meta name="twitter:title" content="<?= e($workshop['title']) ?>">
   <meta name="twitter:description" content="<?= e($desc ?? $workshop['description']) ?>">
   <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +58,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.16') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css') ?>">
 
   <?php
@@ -124,15 +131,44 @@
   </script>
 
   <style>
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     .ws-layout-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      width: 100%;
+      min-width: 0;
+    }
+    .ws-layout-grid > * {
+      min-width: 0;
+      max-width: 100%;
     }
     @media (min-width: 992px) {
       .ws-layout-grid {
-        grid-template-columns: 1fr 380px;
+        grid-template-columns: minmax(0, 1fr) 380px;
         gap: 48px;
+      }
+    }
+    .ws-card-pad {
+      padding: clamp(18px, 4vw, 32px);
+      box-sizing: border-box;
+      max-width: 100%;
+    }
+    .ws-mastery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 600px) {
+      .ws-mastery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
       }
     }
     .ws-sticky-panel {
@@ -140,24 +176,31 @@
       top: 96px;
       background: var(--tcm-surface);
       border: 1px solid var(--tcm-border);
-      padding: 28px;
+      padding: clamp(18px, 4vw, 28px);
+      box-sizing: border-box;
+      max-width: 100%;
     }
     .ws-curriculum-day {
       border: 1px solid var(--tcm-border);
       background: var(--tcm-surface);
       margin-bottom: 16px;
       transition: border-color 0.15s ease;
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow: hidden;
     }
     .ws-curriculum-day:hover {
       border-color: var(--tcm-fg);
     }
     .ws-day-header {
-      padding: 16px 20px;
+      padding: clamp(12px, 3vw, 16px) clamp(14px, 3.5vw, 20px);
       background: var(--tcm-surface);
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       border-bottom: 1px solid var(--tcm-border);
+      box-sizing: border-box;
+      flex-wrap: wrap;
     }
     .ws-day-pill {
       font-size: 11px;
@@ -167,16 +210,20 @@
       background: var(--tcm-fg);
       color: var(--tcm-bg);
       padding: 3px 8px;
+      flex-shrink: 0;
     }
     .ws-day-title {
       font-size: 15px;
       font-weight: 700;
       color: var(--tcm-fg);
       line-height: 1.4;
+      min-width: 0;
+      word-break: break-word;
     }
     .ws-day-body {
-      padding: 16px 20px 18px;
+      padding: clamp(14px, 3.5vw, 18px) clamp(14px, 3.5vw, 20px);
       background: var(--tcm-bg);
+      box-sizing: border-box;
     }
     .ws-topic-list {
       list-style: none;
@@ -192,6 +239,7 @@
       line-height: 1.55;
       position: relative;
       padding-left: 18px;
+      word-break: break-word;
     }
     .ws-topic-list li::before {
       content: "—";
@@ -200,92 +248,36 @@
       color: var(--tcm-fg);
       font-weight: 600;
     }
-    .ws-floating-mobile-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #FFFFFF;
-      border-top: 1px solid var(--tcm-border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 900;
+    .ws-deliverables-box {
+      background: #111111;
+      color: #F8F7F4;
+      padding: clamp(20px, 4.5vw, 36px);
+      border: 1px solid #111111;
+      box-sizing: border-box;
+      max-width: 100%;
     }
-    @media (min-width: 992px) {
-      .ws-floating-mobile-bar { display: none !important; }
+    .ws-deliverables-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 600px) {
+      .ws-deliverables-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
     }
   </style>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body>
 
-  <!-- Site Announcement Bar -->
-  <div class="tcm-announcement" role="region" aria-label="Announcement">
-    <div class="tcm-container tcm-announcement-content">
-      <span><strong>Live Cohort:</strong> Intensive <?= e($duration) ?> workshop with direct mentor support. Limited seats available.</span>
-      <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hi TCM One, I have a query about the ' . $workshop['title']) ?>" target="_blank" rel="noopener">
-        Ask a Counselor &rarr;
-      </a>
-    </div>
-  </div>
-
-  <!-- Header Navigation -->
-  <header class="tcm-header" role="banner">
-    <div class="tcm-container">
-      <div class="tcm-header-inner">
-        <a href="<?= base_url('/') ?>" class="tcm-brand">
-          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One Logo" class="tcm-brand-logo">
-          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-        </a>
-
-        <nav class="tcm-nav" aria-label="Main Navigation">
-          <a href="<?= base_url('/courses') ?>" class="tcm-nav-link">Courses</a>
-          <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link active">Workshops</a>
-          <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
-          <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
-          <a href="<?= base_url('/contact') ?>" class="tcm-nav-link">Contact</a>
-        </nav>
-
-        <div class="tcm-header-actions">
-          <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-outline tcm-btn-sm tcm-auth-link d-none d-sm-inline-flex">Sign In</a>
-          <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
-            <span>Reserve Seat</span>
-            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </button>
-          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation">
-            <i class="bi bi-list" style="font-size: 22px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Backdrop & Drawer -->
-  <div class="tcm-drawer-backdrop" aria-hidden="true"></div>
-  <aside class="tcm-mobile-drawer" aria-label="Mobile Menu">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-      <a href="<?= base_url('/') ?>" class="tcm-brand">
-        <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-      </a>
-      <button type="button" class="tcm-drawer-close" aria-label="Close Menu">&times;</button>
-    </div>
-    <nav style="display: flex; flex-direction: column; gap: 18px;">
-      <a href="<?= base_url('/courses') ?>" class="tcm-nav-link" style="font-size: 16px;">Courses</a>
-      <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link active" style="font-size: 16px;">Workshops</a>
-      <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link" style="font-size: 16px;">For Institutions</a>
-      <a href="<?= base_url('/about') ?>" class="tcm-nav-link" style="font-size: 16px;">About Us</a>
-      <a href="<?= base_url('/contact') ?>" class="tcm-nav-link" style="font-size: 16px;">Contact</a>
-    </nav>
-    <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--tcm-border); display: flex; flex-direction: column; gap: 12px;">
-      <a href="<?= base_url('/login.php') ?>" class="tcm-btn tcm-btn-secondary" style="width: 100%;">Sign In</a>
-      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>" style="width: 100%;">Reserve Seat</button>
-    </div>
-  </aside>
+  <!-- Header Navigation & Mobile Drawer -->
+  <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main style="padding-bottom: 84px;">
     <!-- Workshop Detail Hero -->
-    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: 48px 0 40px; position: relative; overflow: hidden;">
+    <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 48px) 0 clamp(24px, 3vw, 32px); position: relative; overflow: hidden;">
       <div class="tcm-container">
         
         <!-- Breadcrumbs -->
@@ -332,7 +324,7 @@
     </section>
 
     <!-- Main Content Layout -->
-    <section style="padding: 56px 0 80px;">
+    <section style="padding: clamp(28px, 3.5vw, 40px) 0 clamp(48px, 6vw, 64px);">
       <div class="tcm-container">
         <div class="ws-layout-grid">
 
@@ -341,9 +333,9 @@
             
             <!-- Highlights Section -->
             <?php if (!empty($workshop['highlights'])): ?>
-              <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 36px;">
+              <div class="ws-card-pad" style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); margin-bottom: 36px;">
                 <h2 class="tcm-h3" style="margin-bottom: 16px;">What You Will Master</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <div class="ws-mastery-grid">
                   <?php foreach ($workshop['highlights'] as $highlight): ?>
                     <div style="display: flex; gap: 12px; align-items: flex-start;">
                       <i class="bi bi-check2-square" style="color: var(--tcm-fg); font-size: 16px; margin-top: 2px;"></i>
@@ -383,7 +375,7 @@
             </div>
 
             <!-- Target Audience -->
-            <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: 32px; margin-bottom: 36px;">
+            <div class="ws-card-pad" style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); margin-bottom: 36px;">
               <h2 class="tcm-h3" style="margin-bottom: 18px;">Who Is This Workshop Built For?</h2>
               <div style="display: flex; flex-direction: column; gap: 16px;">
                 <?php if (!empty($workshop['target_audience'])): ?>
@@ -410,12 +402,12 @@
             </div>
 
             <!-- What You Receive Box -->
-            <div style="background: #111111; color: #F8F7F4; padding: 36px; border: 1px solid #111111;">
+            <div class="ws-deliverables-box" style="margin-bottom: 36px;">
               <div class="tcm-eyebrow" style="color: #999; margin-bottom: 8px;">DELIVERABLES INCLUDED</div>
-              <h2 class="tcm-h3" style="color: #FFF; font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; margin-bottom: 20px;">
+              <h2 class="tcm-h3" style="color: #FFF; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 3.5vw, 28px); margin-bottom: 20px;">
                 Everything Included with Your Workshop Pass
               </h2>
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+              <div class="ws-deliverables-grid">
                 <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px;">
                   <strong style="font-size: 14.5px; display: block; color: #FFF; margin-bottom: 4px;">Live Interactive Classes</strong>
                   <span style="font-size: 12.5px; color: #BBB;">Direct audio/video question clearance with experienced instructors.</span>
@@ -521,34 +513,35 @@
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Workshop Enrollment Bar">
       <div class="tcm-container">
         <div class="tcm-sticky-bottom-inner">
-          <div class="tcm-sticky-bottom-info d-none d-lg-flex">
-            <span class="tcm-badge"><?= e($category) ?></span>
+          <div class="tcm-sticky-bottom-info d-none d-md-flex">
             <div class="tcm-sticky-bottom-title"><?= e($workshop['title']) ?></div>
           </div>
-          <div class="tcm-sticky-bottom-pricing">
-            <div class="tcm-sticky-bottom-price-row">
-              <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
-              <?php if ($origPrice > $price): ?>
-                <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
-              <?php endif; ?>
+          <div class="tcm-sticky-bottom-right">
+            <div class="tcm-sticky-bottom-pricing">
+              <div class="tcm-sticky-bottom-price-row">
+                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <?php if ($origPrice > $price): ?>
+                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                <?php endif; ?>
+              </div>
+              <div class="tcm-sticky-bottom-sub">
+                <span><?= e($duration) ?> Intensive</span>
+              </div>
             </div>
-            <div class="tcm-sticky-bottom-sub">
-              <span><?= e($duration) ?> Intensive</span>
+            <div class="tcm-sticky-bottom-actions">
+              <?php
+                $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
+                $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
+              ?>
+              <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Register via WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+                <span class="d-none d-sm-inline" style="margin-left: 2px;">WhatsApp</span>
+              </a>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
+                <span>Reserve Seat</span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </button>
             </div>
-          </div>
-          <div class="tcm-sticky-bottom-actions">
-            <?php
-              $waMsg = "Hi TCM One team! I want to join the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me with enrollment.";
-              $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
-            ?>
-            <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Register via WhatsApp">
-              <i class="bi bi-whatsapp"></i>
-              <span class="d-none d-sm-inline" style="margin-left: 4px;">WhatsApp</span>
-            </a>
-            <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
-              <span>Reserve Seat</span>
-              <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-            </button>
           </div>
         </div>
       </div>
@@ -557,46 +550,7 @@
   </main>
 
   <!-- Site Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live cohorts, real-world project portfolios, and direct mentorship.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Admissions &amp; Queries</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-          <p style="font-size: 12px; color: var(--tcm-muted); margin: 0;">
-            Bengaluru &middot; Bhubaneswar, India
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One (The Code Munk). All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Modal: Workshop Seat Reservation -->
   <div class="tcm-modal-overlay" id="tcmWsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmWsTitle">

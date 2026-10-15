@@ -32,6 +32,39 @@
         }
     }
 
+    // Base URL resolution for XAMPP / subfolder and production
+    var BASE = (function () {
+        if (typeof window !== 'undefined' && window.TCM_BASE != null) {
+            return String(window.TCM_BASE).replace(/\/$/, '');
+        }
+        var meta = typeof document !== 'undefined' ? document.querySelector('meta[name="app-base"]') : null;
+        if (meta && meta.content !== '') {
+            var val = meta.content.trim();
+            if (/^https?:\/\//i.test(val)) {
+                try {
+                    var u = new URL(val);
+                    if (typeof window !== 'undefined' && window.location && window.location.origin) {
+                        if (u.origin === window.location.origin) {
+                            return u.pathname.replace(/\/$/, '');
+                        }
+                    }
+                } catch (e) {}
+            } else {
+                return val.replace(/\/$/, '');
+            }
+        }
+        if (typeof window !== 'undefined' && window.location && window.location.pathname) {
+            var match = window.location.pathname.match(/^(\/tcm)(?:\/|$)/i);
+            if (match) return match[1];
+        }
+        return '';
+    })();
+
+    function apiUrl(path) {
+        var clean = '/' + String(path || '').replace(/^\/+/, '');
+        return BASE ? BASE + clean : clean;
+    }
+
     // Currency Formatter (INR)
     function formatINR(val) {
         var num = Math.round(Number(val) || 0);
@@ -269,6 +302,9 @@
 
             formWizard.pane1.classList.remove('active');
             formWizard.pane2.classList.add('active');
+            formWizard.pane2.scrollIntoView({ behavior: 'auto', block: 'start' });
+            var firstScopeField = formWizard.pane2.querySelector('input, select, textarea');
+            if (firstScopeField) firstScopeField.focus({ preventScroll: true });
 
             if (formWizard.stepIndicator1) {
                 formWizard.stepIndicator1.classList.remove('active');
@@ -289,6 +325,9 @@
             formWizard.backToStep1Btn.addEventListener('click', function () {
                 formWizard.pane2.classList.remove('active');
                 formWizard.pane1.classList.add('active');
+                formWizard.pane1.scrollIntoView({ behavior: 'auto', block: 'start' });
+                var firstContactField = formWizard.pane1.querySelector('input, select, textarea');
+                if (firstContactField) firstContactField.focus({ preventScroll: true });
 
                 if (formWizard.stepIndicator2) {
                     formWizard.stepIndicator2.classList.remove('active');
@@ -343,7 +382,7 @@
             formWizard.submitBtn.disabled = true;
             formWizard.submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Submitting Application...';
 
-            fetch('/api/partner/apply', {
+            fetch(apiUrl('/api/partner/apply'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -430,7 +469,7 @@
                 btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Scheduling...';
             }
 
-            fetch('/api/partner/meeting', {
+            fetch(apiUrl('/api/partner/meeting'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -50,8 +50,8 @@
   --spacing-container-x-tablet: 28px;
   --spacing-container-x-mobile: 20px;
 
-  --section-space-desktop: clamp(88px, 9vw, 120px);
-  --section-space-mobile: clamp(56px, 7vw, 72px);
+  --section-space-desktop: clamp(44px, 5vw, 60px);
+  --section-space-mobile: clamp(32px, 4vw, 40px);
 
   --btn-height: 48px;
   --input-height: 50px;

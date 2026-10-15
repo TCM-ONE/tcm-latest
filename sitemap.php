@@ -5,99 +5,84 @@ declare(strict_types=1);
 require __DIR__ . '/src/bootstrap.php';
 
 use TCM\Core\Database;
+use TCM\Core\WorkshopData;
 
 $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
 $today = (new DateTimeImmutable('now', new DateTimeZone('Asia/Kolkata')))->format('Y-m-d');
 
-$approvedCourseSlugs = [
-    'full-stack-web-development',
-    'frontend-development-with-react',
-    'python-programming-automation',
-    'sql-database-fundamentals',
-    'dsa-problem-solving-java',
-    'aws-cloud-deployment-fundamentals',
-    'digital-skills-computer-fundamentals',
-    'build-your-first-website',
-    'ai-tools-for-study-work',
-    'tech-career-launchpad',
-    'ai-automation-nocode-tools',
-    'data-analytics-excel-sql-powerbi',
-    'react-nextjs-frontend-engineering',
-    'backend-development-nodejs-apis',
-    'mobile-app-development-react-native',
-    'generative-ai-agent-engineering',
-    'docker-devops-cicd-essentials',
-    'ui-ux-design-with-figma',
-    'software-testing-qa-playwright',
-    'digital-marketing-seo-analytics',
-    'core-java-object-oriented-programming',
-    'data-science-machine-learning-foundations',
-    'system-design-microservices-foundations',
-    'cybersecurity-ethical-security-foundations',
-    'artificial-intelligence-machine-learning',
-    'ai-machine-learning-fundamentals',
-    'prompt-engineering-generative-ai',
-    'python-for-ai-ml',
-    'ai-agents-workflow-automation',
-    'chatgpt-gemini-ai-productivity-tools',
-    'machine-learning-python-projects',
-];
-
-$workshopSlugs = [
-    'python-starter-workshop',
-    'frontend-website-challenge-7-days',
-    'ai-tools-everyday-work-workshop',
-    'find-your-tech-career-path-workshop',
-];
-
 $urls = [
-    ['loc' => '/', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '1.0'],
-    ['loc' => '/programs.html', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '0.9'],
-    ['loc' => '/workshops', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '0.9'],
-    ['loc' => '/insights.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
-    ['loc' => '/community.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.6'],
-    ['loc' => '/learners-reviews.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.6'],
-    ['loc' => '/partner.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
-    ['loc' => '/partner-policy.html', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.4'],
-    ['loc' => '/contact.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.6'],
-    ['loc' => '/privacy.html', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.3'],
-    ['loc' => '/terms.html', 'lastmod' => $today, 'changefreq' => 'yearly', 'priority' => '0.3'],
-    ['loc' => '/sitemap.html', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.3'],
+    ['loc' => '/',                      'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '1.0'],
+    ['loc' => '/courses',                'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.9'],
+    ['loc' => '/workshops',              'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.9'],
+    ['loc' => '/tech-updates',           'lastmod' => $today, 'changefreq' => 'daily',   'priority' => '0.8'],
+    ['loc' => '/for-institutions',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/about',                  'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/contact',                'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/learners-reviews.html',  'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.6'],
+    ['loc' => '/community.html',         'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.6'],
+    ['loc' => '/partner-policy.html',    'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.4'],
+    ['loc' => '/privacy.html',           'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.3'],
+    ['loc' => '/terms.html',             'lastmod' => $today, 'changefreq' => 'yearly',  'priority' => '0.3'],
+    ['loc' => '/sitemap.html',           'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.3'],
 ];
 
+// Published Courses from DB (Single source of truth)
 try {
-    $placeholders = implode(',', array_fill(0, count($approvedCourseSlugs), '?'));
-    $courses = Database::all(
-        "SELECT slug, updated_at FROM courses WHERE status = 'published' AND slug IN ($placeholders)",
-        $approvedCourseSlugs
-    );
-    $courseLastmods = [];
-    foreach ($courses as $course) {
-        $courseLastmods[(string) $course['slug']] = substr((string) ($course['updated_at'] ?? $today), 0, 10) ?: $today;
+    $courses = Database::all("SELECT slug, updated_at FROM courses WHERE status = 'published' ORDER BY id ASC");
+    foreach ($courses as $c) {
+        $slug = (string) ($c['slug'] ?? '');
+        if ($slug === '') continue;
+        $mod = substr((string) ($c['updated_at'] ?? $today), 0, 10) ?: $today;
+        $urls[] = [
+            'loc' => '/courses/' . rawurlencode($slug),
+            'lastmod' => $mod,
+            'changefreq' => 'weekly',
+            'priority' => '0.8',
+        ];
     }
 } catch (Throwable) {
-    $courseLastmods = [];
+    // Graceful fallback if database connection is temporarily unavailable
 }
 
-foreach ($approvedCourseSlugs as $slug) {
-    $urls[] = [
-        'loc' => '/courses/' . rawurlencode($slug),
-        'lastmod' => $courseLastmods[$slug] ?? $today,
-        'changefreq' => 'weekly',
-        'priority' => '0.8',
-    ];
+// Live Workshops from WorkshopData
+try {
+    $workshops = WorkshopData::all();
+    foreach ($workshops as $w) {
+        $slug = (string) ($w['slug'] ?? '');
+        if ($slug === '') continue;
+        $urls[] = [
+            'loc' => '/workshops/' . rawurlencode($slug),
+            'lastmod' => $today,
+            'changefreq' => 'weekly',
+            'priority' => '0.8',
+        ];
+    }
+} catch (Throwable) {
+    // Graceful fallback
 }
 
-foreach ($workshopSlugs as $slug) {
-    $urls[] = [
-        'loc' => '/workshops/' . rawurlencode($slug),
-        'lastmod' => $today,
-        'changefreq' => 'weekly',
-        'priority' => '0.8',
-    ];
+// Published Blog & Tech Updates from DB ("blogs bhi seo hone chahiye")
+try {
+    $posts = Database::all("SELECT slug, published_at, updated_at FROM posts WHERE status = 'published' ORDER BY published_at DESC");
+    foreach ($posts as $p) {
+        $slug = (string) ($p['slug'] ?? '');
+        if ($slug === '') continue;
+        $timestamp = $p['updated_at'] ?: $p['published_at'] ?: $today;
+        $mod = substr((string) $timestamp, 0, 10) ?: $today;
+        $urls[] = [
+            'loc' => '/tech-updates/' . rawurlencode($slug),
+            'lastmod' => $mod,
+            'changefreq' => 'monthly',
+            'priority' => '0.7',
+        ];
+    }
+} catch (Throwable) {
+    // Graceful fallback
 }
 
-header('Content-Type: application/xml; charset=UTF-8');
+if (!headers_sent()) {
+    header('Content-Type: application/xml; charset=UTF-8');
+}
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";

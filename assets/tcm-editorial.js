@@ -300,39 +300,145 @@
     var levelSelect = document.getElementById('catalogLevel');
     var priceSelect = document.getElementById('catalogPrice');
     var sortSelect = document.getElementById('catalogSort');
+    var catPillsWrap = document.getElementById('catalogCategoryPills');
+    var levelPillsWrap = document.getElementById('catalogLevelPills');
+    var filterToggle = document.getElementById('catalogFilterToggle');
+    var filterPanel = document.getElementById('catalogFilterPanel');
+    var filterCount = document.getElementById('catalogFilterCount');
+    var filterDone = document.getElementById('catalogFilterDone');
+    var filterReset = document.getElementById('catalogResetFilters');
 
     if (!grid) return;
 
     var allCourses = [];
+
+    function setFiltersOpen(open, restoreFocus) {
+      if (!filterToggle || !filterPanel) return;
+      filterPanel.hidden = !open;
+      filterToggle.setAttribute('aria-expanded', String(open));
+      if (restoreFocus) filterToggle.focus();
+    }
+
+    if (filterToggle && filterPanel) {
+      filterToggle.addEventListener('click', function () {
+        setFiltersOpen(filterPanel.hidden, false);
+      });
+      filterPanel.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          setFiltersOpen(false, true);
+        }
+      });
+    }
+    if (filterDone) filterDone.addEventListener('click', function () { setFiltersOpen(false, true); });
+    if (filterReset) filterReset.addEventListener('click', resetCatalogFilters);
+
+    function updateFilterSummary() {
+      var count = [catSelect, levelSelect, priceSelect].filter(function (select) {
+        return select && select.value;
+      }).length;
+      if (filterCount) {
+        filterCount.textContent = String(count);
+        filterCount.hidden = count === 0;
+      }
+      [catPillsWrap, levelPillsWrap].forEach(function (group) {
+        if (!group) return;
+        group.querySelectorAll('.tcm-pill-btn').forEach(function (pill) {
+          pill.setAttribute('aria-pressed', String(pill.classList.contains('active')));
+        });
+      });
+    }
+
+    function resetCatalogFilters() {
+      if (searchInput) searchInput.value = '';
+      if (priceSelect) priceSelect.value = '';
+      if (sortSelect) sortSelect.value = 'relevance';
+      selectCategoryValue('');
+      selectLevelValue('');
+      syncUrlParams();
+      applyFilters();
+    }
 
     // Parse URL query parameters
     var params = new URLSearchParams(window.location.search);
     if (params.get('q') && searchInput) searchInput.value = params.get('q');
     
     function selectCategoryValue(val) {
-      if (!catSelect || !val) return;
-      var target = String(val).trim().toLowerCase();
+      var target = String(val || '').trim().toLowerCase();
       var slugTarget = target.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      for (var i = 0; i < catSelect.options.length; i++) {
-        var opt = catSelect.options[i];
-        var optVal = opt.value.trim().toLowerCase();
-        var optSlug = optVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-        if (optVal === target || optSlug === slugTarget || (target && optVal.indexOf(target) !== -1)) {
-          catSelect.selectedIndex = i;
-          return;
+      if (catSelect) {
+        for (var i = 0; i < catSelect.options.length; i++) {
+          var opt = catSelect.options[i];
+          var optVal = opt.value.trim().toLowerCase();
+          var optSlug = optVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if ((!target && !optVal) || (target && (optVal === target || optSlug === slugTarget || optVal.indexOf(target) !== -1))) {
+            catSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      if (catPillsWrap) {
+        var pills = catPillsWrap.querySelectorAll('.tcm-pill-btn');
+        var matched = false;
+        pills.forEach(function (pill) {
+          var pVal = (pill.getAttribute('data-value') || '').trim().toLowerCase();
+          var pSlug = pVal.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if ((!target && !pVal) || (target && (pVal === target || pSlug === slugTarget || pVal.indexOf(target) !== -1))) {
+            pill.classList.add('active');
+            matched = true;
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+        if (!matched && pills.length && !target) {
+          pills[0].classList.add('active');
         }
       }
     }
+
+    function selectLevelValue(val) {
+      var target = String(val || '').trim().toLowerCase();
+      if (levelSelect) levelSelect.value = target;
+      if (levelPillsWrap) {
+        var pills = levelPillsWrap.querySelectorAll('.tcm-pill-btn-sm');
+        pills.forEach(function (pill) {
+          var pVal = (pill.getAttribute('data-value') || '').trim().toLowerCase();
+          if ((!target && !pVal) || (target && pVal === target)) {
+            pill.classList.add('active');
+          } else {
+            pill.classList.remove('active');
+          }
+        });
+      }
+    }
+
     if (params.get('cat')) selectCategoryValue(params.get('cat'));
-    if (params.get('level') && levelSelect) levelSelect.value = params.get('level');
+    if (params.get('level')) selectLevelValue(params.get('level'));
     if (params.get('price') && priceSelect) priceSelect.value = params.get('price');
     if (params.get('sort') && sortSelect) sortSelect.value = params.get('sort');
 
     function syncUrlParams() {
       var nextParams = new URLSearchParams();
       if (searchInput && searchInput.value.trim()) nextParams.set('q', searchInput.value.trim());
-      if (catSelect && catSelect.value) nextParams.set('cat', catSelect.value);
-      if (levelSelect && levelSelect.value) nextParams.set('level', levelSelect.value);
+
+      var catVal = '';
+      if (catPillsWrap) {
+        var activeCatPill = catPillsWrap.querySelector('.tcm-pill-btn.active');
+        if (activeCatPill) catVal = (activeCatPill.getAttribute('data-value') || '').trim();
+      } else if (catSelect) {
+        catVal = catSelect.value.trim();
+      }
+      if (catVal) nextParams.set('cat', catVal);
+
+      var lvlVal = '';
+      if (levelPillsWrap) {
+        var activeLvlPill = levelPillsWrap.querySelector('.tcm-pill-btn-sm.active');
+        if (activeLvlPill) lvlVal = (activeLvlPill.getAttribute('data-value') || '').trim();
+      } else if (levelSelect) {
+        lvlVal = levelSelect.value.trim();
+      }
+      if (lvlVal) nextParams.set('level', lvlVal);
+
       if (priceSelect && priceSelect.value) nextParams.set('price', priceSelect.value);
       if (sortSelect && sortSelect.value && sortSelect.value !== 'relevance') nextParams.set('sort', sortSelect.value);
 
@@ -342,11 +448,27 @@
     }
 
     function applyFilters() {
+      updateFilterSummary();
       if (!allCourses.length) return;
 
       var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
-      var cat = catSelect ? catSelect.value.toLowerCase() : '';
-      var lvl = levelSelect ? levelSelect.value.toLowerCase() : '';
+
+      var cat = '';
+      if (catPillsWrap) {
+        var activeCatPill = catPillsWrap.querySelector('.tcm-pill-btn.active');
+        if (activeCatPill) cat = (activeCatPill.getAttribute('data-value') || '').trim().toLowerCase();
+      } else if (catSelect) {
+        cat = catSelect.value.trim().toLowerCase();
+      }
+
+      var lvl = '';
+      if (levelPillsWrap) {
+        var activeLvlPill = levelPillsWrap.querySelector('.tcm-pill-btn-sm.active');
+        if (activeLvlPill) lvl = (activeLvlPill.getAttribute('data-value') || '').trim().toLowerCase();
+      } else if (levelSelect) {
+        lvl = levelSelect.value.trim().toLowerCase();
+      }
+
       var prc = priceSelect ? priceSelect.value : '';
       var sort = sortSelect ? sortSelect.value : 'relevance';
 
@@ -407,15 +529,7 @@
         );
         var resetBtn = document.getElementById('resetCatalogFilters');
         if (resetBtn) {
-          resetBtn.addEventListener('click', function () {
-            if (searchInput) searchInput.value = '';
-            if (catSelect) catSelect.value = '';
-            if (levelSelect) levelSelect.value = '';
-            if (priceSelect) priceSelect.value = '';
-            if (sortSelect) sortSelect.value = 'relevance';
-            syncUrlParams();
-            applyFilters();
-          });
+          resetBtn.addEventListener('click', resetCatalogFilters);
         }
       } else {
         grid.innerHTML = filtered.map(renderCourseCard).join('');
@@ -433,7 +547,7 @@
         }
         allCourses = res.data;
 
-        // Populate category dropdown options dynamically
+        // Populate category dropdown options dynamically if needed
         if (catSelect && catSelect.options.length <= 1) {
           var seenCats = {};
           allCourses.forEach(function (c) {
@@ -446,8 +560,10 @@
               catSelect.appendChild(opt);
             }
           });
-          if (params.get('cat')) selectCategoryValue(params.get('cat'));
         }
+
+        if (params.get('cat')) selectCategoryValue(params.get('cat'));
+        if (params.get('level')) selectLevelValue(params.get('level'));
 
         applyFilters();
       })
@@ -459,10 +575,42 @@
     if (searchInput) {
       searchInput.addEventListener('input', function () { applyFilters(); });
     }
-    if (catSelect) catSelect.addEventListener('change', applyFilters);
-    if (levelSelect) levelSelect.addEventListener('change', applyFilters);
+    if (catSelect) catSelect.addEventListener('change', function () {
+      selectCategoryValue(catSelect.value);
+      applyFilters();
+    });
+    if (levelSelect) levelSelect.addEventListener('change', function () {
+      selectLevelValue(levelSelect.value);
+      applyFilters();
+    });
     if (priceSelect) priceSelect.addEventListener('change', applyFilters);
     if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+
+    if (catPillsWrap) {
+      catPillsWrap.addEventListener('click', function (e) {
+        var btn = e.target.closest('.tcm-pill-btn');
+        if (!btn) return;
+        var pills = catPillsWrap.querySelectorAll('.tcm-pill-btn');
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        var val = btn.getAttribute('data-value') || '';
+        if (catSelect) catSelect.value = val;
+        applyFilters();
+      });
+    }
+
+    if (levelPillsWrap) {
+      levelPillsWrap.addEventListener('click', function (e) {
+        var btn = e.target.closest('.tcm-pill-btn-sm');
+        if (!btn) return;
+        var pills = levelPillsWrap.querySelectorAll('.tcm-pill-btn-sm');
+        pills.forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        var val = btn.getAttribute('data-value') || '';
+        if (levelSelect) levelSelect.value = val;
+        applyFilters();
+      });
+    }
   }
 
   /* ==========================================================================
@@ -810,7 +958,7 @@
       }
 
       if (!name) return showNotice('Please enter your name.', false);
-      if (!email || email.indexOf('@') === -1) return showNotice('Please enter a valid email address.', false);
+      if (!email || !document.getElementById('ctEmail').validity.valid) return showNotice('Please enter a valid email address.', false);
       if (!message || message.length < 5) return showNotice('Please write a message of at least 5 characters.', false);
 
       if (submitBtn) {
@@ -919,6 +1067,122 @@
   }
 
   /* ==========================================================================
+     INSTITUTIONAL SMART REVENUE CALCULATOR
+     ========================================================================== */
+  function wireInstitutionCalculator() {
+    var card = document.getElementById('instRevenueCalc');
+    if (!card) return;
+
+    var btnAcademic = document.getElementById('calcModelAcademic');
+    var btnReferral = document.getElementById('calcModelReferral');
+    var sliderStudents = document.getElementById('calcStudentSlider');
+    var sliderFee = document.getElementById('calcFeeSlider');
+    var sliderBatches = document.getElementById('calcBatchesSlider');
+    var sliderPct = document.getElementById('calcPctSlider');
+    var pctBtns = card.querySelectorAll('.ptr-pct-btn');
+
+    var valStudents = document.getElementById('calcStudentVal');
+    var valFee = document.getElementById('calcFeeVal');
+    var valBatches = document.getElementById('calcBatchesVal');
+    var valPct = document.getElementById('calcPctVal');
+
+    var outInstitute = document.getElementById('calcOutInstitute');
+    var outBatchesCombined = document.getElementById('calcOutBatchesCombined');
+    var outTotal = document.getElementById('calcOutTotal');
+    var outTcm = document.getElementById('calcOutTcm');
+    var outPerBatch = document.getElementById('calcOutPerBatch');
+    var outModelLabel = document.getElementById('calcOutModelLabel');
+
+    var currentModel = 'Academic';
+    var currentPct = 40;
+
+    function updateCalc() {
+      var students = parseInt(sliderStudents ? sliderStudents.value : 40, 10) || 40;
+      var fee = parseInt(sliderFee ? sliderFee.value : 5000, 10) || 5000;
+      var batches = parseInt(sliderBatches ? sliderBatches.value : 2, 10) || 2;
+      var pct = currentPct;
+
+      if (valStudents) valStudents.textContent = students + ' Students';
+      if (valFee) valFee.textContent = '₹' + fee.toLocaleString('en-IN');
+      if (valBatches) valBatches.textContent = batches + (batches === 1 ? ' Batch' : ' Batches');
+      if (valPct) valPct.textContent = pct + '%';
+
+      var totalCollections = students * fee * batches;
+      var instituteShare = Math.round(totalCollections * (pct / 100));
+      var tcmShare = totalCollections - instituteShare;
+      var perBatch = Math.round(instituteShare / batches);
+
+      if (outInstitute) outInstitute.textContent = '₹' + instituteShare.toLocaleString('en-IN');
+      if (outBatchesCombined) outBatchesCombined.textContent = '₹' + instituteShare.toLocaleString('en-IN') + ' across ' + batches + (batches === 1 ? ' batch' : ' batches');
+      if (outTotal) outTotal.textContent = '₹' + totalCollections.toLocaleString('en-IN');
+      if (outTcm) outTcm.textContent = '₹' + tcmShare.toLocaleString('en-IN');
+      if (outPerBatch) outPerBatch.textContent = '₹' + perBatch.toLocaleString('en-IN');
+      if (outModelLabel) {
+        outModelLabel.textContent = currentModel === 'Academic' ? 'Est. Institute Revenue Share (40%)' : 'Est. Referral Commission (15%)';
+      }
+    }
+
+    function setModel(model) {
+      currentModel = model;
+      if (model === 'Academic') {
+        currentPct = 40;
+        if (btnAcademic) btnAcademic.classList.add('active');
+        if (btnReferral) btnReferral.classList.remove('active');
+        if (sliderPct) sliderPct.value = 40;
+      } else {
+        currentPct = 15;
+        if (btnReferral) btnReferral.classList.add('active');
+        if (btnAcademic) btnAcademic.classList.remove('active');
+        if (sliderPct) sliderPct.value = 15;
+      }
+      pctBtns.forEach(function (btn) {
+        var p = parseInt(btn.getAttribute('data-pct'), 10);
+        btn.classList.toggle('active', p === currentPct);
+      });
+
+      // Sync form dropdown if present
+      var instModelSelect = document.getElementById('instModel');
+      if (instModelSelect) {
+        instModelSelect.value = model === 'Academic' ? 'Academic Partnership Model' : 'Referral Model';
+      }
+
+      updateCalc();
+    }
+
+    if (btnAcademic) btnAcademic.addEventListener('click', function () { setModel('Academic'); });
+    if (btnReferral) btnReferral.addEventListener('click', function () { setModel('Referral'); });
+
+    if (sliderStudents) sliderStudents.addEventListener('input', updateCalc);
+    if (sliderFee) sliderFee.addEventListener('input', updateCalc);
+    if (sliderBatches) sliderBatches.addEventListener('input', updateCalc);
+    if (sliderPct) sliderPct.addEventListener('input', function () {
+      currentPct = parseInt(sliderPct.value, 10) || 40;
+      updateCalc();
+    });
+
+    pctBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var p = parseInt(btn.getAttribute('data-pct'), 10) || 40;
+        currentPct = p;
+        if (p === 15) setModel('Referral');
+        else setModel('Academic');
+      });
+    });
+
+    // Handle external trigger buttons with data-select-partner-model
+    document.querySelectorAll('[data-select-partner-model]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var m = btn.getAttribute('data-select-partner-model');
+        setModel(m === 'Referral' ? 'Referral' : 'Academic');
+        var calcSec = document.getElementById('calculator');
+        if (calcSec) calcSec.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    updateCalc();
+  }
+
+  /* ==========================================================================
      CERTIFICATE ZOOM MODAL
      ========================================================================== */
   function wireCertificateModal() {
@@ -926,27 +1190,33 @@
     var closeBtn = document.getElementById('certZoomClose');
     var imgEl = document.getElementById('certZoomImg');
     var titleEl = document.getElementById('certZoomTitle');
-    var cards = document.querySelectorAll('.tcm-cert-card');
+    var cards = document.querySelectorAll('.tcm-cert-card, [data-preview-src]');
 
     if (!modal || !cards.length) return;
+    var activeCard = null;
+    var previousOverflow = '';
 
     function openCert(src, title) {
+      previousOverflow = document.body.style.overflow;
       if (imgEl) imgEl.src = src;
-      if (titleEl) titleEl.textContent = title || 'Certificate Preview';
+      if (titleEl) titleEl.textContent = title || 'Preview';
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
     }
 
     function closeCert() {
       modal.style.display = 'none';
       if (imgEl) imgEl.src = '';
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      if (activeCard) activeCard.focus();
     }
 
     cards.forEach(function (card) {
       card.addEventListener('click', function () {
-        var src = card.getAttribute('data-cert-src');
-        var title = card.getAttribute('data-cert-title');
+        activeCard = card;
+        var src = card.getAttribute('data-preview-src') || card.getAttribute('data-cert-src');
+        var title = card.getAttribute('data-preview-title') || card.getAttribute('data-cert-title');
         if (src) openCert(src, title);
       });
     });
@@ -1304,11 +1574,298 @@
   }
 
   /* ==========================================================================
-     BOOTSTRAP
+     LANGUAGE SELECTOR & GOOGLE TRANSLATE CLIENT
+     ========================================================================== */
+  function wireLanguageSelector() {
+    var pickers = document.querySelectorAll('.tcm-lang-picker');
+    if (!pickers.length) return;
+
+    var langLabels = {
+      en: 'EN',
+      hi: 'HI',
+      mr: 'MR',
+      gu: 'GU',
+      bn: 'BN',
+      ta: 'TA',
+      te: 'TE',
+      kn: 'KN',
+      ml: 'ML',
+      pa: 'PA',
+      ur: 'UR',
+      ar: 'AR',
+      fr: 'FR',
+      es: 'ES',
+      de: 'DE',
+      it: 'IT',
+      pt: 'PT',
+      ru: 'RU',
+      ko: 'KO',
+      'zh-CN': 'ZH',
+      ja: 'JA',
+      ne: 'NE',
+      th: 'TH',
+      vi: 'VI'
+    };
+
+    var savedLang = 'en';
+    try {
+      savedLang = localStorage.getItem('tcm_site_lang') || 'en';
+    } catch (e) {}
+
+    if (savedLang === 'en') {
+      var match = document.cookie.match(/(?:^|;\s*)googtrans=\/en\/([a-zA-Z\-]+)/);
+      if (match && match[1] && match[1] !== 'en') {
+        savedLang = match[1];
+      }
+    }
+
+    function syncLangUI(lang) {
+      var code = langLabels[lang] || lang.toUpperCase();
+      document.querySelectorAll('.tcm-lang-code').forEach(function (el) {
+        el.textContent = code;
+      });
+      document.querySelectorAll('.tcm-lang-option').forEach(function (opt) {
+        var optLang = opt.getAttribute('data-lang');
+        opt.classList.toggle('active', optLang === lang);
+      });
+    }
+
+    function ensureTranslateScript(cb) {
+      if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+        if (cb) cb();
+        return;
+      }
+      if (!document.getElementById('google_translate_element')) {
+        var el = document.createElement('div');
+        el.id = 'google_translate_element';
+        el.style.display = 'none';
+        document.body.appendChild(el);
+      }
+      window.tcmGoogleTranslateInit = function () {
+        try {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,mr,gu,bn,ta,te,kn,ml,pa,ur,ar,fr,es,de,it,pt,ru,ko,zh-CN,ja,ne,th,vi',
+            autoDisplay: false
+          }, 'google_translate_element');
+          if (cb) cb();
+        } catch (err) {}
+      };
+
+      if (!document.getElementById('tcmGoogleTranslateScript')) {
+        var s = document.createElement('script');
+        s.id = 'tcmGoogleTranslateScript';
+        s.src = 'https://translate.google.com/translate_a/element.js?cb=tcmGoogleTranslateInit';
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    }
+
+    function applyTranslation(lang, attempts) {
+      attempts = attempts || 0;
+      var target = lang === 'en' ? '/en/en' : '/en/' + lang;
+      var expires = 'expires=Fri, 31 Dec 9999 23:59:59 GMT';
+      document.cookie = 'googtrans=' + target + '; ' + expires + '; path=/';
+      if (location.hostname.indexOf('.') !== -1) {
+        document.cookie = 'googtrans=' + target + '; ' + expires + '; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+      }
+
+      var combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        combo.value = lang === 'en' ? '' : lang;
+        combo.dispatchEvent(new Event('change'));
+        return;
+      }
+
+      ensureTranslateScript(function () {
+        var c = document.querySelector('.goog-te-combo');
+        if (c) {
+          c.value = lang === 'en' ? '' : lang;
+          c.dispatchEvent(new Event('change'));
+        } else if (attempts < 10) {
+          setTimeout(function () {
+            applyTranslation(lang, attempts + 1);
+          }, 300);
+        }
+      });
+    }
+
+    syncLangUI(savedLang);
+    if (savedLang !== 'en') {
+      ensureTranslateScript(function () {
+        applyTranslation(savedLang);
+      });
+    }
+
+    pickers.forEach(function (picker) {
+      var btn = picker.querySelector('.tcm-lang-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = picker.classList.contains('open');
+        document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+          p.classList.remove('open');
+          var b = p.querySelector('.tcm-lang-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          picker.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      picker.querySelectorAll('.tcm-lang-option').forEach(function (opt) {
+        opt.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var lang = opt.getAttribute('data-lang') || 'en';
+          try {
+            localStorage.setItem('tcm_site_lang', lang);
+          } catch (err) {}
+
+          syncLangUI(lang);
+          picker.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+
+          if (lang === 'en') {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            if (location.hostname.indexOf('.') !== -1) {
+              document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname.replace(/^www\./, '');
+            }
+            var combo = document.querySelector('.goog-te-combo');
+            if (combo) {
+              combo.value = '';
+              combo.dispatchEvent(new Event('change'));
+            } else {
+              window.location.reload();
+            }
+          } else {
+            applyTranslation(lang);
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.tcm-lang-picker')) return;
+      document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+        p.classList.remove('open');
+        var b = p.querySelector('.tcm-lang-btn');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.tcm-lang-picker.open').forEach(function (p) {
+          p.classList.remove('open');
+          var b = p.querySelector('.tcm-lang-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+  }
+
+  /* ==========================================================================
+     BOOK A DEMO MODAL
+     ========================================================================== */
+  function wireDemoModal() {
+    var overlay = document.getElementById('tcmDemoModalOverlay');
+    var closeBtn = document.getElementById('tcmDemoCloseBtn');
+    var form = document.getElementById('tcmDemoForm');
+    var successState = document.getElementById('demoSuccessState');
+
+    function openModal() {
+      if (!overlay) return;
+      overlay.style.display = 'flex';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (form) form.style.display = 'block';
+      if (successState) successState.style.display = 'none';
+      var nameInput = document.getElementById('demoFullName');
+      if (nameInput) setTimeout(function () { nameInput.focus(); }, 120);
+    }
+
+    function closeModal() {
+      if (!overlay) return;
+      overlay.style.display = 'none';
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      var trigger = e.target && e.target.closest ? e.target.closest('.demo-trigger, #toolsBookDemoBtn, #openDemoModalBtn') : null;
+      if (trigger) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeModal();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (document.getElementById('demoFullName') || {}).value || '';
+        var phone = (document.getElementById('demoPhone') || {}).value || '';
+        var email = (document.getElementById('demoEmail') || {}).value || '';
+        var track = (document.getElementById('demoTrack') || {}).value || '';
+        var stage = (document.getElementById('demoStage') || {}).value || '';
+
+        if (!name.trim() || !phone.trim() || !email.trim()) {
+          alert('Please fill in your name, phone number, and email.');
+          return;
+        }
+
+        postJSON(apiUrl('/api/contact'), {
+          name: name,
+          email: email,
+          phone: phone,
+          subject: 'Book a Demo Request: ' + track,
+          message: 'Stage: ' + stage + ' | Track: ' + track
+        }).catch(function () {});
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (form) form.style.display = 'none';
+        if (successState) successState.style.display = 'block';
+      });
+    }
+  }
+
+  function normalizeBrandLogos() {
+    var logos = document.querySelectorAll('.tcm-brand-logo');
+    logos.forEach(function (img) {
+      var src = img.getAttribute('src');
+      if (src === '/assets/logo.png') {
+        img.src = (BASE ? BASE : '.') + '/assets/logo.png';
+      }
+    });
+  }
+
+  /* ==========================================================================
+     GLOBAL BOOT
      ========================================================================== */
   function boot() {
     normalizeSiteLinks();
+    normalizeBrandLogos();
     wireNavigation();
+    wireLanguageSelector();
+    wireDemoModal();
     wireHeroWorkshopDeck();
     wirePlacementReportModal();
     hydrateHomeCategoryTracks();
@@ -1318,6 +1875,7 @@
     wireBrochureModal();
     wireContactForm();
     wireInstitutionForm();
+    wireInstitutionCalculator();
     wireCertificateModal();
 
     // Check auth status

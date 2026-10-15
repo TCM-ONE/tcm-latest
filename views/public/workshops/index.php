@@ -35,6 +35,19 @@
   <meta property="og:image" content="<?= e($ogImage) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($title) ?>">
+  <meta name="twitter:description" content="<?= e($description) ?>">
+  <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,60 +78,25 @@
     }
   ?>
   <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+      ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => 'https://thecodemunk.in/'],
+      ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $canonical],
+    ],
+  ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="tcm-header" role="banner">
-    <div class="tcm-container">
-      <div class="tcm-header-inner">
-        <a href="<?= base_url('/') ?>" class="tcm-brand" aria-label="TCM One Home">
-          <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-          <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-        </a>
-
-        <nav class="tcm-nav" role="navigation" aria-label="Main Navigation">
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/courses') ?>" class="tcm-nav-link">Courses</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/workshops') ?>" class="tcm-nav-link active">Workshops</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/for-institutions') ?>" class="tcm-nav-link">For Institutions</a>
-          </div>
-          <div class="tcm-nav-item">
-            <a href="<?= base_url('/about') ?>" class="tcm-nav-link">About</a>
-          </div>
-        </nav>
-
-        <div class="tcm-header-actions">
-          <a href="<?= base_url('/contact') ?>" class="tcm-btn-link d-none d-sm-inline-flex" style="font-size: 14px; margin-right: 8px;">Contact</a>
-          <a href="<?= base_url('/courses') ?>" class="tcm-btn tcm-btn-primary tcm-btn-sm">Explore Courses</a>
-          <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
-            <i class="bi bi-list" style="font-size: 22px;"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer -->
-  <div class="tcm-drawer-backdrop"></div>
-  <aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
-    <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
-    <a href="<?= base_url('/') ?>" class="tcm-drawer-link">Home</a>
-    <a href="<?= base_url('/courses') ?>" class="tcm-drawer-link">Courses</a>
-    <a href="<?= base_url('/workshops') ?>" class="tcm-drawer-link" style="color: var(--tcm-fg); font-weight: 700;">Workshops</a>
-    <a href="<?= base_url('/for-institutions') ?>" class="tcm-drawer-link">For Institutions</a>
-    <a href="<?= base_url('/about') ?>" class="tcm-drawer-link">About TCM One</a>
-    <a href="<?= base_url('/contact') ?>" class="tcm-drawer-link">Contact</a>
-  </aside>
+  <!-- Header Navigation & Mobile Drawer -->
+  <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main id="mainContent">
 
     <!-- Workshop Hero -->
-    <section class="tcm-section" style="padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(36px, 5vw, 60px); border-bottom: 1px solid var(--tcm-border);">
+    <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: clamp(24px, 3vw, 36px); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div style="max-width: 780px;">
           <div class="tcm-eyebrow">LIVE SHORT-FORMAT LEARNING</div>
@@ -134,7 +112,7 @@
     </section>
 
     <!-- Workshop Listings -->
-    <section class="tcm-section">
+    <section class="tcm-section" style="padding-top: clamp(28px, 3.5vw, 40px);">
       <div class="tcm-container">
         <div class="tcm-workshop-grid">
           <?php foreach (($workshops ?? []) as $w): ?>
@@ -169,19 +147,21 @@
               <?php endif; ?>
 
               <div class="tcm-workshop-footer">
-                <div>
-                  <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
-                  <?php if ($origPrice > $price): ?>
-                    <span style="font-size: 13px; color: #999; text-decoration: line-through; margin-left: 6px;">
-                      ₹<?= number_format($origPrice, 0) ?>
-                    </span>
-                  <?php endif; ?>
-                  <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px;">
+                <div class="tcm-workshop-pricing">
+                  <div class="tcm-workshop-price-row">
+                    <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
+                    <?php if ($origPrice > $price): ?>
+                      <span class="tcm-workshop-price-orig">
+                        ₹<?= number_format($origPrice, 0) ?>
+                      </span>
+                    <?php endif; ?>
+                  </div>
+                  <div class="tcm-workshop-batch-meta">
                     Next Cohort Enrolling
                   </div>
                 </div>
 
-                <div style="display: flex; gap: 8px;">
+                <div class="tcm-workshop-actions">
                   <a href="<?= base_url('/workshops/' . rawurlencode($slug)) ?>" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                     Details
                   </a>
@@ -200,43 +180,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="tcm-footer" role="contentinfo">
-    <div class="tcm-container">
-      <div class="tcm-footer-grid">
-        <div>
-          <a href="<?= base_url('/') ?>" class="tcm-brand">
-            <img src="<?= base_url('/assets/logo.png') ?>" alt="TCM One" class="tcm-brand-logo">
-            <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
-          </a>
-          <p class="tcm-footer-brand-p">
-            Practical tech education through live classes, guided projects, and industry-focused learning.
-          </p>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Platform</h4>
-          <ul class="tcm-footer-links">
-            <li><a href="<?= base_url('/courses') ?>">All Courses</a></li>
-            <li><a href="<?= base_url('/workshops') ?>">Live Workshops</a></li>
-            <li><a href="<?= base_url('/for-institutions') ?>">For Institutions</a></li>
-            <li><a href="<?= base_url('/about') ?>">About Us</a></li>
-            <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="tcm-footer-col-title">Admissions</h4>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0 0 12px 0;">
-            WhatsApp: <a href="https://wa.me/919238695500" target="_blank" rel="noopener" style="color: var(--tcm-fg); font-weight: 600;">+91 9238695500</a>
-          </p>
-          <p style="font-size: 14px; color: var(--tcm-muted); margin: 0;">
-            Email: <a href="mailto:hello@thecodemunk.com" style="color: var(--tcm-fg);">hello@thecodemunk.com</a>
-          </p>
-        </div>
-      </div>
-      <div class="tcm-footer-bottom">
-        <div>&copy; 2026 TCM One. All rights reserved.</div>
-      </div>
-    </div>
-  </footer>
+  <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Modal: Workshop Seat Reservation -->
   <div class="tcm-modal-overlay" id="tcmWsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmWsTitle">

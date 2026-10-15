@@ -84,16 +84,12 @@
   }
 
   function initCai() {
-    if (document.getElementById('caiLauncher')) return;
-
-    // Inject launcher
-    var launcher = document.createElement('button');
-    launcher.type = 'button';
-    launcher.id = 'caiLauncher';
-    launcher.className = 'cai-launcher';
-    launcher.setAttribute('aria-label', 'Open Cai Learning Advisor');
-    launcher.innerHTML = '<span class="cai-launcher-dot"></span><span>Ask Cai</span>';
-    document.body.appendChild(launcher);
+    var l = document.getElementById('caiLauncher');
+    if (l && l.parentNode) l.parentNode.removeChild(l);
+    var w = document.getElementById('caiWindow');
+    if (w && w.parentNode) w.parentNode.removeChild(w);
+    return;
+  }
 
     // Inject assistant window
     var win = document.createElement('div');
@@ -133,9 +129,15 @@
     );
     document.body.appendChild(win);
 
-    loadKnowledge();
+    // Defer knowledge loading until user interacts or page is completely idle
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(function () { setTimeout(loadKnowledge, 1500); });
+    } else {
+      setTimeout(loadKnowledge, 2500);
+    }
 
     function openWin() {
+      loadKnowledge();
       win.classList.add('open');
       launcher.style.display = 'none';
       var input = document.getElementById('caiInput');
@@ -147,6 +149,7 @@
       launcher.style.display = 'flex';
     }
 
+    launcher.addEventListener('mouseenter', loadKnowledge, { once: true });
     launcher.addEventListener('click', openWin);
     var closeBtn = document.getElementById('caiCloseBtn');
     if (closeBtn) closeBtn.addEventListener('click', closeWin);

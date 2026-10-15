@@ -1,0 +1,198 @@
+/* Institutions use the same editorial typography and monochrome palette as the public site. */
+html:has(body.tcm-institutions) { scroll-behavior: auto; }
+.tcm-institutions { background: var(--tcm-bg); color: var(--tcm-fg); font-family: var(--tcm-font-sans); }
+.tcm-institutions main { overflow: clip; }
+.tcm-institutions .tcm-header .tcm-auth-link { color: var(--tcm-fg); border: 1px solid var(--tcm-border); background: transparent; text-decoration: none; }
+.tcm-institutions main .container { width: 100%; max-width: 1240px; padding-inline: 20px; margin-inline: auto; }
+.tcm-institutions main section[id], .tcm-institutions #platform { scroll-margin-top: 100px; }
+.tcm-institutions .ptr-form-pane { scroll-margin-top: 100px; }
+.tcm-institutions .partner-hero { background: var(--tcm-bg); padding: clamp(40px, 6vw, 76px) 0 0; text-align: left; border-bottom: 1px solid var(--tcm-border); }
+.tcm-institutions .inst-hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; padding-bottom: 44px; }
+.tcm-institutions .inst-hero-copy { min-width: 0; }
+.tcm-institutions .partner-hero h1 { font-family: var(--tcm-font-display); font-size: clamp(46px, 5.1vw, 72px); line-height: 1.04; font-weight: 400; letter-spacing: -.025em; margin: 20px 0 24px; color: var(--tcm-fg); }
+.tcm-institutions .partner-hero-desc { font-size: 16px; line-height: 1.75; color: var(--tcm-muted); margin: 0 0 28px; max-width: 550px; }
+.tcm-institutions .inst-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.tcm-institutions .inst-hero-links { display: flex; gap: 12px 24px; flex-wrap: wrap; margin-top: 24px; }
+.tcm-institutions .inst-hero-links a { color: var(--tcm-muted); font-size: 12px; text-underline-offset: 4px; }
+.tcm-institutions .inst-hero-panel { background: var(--tcm-dark); color: var(--tcm-dark-fg); padding: clamp(24px, 3vw, 36px); }
+.tcm-institutions .inst-hero-panel .tcm-eyebrow { color: #aaa; }
+.tcm-institutions .inst-hero-panel h2 { font: 400 clamp(30px, 3vw, 42px)/1.15 var(--tcm-font-display); color: #fff; margin: 20px 0 28px; letter-spacing: -.02em; }
+.tcm-institutions .inst-learning-step { display: grid; grid-template-columns: 30px minmax(0, 1fr) 20px; gap: 14px; align-items: center; padding: 18px 0; border-top: 1px solid #383838; }
+.tcm-institutions .inst-learning-step > span { font-size: 11px; color: #999; }
+.tcm-institutions .inst-learning-step strong { display: block; font-size: 14px; font-weight: 500; }
+.tcm-institutions .inst-learning-step p { font-size: 12px; line-height: 1.5; color: #aaa; margin: 4px 0 0; }
+.tcm-institutions .inst-learning-step > i { color: #aaa; font-size: 14px; }
+.tcm-institutions .inst-section-nav { display: flex; flex-wrap: wrap; gap: 12px 32px; padding: 20px 0; border-top: 1px solid var(--tcm-border); }
+.tcm-institutions .inst-section-nav a { font-size: 12px; color: var(--tcm-muted); text-decoration: none; }
+.tcm-institutions .inst-section-nav a:hover { color: var(--tcm-fg); text-decoration: underline; text-underline-offset: 5px; }
+.tcm-institutions .ptr-section { padding: clamp(40px, 5.5vw, 64px) 0; border-bottom: 1px solid var(--tcm-border); background: var(--tcm-surface); }
+.tcm-institutions .ptr-section-alt { background: var(--tcm-bg); }
+.tcm-institutions .ptr-header { max-width: 790px; margin: 0 0 32px; text-align: left; }
+.tcm-institutions .ptr-tag { background: none; border: 0; padding: 0; margin: 0 0 12px; color: var(--tcm-muted); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.tcm-institutions .ptr-header h2, .tcm-institutions .ptr-cta-banner h2 { font: 400 clamp(34px, 3.5vw, 52px)/1.14 var(--tcm-font-display); letter-spacing: -.02em; margin: 0 0 16px; color: var(--tcm-fg); }
+.tcm-institutions .ptr-header > p { color: var(--tcm-muted); font-size: 15px; line-height: 1.7; margin: 0; max-width: 740px; }
+.tcm-institutions main h3 { font-family: var(--tcm-font-display); font-weight: 400 !important; font-size: clamp(28px, 2.8vw, 38px); letter-spacing: -.02em; line-height: 1.18; }
+.tcm-institutions main h4, .tcm-institutions main h5 { font-family: var(--tcm-font-sans); font-weight: 600 !important; letter-spacing: -.02em; line-height: 1.4; }
+.tcm-institutions .primary-btn, .tcm-institutions .secondary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 12px 22px; font-family: var(--tcm-font-sans); font-size: 14px; font-weight: 500; line-height: 1.4; border: 1px solid var(--tcm-fg); text-decoration: none; background: var(--tcm-fg); color: #fff; }
+.tcm-institutions .secondary-btn { background: transparent; color: var(--tcm-fg); border-color: var(--tcm-border); }
+.tcm-institutions .primary-btn:hover { background: #292929; color: #fff; }
+.tcm-institutions .secondary-btn:hover { border-color: var(--tcm-fg); color: var(--tcm-fg); }
+.tcm-institutions .primary-btn:focus-visible, .tcm-institutions .secondary-btn:focus-visible, .tcm-institutions .inst-section-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.tcm-institutions main .h-100 { height: 100% !important; }
+.tcm-institutions main .w-100 { width: 100% !important; }
+.tcm-institutions .ptr-offering-item { height: 100%; padding: 20px; border: 1px solid var(--tcm-border); background: var(--tcm-surface); font-size: 14px; font-weight: 500; gap: 12px; }
+.tcm-institutions .ptr-offering-item i { color: var(--tcm-fg); font-size: 20px; }
+.tcm-institutions .ptr-offering-item:hover { transform: none; box-shadow: none; }
+.tcm-institutions .ptr-objective-box { margin-top: 24px; padding: 20px 24px; font-size: 14px; line-height: 1.7; border: 1px solid var(--tcm-border); background: var(--tcm-bg); color: var(--tcm-fg); text-align: left; }
+.tcm-institutions .ptr-objective-box strong { color: inherit; font-weight: 600; }
+.tcm-institutions .ptr-zero-card, .tcm-institutions .ptr-problem-card, .tcm-institutions .ptr-pillar-card, .tcm-institutions .ptr-adv-card { padding: 24px; height: 100%; background: var(--tcm-surface); border: 1px solid var(--tcm-border); box-shadow: none; text-align: left; transform: none; }
+.tcm-institutions .ptr-zero-card:hover, .tcm-institutions .ptr-problem-card:hover, .tcm-institutions .ptr-pillar-card:hover, .tcm-institutions .ptr-adv-card:hover { transform: none; border-color: #888; box-shadow: none; }
+.tcm-institutions .ptr-zero-icon, .tcm-institutions .ptr-problem-icon, .tcm-institutions .ptr-pillar-icon, .tcm-institutions .ptr-adv-icon { display: flex; align-items: center; width: auto; height: auto; padding: 0; background: transparent; color: var(--tcm-fg); border: 0; font-size: 24px; margin: 0 0 22px; }
+.tcm-institutions .ptr-zero-card h4, .tcm-institutions .ptr-pillar-card h4, .tcm-institutions .ptr-adv-card h4 { font-size: 17px; margin-bottom: 12px; }
+.tcm-institutions .ptr-zero-card p, .tcm-institutions .ptr-problem-card p, .tcm-institutions .ptr-pillar-card p, .tcm-institutions .ptr-adv-card p { font-size: 14px; line-height: 1.75; color: var(--tcm-muted); margin: 0; }
+.tcm-institutions #zero-investment { background: var(--tcm-dark); color: #fff; border-color: #333; }
+.tcm-institutions #zero-investment .ptr-tag, .tcm-institutions #zero-investment .ptr-header p, .tcm-institutions #zero-investment .text-secondary { color: #aaa !important; }
+.tcm-institutions #zero-investment h2, .tcm-institutions #zero-investment h4, .tcm-institutions #zero-investment .text-dark { color: #fff !important; }
+.tcm-institutions #zero-investment .ptr-zero-card { background: transparent; border-color: #3a3a3a; }
+.tcm-institutions #zero-investment .ptr-zero-icon { color: #fff; }
+.tcm-institutions #zero-investment .ptr-zero-card p { color: #aaa; }
+.tcm-institutions .ptr-ai-box { padding: 32px; margin-top: 32px; background: #111; color: #fff; text-align: left; border: 1px solid #333; }
+.tcm-institutions .ptr-ai-flow { justify-content: flex-start; gap: 14px; }
+.tcm-institutions .ptr-ai-step { background: transparent; color: #fff; border: 1px solid #555; font-size: 13px; }
+.tcm-institutions .ptr-app-box { background: var(--tcm-bg); padding: clamp(20px, 3vw, 40px); border: 1px solid var(--tcm-border); margin-top: 40px; }
+.tcm-institutions .ptr-app-step-row { padding: 32px 0; margin: 0; border: 0; border-top: 1px solid var(--tcm-border); background: transparent; box-shadow: none; transform: none; }
+.tcm-institutions .ptr-app-step-row:hover { transform: none; background: transparent; box-shadow: none; }
+.tcm-institutions .ptr-phone-mockup { max-width: 210px; padding: 0; border: 1px solid var(--tcm-border); background: #fff; box-shadow: none; transform: none !important; }
+.tcm-institutions .ptr-phone-mockup img { width: 100%; height: auto; display: block; object-fit: contain; }
+.tcm-institutions .ptr-app-step-info { padding: 0 12px; }
+.tcm-institutions .ptr-app-step-info h4 { font-size: 22px; margin: 12px 0; }
+.tcm-institutions .ptr-app-step-info p, .tcm-institutions .ptr-app-feature-list li { color: var(--tcm-muted); font-size: 14px; line-height: 1.75; }
+.tcm-institutions .ptr-app-step-badge { font-size: 10px; font-weight: 600; color: var(--tcm-muted); background: none; border: 0; padding: 0; letter-spacing: .1em; }
+.tcm-institutions .ptr-app-feature-list li i { color: var(--tcm-fg); }
+.tcm-institutions .ptr-app-tag-item { border: 1px solid var(--tcm-border); background: transparent; color: var(--tcm-muted); font-size: 11px; font-weight: 500; }
+.tcm-institutions .ptr-calc-card, .tcm-institutions .ptr-form-card, .tcm-institutions .ptr-meeting-box, .tcm-institutions .ptr-preview-wrap { border: 1px solid var(--tcm-border); background: var(--tcm-surface); box-shadow: none; padding: clamp(20px, 3vw, 36px); }
+.tcm-institutions .ptr-calc-header { align-items: flex-start; gap: 24px; padding-bottom: 24px; margin-bottom: 28px; border-color: var(--tcm-border); }
+.tcm-institutions .ptr-calc-title { font: 400 30px/1.2 var(--tcm-font-display); color: var(--tcm-fg); }
+.tcm-institutions .ptr-calc-subtitle { margin-top: 8px; color: var(--tcm-muted); font-size: 13px; line-height: 1.6; }
+.tcm-institutions .ptr-model-toggle { background: var(--tcm-bg); padding: 4px; border: 1px solid var(--tcm-border); }
+.tcm-institutions .ptr-model-toggle-btn { white-space: normal; min-height: 42px; padding: 10px 14px; font-size: 12px; font-weight: 500; }
+.tcm-institutions .ptr-model-toggle-btn.active { background: #111; color: #fff; }
+.tcm-institutions .ptr-calc-grid { gap: 32px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.tcm-institutions .ptr-calc-label { font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.tcm-institutions .ptr-calc-val-pill { font-size: 12px; border: 1px solid var(--tcm-border); background: var(--tcm-bg); color: #111; padding: 4px 8px; }
+.tcm-institutions .ptr-slider { appearance: none; width: 100%; height: 3px; margin-block: 18px 8px; accent-color: #111; background: #ddd; cursor: pointer; }
+.tcm-institutions .ptr-slider::-webkit-slider-thumb { appearance: none; width: 14px; height: 20px; border: 0; background: #111; }
+.tcm-institutions .ptr-slider::-moz-range-thumb { width: 14px; height: 20px; border: 0; background: #111; }
+.tcm-institutions .ptr-pct-btn { border: 1px solid var(--tcm-border); background: transparent; color: #111; }
+.tcm-institutions .ptr-pct-btn.active { background: #111; color: #fff; }
+.tcm-institutions .ptr-calc-output-box { min-width: 0; background: var(--tcm-bg); padding: 28px; border: 1px solid var(--tcm-border); }
+.tcm-institutions .ptr-calc-hero-metric { background: #111111 !important; color: #ffffff !important; padding: 24px 20px !important; border: 1px solid #111111 !important; margin-bottom: 20px !important; }
+.tcm-institutions .ptr-calc-hero-metric, .tcm-institutions .ptr-calc-hero-metric *, .tcm-institutions #calcOutInstitute, .tcm-institutions #calcOutModelLabel, .tcm-institutions #calcOutBatchesCombined { color: #ffffff !important; }
+.tcm-institutions .ptr-calc-hero-metric .metric-num { font: 400 clamp(36px, 4vw, 52px)/1.1 var(--tcm-font-display) !important; letter-spacing: -.025em !important; color: #ffffff !important; margin-block: 10px !important; }
+.tcm-institutions .ptr-calc-hero-metric .metric-tag { font-size: 11px !important; font-weight: 700 !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; color: rgba(255, 255, 255, 0.85) !important; }
+.tcm-institutions .ptr-calc-hero-metric .metric-sub { font-size: 13px !important; color: rgba(255, 255, 255, 0.8) !important; margin-top: 6px !important; }
+.tcm-institutions .ptr-calc-breakdown-row { gap: 20px; padding: 14px 0; border-color: var(--tcm-border); }
+.tcm-institutions .ptr-calc-breakdown-row .label { font-size: 12px; color: var(--tcm-muted); }
+.tcm-institutions .ptr-calc-breakdown-row .val { font-size: 13px; color: #111; white-space: nowrap; }
+.tcm-institutions .ptr-calc-disclaimer { color: var(--tcm-muted); font-size: 11px; line-height: 1.7; }
+.tcm-institutions .ptr-model-card { border: 1px solid var(--tcm-border); padding: 32px; background: #fff; box-shadow: none; transform: none; }
+.tcm-institutions .ptr-model-card:hover { transform: none; box-shadow: none; }
+.tcm-institutions .ptr-model-card h3 { font-size: 36px; margin: 20px 0 12px; }
+.tcm-institutions .ptr-model-badge { padding: 0; background: transparent; border: 0; font-size: 10px; color: var(--tcm-muted); letter-spacing: .1em; }
+.tcm-institutions .ptr-model-sub { font-size: 13px; font-weight: 500; line-height: 1.7; }
+.tcm-institutions .ptr-model-desc, .tcm-institutions .ptr-model-list li { font-size: 14px; line-height: 1.75; color: var(--tcm-muted); }
+.tcm-institutions .ptr-model-list li { display: block; position: relative; padding-left: 24px; margin-bottom: 14px; }
+.tcm-institutions .ptr-model-list li > i { position: absolute; left: 0; top: 1px; }
+.tcm-institutions .ptr-model-card.featured { background: #111; color: #fff; border-color: #111; }
+.tcm-institutions .ptr-model-card.featured h3, .tcm-institutions .ptr-model-card.featured .ptr-model-sub, .tcm-institutions .ptr-model-card.featured .ptr-model-list i { color: #fff; }
+.tcm-institutions .ptr-model-card.featured .ptr-model-desc, .tcm-institutions .ptr-model-card.featured .ptr-model-list li, .tcm-institutions .ptr-model-card.featured .ptr-model-badge { color: #bbb; }
+.tcm-institutions .ptr-model-card.featured .bg-light { background: #222 !important; border-color: #444 !important; }
+.tcm-institutions .ptr-model-card.featured .text-dark, .tcm-institutions .ptr-model-card.featured .text-secondary { color: #ddd !important; }
+.tcm-institutions .ptr-model-card.featured .border-top { border-color: #444 !important; }
+.tcm-institutions .ptr-model-card.featured .btn-dark { background: #fff; color: #111 !important; border-color: #fff; }
+.tcm-institutions .ptr-table-wrap { border: 1px solid var(--tcm-border); box-shadow: none; }
+.tcm-institutions .ptr-table th, .tcm-institutions .ptr-preview-table th { background: #111; color: #fff; font-size: 11px; font-weight: 500; padding: 18px 20px; }
+.tcm-institutions .ptr-table td, .tcm-institutions .ptr-preview-table td { padding: 16px 20px; font-size: 13px; line-height: 1.6; border-color: var(--tcm-border); color: var(--tcm-muted); }
+.tcm-institutions .ptr-table td:first-child { font-weight: 500; color: #111; }
+.tcm-institutions .ptr-table tr:nth-child(even) td { background: var(--tcm-bg); }
+.tcm-institutions .ptr-proposal-card { background: #111; padding: 32px; border: 1px solid #333; box-shadow: none; }
+.tcm-institutions .ptr-proposal-card h3 { color: #fff; }
+.tcm-institutions .ptr-proposal-card p { color: #bbb; line-height: 1.7; }
+.tcm-institutions .ptr-preview-head { gap: 20px; padding-bottom: 24px; border-color: var(--tcm-border); }
+.tcm-institutions .ptr-preview-head h4 { font-size: 20px; }
+.tcm-institutions .ptr-preview-metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-block: 24px; }
+.tcm-institutions .ptr-preview-tile { padding: 16px; background: var(--tcm-bg); border: 1px solid var(--tcm-border); min-width: 0; }
+.tcm-institutions .ptr-preview-tile .tile-num { font: 400 clamp(24px, 2.5vw, 32px)/1.2 var(--tcm-font-display); overflow-wrap: anywhere; }
+.tcm-institutions .ptr-preview-tile .tile-lbl, .tcm-institutions .ptr-preview-tile .tile-trend { font-size: 10px; color: var(--tcm-muted); line-height: 1.6; }
+.tcm-institutions .ptr-preview-badge, .tcm-institutions .ptr-preview-badge.active { background: var(--tcm-bg); color: #111; border: 1px solid var(--tcm-border); }
+.tcm-institutions main .text-success { color: #111 !important; }
+.tcm-institutions .ptr-lifecycle-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.tcm-institutions .ptr-lifecycle-card { border: 1px solid var(--tcm-border); background: #fff; padding: 24px; transform: none; box-shadow: none; text-align: left; }
+.tcm-institutions .ptr-lifecycle-card:hover { transform: none; box-shadow: none; border-color: #888; }
+.tcm-institutions .ptr-lc-num { font-size: 10px; color: var(--tcm-muted); letter-spacing: .1em; margin-bottom: 20px; }
+.tcm-institutions .ptr-lifecycle-card h5 { font-size: 16px; }
+.tcm-institutions .ptr-progression-banner { border: 1px solid var(--tcm-border); background: var(--tcm-bg); padding: 28px; text-align: left; }
+.tcm-institutions .ptr-progression-steps { justify-content: flex-start; }
+.tcm-institutions .ptr-form-card { max-width: 960px; margin-inline: auto; }
+.tcm-institutions .ptr-wizard-stepper { gap: 0; margin-bottom: 32px; border: 0; border-bottom: 1px solid var(--tcm-border); padding-bottom: 20px; }
+.tcm-institutions .ptr-step-item { font-size: 12px; gap: 12px; color: #777; border-color: var(--tcm-border); }
+.tcm-institutions .ptr-step-item.active, .tcm-institutions .ptr-step-item.completed { color: #111; background: var(--tcm-bg); border-color: var(--tcm-border); }
+.tcm-institutions .ptr-step-num { background: var(--tcm-bg); border: 1px solid var(--tcm-border); color: #777; }
+.tcm-institutions .ptr-step-item.active .ptr-step-num, .tcm-institutions .ptr-step-item.completed .ptr-step-num { background: #111; color: #fff; border-color: #111; }
+.tcm-institutions .ptr-form-sec-title { font-size: 16px; font-weight: 500; margin-bottom: 24px; color: #111; }
+.tcm-institutions .form-label { display: block; font-size: 12px; font-weight: 500 !important; letter-spacing: .02em; text-transform: none !important; margin-bottom: 8px; color: #111; }
+.tcm-institutions .ptr-input, .tcm-institutions .ptr-select { display: block; width: 100%; min-width: 0; height: 50px; padding: 12px 14px; border: 1px solid var(--tcm-border); background: #fff; color: #111; font-family: var(--tcm-font-sans); font-size: 14px; box-shadow: none; }
+.tcm-institutions textarea.ptr-input { height: auto; min-height: 112px; resize: vertical; }
+.tcm-institutions .ptr-input:focus, .tcm-institutions .ptr-select:focus { outline: 1px solid #111; outline-offset: 1px; border-color: #111; box-shadow: none; }
+.tcm-institutions .ptr-input::placeholder { color: #999; }
+.tcm-institutions .form-check-input { accent-color: #111; border-color: #888; }
+.tcm-institutions .form-check-input:checked { background-color: #111; border-color: #111; }
+.tcm-institutions .ptr-cta-banner { background: #111; padding: clamp(32px, 4vw, 48px); margin-top: 40px; border: 1px solid #333; text-align: left; }
+.tcm-institutions .ptr-cta-banner h2 { color: #fff; max-width: 740px; }
+.tcm-institutions .ptr-cta-banner p { color: #bbb; margin: 0 0 24px; max-width: 700px; font-size: 15px; }
+.tcm-institutions .ptr-cta-banner .justify-content-center { justify-content: flex-start !important; }
+.tcm-institutions .ptr-success-card { padding: 28px; border: 1px solid var(--tcm-border); background: var(--tcm-bg); color: #111; }
+.tcm-institutions .ptr-success-icon { background: #111; color: #fff; box-shadow: none; }
+.tcm-institutions #faq .tcm-faq-item + .tcm-faq-item { margin-top: 12px; }
+.tcm-institutions .inst-video { border: 1px solid var(--tcm-border); padding: 18px 24px; margin-top: 24px; }
+.tcm-institutions .inst-video summary { cursor: pointer; font-size: 14px; font-weight: 500; }
+.tcm-institutions .inst-video .ptr-video-wrapper { margin-top: 20px; max-width: 850px; background: #111; border: 0; box-shadow: none; }
+.tcm-institutions .inst-video iframe { width: 100%; aspect-ratio: 16 / 9; }
+@media (min-width: 768px) { .tcm-institutions main .container { padding-inline: 28px; } }
+@media (min-width: 1024px) { .tcm-institutions main .container { padding-inline: 40px; } }
+@media (max-width: 1100px) {
+  .tcm-institutions .ptr-calc-header { flex-direction: column; }
+  .tcm-institutions .ptr-preview-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tcm-institutions .ptr-lifecycle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .tcm-institutions .inst-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .tcm-institutions .inst-hero-panel { max-width: none; }
+  .tcm-institutions .ptr-calc-grid { grid-template-columns: minmax(0, 1fr); }
+  .tcm-institutions .ptr-calc-output-box { padding: 24px; }
+}
+@media (max-width: 767px) {
+  .tcm-institutions .ptr-app-step-row .row { gap: 24px 0; }
+  .tcm-institutions .ptr-app-step-info { padding: 0; }
+  .tcm-institutions .ptr-preview-head { flex-direction: column; align-items: flex-start; }
+  .tcm-institutions .ptr-ai-box { padding: 24px; }
+  .tcm-institutions .ptr-ai-flow { flex-direction: column; align-items: stretch; }
+  .tcm-institutions .ptr-ai-step { justify-content: flex-start; }
+  .tcm-institutions .ptr-ai-arrow { display: none; }
+}
+@media (max-width: 575px) {
+  .tcm-institutions .inst-hero-actions { flex-direction: column; }
+  .tcm-institutions .inst-hero-actions .tcm-btn { width: 100%; padding-inline: 16px; }
+  .tcm-institutions .inst-section-nav { gap: 16px 24px; }
+  .tcm-institutions .ptr-header { margin-bottom: 28px; }
+  .tcm-institutions .ptr-preview-metrics, .tcm-institutions .ptr-lifecycle-grid { grid-template-columns: minmax(0, 1fr); }
+  .tcm-institutions .ptr-preview-tile .tile-num { font-size: 32px; overflow-wrap: normal; }
+  .tcm-institutions .ptr-model-card { padding: 24px; }
+  .tcm-institutions .ptr-model-toggle { display: flex; flex-direction: column; width: 100%; }
+  .tcm-institutions .ptr-calc-label-row { gap: 12px; align-items: flex-start; }
+  .tcm-institutions .ptr-calc-val-pill { white-space: nowrap; }
+  .tcm-institutions .ptr-wizard-stepper { flex-direction: column; gap: 16px; }
+  .tcm-institutions .ptr-step-item { padding: 0; border: 0; }
+  .tcm-institutions .ptr-form-card .primary-btn, .tcm-institutions .ptr-meeting-box .primary-btn { width: 100%; white-space: normal; padding: 14px 16px !important; }
+  .tcm-institutions .ptr-cta-banner .btn { width: 100%; text-align: center; white-space: normal; }
+}
