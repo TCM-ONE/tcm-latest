@@ -325,7 +325,19 @@ try {
     }
 
     // -----------------------------------------------------------------
-    // 5. Verify Total Published Courses & Categories
+    // 5. Synchronize Editorial Blog Posts (Tech Updates)
+    // -----------------------------------------------------------------
+    $postSqlFile = dirname(__DIR__) . '/database/seed_it_industry_situation_post.sql';
+    if (is_file($postSqlFile)) {
+        $postSql = (string)file_get_contents($postSqlFile);
+        if (trim($postSql) !== '') {
+            $pdo->exec($postSql);
+            echo "✓ Synchronized editorial blog post: IT Industry Situation.\n";
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // 6. Verify Total Published Courses & Categories
     // -----------------------------------------------------------------
     $totalCourses = (int)$pdo->query("SELECT COUNT(*) FROM courses WHERE status = 'published'")->fetchColumn();
     $totalCategories = (int)$pdo->query("
