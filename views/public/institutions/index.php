@@ -36,6 +36,19 @@
   <meta property="og:image" content="<?= e($ogImage ?? base_url('/assets/tcm-og-share.png')) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="College &amp; Training Institute Partnerships | TCM One">
+  <meta name="twitter:description" content="<?= e($description ?? 'Partner with TCM One to offer practical technology programs, structured curricula and mentor-supported learning.') ?>">
+  <meta name="twitter:image" content="<?= e($ogImage ?? 'https://thecodemunk.in/assets/tcm-og-share.png') ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">

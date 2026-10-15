@@ -19,18 +19,84 @@ $coverUrl = static function (string $path): string {
     }
     return base_url('/uploads/' . ltrim($path, '/'));
 };
+
+$collectionSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'CollectionPage',
+    'name' => $title,
+    'description' => $description,
+    'url' => $canonical,
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => 'TCM One',
+        'url' => 'https://thecodemunk.in',
+        'logo' => 'https://thecodemunk.in/assets/logo.png',
+    ],
+];
+
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => 'https://thecodemunk.in/',
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Tech Updates',
+            'item' => $canonical,
+        ],
+    ],
+];
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="app-base" content="<?= e(base_url('')) ?>">
-  <title><?= e($title) ?></title><meta name="description" content="<?= e($description) ?>"><link rel="canonical" href="<?= e($canonical) ?>">
-  <meta property="og:type" content="website"><meta property="og:title" content="<?= e($title) ?>"><meta property="og:description" content="<?= e($description) ?>"><meta property="og:image" content="<?= e($ogImage) ?>">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title><?= e($title) ?></title>
+  <meta name="description" content="<?= e($description) ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= e($canonical) ?>">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="TCM One">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<?= e($canonical) ?>">
+  <meta property="og:title" content="<?= e($title) ?>">
+  <meta property="og:description" content="<?= e($description) ?>">
+  <meta property="og:image" content="<?= e($ogImage) ?>">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($title) ?>">
+  <meta name="twitter:description" content="<?= e($description) ?>">
+  <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.15') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-updates.css?v=1') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.15') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-updates.css?v=1') ?>">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json"><?= json_encode($collectionSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 <body>
 <?php \TCM\Core\View::partial('partials.public-header'); ?>

@@ -35,13 +35,20 @@
   <meta property="og:image" content="<?= e($ogImage) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
   <meta name="twitter:url" content="<?= e($canonical) ?>">
   <meta name="twitter:title" content="<?= e($workshop['title']) ?>">
   <meta name="twitter:description" content="<?= e($desc ?? $workshop['description']) ?>">
   <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -35,6 +35,19 @@
   <meta property="og:image" content="<?= e($thumbUrl) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($course['title']) ?> — TCM One">
+  <meta name="twitter:description" content="<?= e($desc) ?>">
+  <meta name="twitter:image" content="<?= e($thumbUrl) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +80,15 @@
       'educationalLevel' => $level,
       'teaches' => $category,
       'courseMode' => 'online',
+      'hasCourseInstance' => [
+        '@type' => 'CourseInstance',
+        'courseMode' => 'online',
+        'courseWorkload' => $duration,
+        'instructor' => [
+          '@type' => 'Organization',
+          'name' => 'TCM One Mentors',
+        ],
+      ],
       'provider' => [
         '@type' => 'Organization',
         'name' => 'TCM One',
@@ -81,8 +103,34 @@
         'url' => $canonical,
       ],
     ];
+
+    $breadcrumbSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'BreadcrumbList',
+      'itemListElement' => [
+        [
+          '@type' => 'ListItem',
+          'position' => 1,
+          'name' => 'Home',
+          'item' => 'https://thecodemunk.in/',
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 2,
+          'name' => 'Courses',
+          'item' => 'https://thecodemunk.in/courses',
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 3,
+          'name' => (string) $course['title'],
+          'item' => $canonical,
+        ],
+      ],
+    ];
   ?>
   <script type="application/ld+json"><?= json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <script>
     gtag('event', 'course_view', {
       course_slug: <?= json_encode((string) $course['slug']) ?>,
@@ -313,9 +361,11 @@
                       ₹<?= number_format($origPrice, 0) ?>
                     </span>
                   <?php endif; ?>
-                </div>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
-                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included
+                  Approx. $<?= round($price / 83.5) ?> USD &middot; All taxes included &middot; Billed in INR
+                </div>
+                <div style="font-size: 11.5px; color: var(--tcm-muted); margin-top: 6px;">
+                  <i class="bi bi-globe2"></i> <strong>Global Learners:</strong> Sessions in IST (UTC+5:30) with HD recordings &amp; weekend cohorts
                 </div>
 
                 <!-- STRICT EMI RULE: Only show EMI if course price >= 5,000 -->

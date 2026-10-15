@@ -35,6 +35,19 @@
   <meta property="og:image" content="<?= e($ogImage) ?>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($title) ?>">
+  <meta name="twitter:description" content="<?= e($description) ?>">
+  <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,6 +78,14 @@
     }
   ?>
   <script type="application/ld+json"><?= json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+      ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => 'https://thecodemunk.in/'],
+      ['@type' => 'ListItem', 'position' => 2, 'name' => 'Workshops', 'item' => $canonical],
+    ],
+  ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
 <body>

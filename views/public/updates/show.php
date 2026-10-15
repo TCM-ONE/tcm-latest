@@ -145,6 +145,67 @@ if (!function_exists('renderPostContent')) {
         return $html;
     }
 }
+
+$datePublished = !empty($post['published_at']) ? date('c', strtotime((string)$post['published_at'])) : date('c');
+$dateModified = !empty($post['updated_at']) ? date('c', strtotime((string)$post['updated_at'])) : $datePublished;
+$authorName = 'TCM One Editorial';
+$postWordCount = str_word_count(strip_tags((string)$post['content']));
+
+$articleSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BlogPosting',
+    'headline' => (string) $post['title'],
+    'description' => (string) ($post['excerpt'] ?: $description),
+    'image' => !empty($ogImage) ? $ogImage : 'https://thecodemunk.in/assets/tcm-og-share.png',
+    'datePublished' => $datePublished,
+    'dateModified' => $dateModified,
+    'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id' => $canonical,
+    ],
+    'author' => [
+        '@type' => 'Organization',
+        'name' => $authorName,
+        'url' => 'https://thecodemunk.in/about',
+    ],
+    'publisher' => [
+        '@type' => 'Organization',
+        'name' => 'TCM One',
+        'url' => 'https://thecodemunk.in',
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => 'https://thecodemunk.in/assets/logo.png',
+        ],
+    ],
+    'inLanguage' => 'en-IN',
+    'articleSection' => (string) ($post['category'] ?? 'Technology'),
+    'wordCount' => $postWordCount,
+];
+
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => 'https://thecodemunk.in/',
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Tech Updates',
+            'item' => 'https://thecodemunk.in/tech-updates',
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => (string) $post['title'],
+            'item' => $canonical,
+        ],
+    ],
+];
 ?>
 <!doctype html>
 <html lang="en">
@@ -154,11 +215,33 @@ if (!function_exists('renderPostContent')) {
   <meta name="app-base" content="<?= e(base_url('')) ?>">
   <title><?= e($title) ?></title>
   <meta name="description" content="<?= e($description) ?>">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="<?= e($canonical) ?>">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="TCM One">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="<?= e($canonical) ?>">
   <meta property="og:title" content="<?= e($title) ?>">
   <meta property="og:description" content="<?= e($description) ?>">
   <meta property="og:image" content="<?= e($ogImage) ?>">
+  <meta property="og:locale" content="en_IN">
+  <meta property="article:published_time" content="<?= $datePublished ?>">
+  <meta property="article:modified_time" content="<?= $dateModified ?>">
+  <meta property="article:section" content="<?= e((string) $post['category']) ?>">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="<?= e($title) ?>">
+  <meta name="twitter:description" content="<?= e($description) ?>">
+  <meta name="twitter:image" content="<?= e($ogImage) ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -167,6 +250,10 @@ if (!function_exists('renderPostContent')) {
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.15') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-updates.css?v=2.0') ?>">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json"><?= json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+  <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 <body>
 <?php \TCM\Core\View::partial('partials.public-header'); ?>
@@ -175,7 +262,14 @@ if (!function_exists('renderPostContent')) {
   <article class="tcm-article">
     <header class="tcm-article-header">
       <div class="tcm-container">
-        <a class="tcm-article-back" href="<?= base_url('/tech-updates') ?>"><i class="bi bi-arrow-left"></i> All tech updates</a>
+        <!-- Visual Breadcrumb Navigation -->
+        <nav class="tcm-breadcrumb-nav" aria-label="Breadcrumb" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--tcm-muted); margin-bottom: 16px;">
+          <a href="<?= base_url('/') ?>" style="color: var(--tcm-muted); text-decoration: none;">Home</a>
+          <span style="opacity: 0.5;">/</span>
+          <a href="<?= base_url('/tech-updates') ?>" style="color: var(--tcm-muted); text-decoration: none;">Tech Updates</a>
+          <span style="opacity: 0.5;">/</span>
+          <span style="color: var(--tcm-fg); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 320px;"><?= e((string) $post['title']) ?></span>
+        </nav>
         <div class="tcm-update-meta">
           <span><?= e((string) $post['category']) ?></span>
           <span><?= $date ? e(date('d M Y', strtotime((string) $date))) : '' ?></span>

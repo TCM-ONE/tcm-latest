@@ -33,8 +33,74 @@
   <meta property="og:title" content="Contact Admissions &amp; Mentors &mdash; TCM One">
   <meta property="og:description" content="<?= e($description ?? 'Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.') ?>">
   <meta property="og:image" content="<?= e($ogImage ?? base_url('/assets/logo.png')) ?>">
-  <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="Contact Admissions &amp; Mentors — TCM One">
+  <meta name="twitter:description" content="<?= e($description ?? 'Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.') ?>">
+  <meta name="twitter:image" content="<?= e($ogImage ?? 'https://thecodemunk.in/assets/logo.png') ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical ?? 'https://thecodemunk.in/contact') ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical ?? 'https://thecodemunk.in/contact') ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical ?? 'https://thecodemunk.in/contact') ?>">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Admissions & Mentors — TCM One",
+    "description": "Direct communication channels for student queries, course admissions, syllabus counseling, and college partnerships.",
+    "url": "https://thecodemunk.in/contact",
+    "mainEntity": {
+      "@type": "EducationalOrganization",
+      "name": "TCM One",
+      "alternateName": "The Code Munk",
+      "url": "https://thecodemunk.in",
+      "telephone": "+91-9238695500",
+      "email": "hello@thecodemunk.in",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda",
+        "addressLocality": "Bilaspur",
+        "addressRegion": "Chhattisgarh",
+        "postalCode": "495006",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-9238695500",
+        "contactType": "admissions",
+        "areaServed": ["IN", "US", "AE", "CA", "GB"],
+        "availableLanguage": ["English", "Hindi"]
+      }
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thecodemunk.in/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Contact",
+        "item": "https://thecodemunk.in/contact"
+      }
+    ]
+  }
+  </script>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

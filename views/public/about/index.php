@@ -33,8 +33,73 @@
   <meta property="og:title" content="About TCM One &mdash; Practical Education For Modern Careers">
   <meta property="og:description" content="<?= e($description ?? 'Discover the mission, teaching philosophy, and verified learning approach behind TCM One.') ?>">
   <meta property="og:image" content="<?= e($ogImage ?? base_url('/assets/logo.png')) ?>">
-  <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@thecodemunk">
+  <meta name="twitter:title" content="About TCM One — Practical Education For Modern Careers">
+  <meta name="twitter:description" content="<?= e($description ?? 'Discover the mission, teaching philosophy, and verified learning approach behind TCM One.') ?>">
+  <meta name="twitter:image" content="<?= e($ogImage ?? 'https://thecodemunk.in/assets/logo.png') ?>">
+
+  <!-- International Hreflang Tags -->
+  <link rel="alternate" hreflang="en-IN" href="<?= e($canonical ?? 'https://thecodemunk.in/about') ?>">
+  <link rel="alternate" hreflang="en-US" href="<?= e($canonical ?? 'https://thecodemunk.in/about') ?>">
+  <link rel="alternate" hreflang="x-default" href="<?= e($canonical ?? 'https://thecodemunk.in/about') ?>">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "TCM One",
+    "alternateName": "The Code Munk",
+    "url": "https://thecodemunk.in",
+    "logo": "https://thecodemunk.in/assets/logo.png",
+    "description": "Practical tech education through live classes, guided projects, and industry-focused learning in software engineering, AI, and data.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda",
+      "addressLocality": "Bilaspur",
+      "addressRegion": "Chhattisgarh",
+      "postalCode": "495006",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9238695500",
+      "contactType": "admissions",
+      "areaServed": ["IN", "US", "AE", "CA", "GB"],
+      "availableLanguage": ["English", "Hindi"]
+    },
+    "sameAs": [
+      "https://www.instagram.com/tcmone.academy",
+      "https://www.linkedin.com/company/thecodemunk",
+      "https://www.youtube.com/@thecodemunk"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thecodemunk.in/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://thecodemunk.in/about"
+      }
+    ]
+  }
+  </script>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
