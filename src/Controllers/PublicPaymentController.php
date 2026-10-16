@@ -13,25 +13,33 @@ use TCM\Core\Request;
 use TCM\Core\Response;
 use TCM\Core\WorkshopData;
 use TCM\Models\Course;
+use TCM\Models\Enrollment;
 use TCM\Models\Event;
+use TCM\Models\InstallmentPlan;
+use TCM\Models\InstallmentSchedule;
 use TCM\Models\Order;
+use TCM\Models\PaymentTransaction;
 use TCM\Models\User;
 use TCM\Models\WorkshopLead;
+use TCM\Services\InstallmentService;
 
 final class PublicPaymentController extends Controller
 {
     /**
      * POST /payment/initiate
      * Create order and output or return PayU hosted checkout form parameters.
+     * Supports both standard full-payment checkout and custom 2/3 installment plans.
      */
     public function initiate(): void
     {
-        $itemType = strtolower(trim(Request::string('item_type', 'course')));
-        $itemId   = Request::int('item_id');
-        $slug     = trim(Request::string('slug') ?: Request::string('item_slug'));
-        $name     = trim(Request::string('name') ?: Request::string('full_name'));
-        $email    = strtolower(trim(Request::string('email')));
-        $phone    = trim(Request::string('phone'));
+        $itemType    = strtolower(trim(Request::string('item_type', 'course')));
+        $itemId      = Request::int('item_id');
+        $slug        = trim(Request::string('slug') ?: Request::string('item_slug'));
+        $name        = trim(Request::string('name') ?: Request::string('full_name'));
+        $email       = strtolower(trim(Request::string('email')));
+        $phone       = trim(Request::string('phone'));
+        $paymentPlan = strtolower(trim(Request::string('payment_plan') ?: Request::string('plan')));
+        $instCount   = Request::int('installments');
 
         if ($name === '') {
             $this->abortWithError('Please provide your full name.');
@@ -77,7 +85,6 @@ final class PublicPaymentController extends Controller
                             ]);
                             $workshop = Event::findBySlug($resolvedSlug);
                         } catch (\Throwable $e) {
-                            // Virtual event fallback if DB table insert is restricted
                             $workshop = [
                                 'id'    => 9999,
                                 'slug'  => $resolvedSlug,
@@ -184,7 +191,116 @@ final class PublicPaymentController extends Controller
             return;
         }
 
-        // 2. Create Order in Database
+        // Check if Installment Plan Requested
+        $isInstallmentPlan = ($paymentPlan === '2_installments' || $paymentPlan === '3_installments' || $instCount > 1);
+
+        if ($isInstallmentPlan) {
+            if ($itemType !== 'course') {
+                $this->abortWithError('Installment plans are only available for course enrollments.');
+            }
+
+            // Strict Eligibility Check (Price > 5000 in INR)
+            if (!InstallmentService::isEligible($amount, 'INR', $itemId)) {
+                $this->abortWithError('Installment payment is only available for eligible courses with tuition fee greater than ₹5,000.');
+            }
+
+            $numInstallments = ($paymentPlan === '2_installments' || $instCount === 2) ? 2 : 3;
+            $milestones = InstallmentService::calculateSchedule($amount, $numInstallments);
+
+            // Create Parent Order
+            $parentOrderNumber = Order::generateNumber();
+            $parentOrderId = Order::create([
+                'user_id'            => $userId,
+                'order_number'       => $parentOrderNumber,
+                'item_type'          => 'course',
+                'item_id'            => $itemId,
+                'item_title'         => $itemTitle,
+                'amount'             => $amount,
+                'paid_amount'        => 0.00,
+                'remaining_amount'   => $amount,
+                'currency'           => 'INR',
+                'status'             => 'pending',
+                'gateway_status'     => 'installment_plan',
+                'payment_method'     => 'payu',
+                'payment_ref'        => 'PLAN_' . bin2hex(random_bytes(4)),
+                'is_installment'     => 1,
+                'installment_number' => 1,
+                'total_installments' => $numInstallments,
+            ]);
+
+            // Create Installment Plan and Schedules
+            $planResult = InstallmentService::createPlan($parentOrderId, $userId, $itemId, $amount, $numInstallments, $milestones);
+            $firstScheduleId = $planResult['schedule_ids'][0];
+            $firstMilestone = $milestones[0];
+            $chargeAmount = (float) $firstMilestone['amount'];
+
+            // Create order for Milestone 1
+            $milestoneOrderNumber = 'TCM-INST-' . date('Ymd') . '-' . $firstScheduleId . '-' . strtoupper(substr(bin2hex(random_bytes(2)), 0, 4));
+            $txnid = PayU::generateTxnId('TCM_INST');
+
+            $orderId = Order::create([
+                'user_id'            => $userId,
+                'order_number'       => $milestoneOrderNumber,
+                'item_type'          => 'course',
+                'item_id'            => $itemId,
+                'item_title'         => sprintf('%s (Installment 1 of %d)', $itemTitle, $numInstallments),
+                'amount'             => $chargeAmount,
+                'paid_amount'        => 0.00,
+                'remaining_amount'   => $chargeAmount,
+                'currency'           => 'INR',
+                'status'             => 'pending',
+                'gateway_status'     => 'initiated',
+                'payment_method'     => 'payu',
+                'payment_ref'        => $txnid,
+                'txnid'              => $txnid,
+                'is_installment'     => 1,
+                'installment_number' => 1,
+                'total_installments' => $numInstallments,
+            ]);
+
+            InstallmentSchedule::update($firstScheduleId, [
+                'installment_order_id' => $orderId,
+                'txnid'                => $txnid,
+            ]);
+
+            // Prepare PayU parameters for Milestone 1
+            $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+            $surl   = $appUrl . '/payment/payu/success';
+            $furl   = $appUrl . '/payment/payu/failure';
+
+            $payuParams = [
+                'key'         => PayU::key(),
+                'txnid'       => $txnid,
+                'amount'      => number_format($chargeAmount, 2, '.', ''),
+                'productinfo' => substr(sprintf('Installment 1/%d - %s', $numInstallments, $itemTitle), 0, 95),
+                'firstname'   => $name,
+                'email'       => $email,
+                'phone'       => $cleanPhone,
+                'surl'        => $surl,
+                'furl'        => $furl,
+                'udf1'        => 'installment',
+                'udf2'        => (string) $itemId,
+                'udf3'        => (string) $firstScheduleId,
+                'udf4'        => (string) $userId,
+                'udf5'        => $milestoneOrderNumber,
+            ];
+
+            $hash = PayU::generateRequestHash($payuParams);
+            $payuParams['hash'] = $hash;
+
+            if (Request::isJson() || str_contains((string) ($_SERVER['HTTP_ACCEPT'] ?? ''), 'application/json')) {
+                Response::success([
+                    'action'       => PayU::endpoint(),
+                    'params'       => $payuParams,
+                    'order_number' => $milestoneOrderNumber,
+                ], 'Redirecting to secure PayU gateway for Installment 1...');
+            }
+
+            echo PayU::renderAutoSubmitForm($payuParams);
+            exit;
+        }
+
+        // Standard Full Payment Flow
         $orderNumber = Order::generateNumber();
         $txnid = PayU::generateTxnId($itemType === 'course' ? 'TCM_CR' : 'TCM_WS');
 
@@ -218,7 +334,7 @@ final class PublicPaymentController extends Controller
             ]);
         }
 
-        // 3. Prepare PayU hosted checkout fields
+        // Prepare PayU hosted checkout fields
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $surl   = $appUrl . '/payment/payu/success';
         $furl   = $appUrl . '/payment/payu/failure';
@@ -255,6 +371,24 @@ final class PublicPaymentController extends Controller
         // Otherwise output auto-submitting POST form
         echo PayU::renderAutoSubmitForm($payuParams);
         exit;
+    }
+
+    /**
+     * GET /api/courses/{slug}/installment-plans
+     * Return available payment plans for an eligible course.
+     */
+    public function getInstallmentPlans(array $params): void
+    {
+        $slug = (string) ($params['slug'] ?? '');
+        $course = Course::findBySlug($slug);
+        if (!$course) {
+            Response::error('Course not found', 404);
+            return;
+        }
+
+        $price = (float) $course['price'];
+        $plans = InstallmentService::getAvailablePlansForCourse($price, (int) $course['id']);
+        Response::success($plans);
     }
 
     /**
@@ -302,6 +436,7 @@ final class PublicPaymentController extends Controller
         $itemType = (string) ($data['udf1'] ?? ($order['item_type'] === 'event' ? 'workshop' : 'course'));
         $itemId   = (int) ($data['udf2'] ?? $order['item_id']);
         $itemSlug = (string) ($data['udf3'] ?? '');
+        $isInstallment = ($itemType === 'installment' || !empty($order['is_installment']));
 
         // Idempotency check: If already marked as paid (by webhook), skip fulfillment
         if ($order['status'] === 'paid') {
@@ -325,32 +460,53 @@ final class PublicPaymentController extends Controller
             WHERE id = ?
         ", [$mihpayid, $receiptNumber, json_encode($data, JSON_UNESCAPED_SLASHES), $order['id']]);
 
+        // Handle Installment milestone linking if this was an installment milestone payment
+        $scheduleId = ($isInstallment && is_numeric($data['udf3'] ?? null)) ? (int) $data['udf3'] : 0;
+        if ($isInstallment && $scheduleId > 0) {
+            InstallmentService::markInstallmentPaid($scheduleId, $txnid, $mihpayid, (float) $order['amount']);
+        }
+
         // Record in payment_transactions
         try {
-            \TCM\Models\PaymentTransaction::create([
-                'order_id'      => (int) $order['id'],
-                'user_id'       => $userId,
-                'txnid'         => $txnid,
-                'mihpayid'      => $mihpayid,
-                'bank_ref_num'  => $bankRef,
-                'amount'        => (float) $order['amount'],
-                'currency'      => 'INR',
-                'status'        => 'success',
-                'payment_mode'  => (string) ($data['mode'] ?? ''),
-                'card_type'     => (string) ($data['cardtype'] ?? ''),
-                'bank_code'     => (string) ($data['bankcode'] ?? ''),
-                'hash_verified' => 1,
-                'raw_payload'   => json_encode(PayU::sanitizePayload($data), JSON_UNESCAPED_SLASHES),
+            PaymentTransaction::create([
+                'order_id'                => (int) $order['id'],
+                'installment_schedule_id' => $scheduleId > 0 ? $scheduleId : null,
+                'user_id'                 => $userId,
+                'txnid'                   => $txnid,
+                'mihpayid'                => $mihpayid,
+                'bank_ref_num'            => $bankRef,
+                'amount'                  => (float) $order['amount'],
+                'currency'                => 'INR',
+                'status'                  => 'success',
+                'payment_mode'            => (string) ($data['mode'] ?? ''),
+                'card_type'               => (string) ($data['cardtype'] ?? ''),
+                'bank_code'               => (string) ($data['bankcode'] ?? ''),
+                'hash_verified'           => 1,
+                'raw_payload'             => json_encode(PayU::sanitizePayload($data), JSON_UNESCAPED_SLASHES),
             ]);
         } catch (\Throwable) {}
 
         // 2. Grant Access / Enrollment
-        if ($itemType === 'course') {
+        if ($itemType === 'course' || $isInstallment) {
+            $courseId = $isInstallment ? (int) ($data['udf2'] ?? $order['item_id']) : $itemId;
             Database::run("
                 INSERT INTO enrollments (user_id, course_id, order_id, status, progress, enrolled_at)
                 VALUES (?, ?, ?, 'active', 0, NOW())
                 ON DUPLICATE KEY UPDATE status = 'active', order_id = VALUES(order_id)
-            ", [$userId, $itemId, $order['id']]);
+            ", [$userId, $courseId, $order['id']]);
+
+            if ($isInstallment) {
+                $enrollmentId = (int) Database::scalar(
+                    "SELECT id FROM enrollments WHERE user_id = ? AND course_id = ? LIMIT 1",
+                    [$userId, $courseId]
+                );
+                if ($enrollmentId > 0) {
+                    Database::run(
+                        "UPDATE installment_plans SET enrollment_id = ? WHERE user_id = ? AND course_id = ?",
+                        [$enrollmentId, $userId, $courseId]
+                    );
+                }
+            }
         } else {
             // Workshop: update lead status
             Database::run("
@@ -375,11 +531,11 @@ final class PublicPaymentController extends Controller
                     VALUES (?, ?, ?, ?, ?, 'online', 'approved', ?, NOW(), NOW())
                 ", [
                     $userId,
-                    $itemType,
+                    $isInstallment ? 'course' : $itemType,
                     $itemId,
                     $order['item_title'],
                     $order['amount'],
-                    "PayU ID: {$mihpayid} | Bank Ref: {$bankRef} | Txn: {$txnid}",
+                    "PayU ID: {$mihpayid} | Bank Ref: {$bankRef} | Txn: {$txnid}" . ($isInstallment ? ' [Installment Milestone]' : ''),
                 ]);
             }
         } catch (\Throwable) {}
@@ -393,7 +549,7 @@ final class PublicPaymentController extends Controller
 
             if ($studentEmail !== '') {
                 $emailBody = sprintf(
-                    '<div style="font-family:sans-serif;line-height:1.6;color:#111;">' .
+                    '<div style="font-family:sans-serif;line-height:1.6;color:#111;max-width:560px;margin:0 auto;border:1px solid #eee;padding:24px;">' .
                     '<h2>Payment Confirmed! Welcome to %s</h2>' .
                     '<p>Hi %s,</p>' .
                     '<p>Thank you for enrolling with <strong>The Code Munk (TCM One)</strong>. We have received your payment of <strong>₹%s</strong>.</p>' .
@@ -403,17 +559,17 @@ final class PublicPaymentController extends Controller
                     '<tr><td style="padding:8px 0;border-bottom:1px solid #EEE;"><strong>Transaction ID:</strong></td><td style="padding:8px 0;border-bottom:1px solid #EEE;text-align:right;">%s</td></tr>' .
                     '<tr><td style="padding:8px 0;border-bottom:1px solid #EEE;"><strong>Amount Paid:</strong></td><td style="padding:8px 0;border-bottom:1px solid #EEE;text-align:right;">₹%s</td></tr>' .
                     '</table>' .
-                    '<p>You can access your cohort details, timetable, and study materials on your student dashboard:</p>' .
-                    '<p><a href="https://thecodemunk.in/student" style="display:inline-block;padding:12px 24px;background:#111;color:#FFF;text-decoration:none;border-radius:6px;font-weight:700;">Open Student Portal</a></p>' .
+                    '<p>You can access your cohort details, timetable, study materials and installment balance on your student dashboard:</p>' .
+                    '<p><a href="https://thecodemunk.in/student" style="display:inline-block;padding:12px 24px;background:#111;color:#FFF;text-decoration:none;border-radius:0;font-weight:700;">Open Student Portal</a></p>' .
                     '<p>Need assistance? Connect with our academic mentor directly on WhatsApp at <a href="https://wa.me/919238695500">+91 92386 95500</a>.</p>' .
                     '</div>',
-                    e($itemTitle),
-                    e($studentName),
-                    e($amount),
-                    e((string)$order['order_number']),
-                    e($itemTitle),
-                    e($mihpayid),
-                    e($amount)
+                    htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'),
+                    htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'),
+                    $amount,
+                    htmlspecialchars((string)$order['order_number'], ENT_QUOTES, 'UTF-8'),
+                    htmlspecialchars($itemTitle, ENT_QUOTES, 'UTF-8'),
+                    htmlspecialchars($mihpayid, ENT_QUOTES, 'UTF-8'),
+                    $amount
                 );
                 Mailer::send($studentEmail, "Enrollment & Payment Confirmed — {$itemTitle}", $emailBody);
             }
@@ -450,9 +606,9 @@ final class PublicPaymentController extends Controller
     public function payuFailure(): void
     {
         $data = $_POST;
-        $txnid = (string) ($data['txnid'] ?? '');
+        $txnid       = (string) ($data['txnid'] ?? '');
         $orderNumber = (string) ($data['udf5'] ?? '');
-        $errorMsg = (string) ($data['error_Message'] ?? $data['errorMessage'] ?? 'Transaction was declined or cancelled.');
+        $errorMsg    = (string) ($data['error_Message'] ?? $data['errorMessage'] ?? 'Payment was declined or cancelled at gateway.');
 
         if ($txnid !== '' || $orderNumber !== '') {
             Database::run("

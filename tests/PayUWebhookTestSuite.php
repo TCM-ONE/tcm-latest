@@ -370,7 +370,8 @@ class PayUWebhookTestSuite
         ]);
 
         // Create 2 installments of ₹5,000 each
-        $scheduleIds = InstallmentService::createPlan($parentOrderId, $this->testUserId, $this->testCourseId, 10000.00, 2);
+        $planRes = InstallmentService::createPlan($parentOrderId, $this->testUserId, $this->testCourseId, 10000.00, 2);
+        $scheduleIds = is_array($planRes) && isset($planRes['schedule_ids']) ? $planRes['schedule_ids'] : $planRes;
         $inst1Id = $scheduleIds[0];
 
         // Pay milestone 1
