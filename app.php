@@ -278,6 +278,15 @@ $router->post('/api/webhooks/payu/refund',  ['TCM\Controllers\PayUWebhookControl
 $router->post('/api/webhooks/payu/dispute', ['TCM\Controllers\PayUWebhookController', 'dispute']);
 
 
+// --------------------------------------------------------------------- //
+// PayU Online Payment Gateway (Courses & Workshops)
+// --------------------------------------------------------------------- //
+$router->post('/payment/initiate',     ['TCM\Controllers\PublicPaymentController', 'initiate']);
+$router->post('/payment/payu/success', ['TCM\Controllers\PublicPaymentController', 'payuSuccess']);
+$router->post('/payment/payu/failure', ['TCM\Controllers\PublicPaymentController', 'payuFailure']);
+$router->get('/payment/success',       ['TCM\Controllers\PublicPaymentController', 'successView']);
+$router->get('/payment/failure',       ['TCM\Controllers\PublicPaymentController', 'failureView']);
+
 // Lead capture + WhatsApp hand-off (used by the static site CTAs and dashboards)
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);
 
