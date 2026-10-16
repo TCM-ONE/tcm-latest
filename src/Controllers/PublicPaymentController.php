@@ -189,14 +189,15 @@ final class PublicPaymentController extends Controller
         $txnid = PayU::generateTxnId($itemType === 'course' ? 'TCM_CR' : 'TCM_WS');
 
         Database::run("
-            INSERT INTO orders (user_id, order_number, item_type, item_id, item_title, amount, currency, status, payment_method, payment_ref, txnid)
-            VALUES (?, ?, ?, ?, ?, ?, 'INR', 'pending', 'payu', ?, ?)
+            INSERT INTO orders (user_id, order_number, item_type, item_id, item_title, amount, paid_amount, remaining_amount, currency, status, gateway_status, payment_method, payment_ref, txnid)
+            VALUES (?, ?, ?, ?, ?, ?, 0.00, ?, 'INR', 'pending', 'initiated', 'payu', ?, ?)
         ", [
             $userId,
             $orderNumber,
             $itemType === 'workshop' ? 'event' : 'course',
             $itemId,
             $itemTitle,
+            $amount,
             $amount,
             $txnid,
             $txnid,
@@ -302,15 +303,46 @@ final class PublicPaymentController extends Controller
         $itemId   = (int) ($data['udf2'] ?? $order['item_id']);
         $itemSlug = (string) ($data['udf3'] ?? '');
 
+        // Idempotency check: If already marked as paid (by webhook), skip fulfillment
+        if ($order['status'] === 'paid') {
+            $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+            Response::redirect($appUrl . '/payment/success?order=' . rawurlencode((string)$order['order_number']));
+        }
+
+        $receiptNumber = $order['receipt_number'] ?: Order::generateReceiptNumber((int)$order['id']);
+
         // 1. Mark Order Paid
         Database::run("
             UPDATE orders SET
-                status = 'paid',
-                payment_ref = ?,
-                raw_response = ?,
-                updated_at = NOW()
+                status           = 'paid',
+                gateway_status   = 'success',
+                paid_amount      = amount,
+                remaining_amount = 0.00,
+                payment_ref      = ?,
+                receipt_number   = ?,
+                raw_response     = ?,
+                updated_at       = NOW()
             WHERE id = ?
-        ", [$mihpayid, json_encode($data, JSON_UNESCAPED_SLASHES), $order['id']]);
+        ", [$mihpayid, $receiptNumber, json_encode($data, JSON_UNESCAPED_SLASHES), $order['id']]);
+
+        // Record in payment_transactions
+        try {
+            \TCM\Models\PaymentTransaction::create([
+                'order_id'      => (int) $order['id'],
+                'user_id'       => $userId,
+                'txnid'         => $txnid,
+                'mihpayid'      => $mihpayid,
+                'bank_ref_num'  => $bankRef,
+                'amount'        => (float) $order['amount'],
+                'currency'      => 'INR',
+                'status'        => 'success',
+                'payment_mode'  => (string) ($data['mode'] ?? ''),
+                'card_type'     => (string) ($data['cardtype'] ?? ''),
+                'bank_code'     => (string) ($data['bankcode'] ?? ''),
+                'hash_verified' => 1,
+                'raw_payload'   => json_encode(PayU::sanitizePayload($data), JSON_UNESCAPED_SLASHES),
+            ]);
+        } catch (\Throwable) {}
 
         // 2. Grant Access / Enrollment
         if ($itemType === 'course') {

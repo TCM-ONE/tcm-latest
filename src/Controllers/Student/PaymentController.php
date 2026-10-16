@@ -9,24 +9,33 @@ use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\FirebaseNotification;
 use TCM\Core\Request;
+use TCM\Core\PayU;
+use TCM\Core\Response;
 use TCM\Core\Upload;
 use TCM\Models\Course;
 use TCM\Models\Event;
+use TCM\Models\InstallmentSchedule;
 use TCM\Models\Lead;
 use TCM\Models\Notification;
+use TCM\Models\Order;
 use TCM\Models\PaymentSubmission;
 use TCM\Models\Program;
+use TCM\Services\InstallmentService;
 
 final class PaymentController extends Controller
 {
-    /** Show payment history list. */
+    /** Show payment history list including online PayU orders and installments. */
     public function history(): void
     {
         $user = Auth::require('student');
+        $userId = (int) $user['id'];
+
         $this->view('student/payments/history', [
-            'title'    => 'Payment History',
-            'user'     => $user,
-            'payments' => PaymentSubmission::forUser((int) $user['id']),
+            'title'        => 'Payment History',
+            'user'         => $user,
+            'payments'     => PaymentSubmission::forUser($userId),
+            'onlineOrders' => Order::forUser($userId),
+            'installments' => InstallmentSchedule::forUser($userId),
         ], 'student');
     }
 
@@ -331,4 +340,87 @@ final class PaymentController extends Controller
             default   => null,
         };
     }
+
+    /**
+     * Download or view receipt for an online PayU order.
+     * GET /student/orders/{id}/receipt
+     */
+    public function orderReceipt(array $params): void
+    {
+        $user = Auth::require('student');
+        $order = Order::find((int) $params['id']);
+
+        if (!$order || (int)$order['user_id'] !== (int)$user['id']) {
+            flash('error', 'Order receipt not found.');
+            redirect('/student/payments');
+        }
+
+        if ($order['status'] !== 'paid') {
+            flash('error', 'Receipt is only available for confirmed payments.');
+            redirect('/student/payments');
+        }
+
+        $receiptNumber = $order['receipt_number'] ?: Order::generateReceiptNumber((int)$order['id']);
+        $isInstallment = !empty($order['is_installment']);
+
+        $this->view('student/payments/receipt', [
+            'title'   => 'Official Payment Receipt',
+            'user'    => $user,
+            'payment' => [
+                'receipt_number'     => $receiptNumber,
+                'reviewed_at'        => $order['updated_at'] ?: $order['created_at'],
+                'created_at'         => $order['created_at'],
+                'payment_date'       => $order['updated_at'] ?: $order['created_at'],
+                'item_title'         => $order['item_title'],
+                'item_type'          => $order['item_type'],
+                'payment_method'     => 'payu',
+                'transaction_ref'    => $order['payment_ref'] ?: $order['txnid'],
+                'amount'             => (float) ($order['paid_amount'] > 0 ? $order['paid_amount'] : $order['amount']),
+                'is_installment'     => $isInstallment ? 1 : 0,
+                'installment_number' => (int) ($order['installment_number'] ?? 1),
+                'total_installments' => (int) ($order['total_installments'] ?? 1),
+                'remaining_amount'   => (float) ($order['remaining_amount'] ?? 0.0),
+                'total_fee'          => (float) $order['amount'],
+            ],
+        ], null);
+    }
+
+    /**
+     * Initiate payment for an installment milestone.
+     * POST /student/installments/{id}/pay
+     */
+    public function payInstallment(array $params): void
+    {
+        $user = Auth::require('student');
+        $scheduleId = (int) $params['id'];
+
+        $schedule = InstallmentSchedule::find($scheduleId);
+        if (!$schedule || (int)$schedule['user_id'] !== (int)$user['id']) {
+            flash('error', 'Installment milestone not found.');
+            redirect('/student/payments');
+        }
+
+        if ($schedule['status'] === 'paid') {
+            flash('info', 'This installment is already paid.');
+            redirect('/student/payments');
+        }
+
+        try {
+            $checkout = InstallmentService::generateInstallmentCheckout($scheduleId, $user);
+
+            if (Request::isJson()) {
+                Response::success([
+                    'action' => $checkout['endpoint'],
+                    'params' => $checkout['params'],
+                ], 'Redirecting to payment gateway...');
+            }
+
+            echo PayU::renderAutoSubmitForm($checkout['params']);
+            exit;
+        } catch (\Throwable $e) {
+            flash('error', 'Unable to initiate installment payment: ' . $e->getMessage());
+            redirect('/student/payments');
+        }
+    }
 }
+
