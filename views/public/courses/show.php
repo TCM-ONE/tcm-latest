@@ -454,6 +454,13 @@
       </div>
     </section>
 
+    <!-- Certificate Showcase Section (Reusable) -->
+    <?php \TCM\Core\View::partial('partials.certificate-showcase', [
+      'certEyebrow' => 'PROGRAM CERTIFICATION',
+      'certTitle'   => 'Course Completion',
+      'certDesc'    => 'Earn official, verifiable credentials from TCM One and Cuboidsoft upon completing your lectures, practical coding assignments, and capstone project.',
+    ]); ?>
+
     <!-- Unified Sticky Bottom Enrollment Bar (Always Visible on Scroll) -->
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Course Enrollment Bar">
       <div class="tcm-container" style="padding-left: 12px; padding-right: 12px;">
