@@ -262,6 +262,142 @@ final class WorkshopData
                     'Personalized question-and-answer session with industry engineering mentors',
                 ],
             ],
+
+            'data-analysis-workshop' => [
+                'slug'              => 'data-analysis-workshop',
+                'title'             => 'Data Analysis Masterclass: Excel, SQL, Python & Power BI | Dussehra Special',
+                'short_title'       => 'Data Analysis Workshop',
+                'tagline'           => 'Master Excel, SQL, Python & Power BI in 2 weeks of live classes with real-world business datasets.',
+                'description'       => 'Join the 2-week Data Analysis Workshop from TCM One for ₹999 (Dussehra Special). Learn Excel analytics, SQL querying, Python Pandas, and Power BI dashboards with live mentor guidance.',
+                'full_description'  => 'Kickstart your data career with our intensive 2-Week Dussehra Special Data Analysis Workshop. Over 2 weeks of live hands-on classes, you\'ll learn end-to-end data processing: from raw spreadsheets in Microsoft Excel, to relational database querying with SQL, data manipulation with Python & Pandas, and creating interactive executive dashboards in Power BI.',
+                'price'             => 999.00,
+                'original_price'    => 2499.00,
+                'duration'          => '2 Weeks',
+                'schedule'          => 'Evening live sessions (Mon–Fri)',
+                'starts_at'         => 'Dussehra Special Cohort Starting Soon',
+                'mode'              => 'Live Online Cohort',
+                'category'          => 'Data Analytics',
+                'icon'              => 'bi-bar-chart-line',
+                'badge'             => 'Dussehra Special &middot; 2 Weeks Live',
+                'curriculum'        => [
+                    [
+                        'day' => 'Day 01',
+                        'title' => 'Foundations of Data Analysis & Modern Excel Essentials',
+                        'topics' => [
+                            'Introduction to the data analysis lifecycle: Question, Wrangle, Explore, Analyze & Report',
+                            'Excel environment, cell references, data hygiene, and essential keyboard shortcuts',
+                            'Data cleaning essentials: Text-to-Columns, Remove Duplicates, TRIM, CLEAN, and Flash Fill',
+                            'Hands-on Lab: Cleaning messy raw customer leads and normalizing irregular formats'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 02',
+                        'title' => 'Advanced Excel for Business Analytics & Pivot Tables',
+                        'topics' => [
+                            'Modern lookup formulas: XLOOKUP vs VLOOKUP/INDEX-MATCH and error shielding with IFERROR',
+                            'Logical and conditional functions: SUMIFS, COUNTIFS, AVERAGEIFS, and nested IFs',
+                            'Pivot Tables & Pivot Charts: Grouping dates, calculated fields, slicers, and timelines',
+                            'Hands-on Lab: Constructing a dynamic sales performance scorecard with KPIs in Excel'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 03',
+                        'title' => 'Relational Database Architecture & SQL Query Fundamentals',
+                        'topics' => [
+                            'RDBMS concepts: Tables, primary keys, foreign keys, and relational schema diagrams',
+                            'Basic SQL query anatomy: SELECT, DISTINCT, WHERE filtering, operators, and pattern matching (LIKE)',
+                            'Sorting, pagination, and limiting results: ORDER BY, ASC/DESC, LIMIT & OFFSET',
+                            'Hands-on Lab: Querying a live multi-table retail database to answer business questions'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 04',
+                        'title' => 'Advanced SQL Queries: Joins, Aggregations & Subqueries',
+                        'topics' => [
+                            'Multi-table joins: INNER JOIN, LEFT JOIN, RIGHT JOIN, and self-joins with clear real-world examples',
+                            'Aggregate functions: COUNT, SUM, AVG, MIN, MAX with GROUP BY and HAVING clauses',
+                            'Subqueries and Common Table Expressions (CTEs) for multi-step logic',
+                            'Hands-on Lab: Writing complex queries to extract top-spending customers and underperforming product categories'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 05',
+                        'title' => 'Week 1 Hands-on Project Lab: E-Commerce Analytics with SQL',
+                        'topics' => [
+                            'Connecting realistic e-commerce datasets: Customers, Orders, Order_Items, and Products',
+                            'Cohort retention analysis and month-over-month revenue growth tracking in SQL',
+                            'Exporting query datasets into structured CSV and formatting presentation outputs',
+                            'Deliverable Review: Mentored feedback on SQL query efficiency and output accuracy'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 06',
+                        'title' => 'Python for Data Analysis & Jupyter / Colab Environment',
+                        'topics' => [
+                            'Why Python for Data: Ecosystem overview, Google Colab and Jupyter Notebook workflows',
+                            'Core Python refresher for data analysts: Lists, dicts, list comprehensions, and functions',
+                            'NumPy arrays: Vectorized operations, broadcasting, math aggregations, and performance edge',
+                            'Hands-on Lab: Manipulating multi-dimensional arrays and executing mathematical analysis in Colab'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 07',
+                        'title' => 'Data Wrangling & Transformation with Pandas',
+                        'topics' => [
+                            'Pandas Series & DataFrames: Reading CSV, Excel, and JSON datasets effortlessly',
+                            'Inspecting data: info(), describe(), shape, head(), tail(), and memory usage',
+                            'Handling missing values, data type casting, column renaming, and string manipulation',
+                            'Filtering rows, subsetting columns, and applying lambda/custom transformations with apply()',
+                            'Hands-on Lab: Cleaning a real-world messy dataset with 50,000+ consumer transactions'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 08',
+                        'title' => 'Exploratory Data Analysis (EDA) & Data Visualisation',
+                        'topics' => [
+                            'Principles of visual storytelling: Choosing the right chart type for your data narrative',
+                            'Matplotlib fundamentals: Figures, axes, line plots, histograms, and bar charts',
+                            'Seaborn high-level statistical plots: Box plots, scatter plots, violin plots, and correlation heatmaps',
+                            'Hands-on Lab: Uncovering hidden sales patterns and outlier anomalies with visual EDA'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 09',
+                        'title' => 'Business Intelligence & Interactive Dashboards with Power BI',
+                        'topics' => [
+                            'Power BI Desktop introduction: Connecting data sources (Excel, SQL, CSV) and Power Query ETL',
+                            'Data modeling essentials: Star schema, relationships, cardinality, and filter direction',
+                            'DAX basics: CALCULATE, SUM, RELATED, DIVIDE, and creating custom calculated measures',
+                            'Building interactive dashboards: Cards, donut charts, matrix visuals, cross-filtering, and drill-throughs',
+                            'Hands-on Lab: Designing a professional executive-ready Power BI dashboard from scratch'
+                        ]
+                    ],
+                    [
+                        'day' => 'Day 10',
+                        'title' => 'Capstone Project Lab: End-to-End Analytics & Career Roadmap',
+                        'topics' => [
+                            'End-to-End Capstone: Clean raw business data with Excel & Python, query metrics with SQL, and visualize in Power BI',
+                            'Executive presentation skills: Communicating insights clearly to non-technical stakeholders',
+                            'Building an impressive Data Analytics GitHub repository and portfolio showcase',
+                            'Resume optimization for Data Analyst & Business Analyst roles + Interview preparation tips',
+                            'Capstone presentation & issuance of Verified Certificate of Completion'
+                        ]
+                    ],
+                ],
+                'highlights'        => [
+                    '2 weeks of intensive live classes covering Excel, SQL, Python, and Power BI',
+                    'Master Advanced Excel: Formulas, XLOOKUP, Pivot Tables, and automated data cleaning',
+                    'Write production SQL queries with complex multi-table joins and aggregations',
+                    'Data manipulation and exploratory analysis with Python, Pandas, and Seaborn',
+                    'Build and publish interactive executive dashboards using Microsoft Power BI',
+                    'Dussehra Special Festive Cohort with mentor feedback, doubt clearing, and verified certificate',
+                ],
+                'target_audience'   => [
+                    'College Students & Freshers: Build job-ready Data Analyst and Business Analyst portfolio projects.',
+                    'Working Professionals: Transition into analytics, business reporting, and data-driven decision making.',
+                    'Tech & Non-Tech Learners: Anyone looking to master data tools without heavy mathematical prerequisite.',
+                ],
+            ],
         ];
     }
 
@@ -280,22 +416,30 @@ final class WorkshopData
     public static function resolveSlug(string $slug): string
     {
         $map = [
-            'python'            => 'python-starter-workshop',
-            'python-starter'    => 'python-starter-workshop',
-            'python-workshop'   => 'python-starter-workshop',
-            'website'           => 'frontend-website-challenge-7-days',
-            'website-building'  => 'frontend-website-challenge-7-days',
-            'web-development'   => 'frontend-website-challenge-7-days',
-            'frontend'          => 'frontend-website-challenge-7-days',
-            'ai'                => 'ai-tools-everyday-work-workshop',
-            'ai-tools'          => 'ai-tools-everyday-work-workshop',
-            'ai-agentic-coding' => 'ai-tools-everyday-work-workshop',
-            'ai-workshop'       => 'ai-tools-everyday-work-workshop',
-            'career'            => 'find-your-tech-career-path-workshop',
-            'career-path'       => 'find-your-tech-career-path-workshop',
-            'dsa'               => 'find-your-tech-career-path-workshop',
-            'dsa-starter'       => 'find-your-tech-career-path-workshop',
-            'dsa-workshop'      => 'find-your-tech-career-path-workshop',
+            'python'                    => 'python-starter-workshop',
+            'python-starter'            => 'python-starter-workshop',
+            'python-workshop'           => 'python-starter-workshop',
+            'website'                   => 'frontend-website-challenge-7-days',
+            'website-building'          => 'frontend-website-challenge-7-days',
+            'web-development'           => 'frontend-website-challenge-7-days',
+            'frontend'                  => 'frontend-website-challenge-7-days',
+            'ai'                        => 'ai-tools-everyday-work-workshop',
+            'ai-tools'                  => 'ai-tools-everyday-work-workshop',
+            'ai-agentic-coding'         => 'ai-tools-everyday-work-workshop',
+            'ai-workshop'               => 'ai-tools-everyday-work-workshop',
+            'career'                    => 'find-your-tech-career-path-workshop',
+            'career-path'               => 'find-your-tech-career-path-workshop',
+            'dsa'                       => 'find-your-tech-career-path-workshop',
+            'dsa-starter'               => 'find-your-tech-career-path-workshop',
+            'dsa-workshop'              => 'find-your-tech-career-path-workshop',
+            'data'                      => 'data-analysis-workshop',
+            'data-analysis'             => 'data-analysis-workshop',
+            'data-analytics'            => 'data-analysis-workshop',
+            'data-analytics-workshop'   => 'data-analysis-workshop',
+            'data-analysis-workshop'    => 'data-analysis-workshop',
+            'dussehra-special'          => 'data-analysis-workshop',
+            'dashara-special'           => 'data-analysis-workshop',
+            'dussehra-workshop'         => 'data-analysis-workshop',
         ];
 
         return $map[$slug] ?? $slug;

@@ -853,7 +853,7 @@ try {
     echo "✓ All 24 Courses seeded with modules & active batches.\n";
 
     // -------------------------------------------------------------
-    // 3. 4 Workshop Records (2 Featured, 2 Draft)
+    // 3. 5 Workshop Records (Featured & Live Cohorts)
     // -------------------------------------------------------------
     $workshops = [
         [
@@ -883,6 +883,19 @@ try {
             'desc' => 'Learn HTML, CSS and JavaScript through practical live sessions. Build and publish your first responsive mini website from scratch with expert mentor guidance.'
         ],
         [
+            'title' => 'Data Analysis Masterclass | Dussehra Special',
+            'slug' => 'data-analysis-workshop',
+            'subtitle' => 'Excel, SQL, Python & Power BI in 2 Weeks',
+            'price' => 999.00,
+            'duration' => '2 Weeks',
+            'level' => 'beginner',
+            'type' => 'paid',
+            'status' => 'upcoming',
+            'is_featured_home' => 1,
+            'home_sort_order' => 3,
+            'desc' => 'Master Excel analytics, advanced SQL multi-table queries, Python Pandas data wrangling, and interactive Power BI executive dashboards in 2 weeks of live mentored classes.'
+        ],
+        [
             'title' => 'AI Tools for Everyday Work',
             'slug' => 'ai-tools-everyday-work-workshop',
             'subtitle' => 'Work Faster and Smarter with Modern AI',
@@ -892,7 +905,7 @@ try {
             'type' => 'paid',
             'status' => 'upcoming',
             'is_featured_home' => 0,
-            'home_sort_order' => 3,
+            'home_sort_order' => 4,
             'desc' => 'Discover how to apply generative AI in your daily college and office workflow. Learn effective prompt engineering and practical automated tasks.'
         ],
         [
@@ -905,7 +918,7 @@ try {
             'type' => 'free',
             'status' => 'upcoming',
             'is_featured_home' => 0,
-            'home_sort_order' => 4,
+            'home_sort_order' => 5,
             'desc' => 'An insightful career navigation session covering web development, data, AI, cloud, and how to prepare for placement drives.'
         ]
     ];
