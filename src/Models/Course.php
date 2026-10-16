@@ -173,45 +173,76 @@ final class Course extends Model
         self::ensureThumbnails();
         self::ensureBrochureColumns();
 
-        // 1. Prioritize exact slug match in database
+        // 1. Prioritize exact published slug match in database
         $course = Database::first(
             'SELECT c.*, cat.name AS category_name FROM courses c
              LEFT JOIN categories cat ON cat.id = c.category_id
-             WHERE c.slug = ? LIMIT 1',
+             WHERE c.slug = ? AND c.status = "published" LIMIT 1',
             [$slug]
         );
 
-        // 2. Fallback to legacy historical aliases only when slug is not found directly
+        // 2. Fallback to legacy historical aliases for canonical published courses
         if ($course === null) {
             $aliases = [
-                'dsa-with-java'             => 'dsa-problem-solving-java',
-                'full-stack-development'    => 'full-stack-web-development',
-                'frontend-development'      => 'frontend-development-with-react',
-                'python-development'        => 'python-programming-automation',
-                'python-automation'         => 'python-programming-automation',
-                'database-systems'          => 'sql-database-fundamentals',
-                'cloud-fundamentals'        => 'aws-cloud-deployment-fundamentals',
-                'computer-basics'           => 'digital-skills-computer-fundamentals',
-                'web-development-basics'    => 'build-your-first-website',
-                'ai-tools-mastery'          => 'ai-tools-for-study-work',
-                'career-transition-program' => 'tech-career-launchpad',
-                'career-coaching'           => 'tech-career-launchpad',
-                'cloud-devops'              => 'docker-devops-cicd-essentials',
-                'react-nextjs'              => 'react-nextjs-frontend-engineering',
-                'backend-systems'           => 'backend-development-nodejs-apis',
-                'mobile-app-dev'            => 'mobile-app-development-react-native',
-                'data-science-ai'           => 'data-science-machine-learning-foundations',
-                'system-design'             => 'system-design-microservices-foundations',
+                'dsa-with-java'                     => 'dsa-problem-solving-java',
+                'full-stack-development'            => 'full-stack-web-development',
+                'frontend-development'              => 'frontend-development-with-react',
+                'react-js'                          => 'frontend-development-with-react',
+                'web-development-fundamentals'      => 'build-your-first-website',
+                'backend-development-with-nodejs'  => 'backend-development-nodejs-apis',
+                'python-development'                => 'python-programming-automation',
+                'python-automation'                 => 'python-programming-automation',
+                'python-programming'                => 'python-programming-automation',
+                'python-with-django'                => 'python-programming-automation',
+                'core-java-programming'             => 'core-java-object-oriented-programming',
+                'database-systems'                  => 'sql-database-fundamentals',
+                'sql-database-management'           => 'sql-database-fundamentals',
+                'cloud-fundamentals'                => 'aws-cloud-deployment-fundamentals',
+                'computer-basics'                   => 'digital-skills-computer-fundamentals',
+                'web-development-basics'            => 'build-your-first-website',
+                'ai-tools-mastery'                  => 'ai-tools-for-study-work',
+                'ai-tools-for-coding'               => 'ai-tools-for-study-work',
+                'career-transition-program'         => 'tech-career-launchpad',
+                'career-coaching'                   => 'tech-career-launchpad',
+                'resume-interview-preparation'      => 'tech-career-launchpad',
+                'cloud-devops'                      => 'docker-devops-cicd-essentials',
+                'react-nextjs'                      => 'react-nextjs-frontend-engineering',
+                'nextjs-modern-react'               => 'react-nextjs-frontend-engineering',
+                'backend-systems'                   => 'backend-development-nodejs-apis',
+                'mobile-app-dev'                    => 'mobile-app-development-react-native',
+                'data-science-ai'                   => 'data-science-machine-learning-foundations',
+                'data-science'                      => 'data-science-machine-learning-foundations',
+                'data-analysis'                     => 'data-analytics-excel-sql-powerbi',
+                'excel-for-data-analytics'          => 'data-analytics-excel-sql-powerbi',
+                'power-bi-business-intelligence'    => 'data-analytics-excel-sql-powerbi',
+                'machine-learning-with-python'      => 'data-science-machine-learning-foundations',
+                'generative-ai-prompt-engineering'  => 'generative-ai-agent-engineering',
+                'system-design'                     => 'system-design-microservices-foundations',
+                'ui-ux-design'                      => 'ui-ux-design-with-figma',
+                'git-github-essentials'             => 'build-your-first-website',
+                'rest-api-development'              => 'backend-development-nodejs-apis',
+                'advanced-javascript-typescript'    => 'frontend-development-with-react',
+                'mern-stack-projects'               => 'full-stack-web-development',
             ];
             if (isset($aliases[$slug])) {
                 $targetSlug = $aliases[$slug];
                 $course = Database::first(
                     'SELECT c.*, cat.name AS category_name FROM courses c
                      LEFT JOIN categories cat ON cat.id = c.category_id
-                     WHERE c.slug = ? LIMIT 1',
+                     WHERE c.slug = ? AND c.status = "published" LIMIT 1',
                     [$targetSlug]
                 );
             }
+        }
+
+        // 3. Fallback: exact lookup without status restriction
+        if ($course === null) {
+            $course = Database::first(
+                'SELECT c.*, cat.name AS category_name FROM courses c
+                 LEFT JOIN categories cat ON cat.id = c.category_id
+                 WHERE c.slug = ? LIMIT 1',
+                [$slug]
+            );
         }
 
         if ($course !== null) {

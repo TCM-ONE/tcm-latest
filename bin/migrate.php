@@ -236,7 +236,37 @@ try {
     echo "✓ Canonical categories active: " . count($canonicalCategories) . "\n";
 
     // -----------------------------------------------------------------
-    // 4. Synchronize Course Catalogue (24+ Courses)
+    // 4. Ensure Admin User (admin@thecodemunk.in)
+    // -----------------------------------------------------------------
+    $adminEmail = 'admin@thecodemunk.in';
+    $adminPassHash = '$2y$10$QjdOPqj0PXTWneBe.K7MrO2G6UuPdIAhLYqTqbYE/JJaFYfxwcEJu'; // TcmAdmin@2026#Secure!
+
+    $adminStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR email = 'admin@thecodemunk.com' OR id = 1 LIMIT 1");
+    $adminStmt->execute([$adminEmail]);
+    $adminId = $adminStmt->fetchColumn();
+
+    if ($adminId) {
+        $pdo->prepare("UPDATE users SET email = ?, name = 'TCM Admin', password_hash = ?, role = 'admin', status = 'active', email_verified = 1, onboarded = 1 WHERE id = ?")
+            ->execute([$adminEmail, $adminPassHash, $adminId]);
+        echo "✓ Admin user updated: {$adminEmail}\n";
+    } else {
+        $pdo->prepare("INSERT INTO users (id, name, email, password_hash, role, status, email_verified, onboarded) VALUES (1, 'TCM Admin', ?, ?, 'admin', 'active', 1, 1)")
+            ->execute([$adminEmail, $adminPassHash]);
+        echo "✓ Admin user created: {$adminEmail}\n";
+    }
+
+    // -----------------------------------------------------------------
+    // 5. Archive 23 obsolete 0-module placeholder and test courses
+    // -----------------------------------------------------------------
+    $pdo->exec("
+        UPDATE courses 
+        SET status = 'archived', is_featured = 0 
+        WHERE id IN (15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 44, 45)
+    ");
+    echo "✓ Archived 23 obsolete/placeholder 0-module and test courses\n";
+
+    // -----------------------------------------------------------------
+    // 6. Synchronize Course Catalogue (24+ Courses)
     // -----------------------------------------------------------------
     $cataloguePath = dirname(__DIR__) . '/database/course_catalogue_2026_10_13.json';
     if (is_file($cataloguePath)) {
@@ -387,7 +417,56 @@ try {
     }
 
     // -----------------------------------------------------------------
-    // 5. Synchronize Editorial Blog Posts (Tech Updates)
+    // 7. Master Approved 31-Course Pricing & Durations Sync
+    // -----------------------------------------------------------------
+    $exactCourses = [
+        ['id' => 13, 'slug' => 'full-stack-web-development', 'price' => 12999.00, 'orig' => 19999.00, 'duration' => '16 Weeks', 'featured' => 1],
+        ['id' => 14, 'slug' => 'frontend-development-with-react', 'price' => 6999.00, 'orig' => 9999.00, 'duration' => '8 Weeks', 'featured' => 1],
+        ['id' => 55, 'slug' => 'react-nextjs-frontend-engineering', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+        ['id' => 56, 'slug' => 'backend-development-nodejs-apis', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+        ['id' => 57, 'slug' => 'mobile-app-development-react-native', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 0],
+        ['id' => 50, 'slug' => 'build-your-first-website', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '4 Weeks', 'featured' => 0],
+        ['id' => 61, 'slug' => 'software-testing-qa-playwright', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ['id' => 46, 'slug' => 'python-programming-automation', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '8 Weeks', 'featured' => 1],
+        ['id' => 47, 'slug' => 'sql-database-fundamentals', 'price' => 3499.00, 'orig' => 4999.00, 'duration' => '4 Weeks', 'featured' => 0],
+        ['id' => 63, 'slug' => 'core-java-object-oriented-programming', 'price' => 4999.00, 'orig' => 7499.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ['id' => 39, 'slug' => 'python-for-ai-ml', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '30 Days', 'featured' => 0],
+        ['id' => 49, 'slug' => 'digital-skills-computer-fundamentals', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '4 Weeks', 'featured' => 0],
+        ['id' => 54, 'slug' => 'data-analytics-excel-sql-powerbi', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 1],
+        ['id' => 64, 'slug' => 'data-science-machine-learning-foundations', 'price' => 12999.00, 'orig' => 18999.00, 'duration' => '14 Weeks', 'featured' => 1],
+        ['id' => 42, 'slug' => 'machine-learning-python-projects', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '40 Days', 'featured' => 1],
+        ['id' => 67, 'slug' => 'artificial-intelligence-machine-learning', 'price' => 14999.00, 'orig' => 22999.00, 'duration' => '16 Weeks', 'featured' => 1],
+        ['id' => 58, 'slug' => 'generative-ai-agent-engineering', 'price' => 12999.00, 'orig' => 19999.00, 'duration' => '12 Weeks', 'featured' => 1],
+        ['id' => 53, 'slug' => 'ai-automation-nocode-tools', 'price' => 6999.00, 'orig' => 9999.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ['id' => 37, 'slug' => 'ai-machine-learning-fundamentals', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '45 Days', 'featured' => 1],
+        ['id' => 40, 'slug' => 'ai-agents-workflow-automation', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '30 Days', 'featured' => 1],
+        ['id' => 38, 'slug' => 'prompt-engineering-generative-ai', 'price' => 1499.00, 'orig' => 2499.00, 'duration' => '20 Days', 'featured' => 1],
+        ['id' => 51, 'slug' => 'ai-tools-for-study-work', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '3 Weeks', 'featured' => 0],
+        ['id' => 41, 'slug' => 'chatgpt-gemini-ai-productivity-tools', 'price' => 999.00, 'orig' => 1999.00, 'duration' => '15 Days', 'featured' => 1],
+        ['id' => 48, 'slug' => 'aws-cloud-deployment-fundamentals', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ['id' => 59, 'slug' => 'docker-devops-cicd-essentials', 'price' => 8999.00, 'orig' => 12999.00, 'duration' => '8 Weeks', 'featured' => 0],
+        ['id' => 66, 'slug' => 'cybersecurity-ethical-security-foundations', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+        ['id' => 21, 'slug' => 'dsa-problem-solving-java', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '12 Weeks', 'featured' => 1],
+        ['id' => 52, 'slug' => 'tech-career-launchpad', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '4 Weeks', 'featured' => 0],
+        ['id' => 65, 'slug' => 'system-design-microservices-foundations', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '8 Weeks', 'featured' => 0],
+        ['id' => 60, 'slug' => 'ui-ux-design-with-figma', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ['id' => 62, 'slug' => 'digital-marketing-seo-analytics', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+    ];
+
+    $syncCourseStmt = $pdo->prepare("
+        UPDATE courses SET 
+            price = ?, original_price = ?, duration = ?, status = 'published', is_featured = ?
+        WHERE slug = ? OR id = ?
+    ");
+    foreach ($exactCourses as $ec) {
+        $syncCourseStmt->execute([$ec['price'], $ec['orig'], $ec['duration'], $ec['featured'], $ec['slug'], $ec['id']]);
+    }
+    echo "✓ Synchronized exact prices, durations and featured priority for 31 approved master courses\n";
+
+    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '31') ON DUPLICATE KEY UPDATE `value` = '31'")->execute();
+
+    // -----------------------------------------------------------------
+    // 8. Synchronize Editorial Blog Posts (Tech Updates)
     // -----------------------------------------------------------------
     $postSqlFile = dirname(__DIR__) . '/database/seed_it_industry_situation_post.sql';
     if (is_file($postSqlFile)) {

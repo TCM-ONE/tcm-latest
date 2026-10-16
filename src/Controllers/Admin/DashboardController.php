@@ -247,85 +247,79 @@ final class DashboardController extends Controller
         ");
         $results[] = '7 Canonical categories active & legacy categories deactivated';
 
-        // 4. Course catalogue
-        $catPath = dirname(__DIR__, 2) . '/database/course_catalogue_2026_10_13.json';
-        $courseCount = 0;
-        if (is_file($catPath)) {
-            $catData = json_decode((string)file_get_contents($catPath), true);
-            if (isset($catData['courses']) && is_array($catData['courses'])) {
-                $categoryNameMap = [
-                    'Programming Foundations' => 'programming-foundations',
-                    'Web & Mobile'            => 'web-mobile-development',
-                    'Web & Mobile Development'=> 'web-mobile-development',
-                    'Data & Analytics'        => 'data-analytics',
-                    'AI & Automation'         => 'ai-automation',
-                    'Cloud & DevOps'          => 'cloud-devops',
-                    'Career & DSA'            => 'career-dsa',
-                    'Design & Business'       => 'design-business',
-                ];
-                foreach ($catData['courses'] as $c) {
-                    $slug = (string)($c['slug'] ?? '');
-                    $title = (string)($c['title'] ?? '');
-                    $catRaw = (string)($c['category'] ?? '');
-                    $catSlug = $categoryNameMap[$catRaw] ?? 'programming-foundations';
-                    $catId = $catMap[$catSlug] ?? 1;
+        // 4. Admin User (admin@thecodemunk.in)
+        $adminEmail = 'admin@thecodemunk.in';
+        $adminPassHash = '$2y$10$QjdOPqj0PXTWneBe.K7MrO2G6UuPdIAhLYqTqbYE/JJaFYfxwcEJu'; // TcmAdmin@2026#Secure!
 
-                    $level = 'beginner';
-                    $rawLvl = strtolower((string)($c['level'] ?? ''));
-                    if (str_contains($rawLvl, 'advanced')) $level = 'advanced';
-                    elseif (str_contains($rawLvl, 'intermediate')) $level = 'intermediate';
+        $adminStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR email = 'admin@thecodemunk.com' OR id = 1 LIMIT 1");
+        $adminStmt->execute([$adminEmail]);
+        $adminId = $adminStmt->fetchColumn();
 
-                    $price = (float)($c['price'] ?? 3999);
-                    $origPrice = (float)($c['original_price'] ?? 6999);
-                    $duration = (string)($c['duration'] ?? '8 Weeks');
-                    $rating = (float)($c['rating'] ?? 4.8);
-                    $reviewsCount = (int)($c['reviews_count'] ?? 120);
-                    $studentsCount = (int)($c['students_count'] ?? 450);
-                    $thumbnail = (string)($c['thumbnail'] ?? 'coding-fullstack.gif');
-                    $subtitle = (string)($c['card_description'] ?? '');
-                    $description = (string)($c['full_description'] ?? $subtitle);
-
-                    $stmt = $pdo->prepare("SELECT id FROM courses WHERE slug = ? OR title = ? LIMIT 1");
-                    $stmt->execute([$slug, $title]);
-                    $existingCourseId = $stmt->fetchColumn() ?: null;
-
-                    if ($existingCourseId) {
-                        $pdo->prepare("
-                            UPDATE courses SET
-                                category_id = ?, title = ?, slug = ?, subtitle = ?, description = ?,
-                                level = ?, duration = ?, price = ?, original_price = ?,
-                                rating = ?, reviews_count = ?, students_count = ?, thumbnail = ?, status = 'published'
-                            WHERE id = ?
-                        ")->execute([
-                            $catId, $title, $slug, $subtitle, $description,
-                            $level, $duration, $price, $origPrice,
-                            $rating, $reviewsCount, $studentsCount, $thumbnail,
-                            $existingCourseId
-                        ]);
-                    } else {
-                        $pdo->prepare("
-                            INSERT INTO courses (
-                                category_id, instructor_id, title, slug, subtitle, description,
-                                icon, thumbnail, level, duration, price, original_price,
-                                rating, reviews_count, students_count, total_seats, seats_left,
-                                schedule, starts_at, is_featured, is_bestseller, status
-                            ) VALUES (
-                                ?, 1, ?, ?, ?, ?,
-                                'bi-code-slash', ?, ?, ?, ?, ?,
-                                ?, ?, ?, 24, 8,
-                                '7:00 PM - 8:30 PM', '2026-11-01', 0, 0, 'published'
-                            )
-                        ")->execute([
-                            $catId, $title, $slug, $subtitle, $description,
-                            $thumbnail, $level, $duration, $price, $origPrice,
-                            $rating, $reviewsCount, $studentsCount
-                        ]);
-                    }
-                    $courseCount++;
-                }
-                $results[] = "Synchronized {$courseCount} courses from catalogue";
-            }
+        if ($adminId) {
+            $pdo->prepare("UPDATE users SET email = ?, name = 'TCM Admin', password_hash = ?, role = 'admin', status = 'active', email_verified = 1, onboarded = 1 WHERE id = ?")
+                ->execute([$adminEmail, $adminPassHash, $adminId]);
+            $results[] = "Admin user verified: {$adminEmail}";
+        } else {
+            $pdo->prepare("INSERT INTO users (id, name, email, password_hash, role, status, email_verified, onboarded) VALUES (1, 'TCM Admin', ?, ?, 'admin', 'active', 1, 1)")
+                ->execute([$adminEmail, $adminPassHash]);
+            $results[] = "Admin user created: {$adminEmail}";
         }
+
+        // 5. Archive 23 obsolete 0-module placeholder and test courses
+        $pdo->exec("
+            UPDATE courses 
+            SET status = 'archived', is_featured = 0 
+            WHERE id IN (15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 44, 45)
+        ");
+        $results[] = 'Archived 23 obsolete/placeholder 0-module and test courses';
+
+        // 6. Master Approved 31-Course Pricing & Durations Sync
+        $exactCourses = [
+            ['id' => 13, 'slug' => 'full-stack-web-development', 'title' => 'Full Stack Web Development (MERN)', 'price' => 12999.00, 'orig' => 19999.00, 'duration' => '16 Weeks', 'featured' => 1],
+            ['id' => 14, 'slug' => 'frontend-development-with-react', 'title' => 'Frontend Development with React', 'price' => 6999.00, 'orig' => 9999.00, 'duration' => '8 Weeks', 'featured' => 1],
+            ['id' => 55, 'slug' => 'react-nextjs-frontend-engineering', 'title' => 'React & Next.js Frontend Engineering', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+            ['id' => 56, 'slug' => 'backend-development-nodejs-apis', 'title' => 'Backend Development with Node.js & APIs', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+            ['id' => 57, 'slug' => 'mobile-app-development-react-native', 'title' => 'Mobile App Development with React Native', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 0],
+            ['id' => 50, 'slug' => 'build-your-first-website', 'title' => 'Build Your First Website', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '4 Weeks', 'featured' => 0],
+            ['id' => 61, 'slug' => 'software-testing-qa-playwright', 'title' => 'Software Testing & QA with Playwright', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+            ['id' => 46, 'slug' => 'python-programming-automation', 'title' => 'Python Programming & Automation', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '8 Weeks', 'featured' => 1],
+            ['id' => 47, 'slug' => 'sql-database-fundamentals', 'title' => 'SQL & Database Fundamentals', 'price' => 3499.00, 'orig' => 4999.00, 'duration' => '4 Weeks', 'featured' => 0],
+            ['id' => 63, 'slug' => 'core-java-object-oriented-programming', 'title' => 'Core Java & Object-Oriented Programming', 'price' => 4999.00, 'orig' => 7499.00, 'duration' => '6 Weeks', 'featured' => 0],
+            ['id' => 39, 'slug' => 'python-for-ai-ml', 'title' => 'Python for AI & ML', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '30 Days', 'featured' => 0],
+            ['id' => 49, 'slug' => 'digital-skills-computer-fundamentals', 'title' => 'Digital Skills & Computer Fundamentals', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '4 Weeks', 'featured' => 0],
+            ['id' => 54, 'slug' => 'data-analytics-excel-sql-powerbi', 'title' => 'Data Analytics with Excel, SQL & Power BI', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 1],
+            ['id' => 64, 'slug' => 'data-science-machine-learning-foundations', 'title' => 'Data Science & Machine Learning Foundations', 'price' => 12999.00, 'orig' => 18999.00, 'duration' => '14 Weeks', 'featured' => 1],
+            ['id' => 42, 'slug' => 'machine-learning-python-projects', 'title' => 'Machine Learning with Python Projects', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '40 Days', 'featured' => 1],
+            ['id' => 67, 'slug' => 'artificial-intelligence-machine-learning', 'title' => 'Artificial Intelligence & Machine Learning (AI & ML) Masterclass', 'price' => 14999.00, 'orig' => 22999.00, 'duration' => '16 Weeks', 'featured' => 1],
+            ['id' => 58, 'slug' => 'generative-ai-agent-engineering', 'title' => 'Generative AI & AI Agent Engineering', 'price' => 12999.00, 'orig' => 19999.00, 'duration' => '12 Weeks', 'featured' => 1],
+            ['id' => 53, 'slug' => 'ai-automation-nocode-tools', 'title' => 'AI Automation with No-Code Tools', 'price' => 6999.00, 'orig' => 9999.00, 'duration' => '6 Weeks', 'featured' => 0],
+            ['id' => 37, 'slug' => 'ai-machine-learning-fundamentals', 'title' => 'AI & Machine Learning Fundamentals', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '45 Days', 'featured' => 1],
+            ['id' => 40, 'slug' => 'ai-agents-workflow-automation', 'title' => 'AI Agents & Workflow Automation', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '30 Days', 'featured' => 1],
+            ['id' => 38, 'slug' => 'prompt-engineering-generative-ai', 'title' => 'Prompt Engineering & Generative AI', 'price' => 1499.00, 'orig' => 2499.00, 'duration' => '20 Days', 'featured' => 1],
+            ['id' => 51, 'slug' => 'ai-tools-for-study-work', 'title' => 'AI Tools for Study & Work', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '3 Weeks', 'featured' => 0],
+            ['id' => 41, 'slug' => 'chatgpt-gemini-ai-productivity-tools', 'title' => 'ChatGPT, Gemini & AI Productivity Tools', 'price' => 999.00, 'orig' => 1999.00, 'duration' => '15 Days', 'featured' => 1],
+            ['id' => 48, 'slug' => 'aws-cloud-deployment-fundamentals', 'title' => 'AWS Cloud & Deployment Fundamentals', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+            ['id' => 59, 'slug' => 'docker-devops-cicd-essentials', 'title' => 'Docker, DevOps & CI/CD Essentials', 'price' => 8999.00, 'orig' => 12999.00, 'duration' => '8 Weeks', 'featured' => 0],
+            ['id' => 66, 'slug' => 'cybersecurity-ethical-security-foundations', 'title' => 'Cybersecurity & Ethical Security Foundations', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
+            ['id' => 21, 'slug' => 'dsa-problem-solving-java', 'title' => 'DSA & Problem Solving with Java', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '12 Weeks', 'featured' => 1],
+            ['id' => 52, 'slug' => 'tech-career-launchpad', 'title' => 'Tech Career Launchpad', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '4 Weeks', 'featured' => 0],
+            ['id' => 65, 'slug' => 'system-design-microservices-foundations', 'title' => 'System Design & Microservices Foundations', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '8 Weeks', 'featured' => 0],
+            ['id' => 60, 'slug' => 'ui-ux-design-with-figma', 'title' => 'UI/UX Design with Figma', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+            ['id' => 62, 'slug' => 'digital-marketing-seo-analytics', 'title' => 'Digital Marketing, SEO & Analytics', 'price' => 5999.00, 'orig' => 8999.00, 'duration' => '6 Weeks', 'featured' => 0],
+        ];
+
+        $syncCourseStmt = $pdo->prepare("
+            UPDATE courses SET 
+                price = ?, original_price = ?, duration = ?, status = 'published', is_featured = ?
+            WHERE slug = ? OR id = ?
+        ");
+        foreach ($exactCourses as $ec) {
+            $syncCourseStmt->execute([$ec['price'], $ec['orig'], $ec['duration'], $ec['featured'], $ec['slug'], $ec['id']]);
+        }
+        $results[] = 'Synchronized exact prices, durations and featured priority for 31 approved master courses';
+
+        $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '31') ON DUPLICATE KEY UPDATE `value` = '31'")->execute();
+
 
         // 5. Blog Post
         $postSqlFile = dirname(__DIR__, 2) . '/database/seed_it_industry_situation_post.sql';
