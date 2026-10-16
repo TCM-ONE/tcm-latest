@@ -62,6 +62,7 @@ Options -Indexes
     RewriteRule ^course-details\.html$ courses/backend-development-nodejs-apis? [R=301,L,NE]
     RewriteCond %{QUERY_STRING} (^|&)course=mobile-app-dev(&|$) [NC]
     RewriteRule ^course-details\.html$ courses/mobile-app-development-react-native? [R=301,L,NE]
+    RewriteRule ^courses/dsa-with-java$ courses/dsa-problem-solving-java [R=301,L,NE]
 
     # Block direct access to application internals and secrets
     RewriteRule ^(src|config|database|storage|views|bin|docs|artifacts)(/|$) - [F,L]

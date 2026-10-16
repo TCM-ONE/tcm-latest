@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? 'Contact Admissions & Mentors — TCM One') ?></title>
   <meta name="description" content="<?= e($description ?? 'Get in touch with TCM One. Ask questions about courses, workshops, fees, and enrollment.') ?>">
@@ -269,7 +269,7 @@
             </div>
 
             <div style="font-size: 12.5px; color: var(--tcm-muted); line-height: 1.6; padding: 14px; background: #FFFFFF; border: 1px solid var(--tcm-border);">
-              <i class="bi bi-info-circle me-1"></i> <strong>100% Online Delivery:</strong> We conduct all cohort classes via live interactive sessions, shared terminals, and screen debugging accessible from anywhere.
+              <i class="bi bi-info-circle me-1"></i> <strong>Online &amp; In-Person Delivery:</strong> We conduct live online cohort classes accessible from anywhere, alongside hands-on practical sessions and bootcamps at our Bilaspur campus.
             </div>
           </div>
 

@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? ($course['title'] . ' | TCM One')) ?></title>
   <meta name="description" content="<?= e($desc ?? ($course['subtitle'] ?: $course['description'] ?: '')) ?>">
@@ -282,7 +282,8 @@
             <div style="margin-bottom: 36px;">
               <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px;">
                 <h2 class="tcm-h3" style="margin: 0;">Syllabus &amp; Curriculum</h2>
-                <span style="font-size: 13px; color: var(--tcm-muted);"><?= count($curriculum ?? []) ?> Modules</span>
+                <?php $modCount = count($curriculum ?? []); ?>
+                <span style="font-size: 13px; color: var(--tcm-muted);"><?= $modCount > 0 ? ($modCount . ' Modules') : 'Syllabus in Final Review' ?></span>
               </div>
 
               <?php if (!empty($curriculum) && is_array($curriculum)): ?>
@@ -313,18 +314,44 @@
                 <?php endforeach; ?>
               <?php else: ?>
                 <div style="padding: 24px; border: 1px solid var(--tcm-border); background: var(--tcm-surface);">
-                  <p class="tcm-body-muted" style="margin: 0;">Interactive live sessions with code reviews, assignments, and real-world project deliverables.</p>
+                  <p class="tcm-h4" style="margin: 0 0 8px 0; font-size: 15px; font-weight: 600;">Cohort Syllabus in Final Review</p>
+                  <p class="tcm-body-muted" style="margin: 0 0 12px 0; font-size: 13.5px; line-height: 1.6;">The complete session-by-session syllabus, project milestones, and assignment calendar for this course are being finalized for the upcoming cohort. All enrolled students receive the full syllabus breakdown and code repository links prior to the first class.</p>
+                  <a href="<?= base_url('/contact') ?>" class="tcm-btn tcm-btn-secondary tcm-btn-sm" style="font-size: 13px;">Request Syllabus Details &rarr;</a>
                 </div>
               <?php endif; ?>
             </div>
 
             <!-- Learning Methodology & Projects -->
+            <?php
+              $courseTitleLower = strtolower((string)($course['title'] ?? ''));
+              $courseSlugLower  = strtolower((string)($course['slug'] ?? ''));
+
+              if (str_contains($courseSlugLower, 'power-bi') || str_contains($courseTitleLower, 'power bi')) {
+                  $reviewTitle = 'Dashboard &amp; Report Reviews';
+                  $reviewDesc = 'Build interactive dashboards, create DAX measures, transform datasets, and receive feedback on your reports.';
+              } elseif (str_contains($courseSlugLower, 'java') || str_contains($courseTitleLower, 'java')) {
+                  $reviewTitle = 'Java Problem-Solving Reviews';
+                  $reviewDesc = 'Practise object-oriented programming, solve Java exercises, and build practical console applications.';
+              } elseif (str_contains($courseSlugLower, 'data-anal') || str_contains($courseTitleLower, 'data anal') || str_contains($courseSlugLower, 'data-science') || str_contains($courseSlugLower, 'sql')) {
+                  $reviewTitle = 'Data Analysis &amp; SQL Reviews';
+                  $reviewDesc = 'Work with datasets, perform SQL analysis, build dashboards, and present actionable insights through practical assignments.';
+              } elseif (str_contains($courseSlugLower, 'ai-tools') || str_contains($courseSlugLower, 'chatgpt') || str_contains($courseSlugLower, 'prompt-engineering') || str_contains($courseTitleLower, 'productivity tools') || str_contains($courseTitleLower, 'study & work')) {
+                  $reviewTitle = 'Hands-On Workflow Feedback';
+                  $reviewDesc = 'Complete practical AI workflows involving research, writing, planning, and automation.';
+              } elseif (str_contains($courseSlugLower, 'figma') || str_contains($courseSlugLower, 'ui-ux') || str_contains($courseTitleLower, 'ui/ux')) {
+                  $reviewTitle = 'Design System &amp; Prototype Reviews';
+                  $reviewDesc = 'Design responsive Figma layouts, build reusable components, and receive actionable design critique from mentors.';
+              } else {
+                  $reviewTitle = 'Live Mentor Code Reviews';
+                  $reviewDesc = 'Push code to GitHub repositories and receive line-by-line feedback from industry developers.';
+              }
+            ?>
             <div style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); padding: clamp(18px, 4vw, 32px); margin-bottom: 32px; box-sizing: border-box;">
               <h2 class="tcm-h3" style="margin: 0 0 16px 0;">Learning Methodology</h2>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
                 <div>
-                  <h4 style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">Live Mentor Code Reviews</h4>
-                  <p class="tcm-body-muted" style="font-size: 13.5px; margin: 0;">Push code to GitHub repositories and receive line-by-line feedback from industry developers.</p>
+                  <h4 style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;"><?= $reviewTitle ?></h4>
+                  <p class="tcm-body-muted" style="font-size: 13.5px; margin: 0;"><?= $reviewDesc ?></p>
                 </div>
                 <div>
                   <h4 style="font-size: 15px; font-weight: 600; margin: 0 0 6px 0;">Capstone Deliverables</h4>

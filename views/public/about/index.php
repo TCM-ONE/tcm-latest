@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? 'About TCM One — Practical Education For Modern Careers') ?></title>
   <meta name="description" content="<?= e($description ?? 'Discover the mission, teaching philosophy, and verified learning approach behind TCM One.') ?>">
@@ -215,7 +215,7 @@
               
               <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 20px;">
                 <div class="font-editorial-serif" style="font-size: 48px; line-height: 1; color: var(--tcm-fg); margin-bottom: 6px;">
-                  31+
+                  52+
                 </div>
                 <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--tcm-fg); margin-bottom: 4px;">
                   Published Courses
@@ -329,7 +329,7 @@
               </div>
               <div>
                 <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Placement &amp; Industry Links</strong>
-                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Active hiring networks, portfolio reviews, and project defense rounds.</span>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Active hiring networks, portfolio reviews, and technical project review sessions.</span>
               </div>
             </div>
           </div>

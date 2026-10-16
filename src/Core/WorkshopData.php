@@ -33,7 +33,7 @@ final class WorkshopData
                 'mode'              => 'Live Online Cohort',
                 'category'          => 'Python Programming',
                 'icon'              => 'bi-filetype-py',
-                'badge'             => 'Advanced & Hands-on',
+                'badge'             => 'Advanced, Hands-On Learning',
                 'curriculum'        => [
                     [
                         'day' => 'Day 01',

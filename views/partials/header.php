@@ -7,7 +7,7 @@
 $activePage = $activePage ?? '';
 $rootUrl = function_exists('base_url') ? base_url('/') : '/';
 $workshopsUrl = function_exists('base_url') ? base_url('/workshops') : 'workshops.html';
-$insightsUrl = function_exists('base_url') ? base_url('/insights.html') : 'insights.html';
+$insightsUrl = function_exists('base_url') ? base_url('/tech-updates') : '/tech-updates';
 $communityUrl = function_exists('base_url') ? base_url('/community.html') : 'community.html';
 $contactUrl = function_exists('base_url') ? base_url('/contact.html') : 'contact.html';
 $partnerUrl = function_exists('base_url') ? base_url('/partner.html') : 'partner.html';
@@ -91,7 +91,7 @@ $logoImg = function_exists('base_url') ? base_url('/assets/logo.png') : './asset
                                     <a class="nav-link <?= $activePage === 'workshops' ? 'active' : '' ?>" href="<?= $workshopsUrl ?>">Workshops</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?= $activePage === 'insights' ? 'active' : '' ?>" href="<?= $insightsUrl ?>">TCM Insights</a>
+                                    <a class="nav-link <?= $activePage === 'insights' ? 'active' : '' ?>" href="<?= $insightsUrl ?>">Tech Updates</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link <?= $activePage === 'community' ? 'active' : '' ?>" href="<?= $communityUrl ?>">Community</a>
@@ -164,7 +164,7 @@ $logoImg = function_exists('base_url') ? base_url('/assets/logo.png') : './asset
                             <a class="nav-link <?= $activePage === 'workshops' ? 'active' : '' ?>" href="<?= $workshopsUrl ?>">Workshops</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $activePage === 'insights' ? 'active' : '' ?>" href="<?= $insightsUrl ?>">TCM Insights</a>
+                            <a class="nav-link <?= $activePage === 'insights' ? 'active' : '' ?>" href="<?= $insightsUrl ?>">Tech Updates</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $activePage === 'community' ? 'active' : '' ?>" href="<?= $communityUrl ?>">Community</a>
