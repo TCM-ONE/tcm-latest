@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? 'College & Training Institute Partnerships | TCM One') ?></title>
   <meta name="description" content="<?= e($description ?? 'Partner with TCM One to offer practical technology programs, structured curricula and mentor-supported learning through flexible institutional models.') ?>">

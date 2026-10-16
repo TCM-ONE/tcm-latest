@@ -50,9 +50,16 @@ if (!function_exists('base_url')) {
     {
         $base = (string) config('app.base_path', '');
         if ($base === '' && isset($_SERVER['SCRIPT_NAME'])) {
-            $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-            if ($dir !== '/' && $dir !== '.' && $dir !== '') {
-                $base = rtrim($dir, '/');
+            $scriptName = str_replace('\\', '/', (string) $_SERVER['SCRIPT_NAME']);
+            // Only extract subdirectory if SCRIPT_NAME points to a php entry file (e.g. /tcm/app.php or /tcm/index.php)
+            if (preg_match('#^(.*?)/(?:app|index)\.php(?:$|/)#i', $scriptName, $m)) {
+                $base = rtrim($m[1], '/');
+            } elseif (isset($_SERVER['DOCUMENT_ROOT']) && defined('BASE_PATH')) {
+                $docRoot = rtrim(str_replace('\\', '/', (string) $_SERVER['DOCUMENT_ROOT']), '/');
+                $appRoot = rtrim(str_replace('\\', '/', (string) BASE_PATH), '/');
+                if ($docRoot !== '' && str_starts_with($appRoot, $docRoot)) {
+                    $base = rtrim(substr($appRoot, strlen($docRoot)), '/');
+                }
             }
         }
         $path = '/' . ltrim($path, '/');

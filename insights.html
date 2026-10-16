@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redirecting to About — TCM One</title>
+  <title>Redirecting to Tech Updates — TCM One</title>
   <script>
     var base = (window.location.pathname.indexOf('/tcm') === 0) ? '/tcm' : '';
-    window.location.replace(base + '/about');
+    window.location.replace(base + '/tech-updates');
   </script>
 </head>
 <body style="font-family: system-ui, sans-serif; padding: 40px; text-align: center;">
-  <p>Redirecting to About TCM One... If not redirected, <a id="redirectLink" href="/about">click here</a>.</p>
+  <p>Redirecting to Tech Updates... If not redirected, <a id="redirectLink" href="/tech-updates">click here</a>.</p>
   <script>
     var base = (window.location.pathname.indexOf('/tcm') === 0) ? '/tcm' : '';
     var el = document.getElementById('redirectLink');
-    if (el) el.href = base + '/about';
+    if (el) el.href = base + '/tech-updates';
   </script>
 </body>
 </html>

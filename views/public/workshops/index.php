@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? 'Live Tech Workshops — TCM One') ?></title>
   <meta name="description" content="<?= e($description ?? 'Explore live technical workshops in Python, Web Development, and AI with practical coding and mentor reviews.') ?>">

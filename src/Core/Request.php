@@ -30,9 +30,15 @@ final class Request
         $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
         $base = (string) config('app.base_path', '');
         if ($base === '' && isset($_SERVER['SCRIPT_NAME'])) {
-            $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-            if ($dir !== '/' && $dir !== '.' && $dir !== '') {
-                $base = rtrim($dir, '/');
+            $scriptName = str_replace('\\', '/', (string) $_SERVER['SCRIPT_NAME']);
+            if (preg_match('#^(.*?)/(?:app|index)\.php(?:$|/)#i', $scriptName, $m)) {
+                $base = rtrim($m[1], '/');
+            } elseif (isset($_SERVER['DOCUMENT_ROOT']) && defined('BASE_PATH')) {
+                $docRoot = rtrim(str_replace('\\', '/', (string) $_SERVER['DOCUMENT_ROOT']), '/');
+                $appRoot = rtrim(str_replace('\\', '/', (string) BASE_PATH), '/');
+                if ($docRoot !== '' && str_starts_with($appRoot, $docRoot)) {
+                    $base = rtrim(substr($appRoot, strlen($docRoot)), '/');
+                }
             }
         }
         if ($base !== '' && str_starts_with($uri, $base)) {

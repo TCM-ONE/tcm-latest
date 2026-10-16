@@ -297,6 +297,7 @@ $router->get('/event-details.html', static function () {
 });
 $router->get('/insights',           static fn () => Response::redirect('/tech-updates'));
 $router->get('/insights.html',      static fn () => Response::redirect('/tech-updates'));
+$router->get('/courses/dsa-with-java', static fn () => Response::redirect('/courses/dsa-problem-solving-java', 301));
 
 // --------------------------------------------------------------------- //
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)

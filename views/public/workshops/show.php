@@ -19,7 +19,7 @@
     gtag('config', 'G-19F749QEBF');
   </script>
 
-  <meta name="app-base" content="<?= e(rtrim((string) config('app.url', ''), '/')) ?>">
+  <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
   <title><?= e($title ?? ($workshop['title'] . ' | TCM One')) ?></title>
   <meta name="description" content="<?= e($desc ?? ($workshop['tagline'] ?: $workshop['description'] ?: '')) ?>">
@@ -410,7 +410,7 @@
               <div class="ws-deliverables-grid">
                 <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px;">
                   <strong style="font-size: 14.5px; display: block; color: #FFF; margin-bottom: 4px;">Live Interactive Classes</strong>
-                  <span style="font-size: 12.5px; color: #BBB;">Direct audio/video question clearance with experienced instructors.</span>
+                  <span style="font-size: 12.5px; color: #BBB;">Real-time doubt resolution with experienced instructors.</span>
                 </div>
                 <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 14px;">
                   <strong style="font-size: 14.5px; display: block; color: #FFF; margin-bottom: 4px;">Lifetime Class Recordings</strong>

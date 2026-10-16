@@ -2047,10 +2047,14 @@
 
   function normalizeBrandLogos() {
     var logos = document.querySelectorAll('.tcm-brand-logo');
-    var absoluteLogoUrl = (BASE ? BASE : '') + '/assets/logo.png';
+    var basePrefix = (BASE && BASE !== '/') ? BASE.replace(/\/+$/, '') : '';
+    var absoluteLogoUrl = basePrefix + '/assets/logo.png';
     logos.forEach(function (img) {
       var src = img.getAttribute('src') || '';
-      if (!src || src === '/assets/logo.png' || src === './assets/logo.png' || src.indexOf('assets/logo.png') !== -1) {
+      // Only normalize if empty or relative (./assets or assets/ without leading slash)
+      if (!src || src === './assets/logo.png' || src === 'assets/logo.png' || src.startsWith('assets/')) {
+        img.src = absoluteLogoUrl;
+      } else if (basePrefix && src === '/assets/logo.png') {
         img.src = absoluteLogoUrl;
       }
       // Fail-safe: if logo fails to load for any reason, load directly from origin root

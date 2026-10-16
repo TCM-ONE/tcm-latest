@@ -173,32 +173,47 @@ final class Course extends Model
         self::ensureThumbnails();
         self::ensureBrochureColumns();
 
-        $aliases = [
-            'python-programming-automation'            => 'python-programming',
-            'dsa-problem-solving-java'                 => 'dsa-with-java',
-            'sql-database-fundamentals'                => 'sql-database-management',
-            'data-analytics-excel-sql-powerbi'         => 'data-analysis',
-            'data-science-machine-learning-foundations' => 'data-science',
-            'ui-ux-design-with-figma'                  => 'ui-ux-design',
-            'react-nextjs-frontend-engineering'        => 'nextjs-modern-react',
-            'backend-development-nodejs-apis'          => 'backend-development-with-nodejs',
-            'generative-ai-agent-engineering'          => 'generative-ai-prompt-engineering',
-            'build-your-first-website'                 => 'web-development-fundamentals',
-            'tech-career-launchpad'                    => 'resume-interview-preparation',
-            'ai-tools-for-study-work'                  => 'ai-tools-for-coding',
-            'core-java-object-oriented-programming'    => 'core-java-programming',
-            'artificial-intelligence-machine-learning' => 'ai-machine-learning-fundamentals',
-        ];
-        if (isset($aliases[$slug])) {
-            $slug = $aliases[$slug];
-        }
-
+        // 1. Prioritize exact slug match in database
         $course = Database::first(
             'SELECT c.*, cat.name AS category_name FROM courses c
              LEFT JOIN categories cat ON cat.id = c.category_id
              WHERE c.slug = ? LIMIT 1',
             [$slug]
         );
+
+        // 2. Fallback to legacy historical aliases only when slug is not found directly
+        if ($course === null) {
+            $aliases = [
+                'dsa-with-java'             => 'dsa-problem-solving-java',
+                'full-stack-development'    => 'full-stack-web-development',
+                'frontend-development'      => 'frontend-development-with-react',
+                'python-development'        => 'python-programming-automation',
+                'python-automation'         => 'python-programming-automation',
+                'database-systems'          => 'sql-database-fundamentals',
+                'cloud-fundamentals'        => 'aws-cloud-deployment-fundamentals',
+                'computer-basics'           => 'digital-skills-computer-fundamentals',
+                'web-development-basics'    => 'build-your-first-website',
+                'ai-tools-mastery'          => 'ai-tools-for-study-work',
+                'career-transition-program' => 'tech-career-launchpad',
+                'career-coaching'           => 'tech-career-launchpad',
+                'cloud-devops'              => 'docker-devops-cicd-essentials',
+                'react-nextjs'              => 'react-nextjs-frontend-engineering',
+                'backend-systems'           => 'backend-development-nodejs-apis',
+                'mobile-app-dev'            => 'mobile-app-development-react-native',
+                'data-science-ai'           => 'data-science-machine-learning-foundations',
+                'system-design'             => 'system-design-microservices-foundations',
+            ];
+            if (isset($aliases[$slug])) {
+                $targetSlug = $aliases[$slug];
+                $course = Database::first(
+                    'SELECT c.*, cat.name AS category_name FROM courses c
+                     LEFT JOIN categories cat ON cat.id = c.category_id
+                     WHERE c.slug = ? LIMIT 1',
+                    [$targetSlug]
+                );
+            }
+        }
+
         if ($course !== null) {
             $course['thumbnail_url'] = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['brochure_url']  = self::brochureUrl($course['brochure_file'] ?? null, $course['slug'] ?? null);
