@@ -89,6 +89,9 @@ Options -Indexes
     RewriteRule ^programs\.html$ courses [R=301,L]
     RewriteRule ^programs$ courses [R=301,L]
 
+    # Failsafe: Any nested subroute assets request points directly to root assets
+    RewriteRule ^(?:courses|workshops|tech-updates|admin|student)/assets/(.*)$ assets/$1 [L,NC]
+
     # Serve real files and directories (HTML, CSS, JS, uploads) as-is
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
