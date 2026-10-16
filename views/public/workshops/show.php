@@ -509,6 +509,13 @@
       </div>
     </section>
 
+    <!-- Certificate Showcase Section (Reusable) -->
+    <?php \TCM\Core\View::partial('partials.certificate-showcase', [
+      'certEyebrow' => 'LIVE COHORT CERTIFICATION',
+      'certTitle'   => 'Workshop Completion',
+      'certDesc'    => 'Earn official, verifiable credentials from TCM One and Cuboidsoft upon completing your workshop cohort, live project tasks, and lab reviews.',
+    ]); ?>
+
     <!-- Unified Sticky Bottom Enrollment Bar (Always Visible on Scroll) -->
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Workshop Enrollment Bar">
       <div class="tcm-container">
