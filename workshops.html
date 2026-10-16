@@ -194,7 +194,7 @@
     <div class="tcm-header-inner">
       <!-- Logo Left -->
       <a href="/" class="tcm-brand" aria-label="TCM One Home">
-        <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+        <img src="/assets/logo.png" alt="TCM One" class="tcm-brand-logo">
         <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
       </a>
 
@@ -392,10 +392,13 @@
                         <span class="ws-price">&#8377;99</span>
                         <span class="ws-original">&#8377;499</span>
                     </div>
-                    <div class="ws-cta-row">
-                        <a href="https://thecodemunk.in/workshops/python-starter-workshop" class="ws-btn-primary">
-                            View Workshop &rarr;
+                    <div class="ws-cta-row" style="display: flex; gap: 8px; align-items: center;">
+                        <a href="https://thecodemunk.in/workshops/python-starter-workshop" class="ws-btn-primary" style="background: transparent; color: var(--tcm-fg); border: 1px solid var(--tcm-border); padding: 8px 14px;">
+                            Details
                         </a>
+                        <button type="button" class="ws-btn-primary tcm-trigger-workshop" style="cursor: pointer;" data-slug="python-starter-workshop" data-title="Python Starter Workshop | Advanced Live Coding &amp; Web Scraping" data-price="99">
+                            Book Seat &middot; ₹99
+                        </button>
                         <button type="button"
                                 class="tcm-share-btn icon-only"
                                 data-share-url="https://thecodemunk.in/workshops/python-starter-workshop"
@@ -429,10 +432,13 @@
                         <span class="ws-price">&#8377;999</span>
                         <span class="ws-original">&#8377;1,999</span>
                     </div>
-                    <div class="ws-cta-row">
-                        <a href="https://thecodemunk.in/workshops/frontend-website-challenge-7-days" class="ws-btn-primary">
-                            View Workshop &rarr;
+                    <div class="ws-cta-row" style="display: flex; gap: 8px; align-items: center;">
+                        <a href="https://thecodemunk.in/workshops/frontend-website-challenge-7-days" class="ws-btn-primary" style="background: transparent; color: var(--tcm-fg); border: 1px solid var(--tcm-border); padding: 8px 14px;">
+                            Details
                         </a>
+                        <button type="button" class="ws-btn-primary tcm-trigger-workshop" style="cursor: pointer;" data-slug="frontend-website-challenge-7-days" data-title="7-Day Frontend Website Challenge | TCM One" data-price="999">
+                            Book Seat &middot; ₹999
+                        </button>
                         <button type="button"
                                 class="tcm-share-btn icon-only"
                                 data-share-url="https://thecodemunk.in/workshops/frontend-website-challenge-7-days"
@@ -466,10 +472,13 @@
                         <span class="ws-price">&#8377;199</span>
                         <span class="ws-original">&#8377;499</span>
                     </div>
-                    <div class="ws-cta-row">
-                        <a href="https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop" class="ws-btn-primary">
-                            View Workshop &rarr;
+                    <div class="ws-cta-row" style="display: flex; gap: 8px; align-items: center;">
+                        <a href="https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop" class="ws-btn-primary" style="background: transparent; color: var(--tcm-fg); border: 1px solid var(--tcm-border); padding: 8px 14px;">
+                            Details
                         </a>
+                        <button type="button" class="ws-btn-primary tcm-trigger-workshop" style="cursor: pointer;" data-slug="ai-tools-everyday-work-workshop" data-title="AI Tools for Everyday Work | TCM One Workshop" data-price="199">
+                            Book Seat &middot; ₹199
+                        </button>
                         <button type="button"
                                 class="tcm-share-btn icon-only"
                                 data-share-url="https://thecodemunk.in/workshops/ai-tools-everyday-work-workshop"
@@ -503,10 +512,13 @@
                         <span class="ws-price">&#8377;0</span>
                         <span class="ws-original">&#8377;499</span>
                     </div>
-                    <div class="ws-cta-row">
-                        <a href="https://thecodemunk.in/workshops/find-your-tech-career-path-workshop" class="ws-btn-primary">
-                            View Workshop &rarr;
+                    <div class="ws-cta-row" style="display: flex; gap: 8px; align-items: center;">
+                        <a href="https://thecodemunk.in/workshops/find-your-tech-career-path-workshop" class="ws-btn-primary" style="background: transparent; color: var(--tcm-fg); border: 1px solid var(--tcm-border); padding: 8px 14px;">
+                            Details
                         </a>
+                        <button type="button" class="ws-btn-primary tcm-trigger-workshop" style="cursor: pointer;" data-slug="find-your-tech-career-path-workshop" data-title="Find Your Tech Career Path | TCM One Workshop" data-price="0">
+                            Join Free Session
+                        </button>
                         <button type="button"
                                 class="tcm-share-btn icon-only"
                                 data-share-url="https://thecodemunk.in/workshops/find-your-tech-career-path-workshop"
@@ -521,6 +533,42 @@
             </article>
                     </div>
     </main>
+
+    <!-- Modal: Workshop Seat Reservation -->
+    <div class="tcm-modal-overlay" id="tcmWsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmWsTitle">
+      <div class="tcm-modal">
+        <button type="button" class="tcm-modal-close" id="tcmWsCloseBtn" aria-label="Close modal">&times;</button>
+        <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE SEAT RESERVATION</div>
+        <h3 id="tcmWsTitle" class="tcm-h3" style="margin-bottom: 4px;">Reserve Your Workshop Seat</h3>
+        <div id="tcmWsPrice" style="font-size: 14px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;"></div>
+        <div id="tcmWsFeedback" style="display: none;"></div>
+
+        <form id="tcmWsForm" novalidate>
+          <input type="hidden" id="tcmWsSlug" value="">
+          <div class="tcm-form-group">
+            <label for="tcmWsName" class="tcm-form-label">Full Name *</label>
+            <input type="text" id="tcmWsName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required>
+          </div>
+          <div class="tcm-form-group">
+            <label for="tcmWsEmail" class="tcm-form-label">Email Address *</label>
+            <input type="email" id="tcmWsEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" required>
+          </div>
+          <div class="tcm-form-group">
+            <label for="tcmWsPhone" class="tcm-form-label">WhatsApp / Mobile Number *</label>
+            <input type="tel" id="tcmWsPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
+          </div>
+          <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmWsSubmitBtn" style="width: 100%; height: 50px;">
+            <span>Reserve My Seat</span>
+            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </button>
+        </form>
+
+        <div style="margin-top: 16px; font-size: 11.5px; color: var(--tcm-muted); text-align: center; line-height: 1.5;">
+          <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
+          Instant confirmation via WhatsApp &amp; Email upon payment.
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="tcm-footer" role="contentinfo">

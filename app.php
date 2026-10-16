@@ -244,17 +244,39 @@ $router->get('/student/payments', ['TCM\Controllers\Student\PaymentController', 
 $router->get('/student/payments/submit', ['TCM\Controllers\Student\PaymentController', 'showForm']);
 $router->post('/student/payments/submit', ['TCM\Controllers\Student\PaymentController', 'store']);
 $router->get('/student/payments/{id}/receipt', ['TCM\Controllers\Student\PaymentController', 'receipt']);
+$router->get('/student/orders/{id}/receipt', ['TCM\Controllers\Student\PaymentController', 'orderReceipt']);
+$router->post('/student/installments/{id}/pay', ['TCM\Controllers\Student\PaymentController', 'payInstallment']);
 $router->post('/student/payments/{id}/screenshot', ['TCM\Controllers\Student\PaymentController', 'updateScreenshot']);
 $router->post('/student/interest', ['TCM\Controllers\Student\PaymentController', 'submitInterest']);
 
 // --------------------------------------------------------------------- //
-// Admin Payments
+// Admin Payments & Installments Management
 // --------------------------------------------------------------------- //
 $router->get('/admin/payments', ['TCM\Controllers\Admin\PaymentController', 'index']);
 $router->get('/admin/payments/{id}', ['TCM\Controllers\Admin\PaymentController', 'show']);
 $router->post('/admin/payments/{id}/approve', ['TCM\Controllers\Admin\PaymentController', 'approve']);
 $router->post('/admin/payments/{id}/reject', ['TCM\Controllers\Admin\PaymentController', 'reject']);
 $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentController', 'viewScreenshot']);
+$router->post('/admin/installments/create', ['TCM\Controllers\Admin\PaymentController', 'createInstallmentPlan']);
+$router->post('/admin/installments/{id}/remind', ['TCM\Controllers\Admin\PaymentController', 'sendInstallmentReminder']);
+
+// --------------------------------------------------------------------- //
+// PayU Online Payment Gateway (Courses & Workshops)
+// --------------------------------------------------------------------- //
+$router->post('/payment/initiate',     ['TCM\Controllers\PublicPaymentController', 'initiate']);
+$router->post('/payment/payu/success', ['TCM\Controllers\PublicPaymentController', 'payuSuccess']);
+$router->post('/payment/payu/failure', ['TCM\Controllers\PublicPaymentController', 'payuFailure']);
+$router->get('/payment/success',       ['TCM\Controllers\PublicPaymentController', 'successView']);
+$router->get('/payment/failure',       ['TCM\Controllers\PublicPaymentController', 'failureView']);
+
+// --------------------------------------------------------------------- //
+// PayU Official Webhooks (Server-to-Server Asynchronous Callbacks)
+// --------------------------------------------------------------------- //
+$router->post('/api/webhooks/payu/success', ['TCM\Controllers\PayUWebhookController', 'success']);
+$router->post('/api/webhooks/payu/failed',  ['TCM\Controllers\PayUWebhookController', 'failed']);
+$router->post('/api/webhooks/payu/refund',  ['TCM\Controllers\PayUWebhookController', 'refund']);
+$router->post('/api/webhooks/payu/dispute', ['TCM\Controllers\PayUWebhookController', 'dispute']);
+
 
 // --------------------------------------------------------------------- //
 // PayU Online Payment Gateway (Courses & Workshops)

@@ -89,27 +89,40 @@
         </div>
 
         <!-- Approved badge -->
+        <?php 
+        $isPartial = !empty($payment['is_installment']) || ((float)($payment['remaining_amount'] ?? 0) > 0);
+        ?>
+        <?php if ($isPartial): ?>
+        <div class="receipt-status" style="background:#eff6ff;border-bottom:1px solid #bfdbfe;">
+            <i class="bi bi-pie-chart-fill" style="color:#2563eb;font-size:1.4rem;"></i>
+            <div class="receipt-status-text">
+                <strong style="color:#1d4ed8;">Partial Payment Verified · Installment <?= e($payment['installment_number'] ?? 1) ?> of <?= e($payment['total_installments'] ?? 2) ?></strong>
+                <span style="color:#2563eb;">Remaining Balance: <?= money((float)$payment['remaining_amount']) ?></span>
+            </div>
+        </div>
+        <?php else: ?>
         <div class="receipt-status">
             <i class="bi bi-patch-check-fill"></i>
             <div class="receipt-status-text">
-                <strong>Payment Verified & Approved</strong>
-                <span>This receipt confirms your payment has been processed</span>
+                <strong>Payment Verified & Approved · Full Payment</strong>
+                <span>This official receipt confirms full payment has been received & processed</span>
             </div>
         </div>
+        <?php endif; ?>
 
         <!-- Body -->
         <div class="receipt-body">
 
             <!-- Receipt number -->
             <div class="receipt-number">
-                <div class="receipt-number-label">Receipt Number</div>
+                <div class="receipt-number-label">Official Receipt Number</div>
                 <div class="receipt-number-value"><?= e($payment['receipt_number']) ?></div>
             </div>
 
             <!-- Details table -->
             <div class="receipt-row">
                 <span class="receipt-row-label">Date Issued</span>
-                <span class="receipt-row-value"><?= e(date('d M Y, h:i A', strtotime($payment['reviewed_at'] ?? $payment['created_at']))) ?></span>
+                <span class="receipt-row-value"><?= e(date('d M Y, h:i A', strtotime($payment['reviewed_at'] ?? $payment['created_at'] ?? $payment['payment_date'] ?? 'now'))) ?></span>
             </div>
             <div class="receipt-row">
                 <span class="receipt-row-label">Student Name</span>
@@ -126,7 +139,7 @@
                 <span class="receipt-row-value"><?= e($user['email']) ?></span>
             </div>
             <div class="receipt-row">
-                <span class="receipt-row-label">Item</span>
+                <span class="receipt-row-label">Item / Program</span>
                 <span class="receipt-row-value"><?= e($payment['item_title']) ?></span>
             </div>
             <div class="receipt-row">
@@ -136,23 +149,47 @@
             <div class="receipt-row">
                 <span class="receipt-row-label">Payment Method</span>
                 <span class="receipt-row-value">
-                    <?= e(\TCM\Models\PaymentSubmission::METHODS[$payment['payment_method']] ?? $payment['payment_method']) ?>
+                    <?= e(\TCM\Models\PaymentSubmission::METHODS[$payment['payment_method']] ?? strtoupper((string)$payment['payment_method'])) ?>
                 </span>
             </div>
             <div class="receipt-row">
                 <span class="receipt-row-label">Payment Date</span>
-                <span class="receipt-row-value"><?= e(date('d M Y', strtotime($payment['payment_date']))) ?></span>
+                <span class="receipt-row-value"><?= e(date('d M Y', strtotime($payment['payment_date'] ?? 'now'))) ?></span>
             </div>
-            <?php if ($payment['transaction_ref']): ?>
+            <?php if (!empty($payment['transaction_ref'])): ?>
             <div class="receipt-row">
-                <span class="receipt-row-label">Transaction Ref</span>
+                <span class="receipt-row-label">Transaction Ref / PayU ID</span>
                 <span class="receipt-row-value" style="font-family:monospace;"><?= e($payment['transaction_ref']) ?></span>
             </div>
             <?php endif; ?>
+
+            <?php if ($isPartial): ?>
+            <div class="receipt-row">
+                <span class="receipt-row-label">Total Course Fee</span>
+                <span class="receipt-row-value"><?= money((float)($payment['total_fee'] ?? ($payment['amount'] + $payment['remaining_amount']))) ?></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-row-label">Milestone</span>
+                <span class="receipt-row-value">Installment <?= e($payment['installment_number'] ?? 1) ?> of <?= e($payment['total_installments'] ?? 2) ?></span>
+            </div>
+            <div class="receipt-row receipt-amount-row">
+                <span class="receipt-row-label">Amount Paid on This Receipt</span>
+                <span class="receipt-row-value" style="color:#2563eb;"><?= money($payment['amount']) ?></span>
+            </div>
+            <div class="receipt-row" style="background:#f8fafc;padding:10px 12px;border-radius:8px;margin-top:8px;">
+                <span class="receipt-row-label" style="font-weight:700;color:#1e293b;">Remaining Balance Due</span>
+                <span class="receipt-row-value" style="font-weight:800;color:#dc2626;"><?= money((float)$payment['remaining_amount']) ?></span>
+            </div>
+            <?php else: ?>
             <div class="receipt-row receipt-amount-row">
                 <span class="receipt-row-label">Total Amount Paid</span>
                 <span class="receipt-row-value"><?= money($payment['amount']) ?></span>
             </div>
+            <div class="receipt-row" style="background:#f0fdf4;padding:8px 12px;border-radius:8px;margin-top:8px;">
+                <span class="receipt-row-label" style="font-weight:600;color:#166534;">Balance Due</span>
+                <span class="receipt-row-value" style="font-weight:700;color:#166534;">₹0.00 (Fully Paid)</span>
+            </div>
+            <?php endif; ?>
         </div>
 
         <!-- Footer -->

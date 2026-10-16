@@ -767,6 +767,17 @@
           utm_campaign: utmCampaign,
           landing_page: window.location.pathname
         }).then(function (res) {
+          if (res && res.success && res.data && res.data.free && res.data.redirect) {
+            trackEvent('workshop_registration_completed', { workshop_slug: slug, order: res.data.order_number });
+            showFeedback(res.message || 'Seat reserved successfully! Redirecting...', true);
+            if (submitBtn) {
+              submitBtn.textContent = 'Seat Reserved!';
+            }
+            setTimeout(function () {
+              window.location.href = res.data.redirect;
+            }, 600);
+            return;
+          }
           if (res && res.success && res.data && res.data.action && res.data.params) {
             trackEvent('workshop_checkout_initiated', { workshop_slug: slug, order: res.data.order_number });
             showFeedback('Redirecting to PayU secure payment...', true);
@@ -2036,11 +2047,19 @@
 
   function normalizeBrandLogos() {
     var logos = document.querySelectorAll('.tcm-brand-logo');
+    var absoluteLogoUrl = (BASE ? BASE : '') + '/assets/logo.png';
     logos.forEach(function (img) {
-      var src = img.getAttribute('src');
-      if (src === '/assets/logo.png') {
-        img.src = (BASE ? BASE : '.') + '/assets/logo.png';
+      var src = img.getAttribute('src') || '';
+      if (!src || src === '/assets/logo.png' || src === './assets/logo.png' || src.indexOf('assets/logo.png') !== -1) {
+        img.src = absoluteLogoUrl;
       }
+      // Fail-safe: if logo fails to load for any reason, load directly from origin root
+      img.onerror = function () {
+        var rootLogo = (typeof window !== 'undefined' && window.location && window.location.origin ? window.location.origin : '') + '/assets/logo.png';
+        if (img.src !== rootLogo) {
+          img.src = rootLogo;
+        }
+      };
     });
   }
 

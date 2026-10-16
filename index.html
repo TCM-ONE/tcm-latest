@@ -135,7 +135,7 @@
     <div class="tcm-header-inner">
       <!-- Logo Left -->
       <a href="/" class="tcm-brand" aria-label="TCM One Home">
-        <img src="./assets/logo.png" alt="TCM One" class="tcm-brand-logo">
+        <img src="/assets/logo.png" alt="TCM One" class="tcm-brand-logo">
         <span class="tcm-brand-text">TCM<span class="brand-accent">ONE</span></span>
       </a>
 
@@ -907,7 +907,11 @@
           <!-- Workshop 1: Python Starter Workshop (₹99) -->
           <div class="tcm-workshop-card">
             <div class="tcm-workshop-badge">LIVE 3-DAY COHORT</div>
-            <h3 class="tcm-workshop-title">Python Starter Workshop: Advanced Coding &amp; Scraping</h3>
+            <h3 class="tcm-workshop-title">
+              <a href="/workshops/python-starter-workshop" style="color: inherit; text-decoration: none;">
+                Python Starter Workshop: Advanced Coding &amp; Scraping
+              </a>
+            </h3>
             <p class="tcm-workshop-desc">
               Take Python beyond syntax. Learn OOP, live REST API integration, web scraping with BeautifulSoup, and building automated price trackers.
             </p>
@@ -925,17 +929,26 @@
                 </div>
                 <div class="tcm-workshop-batch-meta">Next Batch Starting Soon</div>
               </div>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="python-starter-workshop" data-title="Python Starter Workshop" data-price="99">
-                <span>Reserve Your Seat</span>
-                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-              </button>
+              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
+                <a href="/workshops/python-starter-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                  Details
+                </a>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="python-starter-workshop" data-title="Python Starter Workshop | Advanced Live Coding &amp; Web Scraping" data-price="99">
+                  <span>Reserve Seat &middot; ₹99</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Workshop 2: 7-Day Frontend Website Challenge (₹999) -->
           <div class="tcm-workshop-card">
             <div class="tcm-workshop-badge">7-DAY PROJECT CHALLENGE</div>
-            <h3 class="tcm-workshop-title">7-Day Frontend Website Challenge</h3>
+            <h3 class="tcm-workshop-title">
+              <a href="/workshops/frontend-website-challenge-7-days" style="color: inherit; text-decoration: none;">
+                7-Day Frontend Website Challenge
+              </a>
+            </h3>
             <p class="tcm-workshop-desc">
               Build and publish a production-ready responsive website with HTML5, modern CSS3 Flexbox/Grid, and interactive JavaScript DOM scripting.
             </p>
@@ -953,10 +966,89 @@
                 </div>
                 <div class="tcm-workshop-batch-meta">Evening Live Cohort</div>
               </div>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="frontend-website-challenge-7-days" data-title="7-Day Frontend Website Challenge" data-price="999">
-                <span>Reserve Your Seat</span>
-                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-              </button>
+              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
+                <a href="/workshops/frontend-website-challenge-7-days" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                  Details
+                </a>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="frontend-website-challenge-7-days" data-title="7-Day Frontend Website Challenge | TCM One" data-price="999">
+                  <span>Reserve Seat &middot; ₹999</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workshop 3: AI Tools for Everyday Work (₹199) -->
+          <div class="tcm-workshop-card">
+            <div class="tcm-workshop-badge">2-DAY HANDS-ON AI</div>
+            <h3 class="tcm-workshop-title">
+              <a href="/workshops/ai-tools-everyday-work-workshop" style="color: inherit; text-decoration: none;">
+                AI Tools for Everyday Work &amp; Coding
+              </a>
+            </h3>
+            <p class="tcm-workshop-desc">
+              Master prompt engineering, research synthesis, document generation, and AI coding assistants (Claude, ChatGPT, Copilot) in practical labs.
+            </p>
+            <ul class="tcm-workshop-highlights">
+              <li>2 actionable live sessions covering modern AI tools</li>
+              <li>Prompt templates and frameworks for repeatable results</li>
+              <li>Live demonstrations for literature review and coding</li>
+              <li>Avoid costly hallucination and verification errors</li>
+            </ul>
+            <div class="tcm-workshop-footer">
+              <div class="tcm-workshop-pricing">
+                <div class="tcm-workshop-price-row">
+                  <span class="tcm-workshop-price-tag">₹199</span>
+                  <span class="tcm-workshop-price-orig">₹499</span>
+                </div>
+                <div class="tcm-workshop-batch-meta">Weekend Live Cohort</div>
+              </div>
+              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
+                <a href="/workshops/ai-tools-everyday-work-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                  Details
+                </a>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="ai-tools-everyday-work-workshop" data-title="AI Tools for Everyday Work | TCM One Workshop" data-price="199">
+                  <span>Reserve Seat &middot; ₹199</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workshop 4: Find Your Tech Career Path (FREE) -->
+          <div class="tcm-workshop-card">
+            <div class="tcm-workshop-badge">LIVE ORIENTATION</div>
+            <h3 class="tcm-workshop-title">
+              <a href="/workshops/find-your-tech-career-path-workshop" style="color: inherit; text-decoration: none;">
+                Find Your Tech Career Path &amp; Roadmap
+              </a>
+            </h3>
+            <p class="tcm-workshop-desc">
+              Understand web development, Python, data analytics, AI, cloud, DSA, and portfolio building roadmaps before committing to any course.
+            </p>
+            <ul class="tcm-workshop-highlights">
+              <li>Compare web, data, AI, cloud, and DSA career tracks</li>
+              <li>Understand prerequisites and realistic timelines</li>
+              <li>Live review of industry student portfolios</li>
+              <li>Interactive 1-on-1 Q&amp;A roadmap consultation</li>
+            </ul>
+            <div class="tcm-workshop-footer">
+              <div class="tcm-workshop-pricing">
+                <div class="tcm-workshop-price-row">
+                  <span class="tcm-workshop-price-tag" style="color: #10B981;">FREE</span>
+                  <span class="tcm-workshop-price-orig">₹499</span>
+                </div>
+                <div class="tcm-workshop-batch-meta">1-Day Live Masterclass</div>
+              </div>
+              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
+                <a href="/workshops/find-your-tech-career-path-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
+                  Details
+                </a>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="find-your-tech-career-path-workshop" data-title="Find Your Tech Career Path | TCM One Workshop" data-price="0">
+                  <span>Join Free Session</span>
+                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -271,4 +271,148 @@ final class PayU
 </html>
 HTML;
     }
+
+    /**
+     * Get PayU PostService endpoint for server-to-server verification.
+     */
+    public static function postserviceEndpoint(): string
+    {
+        return self::mode() === 'sandbox'
+            ? 'https://test.payu.in/merchant/postservice.php?form=2'
+            : 'https://info.payu.in/merchant/postservice.php?form=2';
+    }
+
+    /**
+     * Server-to-server call to PayU Verify Payment API (verify_payment command).
+     * Formula: sha512(key|command|var1|salt)
+     *
+     * @return array<string,mixed>|null Returns transaction details array on success, null on failure/not found
+     */
+    public static function verifyPaymentApi(string $txnid): ?array
+    {
+        $key     = self::key();
+        $salt    = self::salt();
+        $command = 'verify_payment';
+        $var1    = $txnid;
+
+        $hash = strtolower(hash('sha512', sprintf('%s|%s|%s|%s', $key, $command, $var1, $salt)));
+
+        $postData = http_build_query([
+            'key'     => $key,
+            'command' => $command,
+            'var1'    => $var1,
+            'hash'    => $hash,
+        ]);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::postserviceEndpoint());
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Accept: application/json',
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlError || $httpCode !== 200 || !$response) {
+            error_log(sprintf('[PayU::verifyPaymentApi] cURL failure (HTTP %d, Error: %s)', $httpCode, $curlError));
+            return null;
+        }
+
+        $decoded = json_decode($response, true);
+        if (!is_array($decoded) || ($decoded['status'] ?? 0) != 1) {
+            return null;
+        }
+
+        $details = $decoded['transaction_details'][$txnid] ?? null;
+        if (!is_array($details)) {
+            if (!empty($decoded['transaction_details']) && is_array($decoded['transaction_details'])) {
+                $first = reset($decoded['transaction_details']);
+                return is_array($first) ? $first : null;
+            }
+            return null;
+        }
+
+        return $details;
+    }
+
+    /**
+     * Check status of refund/action via PayU PostService (check_action_status command).
+     * Formula: sha512(key|command|var1|salt)
+     *
+     * @return array<string,mixed>|null
+     */
+    public static function checkActionStatusApi(string $actionId): ?array
+    {
+        $key     = self::key();
+        $salt    = self::salt();
+        $command = 'check_action_status';
+        $var1    = $actionId;
+
+        $hash = strtolower(hash('sha512', sprintf('%s|%s|%s|%s', $key, $command, $var1, $salt)));
+
+        $postData = http_build_query([
+            'key'     => $key,
+            'command' => $command,
+            'var1'    => $var1,
+            'hash'    => $hash,
+        ]);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::postserviceEndpoint());
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded',
+            'Accept: application/json',
+        ]);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode !== 200 || !$response) {
+            return null;
+        }
+
+        $decoded = json_decode($response, true);
+        return is_array($decoded) ? $decoded : null;
+    }
+
+    /**
+     * Sanitize sensitive payment data before persisting in logs.
+     * Redacts full card numbers, CVVs, netbanking passwords.
+     *
+     * @param array<string,mixed> $payload
+     * @return array<string,mixed>
+     */
+    public static function sanitizePayload(array $payload): array
+    {
+        $sanitized = $payload;
+        $sensitiveKeys = ['card_number', 'cardnum', 'ccnum', 'cvv', 'cvv2', 'password', 'token', 'client_secret'];
+
+        foreach ($sanitized as $k => $v) {
+            $lowerKey = strtolower((string) $k);
+            if (in_array($lowerKey, $sensitiveKeys, true)) {
+                $sanitized[$k] = '[REDACTED]';
+            } elseif (is_string($v) && strlen($v) >= 12 && preg_match('/^\d{12,19}$/', $v)) {
+                // Card number pattern: mask all but last 4 digits
+                $sanitized[$k] = str_repeat('*', strlen($v) - 4) . substr($v, -4);
+            } elseif (is_array($v)) {
+                $sanitized[$k] = self::sanitizePayload($v);
+            }
+        }
+
+        return $sanitized;
+    }
 }

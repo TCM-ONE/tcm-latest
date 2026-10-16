@@ -156,4 +156,52 @@ final class Database
         $sql = sprintf('DELETE FROM `%s` WHERE %s', $table, $cond);
         return self::run($sql, $where)->rowCount();
     }
+
+    /**
+     * Start a database transaction.
+     */
+    public static function beginTransaction(): bool
+    {
+        return self::connection()->beginTransaction();
+    }
+
+    /**
+     * Commit current database transaction.
+     */
+    public static function commit(): bool
+    {
+        return self::connection()->commit();
+    }
+
+    /**
+     * Rollback current database transaction.
+     */
+    public static function rollBack(): bool
+    {
+        if (self::connection()->inTransaction()) {
+            return self::connection()->rollBack();
+        }
+        return false;
+    }
+
+    /**
+     * Execute a callback inside an atomic transaction.
+     *
+     * @template T
+     * @param callable(): T $callback
+     * @return T
+     */
+    public static function transaction(callable $callback): mixed
+    {
+        self::beginTransaction();
+        try {
+            $result = $callback();
+            self::commit();
+            return $result;
+        } catch (\Throwable $e) {
+            self::rollBack();
+            throw $e;
+        }
+    }
 }
+

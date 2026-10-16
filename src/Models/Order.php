@@ -51,4 +51,36 @@ final class Order extends Model
             [$userId]
         );
     }
+
+    /**
+     * Find order by PayU txnid.
+     */
+    public static function findByTxnid(string $txnid): ?array
+    {
+        return self::findBy(['txnid' => $txnid]);
+    }
+
+    /**
+     * Generate sequential/unique official receipt number.
+     */
+    public static function generateReceiptNumber(int $orderId): string
+    {
+        return 'TCM-REC-' . date('Ym') . '-' . str_pad((string)$orderId, 5, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * List all orders for admin.
+     * @return list<array<string,mixed>>
+     */
+    public static function forAdmin(int $limit = 100): array
+    {
+        return Database::all(
+            'SELECT o.*, u.name AS user_name, u.email AS user_email, u.phone AS user_phone
+             FROM orders o
+             LEFT JOIN users u ON o.user_id = u.id
+             ORDER BY o.id DESC
+             LIMIT ?',
+            [$limit]
+        );
+    }
 }

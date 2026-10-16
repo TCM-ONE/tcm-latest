@@ -262,6 +262,127 @@ $referralId = $user['referral_id'] ?? null;
     </div>
 </div>
 
+<!-- ── Active Installment Plans ── -->
+<?php if (!empty($installments)): ?>
+<div style="margin-bottom:28px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <h3 style="font-size:1.05rem;font-weight:700;color:#111;margin:0;display:flex;align-items:center;gap:8px;">
+            <i class="bi bi-pie-chart-fill" style="color:#2563eb;"></i> Milestone Installment Plans
+        </h3>
+        <span style="font-size:.78rem;color:#64748b;"><?= count($installments) ?> scheduled milestone<?= count($installments) > 1 ? 's' : '' ?></span>
+    </div>
+    <div class="ph-card-list">
+        <?php foreach ($installments as $inst): 
+            $isPaid = ($inst['status'] === 'paid');
+            $isOverdue = ($inst['status'] === 'overdue' || (!$isPaid && strtotime($inst['due_date']) < time()));
+            $cardBorder = $isPaid ? '#22c55e' : ($isOverdue ? '#ef4444' : '#3b82f6');
+            $badgeBg = $isPaid ? '#dcfce7' : ($isOverdue ? '#fee2e2' : '#dbeafe');
+            $badgeColor = $isPaid ? '#15803d' : ($isOverdue ? '#b91c1c' : '#1d4ed8');
+            $badgeText = $isPaid ? 'Paid & Verified' : ($isOverdue ? 'Payment Overdue' : 'Due ' . date('d M Y', strtotime($inst['due_date'])));
+        ?>
+        <div class="ph-payment-card" style="border-left: 4px solid <?= $cardBorder ?>;">
+            <div class="ph-card-top">
+                <div style="flex:1;min-width:0;">
+                    <div class="ph-card-title"><?= e($inst['course_title'] ?? 'Program Milestone') ?></div>
+                    <div class="ph-card-meta">
+                        <span class="tcm-badge blue" style="font-size:.68rem;">Installment <?= e($inst['installment_number']) ?> of <?= e($inst['total_installments']) ?></span>
+                        <span><i class="bi bi-calendar-event"></i> Due: <?= e(date('d M Y', strtotime($inst['due_date']))) ?></span>
+                        <?php if ($isPaid && !empty($inst['paid_at'])): ?>
+                            <span style="color:#16a34a;"><i class="bi bi-check-circle-fill"></i> Paid on <?= e(date('d M Y', strtotime($inst['paid_at']))) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="ph-card-right">
+                    <div class="ph-card-amount"><?= money($inst['amount']) ?></div>
+                    <span style="background:<?= $badgeBg ?>;color:<?= $badgeColor ?>;padding:4px 8px;border-radius:6px;font-size:.72rem;font-weight:700;">
+                        <?= e($badgeText) ?>
+                    </span>
+                </div>
+            </div>
+            <div class="ph-card-actions">
+                <?php if ($isPaid && !empty($inst['installment_order_id'])): ?>
+                    <a href="<?= base_url('/student/orders/' . (int)$inst['installment_order_id'] . '/receipt') ?>" target="_blank" class="tcm-btn sm primary">
+                        <i class="bi bi-file-earmark-text"></i> Official Receipt
+                    </a>
+                <?php elseif (!$isPaid): ?>
+                    <form method="post" action="<?= base_url('/student/installments/' . (int)$inst['id'] . '/pay') ?>" style="display:inline;">
+                        <?= csrf_field() ?>
+                        <button type="submit" class="tcm-btn sm primary" style="background:#2563eb;">
+                            <i class="bi bi-credit-card-2-front-fill"></i> Pay Installment (<?= money($inst['amount']) ?>)
+                        </button>
+                    </form>
+                <?php endif; ?>
+                <?php if (!empty($inst['notes'])): ?>
+                    <span style="font-size:.74rem;color:#64748b;margin-left:8px;"><?= e($inst['notes']) ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- ── Verified PayU Online Orders ── -->
+<?php if (!empty($onlineOrders)): ?>
+<div style="margin-bottom:28px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <h3 style="font-size:1.05rem;font-weight:700;color:#111;margin:0;display:flex;align-items:center;gap:8px;">
+            <i class="bi bi-shield-check" style="color:#16a34a;"></i> Verified Online Orders (PayU)
+        </h3>
+        <span style="font-size:.78rem;color:#64748b;"><?= count($onlineOrders) ?> order<?= count($onlineOrders) > 1 ? 's' : '' ?></span>
+    </div>
+    <div class="ph-card-list">
+        <?php foreach ($onlineOrders as $ord): 
+            $isPaid = ($ord['status'] === 'paid');
+            $cardBorder = $isPaid ? '#22c55e' : ($ord['status'] === 'failed' ? '#ef4444' : '#f59e0b');
+        ?>
+        <div class="ph-payment-card" style="border-left: 4px solid <?= $cardBorder ?>;">
+            <div class="ph-card-top">
+                <div style="flex:1;min-width:0;">
+                    <div class="ph-card-title"><?= e($ord['item_title']) ?></div>
+                    <div class="ph-card-meta">
+                        <span class="tcm-badge <?= $ord['item_type'] === 'course' ? 'purple' : 'amber' ?>" style="font-size:.65rem;">
+                            <?= e(ucfirst($ord['item_type'])) ?>
+                        </span>
+                        <span><i class="bi bi-upc-scan"></i> Order: <?= e($ord['order_number']) ?></span>
+                        <span><i class="bi bi-clock"></i> <?= e(date('d M Y, h:i A', strtotime($ord['created_at']))) ?></span>
+                        <?php if (!empty($ord['receipt_number'])): ?>
+                            <span style="font-family:monospace;color:#16a34a;"><i class="bi bi-receipt"></i> <?= e($ord['receipt_number']) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="ph-card-right">
+                    <div class="ph-card-amount"><?= money($ord['amount']) ?></div>
+                    <span class="tcm-badge <?= $isPaid ? 'green' : ($ord['status'] === 'failed' ? 'red' : 'amber') ?>">
+                        <?= $isPaid ? 'Paid & Verified' : ucfirst($ord['status']) ?>
+                    </span>
+                </div>
+            </div>
+            <div class="ph-card-actions">
+                <?php if ($isPaid): ?>
+                    <a href="<?= base_url('/student/orders/' . (int)$ord['id'] . '/receipt') ?>" target="_blank" class="tcm-btn sm primary">
+                        <i class="bi bi-printer-fill"></i> View & Print Receipt
+                    </a>
+                <?php endif; ?>
+                <?php if (!empty($ord['payment_ref'])): ?>
+                    <span style="font-size:.73rem;color:#888;font-family:monospace;">
+                        Gateway Ref: <?= e($ord['payment_ref']) ?>
+                    </span>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- ── Manual Payment Submissions ── -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+    <h3 style="font-size:1.05rem;font-weight:700;color:#111;margin:0;display:flex;align-items:center;gap:8px;">
+        <i class="bi bi-journal-text" style="color:#64748b;"></i> Manual Payment Proofs
+    </h3>
+</div>
+
 <!-- ── Payment Cards ── -->
 <?php if (empty($payments)): ?>
 
