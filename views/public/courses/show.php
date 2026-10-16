@@ -66,6 +66,7 @@
     $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
+    $isInstallmentEligible = \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -360,6 +361,12 @@
                     </span>
                   <?php endif; ?>
                 </div>
+                <?php if ($isInstallmentEligible): ?>
+                  <div style="font-size: 13px; font-weight: 600; color: #111; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+                    <i class="bi bi-credit-card-2-front" style="color: #111;"></i>
+                    Pay in up to 3 interest-free installments.
+                  </div>
+                <?php endif; ?>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
                   All taxes included &middot; Billed in INR
                 </div>
@@ -394,6 +401,13 @@
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
+                <?php if ($isInstallmentEligible): ?>
+                  <div style="font-size: 12px; color: var(--tcm-muted); text-align: center; margin-top: -2px; margin-bottom: 2px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="bi bi-calendar3" style="color: #111;"></i>
+                    <span>Up to 3 interest-free installments available</span>
+                  </div>
+                <?php endif; ?>
+
                 <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center; height: 44px;">
                   <i class="bi bi-whatsapp"></i> Chat on WhatsApp
                 </a>
@@ -415,31 +429,30 @@
 
     <!-- Unified Sticky Bottom Enrollment Bar (Always Visible on Scroll) -->
     <div class="tcm-sticky-bottom-bar" role="complementary" aria-label="Course Enrollment Bar">
-      <div class="tcm-container">
-        <div class="tcm-sticky-bottom-inner">
+      <div class="tcm-container" style="padding-left: 12px; padding-right: 12px;">
+        <div class="tcm-sticky-bottom-inner" style="gap: 8px;">
           <div class="tcm-sticky-bottom-info d-none d-md-flex">
             <div class="tcm-sticky-bottom-title"><?= e($course['title']) ?></div>
           </div>
-          <div class="tcm-sticky-bottom-right">
-            <div class="tcm-sticky-bottom-pricing">
+          <div class="tcm-sticky-bottom-right" style="gap: 8px; width: 100%; justify-content: space-between; min-width: 0;">
+            <div class="tcm-sticky-bottom-pricing" style="flex-shrink: 0;">
               <div class="tcm-sticky-bottom-price-row">
-                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <span class="tcm-sticky-bottom-price" style="font-size: 17px;">₹<?= number_format($price, 0) ?></span>
                 <?php if ($origPrice > $price): ?>
-                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;">₹<?= number_format($origPrice, 0) ?></span>
                 <?php endif; ?>
               </div>
-              <div class="tcm-sticky-bottom-sub">
+              <div class="tcm-sticky-bottom-sub" style="font-size: 10px;">
                 <span><?= e($duration) ?> Cohort</span>
               </div>
             </div>
-            <div class="tcm-sticky-bottom-actions">
-              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp">
+            <div class="tcm-sticky-bottom-actions" style="gap: 6px; flex: 1; min-width: 0; justify-content: flex-end;">
+              <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp" style="flex-shrink: 0; padding: 0; width: 36px; height: 38px; justify-content: center; min-width: 36px;">
                 <i class="bi bi-whatsapp"></i>
-                <span class="d-none d-sm-inline" style="margin-left: 2px;">Chat</span>
               </a>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>">
-                <span>Enroll Now &middot; ₹<?= number_format($price, 0) ?></span>
-                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" style="flex: 1; max-width: 170px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none">Enroll Now</span><span class="d-none d-sm-inline">Enroll Now &middot; ₹<?= number_format($price, 0) ?></span></span>
+                <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; width: 12px; height: 12px;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
           </div>
@@ -489,6 +502,467 @@
       </div>
     </div>
   </div>
+
+  <!-- Custom Installment Payment Plan Modal -->
+  <?php if ($isInstallmentEligible): 
+    $s2 = \TCM\Services\InstallmentService::calculateSchedule($price, 2);
+    $s3 = \TCM\Services\InstallmentService::calculateSchedule($price, 3);
+  ?>
+  <style>
+    #tcmInstallmentModalOverlay {
+      padding: 10px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+    }
+    .tcm-plan-modal-container {
+      max-width: 480px;
+      width: 100%;
+      max-height: 92vh;
+      border-radius: 0 !important;
+      border: 1.5px solid #111 !important;
+      padding: 0 !important;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #FFF;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.24);
+      margin: auto;
+    }
+    .tcm-plan-modal-header {
+      padding: 12px 16px;
+      border-bottom: 1.5px solid #111;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      background: #FFF;
+      flex-shrink: 0;
+    }
+    .tcm-plan-modal-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: 12px 16px 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tcm-plan-modal-footer {
+      padding: 10px 16px 12px;
+      border-top: 1.5px solid #111;
+      background: #FFF;
+      flex-shrink: 0;
+    }
+    .tcm-plan-box:hover {
+      border-color: #111 !important;
+    }
+    @media (max-width: 480px) {
+      #tcmInstallmentModalOverlay {
+        padding: 6px;
+      }
+      .tcm-plan-modal-container {
+        max-height: 96vh;
+        width: 100%;
+      }
+      .tcm-plan-modal-header {
+        padding: 10px 12px;
+      }
+      .tcm-plan-modal-body {
+        padding: 10px 12px 12px;
+      }
+      .tcm-plan-modal-footer {
+        padding: 8px 12px 10px;
+      }
+    }
+  </style>
+
+  <div class="tcm-modal-overlay" id="tcmInstallmentModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmInstallmentModalTitle">
+    <div class="tcm-modal tcm-plan-modal-container">
+      
+      <!-- Modal Header (Pinned) -->
+      <div class="tcm-plan-modal-header">
+        <div style="flex: 1; min-width: 0;">
+          <div class="tcm-eyebrow" style="margin-bottom: 2px; font-weight: 800; font-size: 10px; letter-spacing: 0.08em; color: var(--tcm-muted);">LIVE COHORT ENROLLMENT</div>
+          <h3 id="tcmInstallmentModalTitle" style="font-size: 15px; font-weight: 800; margin: 0; color: #111; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <?= e($course['title']) ?>
+          </h3>
+          <div style="font-size: 11.5px; color: var(--tcm-muted); margin-top: 2px;">
+            Total Tuition: <strong style="color: #111;">₹<?= number_format($price, 0) ?></strong> <span style="font-size: 10.5px;">(All Taxes Included)</span>
+          </div>
+        </div>
+        <button type="button" class="tcm-modal-close" id="tcmInstallmentCloseBtn" aria-label="Close modal" style="position: static; width: 28px; height: 28px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; border: 1px solid #111; color: #111; background: transparent; cursor: pointer;">&times;</button>
+      </div>
+
+      <!-- Modal Form Container (Flex column hosting scrollable body and pinned footer) -->
+      <form id="tcmInstallmentForm" novalidate style="display: flex; flex-direction: column; flex: 1 1 auto; overflow: hidden; margin: 0;">
+        <input type="hidden" id="tcmInstCourseSlug" value="<?= e($course['slug']) ?>">
+
+        <!-- Scrollable Body (Starts at top, reset scrollTop on open) -->
+        <div class="tcm-plan-modal-body" id="tcmPlanModalBody">
+          <div id="tcmInstallmentFeedback" style="display: none; padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 600; border: 1px solid transparent;"></div>
+
+          <!-- 1. Plan Selection Options (Directly at top) -->
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; color: #111; display: flex; justify-content: space-between; align-items: center;">
+              <span>Select Payment Option</span>
+              <span style="color: #16A34A; font-weight: 700; font-size: 10.5px;"><i class="bi bi-shield-check"></i> 0% Interest</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <!-- Option 3: 3 Installments (Recommended) -->
+              <label class="tcm-plan-box" id="box-plan-3" style="display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; border: 2px solid #111; cursor: pointer; background: #FAFAFA; transition: all 0.15s; border-radius: 0; user-select: none;">
+                <input type="radio" name="payment_plan" value="3_installments" checked style="margin-top: 3px; accent-color: #111; flex-shrink: 0; width: 16px; height: 16px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                    <div style="min-width: 0; flex: 1;">
+                      <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #111; white-space: nowrap;">3 Installments</span>
+                        <span style="font-size: 8px; font-weight: 800; background: #111; color: #FFF; padding: 1px 4px; text-transform: uppercase; letter-spacing: 0.03em;">RECOMMENDED</span>
+                      </div>
+                      <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px; line-height: 1.3;">
+                        Pay ₹<?= number_format(round($s3[0]['amount']), 0) ?> now &middot; 2 parts of ₹<?= number_format(round($s3[1]['amount']), 0) ?>
+                      </div>
+                    </div>
+                    <div style="text-align: right; flex-shrink: 0;">
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format(round($s3[0]['amount']), 0) ?></div>
+                      <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Option 2: 2 Installments -->
+              <label class="tcm-plan-box" id="box-plan-2" style="display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; border: 1.5px solid #DDD; cursor: pointer; background: #FFF; transition: all 0.15s; border-radius: 0; user-select: none;">
+                <input type="radio" name="payment_plan" value="2_installments" style="margin-top: 3px; accent-color: #111; flex-shrink: 0; width: 16px; height: 16px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                    <div style="min-width: 0; flex: 1;">
+                      <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #111; white-space: nowrap;">2 Installments</span>
+                      <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px; line-height: 1.3;">
+                        Pay ₹<?= number_format(round($s2[0]['amount']), 0) ?> now &middot; ₹<?= number_format(round($s2[1]['amount']), 0) ?> in 15 days
+                      </div>
+                    </div>
+                    <div style="text-align: right; flex-shrink: 0;">
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format(round($s2[0]['amount']), 0) ?></div>
+                      <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Option 1: Full Payment -->
+              <label class="tcm-plan-box" id="box-plan-full" style="display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; border: 1.5px solid #DDD; cursor: pointer; background: #FFF; transition: all 0.15s; border-radius: 0; user-select: none;">
+                <input type="radio" name="payment_plan" value="full" style="margin-top: 3px; accent-color: #111; flex-shrink: 0; width: 16px; height: 16px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                    <div style="min-width: 0; flex: 1;">
+                      <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #111; white-space: nowrap;">Full Payment</span>
+                      <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px; line-height: 1.3;">
+                        100% one-time fee &middot; Instant complete access
+                      </div>
+                    </div>
+                    <div style="text-align: right; flex-shrink: 0;">
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format($price, 0) ?></div>
+                      <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. Compact Breakdown Summary Strip (Zero Decimals) -->
+          <div style="background: #F8F9FA; border: 1px solid #E5E7EB; padding: 8px 11px; margin-bottom: 12px; font-size: 11px; border-radius: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="color: var(--tcm-muted);">Amount Due Today:</span>
+              <strong id="planPayToday" style="color: #111; font-size: 12.5px; font-weight: 800;">₹<?= number_format(round($s3[0]['amount']), 0) ?></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="color: var(--tcm-muted);">Remaining Balance:</span>
+              <strong id="planRemaining" style="color: #111; font-weight: 700;">₹<?= number_format(round($price - $s3[0]['amount']), 0) ?></strong>
+            </div>
+            <div id="planScheduleDates" style="border-top: 1px dashed #D1D5DB; padding-top: 4px; margin-top: 4px; font-size: 10.5px; color: var(--tcm-muted); line-height: 1.35;">
+              Milestone 1: Today (₹<?= number_format(round($s3[0]['amount']), 0) ?>) &middot; Milestone 2: <?= date('d M Y', strtotime($s3[1]['due_date'])) ?> (₹<?= number_format(round($s3[1]['amount']), 0) ?>) &middot; Milestone 3: <?= date('d M Y', strtotime($s3[2]['due_date'])) ?> (₹<?= number_format(round($s3[2]['amount']), 0) ?>)
+            </div>
+          </div>
+
+          <!-- 3. Student Details Inputs -->
+          <div style="border-top: 1px solid #E5E7EB; padding-top: 10px;">
+            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; color: #111;">
+              Your Contact Details
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div class="tcm-form-group" style="margin: 0;">
+                <label for="tcmInstName" class="tcm-form-label" style="font-size: 10.5px; font-weight: 700; margin-bottom: 3px; display: block;">Full Name *</label>
+                <input type="text" id="tcmInstName" class="tcm-form-input" placeholder="e.g. Rahul Sharma" style="border-radius: 0; height: 36px; width: 100%; font-size: 13px; border: 1.5px solid #111; padding: 0 10px; box-sizing: border-box;" required>
+              </div>
+              <div class="tcm-form-group" style="margin: 0;">
+                <label for="tcmInstPhone" class="tcm-form-label" style="font-size: 10.5px; font-weight: 700; margin-bottom: 3px; display: block;">WhatsApp / Phone Number *</label>
+                <input type="tel" id="tcmInstPhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" style="border-radius: 0; height: 36px; width: 100%; font-size: 13px; border: 1.5px solid #111; padding: 0 10px; box-sizing: border-box;" required>
+              </div>
+              <div class="tcm-form-group" style="margin: 0;">
+                <label for="tcmInstEmail" class="tcm-form-label" style="font-size: 10.5px; font-weight: 700; margin-bottom: 3px; display: block;">Email Address (for LMS &amp; Receipts) *</label>
+                <input type="email" id="tcmInstEmail" class="tcm-form-input" placeholder="e.g. rahul@example.com" style="border-radius: 0; height: 36px; width: 100%; font-size: 13px; border: 1.5px solid #111; padding: 0 10px; box-sizing: border-box;" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pinned Modal Footer with CTA (Always visible, never cut off!) -->
+        <div class="tcm-plan-modal-footer">
+          <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmInstSubmitBtn" style="width: 100%; height: 44px; border-radius: 0; font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em;">
+            <span>PROCEED TO PAY ₹<?= number_format(round($s3[0]['amount']), 0) ?></span>
+            <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </button>
+          <div style="margin-top: 6px; font-size: 10px; color: var(--tcm-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px;">
+            <i class="bi bi-shield-lock" style="color: #111;"></i>
+            <span>256-Bit SSL Encrypted &middot; Powered by PayU India</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('tcmInstallmentModalOverlay');
+    var modalBody = document.getElementById('tcmPlanModalBody');
+    var closeBtn = document.getElementById('tcmInstallmentCloseBtn');
+    var form = document.getElementById('tcmInstallmentForm');
+    var feedback = document.getElementById('tcmInstallmentFeedback');
+    var submitBtn = document.getElementById('tcmInstSubmitBtn');
+
+    var nameInput = document.getElementById('tcmInstName');
+    var emailInput = document.getElementById('tcmInstEmail');
+    var phoneInput = document.getElementById('tcmInstPhone');
+    var slugInput = document.getElementById('tcmInstCourseSlug');
+
+    var planPayToday = document.getElementById('planPayToday');
+    var planRemaining = document.getElementById('planRemaining');
+    var planScheduleDates = document.getElementById('planScheduleDates');
+
+    var coursePrice = <?= (float)$price ?>;
+    var s2_m1 = <?= (float)$s2[0]['amount'] ?>;
+    var s2_m2 = <?= (float)$s2[1]['amount'] ?>;
+    var s2_due2 = '<?= date('d M Y', strtotime($s2[1]['due_date'])) ?>';
+
+    var s3_m1 = <?= (float)$s3[0]['amount'] ?>;
+    var s3_m2 = <?= (float)$s3[1]['amount'] ?>;
+    var s3_m3 = <?= (float)$s3[2]['amount'] ?>;
+    var s3_due2 = '<?= date('d M Y', strtotime($s3[1]['due_date'])) ?>';
+    var s3_due3 = '<?= date('d M Y', strtotime($s3[2]['due_date'])) ?>';
+
+    function roundInr(val) {
+      return Math.round(Number(val) || 0);
+    }
+    function formatInr(val) {
+      return roundInr(val).toLocaleString('en-IN');
+    }
+
+    function updatePlanSelection() {
+      var selected = document.querySelector('input[name="payment_plan"]:checked');
+      var val = selected ? selected.value : '3_installments';
+
+      document.querySelectorAll('.tcm-plan-box').forEach(function (box) {
+        box.style.borderColor = '#DDD';
+        box.style.borderWidth = '1.5px';
+        box.style.background = '#FFF';
+      });
+
+      var activeBox = document.getElementById('box-plan-' + (val === 'full' ? 'full' : (val === '2_installments' ? '2' : '3')));
+      if (activeBox) {
+        activeBox.style.borderColor = '#111';
+        activeBox.style.borderWidth = '2px';
+        activeBox.style.background = '#FAFAFA';
+      }
+
+      var payToday = coursePrice;
+      var remaining = 0;
+      var datesText = 'Full payment of ₹' + formatInr(coursePrice) + ' today.';
+
+      if (val === '2_installments') {
+        var m1 = roundInr(s2_m1);
+        var m2 = roundInr(coursePrice - m1);
+        payToday = m1;
+        remaining = m2;
+        datesText = 'Milestone 1: Today (₹' + formatInr(m1) + ') &middot; Milestone 2: ' + s2_due2 + ' (₹' + formatInr(m2) + ')';
+      } else if (val === '3_installments') {
+        var m1 = roundInr(s3_m1);
+        var m2 = roundInr(s3_m2);
+        var m3 = roundInr(coursePrice - m1 - m2);
+        payToday = m1;
+        remaining = roundInr(coursePrice - m1);
+        datesText = 'Milestone 1: Today (₹' + formatInr(m1) + ') &middot; Milestone 2: ' + s3_due2 + ' (₹' + formatInr(m2) + ') &middot; Milestone 3: ' + s3_due3 + ' (₹' + formatInr(m3) + ')';
+      }
+
+      if (planPayToday) planPayToday.textContent = '₹' + formatInr(payToday);
+      if (planRemaining) planRemaining.textContent = '₹' + formatInr(remaining);
+      if (planScheduleDates) planScheduleDates.innerHTML = datesText;
+
+      if (submitBtn) {
+        submitBtn.querySelector('span').textContent = 'PROCEED TO PAY ₹' + formatInr(payToday);
+      }
+    }
+
+    document.querySelectorAll('input[name="payment_plan"]').forEach(function (r) {
+      r.addEventListener('change', updatePlanSelection);
+    });
+
+    function openInstallmentModal() {
+      try {
+        if (nameInput && !nameInput.value) nameInput.value = localStorage.getItem('tcm_lead_name') || '';
+        if (emailInput && !emailInput.value) emailInput.value = localStorage.getItem('tcm_lead_email') || '';
+        if (phoneInput && !phoneInput.value) phoneInput.value = localStorage.getItem('tcm_lead_phone') || '';
+      } catch (err) {}
+
+      updatePlanSelection();
+      if (feedback) feedback.style.display = 'none';
+      if (modalBody) modalBody.scrollTop = 0; // Always start at top of modal
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeInstModal() {
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Intercept Enroll click to open options modal (capturing phase)
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.tcm-trigger-course-enroll, .tcm-trigger-installment-modal');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openInstallmentModal();
+    }, true);
+
+    if (closeBtn) closeBtn.addEventListener('click', closeInstModal);
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeInstModal();
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+        closeInstModal();
+      }
+    });
+
+    // Submit installment payment
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = (nameInput ? nameInput.value : '').trim();
+        var email = (emailInput ? emailInput.value : '').trim();
+        var phone = (phoneInput ? phoneInput.value : '').trim();
+        var slug = (slugInput ? slugInput.value : '').trim();
+        var selected = document.querySelector('input[name="payment_plan"]:checked');
+        var plan = selected ? selected.value : '3_installments';
+
+        if (!name) {
+          if (feedback) { feedback.style.display = 'block'; feedback.style.background = '#FEF2F2'; feedback.style.color = '#DC2626'; feedback.textContent = 'Please provide your full name.'; }
+          if (nameInput) nameInput.focus();
+          return;
+        }
+        if (!email || email.indexOf('@') === -1) {
+          if (feedback) { feedback.style.display = 'block'; feedback.style.background = '#FEF2F2'; feedback.style.color = '#DC2626'; feedback.textContent = 'Please provide a valid email address.'; }
+          if (emailInput) emailInput.focus();
+          return;
+        }
+        var cleanPhone = phone.replace(/[^\d]/g, '');
+        if (cleanPhone.length < 10) {
+          if (feedback) { feedback.style.display = 'block'; feedback.style.background = '#FEF2F2'; feedback.style.color = '#DC2626'; feedback.textContent = 'Please provide a valid 10-digit mobile number.'; }
+          if (phoneInput) phoneInput.focus();
+          return;
+        }
+
+        try {
+          localStorage.setItem('tcm_lead_name', name);
+          localStorage.setItem('tcm_lead_email', email);
+          localStorage.setItem('tcm_lead_phone', phone);
+        } catch (err) {}
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.querySelector('span').textContent = 'Connecting to PayU...';
+        }
+
+        fetch('<?= base_url('/payment/initiate') ?>', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            item_type: 'course',
+            slug: slug,
+            name: name,
+            email: email,
+            phone: phone,
+            payment_plan: plan
+          })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (res) {
+          if (res && res.success && res.data && res.data.action && res.data.params) {
+            if (feedback) {
+              feedback.style.display = 'block';
+              feedback.style.background = '#ECFDF5';
+              feedback.style.color = '#059669';
+              feedback.textContent = 'Redirecting to secure PayU gateway...';
+            }
+            if (submitBtn) submitBtn.querySelector('span').textContent = 'Redirecting to PayU...';
+
+            var payForm = document.createElement('form');
+            payForm.method = 'POST';
+            payForm.action = res.data.action;
+            payForm.style.display = 'none';
+
+            for (var key in res.data.params) {
+              if (Object.prototype.hasOwnProperty.call(res.data.params, key)) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = res.data.params[key];
+                payForm.appendChild(input);
+              }
+            }
+            document.body.appendChild(payForm);
+            setTimeout(function () { payForm.submit(); }, 250);
+          } else {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              updatePlanSelection();
+            }
+            if (feedback) {
+              feedback.style.display = 'block';
+              feedback.style.background = '#FEF2F2';
+              feedback.style.color = '#DC2626';
+              feedback.textContent = (res && res.message) ? res.message : 'Payment initiation failed. Please try again.';
+            }
+          }
+        })
+        .catch(function (err) {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            updatePlanSelection();
+          }
+          if (feedback) {
+            feedback.style.display = 'block';
+            feedback.style.background = '#FEF2F2';
+            feedback.style.color = '#DC2626';
+            feedback.textContent = 'Network error connecting to payment gateway. Please check your connection.';
+          }
+        });
+      });
+    }
+  });
+  </script>
+  <?php endif; ?>
 
   <!-- Brochure Modal -->
   <div class="tcm-modal-overlay" id="tcmBrochureOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmBrochureTitle">

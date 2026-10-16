@@ -188,6 +188,105 @@ $referralId = $user['referral_id'] ?? null;
     .ph-card-top { flex-direction: column; }
     .ph-card-right { align-items: flex-start; flex-direction: row; }
 }
+
+/* ── Installment Hub Square-Corner Design System ── */
+.hub-card {
+    background: #fff;
+    border: 1px solid #111;
+    border-radius: 0;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+.hub-header {
+    background: #111;
+    color: #fff;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.hub-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: #fafafa;
+    border-bottom: 1px solid #e5e5e5;
+}
+.hub-stat-cell {
+    padding: 14px 18px;
+    border-right: 1px solid #e5e5e5;
+}
+.hub-stat-cell:last-child {
+    border-right: none;
+}
+.hub-stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+.hub-stat-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+.hub-progress-wrap {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
+}
+.hub-progress-track {
+    background: #e5e5e5;
+    height: 8px;
+    width: 100%;
+    border-radius: 0;
+    overflow: hidden;
+    margin-top: 6px;
+}
+.hub-progress-bar {
+    background: #111;
+    height: 100%;
+    border-radius: 0;
+    transition: width 0.3s ease;
+}
+.hub-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.hub-table th {
+    background: #f4f4f5;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 11px 18px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #52525b;
+}
+.hub-table td {
+    padding: 13px 18px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+.hub-table tr:last-child td {
+    border-bottom: none;
+}
+
+@media(max-width:768px) {
+    .hub-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .hub-stat-cell:nth-child(2) { border-right: none; }
+    .hub-stat-cell { border-bottom: 1px solid #e5e5e5; }
+    .hub-stat-cell:nth-child(3), .hub-stat-cell:nth-child(4) { border-bottom: none; }
+}
+@media(max-width:480px) {
+    .hub-stats-grid { grid-template-columns: 1fr; }
+    .hub-stat-cell { border-right: none; border-bottom: 1px solid #e5e5e5; }
+    .hub-stat-cell:last-child { border-bottom: none; }
+}
 </style>
 
 <!-- ── Hero ── -->
@@ -262,53 +361,267 @@ $referralId = $user['referral_id'] ?? null;
     </div>
 </div>
 
-<!-- ── Active Installment Plans ── -->
-<?php if (!empty($installments)): ?>
+<!-- ── Active Installment Plans Hub ── -->
+<?php 
+$hasPlans = !empty($plans);
+$planScheduleIds = [];
+if ($hasPlans) {
+    foreach ($plans as $p) {
+        foreach ($p['milestones'] ?? [] as $m) {
+            $planScheduleIds[] = (int) $m['id'];
+        }
+    }
+}
+$standaloneInstallments = array_filter($installments ?? [], fn($i) => !in_array((int)$i['id'], $planScheduleIds, true));
+?>
+
+<?php if ($hasPlans): ?>
+<div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+            <h3 style="font-size:1.1rem;font-weight:800;color:#111;margin:0;display:flex;align-items:center;gap:8px;letter-spacing:-0.2px;">
+                <i class="bi bi-pie-chart-fill" style="color:#111;"></i> Course Installment Hub
+            </h3>
+            <p style="font-size:.78rem;color:#71717a;margin:2px 0 0;">Manage your 0% interest flexible milestone payments, track balances and download official receipts.</p>
+        </div>
+        <span style="font-size:.75rem;font-weight:700;padding:4px 10px;background:#111;color:#fff;border-radius:0;">
+            <?= count($plans) ?> Active Plan<?= count($plans) > 1 ? 's' : '' ?>
+        </span>
+    </div>
+
+    <?php foreach ($plans as $plan): 
+        $totalAmount = (float) $plan['total_amount'];
+        $paidAmount = (float) $plan['paid_amount'];
+        $remainingAmount = (float) ($plan['remaining_amount'] ?? ($totalAmount - $paidAmount));
+        $progressPercent = $totalAmount > 0 ? min(100, max(0, (int) round(($paidAmount / $totalAmount) * 100))) : 0;
+        $milestones = $plan['milestones'] ?? [];
+        $totalMilestones = count($milestones);
+        $paidMilestonesCount = count(array_filter($milestones, fn($m) => $m['status'] === 'paid'));
+
+        $nextDueDate = null;
+        $hasOverdue = false;
+        foreach ($milestones as $m) {
+            if ($m['status'] !== 'paid') {
+                if ($nextDueDate === null) {
+                    $nextDueDate = $m['due_date'];
+                }
+                if ($m['status'] === 'overdue' || strtotime((string)$m['due_date']) < strtotime(date('Y-m-d'))) {
+                    $hasOverdue = true;
+                }
+            }
+        }
+
+        if ($remainingAmount <= 0.01 || ($plan['status'] ?? '') === 'completed') {
+            $badgeBg = '#111';
+            $badgeColor = '#fff';
+            $badgeBorder = '#111';
+            $badgeText = 'COMPLETED ✓';
+        } elseif ($hasOverdue) {
+            $badgeBg = '#fee2e2';
+            $badgeColor = '#b91c1c';
+            $badgeBorder = '#dc2626';
+            $badgeText = 'OVERDUE MILESTONE';
+        } else {
+            $badgeBg = '#f4f4f5';
+            $badgeColor = '#111';
+            $badgeBorder = '#111';
+            $badgeText = 'ACTIVE PLAN';
+        }
+    ?>
+    <div class="hub-card">
+        <!-- Header -->
+        <div class="hub-header">
+            <div>
+                <div style="font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#aaa;font-weight:800;">ENROLLED COURSE PLAN</div>
+                <h3 style="font-size:1.15rem;font-weight:800;color:#fff;margin:3px 0 0;"><?= e($plan['course_title'] ?? 'Program Milestone') ?></h3>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <?php if (!empty($plan['order_number'])): ?>
+                    <span style="font-family:monospace;font-size:0.75rem;color:#bbb;">Order #<?= e($plan['order_number']) ?></span>
+                <?php endif; ?>
+                <span style="padding:4px 10px;font-size:0.72rem;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;background:<?= $badgeBg ?>;color:<?= $badgeColor ?>;border:1px solid <?= $badgeBorder ?>;border-radius:0;">
+                    <?= e($badgeText) ?>
+                </span>
+            </div>
+        </div>
+
+        <!-- 4-Stat Strip -->
+        <div class="hub-stats-grid">
+            <div class="hub-stat-cell">
+                <div class="hub-stat-label" style="color:#71717a;">TOTAL COURSE FEE</div>
+                <div class="hub-stat-value" style="color:#111;">₹<?= number_format($totalAmount, 2) ?></div>
+            </div>
+            <div class="hub-stat-cell">
+                <div class="hub-stat-label" style="color:#15803d;">PAID TO DATE</div>
+                <div class="hub-stat-value" style="color:#15803d;">₹<?= number_format($paidAmount, 2) ?></div>
+            </div>
+            <div class="hub-stat-cell">
+                <div class="hub-stat-label" style="color:<?= $remainingAmount > 0 ? '#b91c1c' : '#71717a' ?>;">REMAINING BALANCE</div>
+                <div class="hub-stat-value" style="color:<?= $remainingAmount > 0 ? '#111' : '#15803d' ?>;">₹<?= number_format($remainingAmount, 2) ?></div>
+            </div>
+            <div class="hub-stat-cell">
+                <div class="hub-stat-label" style="color:#71717a;">NEXT DUE DATE</div>
+                <div class="hub-stat-value" style="font-size:1.05rem;color:<?= $hasOverdue ? '#dc2626' : '#111' ?>;">
+                    <?= $nextDueDate ? date('d M Y', strtotime($nextDueDate)) : 'Fully Cleared ✓' ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="hub-progress-wrap">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;font-weight:700;color:#111;">
+                <span>Payment Progress: <strong><?= $progressPercent ?>%</strong></span>
+                <span><?= $paidMilestonesCount ?> of <?= $plan['total_installments'] ?> Installments Paid</span>
+            </div>
+            <div class="hub-progress-track">
+                <div class="hub-progress-bar" style="width:<?= $progressPercent ?>%;"></div>
+            </div>
+        </div>
+
+        <!-- Milestones Table -->
+        <div style="overflow-x:auto;">
+            <table class="hub-table">
+                <thead>
+                    <tr>
+                        <th>Installment</th>
+                        <th>Amount Due</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th style="text-align:right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($milestones as $m): 
+                    $isPaid = ($m['status'] === 'paid');
+                    $dueTs = strtotime((string)$m['due_date']);
+                    $todayTs = strtotime(date('Y-m-d'));
+                    $daysDiff = (int) round(($dueTs - $todayTs) / 86400);
+                    $isOverdue = (!$isPaid && ($m['status'] === 'overdue' || $daysDiff < 0));
+                    $receiptOrderId = $m['installment_order_id'] ?: ($m['installment_number'] == 1 ? $plan['parent_order_id'] : null);
+                ?>
+                    <tr>
+                        <td>
+                            <div style="font-weight:700;color:#111;">
+                                Installment <?= e($m['installment_number']) ?> of <?= e($m['total_installments']) ?>
+                            </div>
+                            <?php if (!empty($m['notes'])): ?>
+                                <div style="font-size:0.72rem;color:#71717a;"><?= e($m['notes']) ?></div>
+                            <?php endif; ?>
+                        </td>
+                        <td style="font-weight:800;font-size:0.95rem;color:<?= $isPaid ? '#15803d' : ($isOverdue ? '#dc2626' : '#111') ?>;">
+                            ₹<?= number_format((float)$m['amount'], 2) ?>
+                        </td>
+                        <td>
+                            <div style="font-weight:600;color:#111;"><?= date('d M Y', strtotime($m['due_date'])) ?></div>
+                            <?php if (!$isPaid && !$isOverdue): ?>
+                                <div style="font-size:0.72rem;color:#71717a;">
+                                    <?= $daysDiff > 0 ? "Due in {$daysDiff} days" : "Due today" ?>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($isPaid): ?>
+                                <span class="tcm-badge" style="background:#f4f4f5;border:1px solid #111;color:#111;border-radius:0;font-weight:700;">
+                                    PAID ✓
+                                </span>
+                                <?php if (!empty($m['paid_at'])): ?>
+                                    <div style="font-size:0.7rem;color:#15803d;margin-top:3px;">
+                                        <i class="bi bi-check-circle-fill"></i> Paid on <?= date('d M Y', strtotime($m['paid_at'])) ?>
+                                    </div>
+                                <?php endif; ?>
+                            <?php elseif ($isOverdue): ?>
+                                <span class="tcm-badge" style="background:#fee2e2;border:1px solid #dc2626;color:#dc2626;border-radius:0;font-weight:800;">
+                                    OVERDUE (<?= abs($daysDiff) ?> days)
+                                </span>
+                            <?php else: ?>
+                                <span class="tcm-badge" style="background:#fff;border:1px solid #71717a;color:#111;border-radius:0;font-weight:700;">
+                                    UPCOMING
+                                </span>
+                            <?php endif; ?>
+                        </td>
+                        <td style="text-align:right;">
+                            <?php if ($isPaid): ?>
+                                <?php if ($receiptOrderId): ?>
+                                    <a href="<?= base_url('/student/orders/' . (int)$receiptOrderId . '/receipt') ?>" target="_blank" class="tcm-btn sm outline" style="border-radius:0;border:1px solid #111;font-weight:700;">
+                                        <i class="bi bi-file-earmark-text"></i> Official Receipt
+                                    </a>
+                                <?php else: ?>
+                                    <span style="font-size:0.75rem;color:#15803d;font-weight:700;">Payment Verified</span>
+                                <?php endif; ?>
+                            <?php elseif ($isOverdue): ?>
+                                <form method="post" action="<?= base_url('/student/installments/' . (int)$m['id'] . '/pay') ?>" style="display:inline;">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="tcm-btn sm" style="background:#dc2626;color:#fff;border-radius:0;border:1px solid #dc2626;font-weight:700;letter-spacing:0.04em;">
+                                        <i class="bi bi-exclamation-triangle-fill"></i> PAY NOW (₹<?= number_format((float)$m['amount'], 2) ?>)
+                                    </button>
+                                </form>
+                            <?php else: ?>
+                                <form method="post" action="<?= base_url('/student/installments/' . (int)$m['id'] . '/pay') ?>" style="display:inline;">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="tcm-btn sm" style="background:#111;color:#fff;border-radius:0;border:1px solid #111;font-weight:700;letter-spacing:0.04em;">
+                                        <i class="bi bi-credit-card-2-front"></i> PAY NOW (₹<?= number_format((float)$m['amount'], 2) ?>)
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<!-- Standalone / Legacy Installment Milestones (Fallback) -->
+<?php if (!empty($standaloneInstallments)): ?>
 <div style="margin-bottom:28px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <h3 style="font-size:1.05rem;font-weight:700;color:#111;margin:0;display:flex;align-items:center;gap:8px;">
-            <i class="bi bi-pie-chart-fill" style="color:#2563eb;"></i> Milestone Installment Plans
+            <i class="bi bi-clock-history" style="color:#111;"></i> Scheduled Milestones
         </h3>
-        <span style="font-size:.78rem;color:#64748b;"><?= count($installments) ?> scheduled milestone<?= count($installments) > 1 ? 's' : '' ?></span>
+        <span style="font-size:.78rem;color:#64748b;"><?= count($standaloneInstallments) ?> milestone<?= count($standaloneInstallments) > 1 ? 's' : '' ?></span>
     </div>
     <div class="ph-card-list">
-        <?php foreach ($installments as $inst): 
+        <?php foreach ($standaloneInstallments as $inst): 
             $isPaid = ($inst['status'] === 'paid');
             $isOverdue = ($inst['status'] === 'overdue' || (!$isPaid && strtotime($inst['due_date']) < time()));
-            $cardBorder = $isPaid ? '#22c55e' : ($isOverdue ? '#ef4444' : '#3b82f6');
-            $badgeBg = $isPaid ? '#dcfce7' : ($isOverdue ? '#fee2e2' : '#dbeafe');
-            $badgeColor = $isPaid ? '#15803d' : ($isOverdue ? '#b91c1c' : '#1d4ed8');
+            $cardBorder = $isPaid ? '#111' : ($isOverdue ? '#dc2626' : '#555');
+            $badgeBg = $isPaid ? '#f4f4f5' : ($isOverdue ? '#fee2e2' : '#fff');
+            $badgeColor = $isPaid ? '#111' : ($isOverdue ? '#b91c1c' : '#111');
+            $badgeBorder = $isPaid ? '#111' : ($isOverdue ? '#dc2626' : '#71717a');
             $badgeText = $isPaid ? 'Paid & Verified' : ($isOverdue ? 'Payment Overdue' : 'Due ' . date('d M Y', strtotime($inst['due_date'])));
         ?>
-        <div class="ph-payment-card" style="border-left: 4px solid <?= $cardBorder ?>;">
+        <div class="ph-payment-card" style="border:1px solid #e5e5e5;border-left: 4px solid <?= $cardBorder ?>;border-radius:0;">
             <div class="ph-card-top">
                 <div style="flex:1;min-width:0;">
                     <div class="ph-card-title"><?= e($inst['course_title'] ?? 'Program Milestone') ?></div>
                     <div class="ph-card-meta">
-                        <span class="tcm-badge blue" style="font-size:.68rem;">Installment <?= e($inst['installment_number']) ?> of <?= e($inst['total_installments']) ?></span>
+                        <span class="tcm-badge" style="font-size:.68rem;border-radius:0;border:1px solid #111;background:#f4f4f5;color:#111;">Installment <?= e($inst['installment_number']) ?> of <?= e($inst['total_installments']) ?></span>
                         <span><i class="bi bi-calendar-event"></i> Due: <?= e(date('d M Y', strtotime($inst['due_date']))) ?></span>
                         <?php if ($isPaid && !empty($inst['paid_at'])): ?>
-                            <span style="color:#16a34a;"><i class="bi bi-check-circle-fill"></i> Paid on <?= e(date('d M Y', strtotime($inst['paid_at']))) ?></span>
+                            <span style="color:#15803d;"><i class="bi bi-check-circle-fill"></i> Paid on <?= e(date('d M Y', strtotime($inst['paid_at']))) ?></span>
                         <?php endif; ?>
                     </div>
                 </div>
                 <div class="ph-card-right">
-                    <div class="ph-card-amount"><?= money($inst['amount']) ?></div>
-                    <span style="background:<?= $badgeBg ?>;color:<?= $badgeColor ?>;padding:4px 8px;border-radius:6px;font-size:.72rem;font-weight:700;">
+                    <div class="ph-card-amount">₹<?= number_format((float)$inst['amount'], 2) ?></div>
+                    <span style="background:<?= $badgeBg ?>;color:<?= $badgeColor ?>;border:1px solid <?= $badgeBorder ?>;padding:4px 8px;border-radius:0;font-size:.72rem;font-weight:700;">
                         <?= e($badgeText) ?>
                     </span>
                 </div>
             </div>
             <div class="ph-card-actions">
                 <?php if ($isPaid && !empty($inst['installment_order_id'])): ?>
-                    <a href="<?= base_url('/student/orders/' . (int)$inst['installment_order_id'] . '/receipt') ?>" target="_blank" class="tcm-btn sm primary">
+                    <a href="<?= base_url('/student/orders/' . (int)$inst['installment_order_id'] . '/receipt') ?>" target="_blank" class="tcm-btn sm outline" style="border-radius:0;font-weight:700;">
                         <i class="bi bi-file-earmark-text"></i> Official Receipt
                     </a>
                 <?php elseif (!$isPaid): ?>
                     <form method="post" action="<?= base_url('/student/installments/' . (int)$inst['id'] . '/pay') ?>" style="display:inline;">
                         <?= csrf_field() ?>
-                        <button type="submit" class="tcm-btn sm primary" style="background:#2563eb;">
-                            <i class="bi bi-credit-card-2-front-fill"></i> Pay Installment (<?= money($inst['amount']) ?>)
+                        <button type="submit" class="tcm-btn sm primary" style="background:#111;border-radius:0;font-weight:700;">
+                            <i class="bi bi-credit-card-2-front-fill"></i> Pay Installment (₹<?= number_format((float)$inst['amount'], 2) ?>)
                         </button>
                     </form>
                 <?php endif; ?>

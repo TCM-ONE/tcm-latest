@@ -258,6 +258,9 @@ $router->post('/admin/payments/{id}/approve', ['TCM\Controllers\Admin\PaymentCon
 $router->post('/admin/payments/{id}/reject', ['TCM\Controllers\Admin\PaymentController', 'reject']);
 $router->get('/admin/payments/{id}/screenshot', ['TCM\Controllers\Admin\PaymentController', 'viewScreenshot']);
 $router->post('/admin/installments/create', ['TCM\Controllers\Admin\PaymentController', 'createInstallmentPlan']);
+$router->post('/admin/installments/reschedule', ['TCM\Controllers\Admin\PaymentController', 'rescheduleMilestone']);
+$router->get('/admin/installments/export', ['TCM\Controllers\Admin\PaymentController', 'exportInstallmentsCsv']);
+$router->post('/admin/installments/settings', ['TCM\Controllers\Admin\PaymentController', 'saveSettings']);
 $router->post('/admin/installments/{id}/remind', ['TCM\Controllers\Admin\PaymentController', 'sendInstallmentReminder']);
 
 // --------------------------------------------------------------------- //
@@ -268,6 +271,7 @@ $router->post('/payment/payu/success', ['TCM\Controllers\PublicPaymentController
 $router->post('/payment/payu/failure', ['TCM\Controllers\PublicPaymentController', 'payuFailure']);
 $router->get('/payment/success',       ['TCM\Controllers\PublicPaymentController', 'successView']);
 $router->get('/payment/failure',       ['TCM\Controllers\PublicPaymentController', 'failureView']);
+$router->get('/api/courses/{slug}/installment-plans', ['TCM\Controllers\PublicPaymentController', 'getInstallmentPlans']);
 
 // --------------------------------------------------------------------- //
 // PayU Official Webhooks (Server-to-Server Asynchronous Callbacks)
@@ -276,16 +280,6 @@ $router->post('/api/webhooks/payu/success', ['TCM\Controllers\PayUWebhookControl
 $router->post('/api/webhooks/payu/failed',  ['TCM\Controllers\PayUWebhookController', 'failed']);
 $router->post('/api/webhooks/payu/refund',  ['TCM\Controllers\PayUWebhookController', 'refund']);
 $router->post('/api/webhooks/payu/dispute', ['TCM\Controllers\PayUWebhookController', 'dispute']);
-
-
-// --------------------------------------------------------------------- //
-// PayU Online Payment Gateway (Courses & Workshops)
-// --------------------------------------------------------------------- //
-$router->post('/payment/initiate',     ['TCM\Controllers\PublicPaymentController', 'initiate']);
-$router->post('/payment/payu/success', ['TCM\Controllers\PublicPaymentController', 'payuSuccess']);
-$router->post('/payment/payu/failure', ['TCM\Controllers\PublicPaymentController', 'payuFailure']);
-$router->get('/payment/success',       ['TCM\Controllers\PublicPaymentController', 'successView']);
-$router->get('/payment/failure',       ['TCM\Controllers\PublicPaymentController', 'failureView']);
 
 // Lead capture + WhatsApp hand-off (used by the static site CTAs and dashboards)
 $router->post('/enquiry', ['TCM\Controllers\EnquiryController', 'store']);

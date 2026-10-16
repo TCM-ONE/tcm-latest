@@ -14,6 +14,7 @@ use TCM\Core\Response;
 use TCM\Core\Upload;
 use TCM\Models\Course;
 use TCM\Models\Event;
+use TCM\Models\InstallmentPlan;
 use TCM\Models\InstallmentSchedule;
 use TCM\Models\Lead;
 use TCM\Models\Notification;
@@ -36,6 +37,7 @@ final class PaymentController extends Controller
             'payments'     => PaymentSubmission::forUser($userId),
             'onlineOrders' => Order::forUser($userId),
             'installments' => InstallmentSchedule::forUser($userId),
+            'plans'        => InstallmentPlan::forUser($userId),
         ], 'student');
     }
 

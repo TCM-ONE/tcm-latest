@@ -39,6 +39,18 @@ final class InstallmentSchedule extends Model
     }
 
     /**
+     * Get all installments for an installment plan.
+     * @return list<array<string,mixed>>
+     */
+    public static function forPlan(int $planId): array
+    {
+        return Database::all(
+            'SELECT * FROM installment_schedules WHERE installment_plan_id = ? ORDER BY installment_number ASC',
+            [$planId]
+        );
+    }
+
+    /**
      * Find schedule linked to an installment order ID.
      */
     public static function findByInstallmentOrder(int $installmentOrderId): ?array
@@ -74,7 +86,23 @@ final class InstallmentSchedule extends Model
              FROM installment_schedules s
              LEFT JOIN courses c ON s.course_id = c.id
              LEFT JOIN users u ON s.user_id = u.id
-             WHERE s.status = "pending" AND s.due_date < CURDATE()'
+             WHERE (s.status = "overdue" OR (s.status = "pending" AND s.due_date < CURDATE()))'
+        );
+    }
+
+    /**
+     * Find pending milestones due on a specific target date.
+     * @return list<array<string,mixed>>
+     */
+    public static function getDueOnDate(string $targetDate): array
+    {
+        return Database::all(
+            'SELECT s.*, c.title AS course_title, u.name AS user_name, u.email AS user_email, u.phone AS user_phone
+             FROM installment_schedules s
+             LEFT JOIN courses c ON s.course_id = c.id
+             LEFT JOIN users u ON s.user_id = u.id
+             WHERE s.status = "pending" AND s.due_date = ?',
+            [$targetDate]
         );
     }
 }

@@ -229,6 +229,9 @@ final class PayUWebhookController extends Controller
                 $scheduleId = (int) ($payload['udf3'] ?? 0);
                 if ($isInstallment && $scheduleId > 0) {
                     InstallmentService::markInstallmentPaid($scheduleId, $txnid, $mihpayid, $amount);
+                    if (!empty($existingTxn['id'])) {
+                        PaymentTransaction::update((int) $existingTxn['id'], ['installment_schedule_id' => $scheduleId]);
+                    }
                 }
 
                 // Grant Enrollment Access
@@ -241,6 +244,19 @@ final class PayUWebhookController extends Controller
                         VALUES (?, ?, ?, 'active', 0, NOW())
                         ON DUPLICATE KEY UPDATE status = 'active', order_id = VALUES(order_id)
                     ", [$userId, $itemId, $orderId]);
+
+                    if ($isInstallment) {
+                        $enrollmentId = (int) Database::scalar(
+                            "SELECT id FROM enrollments WHERE user_id = ? AND course_id = ? LIMIT 1",
+                            [$userId, $itemId]
+                        );
+                        if ($enrollmentId > 0) {
+                            Database::run(
+                                "UPDATE installment_plans SET enrollment_id = ? WHERE user_id = ? AND course_id = ?",
+                                [$enrollmentId, $userId, $itemId]
+                            );
+                        }
+                    }
                 } elseif ($itemType === 'workshop' || $itemType === 'event' || $order['item_type'] === 'event') {
                     $itemSlug = (string) ($payload['udf3'] ?? '');
                     $email    = strtolower((string) ($payload['email'] ?? ''));
