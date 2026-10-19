@@ -153,7 +153,15 @@
             <div class="inst-learning-step"><span>03</span><div><strong>Grow with proof</strong><p>Portfolio work, assessments and career readiness.</p></div><i class="bi bi-arrow-up-right" aria-hidden="true"></i></div>
           </aside>
         </div>
-        <nav class="inst-section-nav" aria-label="Explore institutional partnerships">
+
+        <!-- Direct Frameless Video Embed -->
+        <div style="margin-top: 36px;">
+          <div class="ptr-video-wrapper" style="max-width: 960px; margin: 0 auto; border: 1px solid var(--tcm-border); background: #000;">
+            <iframe src="https://www.youtube.com/embed/3hKm1id9pOY?rel=0" class="ptr-video-iframe" title="Become a TCM One Partner" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <nav class="inst-section-nav" aria-label="Explore institutional partnerships" style="margin-top: 36px;">
           <a href="#models">01 &nbsp; Partnership models</a>
           <a href="#calculator">02 &nbsp; Revenue calculator</a>
           <a href="#platform">03 &nbsp; Learning platform</a>
@@ -214,10 +222,7 @@
         <div class="ptr-objective-box">
           <strong>Our Objective:</strong> Help institutions move from traditional course delivery towards a more <strong>outcome-oriented learning experience</strong>.
         </div>
-        <details class="inst-video">
-          <summary>Watch the TCM One partnership overview</summary>
-          <div class="ptr-video-wrapper"><iframe src="https://www.youtube.com/embed/3hKm1id9pOY?rel=0" class="ptr-video-iframe" title="TCM One Partnership Video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        </details>
+
 
       </div>
     </section>
