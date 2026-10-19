@@ -60,10 +60,10 @@
     "description": "Practical tech education through live classes, guided projects, and industry-focused learning in software engineering, AI, and data.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda",
-      "addressLocality": "Bilaspur",
-      "addressRegion": "Chhattisgarh",
-      "postalCode": "495006",
+      "streetAddress": "TCMOne Office, Nirmal Nagar, Sector - 6, Behind Railway Station",
+      "addressLocality": "Waraseoni, Balaghat",
+      "addressRegion": "Madhya Pradesh",
+      "postalCode": "481331",
       "addressCountry": "IN"
     },
     "contactPoint": {
@@ -315,21 +315,24 @@
               Built in India. Teaching Learners <span class="font-editorial-serif">Everywhere.</span>
             </h2>
             <p style="font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-bottom: 36px;">
-              TCM One operates its flagship learning campus in Bilaspur (Chhattisgarh). Our live engineering infrastructure allows students from colleges across India and worldwide to learn directly from practicing engineers without relocating.
+              TCM One operates from its main office in Waraseoni, Balaghat (Madhya Pradesh) with an upcoming learning campus in Bilaspur (Chhattisgarh). Our live engineering infrastructure allows students from colleges across India and worldwide to learn directly from practicing engineers without relocating.
             </p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 24px;">
               <div>
-                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Bilaspur Learning Campus</strong>
-                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006.</span>
+                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">TCMOne Main Office</strong>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Nirmal Nagar, Sector - 6, Behind Railway Station, Waraseoni, Balaghat, Madhya Pradesh 481331.</span>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                  <strong style="color: #FFFFFF; font-size: 15px;">Bilaspur Campus</strong>
+                  <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(197, 244, 103, 0.2); color: #c5f467; border: 1px solid rgba(197, 244, 103, 0.4); padding: 1px 6px; border-radius: 3px;">Coming Soon</span>
+                </div>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Bilaspur, Chhattisgarh 495001.</span>
               </div>
               <div>
                 <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Online Live Cohorts</strong>
                 <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">100% accessible via any computer with a modern browser and internet.</span>
-              </div>
-              <div>
-                <strong style="display: block; color: #FFFFFF; font-size: 15px; margin-bottom: 6px;">Placement &amp; Industry Links</strong>
-                <span style="font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; display: block;">Active hiring networks, portfolio reviews, and technical project review sessions.</span>
               </div>
             </div>
           </div>
