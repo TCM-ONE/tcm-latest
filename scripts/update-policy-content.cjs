@@ -5,7 +5,7 @@ const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const write = (file, content) => fs.writeFileSync(path.join(root, file), content);
 const support = '<a href="mailto:thecodemunk@gmail.com">thecodemunk@gmail.com</a>';
-const address = 'Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006, India';
+const address = 'Main Office: TCMOne Office, Nirmal Nagar, Sector - 6, Behind Railway Station, Waraseoni, Balaghat, Madhya Pradesh 481331, India<br>Upcoming Campus: Bilaspur, Chhattisgarh 495001 (Coming Soon)';
 const contact = `<p><strong>The Code Munk (TCM One)</strong><br>${address}<br>Email: ${support}<br>Phone / WhatsApp: <a href="tel:+919238695500">+91 9238695500</a><br>Support hours: Monday–Saturday, 10 AM–7 PM IST, excluding public holidays.</p>`;
 const sections = entries => entries.map(([title, content], i) => `<section class="legal-section"><h2>${i + 1}. ${title}</h2>${content}</section>`).join('\n');
 const pages = [

@@ -65,10 +65,10 @@
       "email": "thecodemunk@gmail.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda",
-        "addressLocality": "Bilaspur",
-        "addressRegion": "Chhattisgarh",
-        "postalCode": "495006",
+        "streetAddress": "TCMOne Office, Nirmal Nagar, Sector - 6, Behind Railway Station",
+        "addressLocality": "Waraseoni, Balaghat",
+        "addressRegion": "Madhya Pradesh",
+        "postalCode": "481331",
         "addressCountry": "IN"
       },
       "contactPoint": {
@@ -243,17 +243,27 @@
             <!-- Office Locations Card -->
             <div class="contact-card-info" style="margin-top: 24px;">
               <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--tcm-muted); margin-bottom: 16px;">
-                HEADQUARTERS &amp; LEARNING CAMPUS
+                HEADQUARTERS &amp; LOCATIONS
               </div>
 
               <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px; margin-bottom: 16px;">
-                <strong style="display: block; font-size: 15px; margin-bottom: 6px; color: var(--tcm-fg);">Bilaspur Main Campus</strong>
+                <strong style="display: block; font-size: 15px; margin-bottom: 6px; color: var(--tcm-fg);">TCMOne Main Office</strong>
                 <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0 0 10px;">
-                  Seepat Rd, near DLS college, Shree Vihar, Ashok Nagar, Sarkanda, Bilaspur, Chhattisgarh 495006, India
+                  TCMOne Office, Nirmal Nagar, Sector - 6, Behind Railway Station, Waraseoni, Balaghat, Madhya Pradesh 481331, India
                 </p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006" target="_blank" rel="noopener" class="tcm-btn tcm-btn-outline tcm-btn-sm" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;">
+                <a href="https://www.google.com/maps/search/?api=1&query=Nirmal+Nagar,+Behind+Railway+Station,+Waraseoni,+Balaghat,+Madhya+Pradesh+481331" target="_blank" rel="noopener" class="tcm-btn tcm-btn-outline tcm-btn-sm" style="font-size: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;">
                   <i class="bi bi-geo-alt-fill" style="color: var(--tcm-accent, #c5f467);"></i> View on Google Maps &rarr;
                 </a>
+              </div>
+
+              <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                  <strong style="font-size: 15px; color: var(--tcm-fg);">Bilaspur Campus</strong>
+                  <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(197, 244, 103, 0.2); color: #2d5a1e; border: 1px solid rgba(197, 244, 103, 0.5); padding: 1px 6px; border-radius: 3px;">Coming Soon</span>
+                </div>
+                <p style="font-size: 13.5px; color: var(--tcm-muted); line-height: 1.6; margin: 0;">
+                  Bilaspur, Chhattisgarh 495001, India
+                </p>
               </div>
 
               <div>
@@ -264,12 +274,12 @@
               </div>
 
               <div style="margin-top: 14px; border: 1px solid var(--tcm-border); overflow: hidden; height: 160px;">
-                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Seepat+Rd,+near+DLS+college,+Shree+Vihar,+Ashok+Nagar,+Sarkanda,+Bilaspur,+Chhattisgarh+495006&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Nirmal+Nagar,+Behind+Railway+Station,+Waraseoni,+Balaghat,+Madhya+Pradesh+481331&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
               </div>
             </div>
 
             <div style="font-size: 12.5px; color: var(--tcm-muted); line-height: 1.6; padding: 14px; background: #FFFFFF; border: 1px solid var(--tcm-border);">
-              <i class="bi bi-info-circle me-1"></i> <strong>Online &amp; In-Person Delivery:</strong> We conduct live online cohort classes accessible from anywhere, alongside hands-on practical sessions and bootcamps at our Bilaspur campus.
+              <i class="bi bi-info-circle me-1"></i> <strong>Online &amp; In-Person Delivery:</strong> We conduct live online cohort classes accessible from anywhere, alongside practical sessions and mentoring at our Waraseoni main office and upcoming Bilaspur campus.
             </div>
           </div>
 
