@@ -3167,32 +3167,44 @@ textarea.tcm-form-input {
 }
 
 .tcm-gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  column-count: 1;
+  column-gap: 20px;
+  column-fill: balance;
 }
 
 @media (min-width: 640px) {
   .tcm-gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    column-count: 2;
+    column-gap: 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .tcm-gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    column-count: 3;
+    column-gap: 24px;
   }
 }
 
 .tcm-gallery-card {
   background: #ffffff;
   border: 1px solid var(--tcm-border);
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 24px;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   overflow: hidden;
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
   cursor: pointer;
+  vertical-align: top;
+}
+
+@media (max-width: 639px) {
+  .tcm-gallery-card {
+    margin-bottom: 18px;
+  }
 }
 
 .tcm-gallery-card:hover {
@@ -3204,21 +3216,20 @@ textarea.tcm-form-input {
 .tcm-gallery-img-wrap {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: auto;
   overflow: hidden;
   background: #111111;
 }
 
 .tcm-gallery-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  height: auto;
   display: block;
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tcm-gallery-card:hover .tcm-gallery-img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .tcm-gallery-badge {
@@ -3235,6 +3246,7 @@ textarea.tcm-form-input {
   padding: 4px 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
+  z-index: 2;
 }
 
 .tcm-gallery-zoom-icon {
@@ -3252,6 +3264,7 @@ textarea.tcm-form-input {
   opacity: 0;
   transition: opacity 160ms ease, transform 160ms ease;
   transform: translateY(4px);
+  z-index: 2;
 }
 
 .tcm-gallery-card:hover .tcm-gallery-zoom-icon {
