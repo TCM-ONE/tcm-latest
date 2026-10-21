@@ -28,6 +28,16 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 .path-links { display: flex; gap: 8px 18px; flex-wrap: wrap; margin-top: 14px; }
 .path-links a { color: var(--fg-primary); font-size: 14px; }
 .version-note, .snapshot { margin: 0 0 24px; padding: 12px 16px; border-left: 2px solid var(--fg-primary); background: var(--bg-secondary); color: var(--fg-secondary); font-size: 14px; }
+.guide-start { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0 0 20px; padding: 20px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+.guide-start h2 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+.guide-start p, .lesson-prompt { margin: 0; color: var(--fg-secondary); font-size: 14px; line-height: 1.7; }
+.lesson-prompt { margin: 0 0 24px; }
+.glossary { margin: 0 0 30px; padding: 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); }
+.glossary h2 { margin: 0 0 14px; font-family: var(--font-display); font-size: 27px; font-weight: 400; }
+.glossary dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; margin: 0; }
+.glossary dl > div { border-top: 1px solid var(--border-color); padding-top: 9px; }
+.glossary dt { font-size: 13px; font-weight: 600; }
+.glossary dd { margin: 3px 0 0; color: var(--fg-secondary); font-size: 13px; line-height: 1.6; }
 .columns { display: grid; grid-template-columns: minmax(0, 1fr) 285px; gap: 36px; align-items: start; }
 .contents { position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto; padding: 18px; border: 1px solid var(--border-color); background: var(--bg-secondary); }
 .contents h2 { margin: 0 0 9px; font: 600 14px/1.4 var(--font-body); }
@@ -56,5 +66,5 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 .related-grid a { padding: 13px 0; border-top: 1px solid var(--border-color); text-decoration: none; font-weight: 600; }
 .related-grid a:hover { text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 900px) { .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .columns { grid-template-columns: 1fr; } .contents { position: static; max-height: none; } .contents ol { columns: 2; column-gap: 24px; } .related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 620px) { .guide-grid, .related-grid { grid-template-columns: 1fr; } .contents ol { columns: 1; } .lesson-head { padding: 18px 0 0; } .lesson-body { padding: 0 0 18px; } .lesson h2 { font-size: 26px; } .code { font-size: 11px; } }
+@media (max-width: 620px) { .guide-grid, .related-grid, .guide-start, .glossary dl { grid-template-columns: 1fr; } .contents ol { columns: 1; } .lesson-head { padding: 18px 0 0; } .lesson-body { padding: 0 0 18px; } .lesson h2 { font-size: 26px; } .code { font-size: 11px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -14,8 +14,8 @@ final class LearnController extends Controller
     {
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $guides = LearnGuideCatalog::all();
-        $title = 'Free Programming & Web Development Guides | TCM One';
-        $description = 'Learn Python, HTML, CSS, SCSS, Bootstrap and Java from fundamentals to advanced topics with practical explanations, code examples and project ideas.';
+        $title = 'Free Coding Tutorials: Python, Java & Web | TCM One';
+        $description = 'Learn Python, Java, HTML, CSS, SCSS and Bootstrap step by step. Read beginner-friendly explanations, follow code examples, practise each topic and build projects.';
 
         $this->view('public/learn/index', [
             'guides' => $guides,
@@ -43,8 +43,34 @@ final class LearnController extends Controller
 
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $guide = $guides[$slug];
-        $title = $guide['name'] . ' Tutorial: Beginner to Advanced | TCM One';
-        $description = 'A practical ' . $guide['name'] . ' learning guide from fundamentals to advanced topics, with explanations, examples, practice tasks and project ideas.';
+        $seo = [
+            'python' => [
+                'title' => 'Python Tutorial for Beginners to Advanced | TCM One',
+                'description' => 'Learn Python step by step with beginner-friendly lessons on variables, loops, functions, files, classes, testing and practical coding projects.',
+            ],
+            'html' => [
+                'title' => 'HTML Tutorial for Beginners: Semantic HTML | TCM One',
+                'description' => 'Learn HTML step by step: build a valid web page, use semantic elements, add accessible images and forms, and write useful page metadata.',
+            ],
+            'css' => [
+                'title' => 'CSS Tutorial: Layout, Flexbox & Grid | TCM One',
+                'description' => 'Learn CSS from the basics to responsive design. Understand selectors, the box model, Flexbox, Grid, media queries and accessible styling.',
+            ],
+            'scss' => [
+                'title' => 'Sass SCSS Tutorial: Beginner to Advanced | TCM One',
+                'description' => 'Learn Sass and SCSS with clear examples of variables, nesting, modules, mixins and functions, then compile and organize maintainable CSS.',
+            ],
+            'bootstrap' => [
+                'title' => 'Bootstrap Tutorial: Responsive Web Design | TCM One',
+                'description' => 'Learn Bootstrap step by step: use its responsive grid, utilities, components, forms and JavaScript plugins while keeping pages accessible.',
+            ],
+            'java' => [
+                'title' => 'Java Tutorial for Beginners to Advanced | TCM One',
+                'description' => 'Learn Java with simple explanations and code examples for variables, methods, classes, collections, exceptions, testing and concurrency.',
+            ],
+        ];
+        $title = $seo[$slug]['title'];
+        $description = $seo[$slug]['description'];
         $canonical = $appUrl . '/learn/' . rawurlencode($slug);
         $schema = [
             '@context' => 'https://schema.org',
