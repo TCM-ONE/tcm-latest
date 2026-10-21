@@ -7,6 +7,8 @@ Allow: /workshops/
 Allow: /tech-updates
 Allow: /tech-updates/
 Allow: /for-institutions
+Allow: /locations
+Allow: /locations/
 Allow: /about
 Allow: /contact
 Allow: /learners-reviews.html
