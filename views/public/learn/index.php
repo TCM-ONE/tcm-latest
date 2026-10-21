@@ -1,5 +1,14 @@
 <?php
 $h = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+$itemListElements = [];
+foreach ($guides as $slug => $guide) {
+    $itemListElements[] = [
+        '@type' => 'ListItem',
+        'position' => count($itemListElements) + 1,
+        'name' => $guide['name'] . ' Tutorial',
+        'url' => $appUrl . '/learn/' . $slug,
+    ];
+}
 $listSchema = [
     '@context' => 'https://schema.org',
     '@type' => 'CollectionPage',
@@ -9,12 +18,7 @@ $listSchema = [
     'inLanguage' => 'en-IN',
     'mainEntity' => [
         '@type' => 'ItemList',
-        'itemListElement' => array_values(array_map(static fn (string $slug, array $guide, int $index): array => [
-            '@type' => 'ListItem',
-            'position' => $index + 1,
-            'name' => $guide['name'] . ' Tutorial',
-            'url' => $appUrl . '/learn/' . $slug,
-        ], array_keys($guides), $guides, array_keys($guides))),
+        'itemListElement' => $itemListElements,
     ],
 ];
 $breadcrumbSchema = [

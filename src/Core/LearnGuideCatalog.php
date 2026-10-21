@@ -14,7 +14,7 @@ final class LearnGuideCatalog
             'python' => [
                 'name' => 'Python', 'category' => 'Programming language', 'version' => 'Python 3.15.0',
                 'versionNote' => 'Latest stable release as of 21 October 2026. Start with 3.15 for new learning; check library compatibility before choosing it for a production project.',
-                'level' => 'Beginner to advanced', 'duration' => '12 modules · learn at your own pace', 'icon' => 'bi-braces-asterisk',
+                'level' => 'Beginner to advanced', 'duration' => '15 modules · learn at your own pace', 'icon' => 'bi-braces-asterisk',
                 'summary' => 'Learn Python from your first print statement to clean, tested, asynchronous applications. Each step explains the idea, shows a small example and gives you a practice task.',
                 'prerequisites' => 'No programming experience is required. Install Python 3.15 and an editor, or use an online Python shell to begin.',
                 'outcome' => 'Build command-line tools, automate repetitive work, read and write data, and structure small applications with tests.',
@@ -100,14 +100,65 @@ final class LearnGuideCatalog
                 'outcome' => 'Structure a small design system with reusable Sass modules and produce readable, browser-ready CSS.',
                 'courseCategory' => 'Web & Mobile Development',
                 'lessons' => [
-                    ['title' => '1. What Sass and SCSS are', 'explanation' => 'Sass is a stylesheet language that compiles to CSS. SCSS is its CSS-like syntax: nearly all valid CSS is also valid SCSS. Browsers consume the generated CSS, not the .scss source, so your project needs a compiler such as Dart Sass.', 'example' => "$brand: #245f4a;\n\n.button {\n  background: $brand;\n  color: white;\n}", 'practice' => 'Install Dart Sass in a project, create styles.scss and compile it into styles.css.'],
-                    ['title' => '2. Variables and useful values', 'explanation' => 'Sass variables store compile-time values and are useful for values you configure before building CSS. CSS custom properties remain available in the browser and can change at runtime. Use the right tool for the job: a Sass map for build-time token sets, a custom property for runtime theming.', 'example' => "$space: 1rem;\n$brand: #245f4a;\n\n:root { --brand: #{$brand}; }\n.card { padding: $space; color: var(--brand); }", 'practice' => 'Create spacing and color variables, compile the file and inspect the resulting CSS.'],
+                    ['title' => '1. What Sass and SCSS are', 'explanation' => 'Sass is a stylesheet language that compiles to CSS. SCSS is its CSS-like syntax: nearly all valid CSS is also valid SCSS. Browsers consume the generated CSS, not the .scss source, so your project needs a compiler such as Dart Sass.', 'example' => <<<'CODE'
+$brand: #245f4a;
+
+.button {
+  background: $brand;
+  color: white;
+}
+CODE
+, 'practice' => 'Install Dart Sass in a project, create styles.scss and compile it into styles.css.'],
+                    ['title' => '2. Variables and useful values', 'explanation' => 'Sass variables store compile-time values and are useful for values you configure before building CSS. CSS custom properties remain available in the browser and can change at runtime. Use the right tool for the job: a Sass map for build-time token sets, a custom property for runtime theming.', 'example' => <<<'CODE'
+$space: 1rem;
+$brand: #245f4a;
+
+:root { --brand: #{$brand}; }
+.card { padding: $space; color: var(--brand); }
+CODE
+, 'practice' => 'Create spacing and color variables, compile the file and inspect the resulting CSS.'],
                     ['title' => '3. Nesting and the parent selector', 'explanation' => 'Nesting places related rules together, and & refers to the current parent selector for states or modifiers. Keep nesting shallow: deeply nested rules generate long selectors that are harder to override. Nest related selectors only when it improves readability.', 'example' => ".button {\n  padding: 0.75rem 1rem;\n  &:hover { filter: brightness(0.95); }\n  &--quiet { background: transparent; }\n}", 'practice' => 'Convert a small button component to SCSS and keep the generated selectors short.'],
-                    ['title' => '4. Partials and the modern module system', 'explanation' => 'Split large stylesheets into small files named with a leading underscore; these partials are not emitted as standalone CSS. Load and share public Sass APIs with @use and @forward. The older Sass @import rule is deprecated; move code toward modules instead of starting new projects with imports.', 'example' => "// _tokens.scss\n$brand: #245f4a;\n\n// styles.scss\n@use 'tokens';\n.page-title { color: tokens.$brand; }", 'practice' => 'Move tokens to a partial and access them through its namespace using @use.'],
-                    ['title' => '5. Mixins for reusable declaration patterns', 'explanation' => 'A mixin inserts a reusable block of CSS declarations and can accept parameters or content. Use it when several components share a genuine pattern, not merely to give every rule a new name. Check the compiled output to avoid duplicating large blocks unnecessarily.', 'example' => "@mixin focus-ring($color) {\n  &:focus-visible { outline: 3px solid $color; outline-offset: 3px; }\n}\n\n.button { @include focus-ring(#245f4a); }", 'practice' => 'Write one focus-ring mixin and apply it to a link and a button.'],
-                    ['title' => '6. Functions, maps and token lookup', 'explanation' => 'Functions return a value for use in another expression; maps group related key-value settings. Prefer Sass’s built-in module functions through @use "sass:map" and @use "sass:color" instead of deprecated global helpers. Validate that a requested map key exists so mistakes fail clearly.', 'example' => "@use 'sass:map';\n$colors: ('brand': #245f4a, 'ink': #182538);\n\n$brand: map.get($colors, 'brand');\n.badge { color: $brand; }", 'practice' => 'Create a color map and use map.get to style two components.'],
-                    ['title' => '7. Loops and generated utilities', 'explanation' => 'Control directives such as @each, @for and @if generate CSS based on data. They can help produce a family of utilities, but broad generation can bloat stylesheets. Generate only classes your design system needs and inspect the output before shipping.', 'example' => "$spaces: (1: .25rem, 2: .5rem, 3: 1rem);\n\n@each $key, $value in $spaces {\n  .gap-#{$key} { gap: $value; }\n}", 'practice' => 'Generate three spacing utility classes from a Sass map and review the emitted CSS.'],
-                    ['title' => '8. Responsive components and CSS custom properties', 'explanation' => 'Use Sass to organize source and CSS custom properties when a value should respond to runtime themes or component state. Media queries can be written in nested component context; keep breakpoints consistent and consider the content rather than specific devices.', 'example' => "$card-padding: 1rem;\n.card {\n  padding: $card-padding;\n  @media (min-width: 48rem) { padding: $card-padding * 1.5; }\n}", 'practice' => 'Create a card that increases its padding at one content-driven breakpoint and compare the CSS output.'],
+                    ['title' => '4. Partials and the modern module system', 'explanation' => 'Split large stylesheets into small files named with a leading underscore; these partials are not emitted as standalone CSS. Load and share public Sass APIs with @use and @forward. The older Sass @import rule is deprecated; move code toward modules instead of starting new projects with imports.', 'example' => <<<'CODE'
+// _tokens.scss
+$brand: #245f4a;
+
+// styles.scss
+@use 'tokens';
+.page-title { color: tokens.$brand; }
+CODE
+, 'practice' => 'Move tokens to a partial and access them through its namespace using @use.'],
+                    ['title' => '5. Mixins for reusable declaration patterns', 'explanation' => 'A mixin inserts a reusable block of CSS declarations and can accept parameters or content. Use it when several components share a genuine pattern, not merely to give every rule a new name. Check the compiled output to avoid duplicating large blocks unnecessarily.', 'example' => <<<'CODE'
+@mixin focus-ring($color) {
+  &:focus-visible { outline: 3px solid $color; outline-offset: 3px; }
+}
+
+.button { @include focus-ring(#245f4a); }
+CODE
+, 'practice' => 'Write one focus-ring mixin and apply it to a link and a button.'],
+                    ['title' => '6. Functions, maps and token lookup', 'explanation' => 'Functions return a value for use in another expression; maps group related key-value settings. Prefer Sass’s built-in module functions through @use "sass:map" and @use "sass:color" instead of deprecated global helpers. Validate that a requested map key exists so mistakes fail clearly.', 'example' => <<<'CODE'
+@use 'sass:map';
+$colors: ('brand': #245f4a, 'ink': #182538);
+
+$brand: map.get($colors, 'brand');
+.badge { color: $brand; }
+CODE
+, 'practice' => 'Create a color map and use map.get to style two components.'],
+                    ['title' => '7. Loops and generated utilities', 'explanation' => 'Control directives such as @each, @for and @if generate CSS based on data. They can help produce a family of utilities, but broad generation can bloat stylesheets. Generate only classes your design system needs and inspect the output before shipping.', 'example' => <<<'CODE'
+$spaces: (1: .25rem, 2: .5rem, 3: 1rem);
+
+@each $key, $value in $spaces {
+  .gap-#{$key} { gap: $value; }
+}
+CODE
+, 'practice' => 'Generate three spacing utility classes from a Sass map and review the emitted CSS.'],
+                    ['title' => '8. Responsive components and CSS custom properties', 'explanation' => 'Use Sass to organize source and CSS custom properties when a value should respond to runtime themes or component state. Media queries can be written in nested component context; keep breakpoints consistent and consider the content rather than specific devices.', 'example' => <<<'CODE'
+$card-padding: 1rem;
+.card {
+  padding: $card-padding;
+  @media (min-width: 48rem) { padding: $card-padding * 1.5; }
+}
+CODE
+, 'practice' => 'Create a card that increases its padding at one content-driven breakpoint and compare the CSS output.'],
                     ['title' => '9. Compile, debug and ship maintainable SCSS', 'explanation' => 'Run Dart Sass in watch mode while authoring and use source maps during development when available. Compile in CI or the build pipeline so deployed pages receive CSS. Treat compiler warnings as migration signals, and do not ship Sass source maps if they expose private source or paths.', 'example' => "# One-time compilation\nsass src/scss:public/css\n\n# Recompile when source files change\nsass --watch src/scss:public/css", 'practice' => 'Organize a small interface into tokens, base, components and utilities; compile it and check every stylesheet loads in the browser.'],
                 ],
                 'faq' => [
