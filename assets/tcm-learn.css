@@ -39,7 +39,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 .glossary dl > div { border-top: 1px solid var(--border-color); padding-top: 9px; }
 .glossary dt { font-size: 13px; font-weight: 600; }
 .glossary dd { margin: 3px 0 0; color: var(--fg-secondary); font-size: 13px; line-height: 1.6; }
-.columns { display: grid; grid-template-columns: minmax(0, 1fr) 285px; gap: 36px; align-items: start; }
+.columns { display: grid; grid-template-columns: 285px minmax(0, 1fr); gap: 36px; align-items: start; }
 .columns > *, .lesson, .lesson-body { min-width: 0; }
 .guide-toc { box-sizing: border-box; width: 100%; min-width: 0; position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto; padding: 14px 16px; border: 1px solid var(--border-color); background: var(--bg-secondary); }
 .guide-toc summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; min-width: 0; min-height: 44px; cursor: pointer; font: 600 14px/1.4 var(--font-body); }
