@@ -12,6 +12,15 @@ $today = (new DateTimeImmutable('now', new DateTimeZone('Asia/Kolkata')))->forma
 
 $urls = [
     ['loc' => '/',                      'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '1.0'],
+    ['loc' => '/locations',              'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/locations/bengaluru',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/mumbai',        'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/delhi-ncr',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/hyderabad',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/pune',          'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/chennai',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/kolkata',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/bilaspur',      'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/courses',                'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.9'],
     ['loc' => '/workshops',              'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.9'],
     ['loc' => '/tech-updates',           'lastmod' => $today, 'changefreq' => 'daily',   'priority' => '0.8'],
