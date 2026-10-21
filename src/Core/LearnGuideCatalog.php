@@ -10,7 +10,7 @@ final class LearnGuideCatalog
     /** @return array<string,array<string,mixed>> */
     public static function all(): array
     {
-        return [
+        $guides = [
             'python' => [
                 'name' => 'Python', 'category' => 'Programming language', 'version' => 'Python 3.15.0',
                 'versionNote' => 'Latest stable release as of 21 October 2026. Start with 3.15 for new learning; check library compatibility before choosing it for a production project.',
@@ -219,5 +219,7 @@ CODE
                 ],
             ],
         ];
+
+        return array_merge($guides, GitHubCICDGuide::all());
     }
 }

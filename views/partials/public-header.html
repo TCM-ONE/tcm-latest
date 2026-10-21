@@ -97,7 +97,7 @@
         </a>
 
         <!-- Mobile Drawer Toggle -->
-        <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer">
+        <button type="button" class="tcm-menu-toggle" aria-label="Toggle Navigation Drawer" aria-controls="tcm-mobile-drawer" aria-expanded="false">
           <i class="bi bi-list" style="font-size: 22px;"></i>
         </button>
       </div>
@@ -107,7 +107,7 @@
 
 <!-- Mobile Drawer -->
 <div class="tcm-drawer-backdrop"></div>
-<aside class="tcm-mobile-drawer" aria-label="Mobile Navigation">
+<aside id="tcm-mobile-drawer" class="tcm-mobile-drawer" aria-label="Mobile Navigation">
   <button type="button" class="tcm-drawer-close" aria-label="Close menu">&times;</button>
   <a href="{{base}}/" class="tcm-drawer-link">Home</a>
   <a href="{{base}}/courses" class="tcm-drawer-link">Courses</a>
