@@ -32,6 +32,13 @@ $references = [
         ['JDK 27 release notes', 'https://www.oracle.com/java/technologies/javase/27-relnote-issues.html'],
         ['Oracle Java downloads and LTS releases', 'https://www.oracle.com/java/technologies/downloads/'],
     ],
+    'github-cicd' => [
+        ['GitHub Actions quickstart', 'https://docs.github.com/en/actions/get-started/quickstart'],
+        ['Workflow syntax for GitHub Actions', 'https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax'],
+        ['Using custom workflows with GitHub Pages', 'https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages'],
+        ['Deploying with GitHub Actions: environments and protection', 'https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/control-deployments'],
+        ['Using secrets in GitHub Actions', 'https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets'],
+    ],
 ];
 $related = array_filter($guides, static fn (array $item, string $key): bool => $key !== $slug, ARRAY_FILTER_USE_BOTH);
 $project = [
@@ -41,6 +48,7 @@ $project = [
     'scss' => 'Build a small Sass design system with token modules, reusable component mixins and generated CSS utilities.',
     'bootstrap' => 'Create a responsive course catalogue with a filter form, cards, accessible navigation and one keyboard-friendly dialog.',
     'java' => 'Build a console-based library tracker with validated models, collections, file persistence and unit tests.',
+    'github-cicd' => 'Create a small static website, require GitHub Actions checks on every pull request and automatically publish passing changes from main to GitHub Pages.',
 ][$slug] ?? 'Build a small project that combines the concepts from this guide.';
 $glossaries = [
     'python' => [
@@ -110,6 +118,16 @@ $glossaries = [
         ['term' => 'Exception', 'meaning' => 'A signal that an operation failed, which code can catch and handle or pass to its caller.'],
         ['term' => 'Concurrency', 'meaning' => 'Handling more than one task during the same period, for example while waiting for files or network work.'],
     ],
+    'github-cicd' => [
+        ['term' => 'CI', 'meaning' => 'Automatically running checks when code changes, so mistakes are found before changes are merged.'],
+        ['term' => 'CD', 'meaning' => 'Automatically preparing a release or publishing an approved change for people to use.'],
+        ['term' => 'Workflow', 'meaning' => 'A YAML recipe in .github/workflows that tells GitHub what work to run and when.'],
+        ['term' => 'Event', 'meaning' => 'Something that starts a workflow, such as opening a pull request or pushing to main.'],
+        ['term' => 'Runner', 'meaning' => 'The temporary computer that GitHub gives a job to run its steps.'],
+        ['term' => 'Action', 'meaning' => 'A reusable step someone has packaged so a workflow can do a common task.'],
+        ['term' => 'Artifact', 'meaning' => 'A file made during a workflow, such as the finished site files ready to publish.'],
+        ['term' => 'Secret', 'meaning' => 'A private value such as a deploy password, stored in GitHub settings rather than in code.'],
+    ],
 ];
 ?>
 <!doctype html>
@@ -124,7 +142,7 @@ $glossaries = [
   <meta property="og:type" content="article"><meta property="og:site_name" content="TCM One"><meta property="og:url" content="<?= $h($canonical) ?>"><meta property="og:title" content="<?= $h($title) ?>"><meta property="og:description" content="<?= $h($description) ?>"><meta property="og:image" content="<?= $h($ogImage) ?>"><meta property="og:locale" content="en_IN">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="<?= $h($title) ?>"><meta name="twitter:description" content="<?= $h($description) ?>"><meta name="twitter:image" content="<?= $h($ogImage) ?>">
   <meta name="theme-color" content="#101b2c"><link rel="icon" href="<?= $h(base_url('/favicon.svg')) ?>" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=2') ?>">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=3') ?>">
   <script type="application/ld+json"><?= json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
 
 </head>
@@ -137,7 +155,7 @@ $glossaries = [
 <section class="guide-start" aria-label="Before you begin"><article><h2>Before you begin</h2><p><?= $h($guide['prerequisites']) ?></p></article><article><h2>What you’ll be able to do</h2><p><?= $h($guide['outcome']) ?></p></article></section>
 <p class="lesson-prompt">Work through the modules in order if you’re new to <?= $h($guide['name']) ?>. If you already know the basics, use the contents list to jump to a topic. Try each example by changing one value, running it again and explaining the result in your own words.</p>
 <section class="glossary" aria-labelledby="glossary-title"><h2 id="glossary-title"><?= $h($guide['name']) ?> terms in simple language</h2><dl><?php foreach ($glossaries[$slug] ?? [] as $entry): ?><div><dt><?= $h($entry['term']) ?></dt><dd><?= $h($entry['meaning']) ?></dd></div><?php endforeach; ?></dl></section>
-<div class="columns"><details class="guide-toc"><summary>In this guide · <?= count($guide['lessons']) ?> modules <span>Show topics</span></summary><ol><li><a href="#glossary-title">Key terms in simple language</a></li><?php foreach ($guide['lessons'] as $index => $lesson): ?><li><a href="#module-<?= $index + 1 ?>"><?= $h(preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']) ?></a></li><?php endforeach; ?><li><a href="#project">Final project</a></li><li><a href="#references">Official references</a></li></ol></details>
+<div class="columns"><details class="guide-toc" open><summary>In this guide · <?= count($guide['lessons']) ?> modules</summary><ol><li><a href="#glossary-title">Key terms in simple language</a></li><?php foreach ($guide['lessons'] as $index => $lesson): ?><li><a href="#module-<?= $index + 1 ?>"><?= $h(preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']) ?></a></li><?php endforeach; ?><li><a href="#project">Final project</a></li><li><a href="#references">Official references</a></li></ol></details>
 <div class="lessons">
 <?php foreach ($guide['lessons'] as $index => $lesson): $lessonTitle = preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']; ?>
   <article class="lesson" id="module-<?= $index + 1 ?>"><div class="lesson-head"><div class="eyebrow">MODULE <?= str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count($guide['lessons']) ?> · CONCEPT EXPLAINED</div><h2><?= $h($lessonTitle) ?></h2><p><?= $h($lesson['explanation']) ?></p></div><div class="lesson-body"><div class="code-label">Follow this example</div><pre class="code"><code><?= $h($lesson['example']) ?></code></pre><div class="task"><strong>Try it yourself:</strong> <?= $h($lesson['practice']) ?></div></div></article>
@@ -147,4 +165,4 @@ $glossaries = [
 <section class="refs" id="references"><h2>Official documentation and further reading</h2><p>Use primary documentation for current language rules and version changes. The examples in this guide are learning starting points; verify details for the exact runtime and browser support your project needs.</p><ul><?php foreach ($references[$slug] ?? [] as [$label, $url]): ?><li><a href="<?= $h($url) ?>" target="_blank" rel="noopener noreferrer"><?= $h($label) ?></a></li><?php endforeach; ?></ul></section>
 <section class="faq-section"><h2>Frequently asked questions</h2><?php foreach ($guide['faq'] as $item): ?><article class="faq"><h3><?= $h($item['q']) ?></h3><p><?= $h($item['a']) ?></p></article><?php endforeach; ?></section>
 <section class="related"><h2>Continue learning</h2><div class="related-grid"><a href="<?= $h(base_url('/learn')) ?>">Browse all guides →</a><?php foreach (array_slice($related, 0, 5, true) as $otherSlug => $otherGuide): ?><a href="<?= $h(base_url('/learn/' . $otherSlug)) ?>"><?= $h($otherGuide['name']) ?> guide →</a><?php endforeach; ?></div></section>
-</main></div><?php \TCM\Core\View::partial('partials.public-footer'); ?></body></html>
+</main></div><?php \TCM\Core\View::partial('partials.public-footer'); ?><script src="<?= base_url('/assets/tcm-editorial.js?v=2.21') ?>"></script></body></html>
