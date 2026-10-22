@@ -12,11 +12,11 @@ final class LearnGuideCatalog
     {
         $guides = [
             'python' => [
-                'name' => 'Python', 'category' => 'Programming language', 'version' => 'Python 3.15.0',
-                'versionNote' => 'Latest stable release as of 21 October 2026. Start with 3.15 for new learning; check library compatibility before choosing it for a production project.',
+                'name' => 'Python', 'category' => 'Programming language', 'version' => 'Python 3.15.1',
+                'versionNote' => 'Latest stable release as of 22 October 2026. Python 3.15.1 is a maintenance update to the 3.15 feature release. Check library and hosting compatibility before choosing it for a production project.',
                 'level' => 'Beginner to advanced', 'duration' => '15 modules · learn at your own pace', 'icon' => 'bi-braces-asterisk',
                 'summary' => 'Start with your first Python program and progress to clean, tested applications, asynchronous programming and project packaging.',
-                'prerequisites' => 'No programming experience is required. Install Python 3.15 and an editor, or use an online Python shell to begin.',
+                'prerequisites' => 'No programming experience is required. Install Python 3.15.1 and an editor, or use an online Python shell to begin. If a library or hosting service does not yet support 3.15, use a supported version such as 3.14 for that project.',
                 'outcome' => 'Build command-line tools, automate repetitive work, read and write data, and structure small applications with tests.',
                 'courseCategory' => 'Programming Foundations',
                 'lessons' => [
@@ -38,7 +38,7 @@ final class LearnGuideCatalog
                 ],
                 'faq' => [
                     ['q' => 'Can I learn Python with no coding background?', 'a' => 'Yes. Begin with variables, conditions and loops, and run every example yourself before moving to the next module.'],
-                    ['q' => 'Do I need Python 3.15 for every project?', 'a' => 'The guide is checked against Python 3.15.0. Existing production projects may use a different supported version, so check the project and package compatibility before upgrading.'],
+                    ['q' => 'Do I need Python 3.15.1 for every project?', 'a' => 'The guide examples are checked against Python 3.15.1. Existing production projects may use another supported version, so check the project, hosting platform and package compatibility before upgrading.'],
                 ],
             ],
             'html' => [
@@ -219,6 +219,30 @@ CODE
                 ],
             ],
         ];
+
+        // Add a concrete reasoning walkthrough to every Python module. The main
+        // explanation introduces the idea; these notes connect it to code choices,
+        // common mistakes, and what a learner should observe while running it.
+        $pythonDeepDives = [
+            'Think of the interpreter as a careful reader: it follows the file from top to bottom and evaluates each instruction. The first print call receives text, while the second receives the result of the arithmetic expression 2 + 3. Save the file before running it so the interpreter executes the version you can inspect.',
+            'An assignment evaluates the expression on the right first, then binds that value to the name on the left. Names are references to values, not labelled boxes that permanently own data. Python can also infer each value’s type, so you usually do not write a type declaration; clear names and sensible values still make intent visible.',
+            'input pauses the program and returns exactly the characters the learner typed as a str. strip removes whitespace around the name, and int converts the age text into a number before age + 1 is calculated. If the input is empty or contains letters, int raises ValueError; a user-facing program should validate that case instead of unexpectedly stopping.',
+            'The comparisons are checked from top to bottom. For a score of 78, score >= 90 is false, so Python tries the elif condition; score >= 60 is true, so it assigns Pass and skips the else block. This ordering matters: if a broad condition comes first, it can capture values meant for a more specific rule.',
+            'for asks the topics list for its next item until there are no items left. enumerate adds a counter, and start=1 makes that counter match how people number lists. On each pass, Python assigns the pair to number and topic, then evaluates the f-string. Use for when the collection or range tells you how many items to visit; use while when a condition controls when to stop.',
+            'The list keeps the lesson sequence, the set records completed topics without duplicates, and the dictionary stores named facts about a course. Square brackets retrieve or update values: course[\'modules\'] = len(modules) replaces the old count with the number of lessons. A missing dictionary key raises KeyError, so use get when absence is expected or validate the key before reading it.',
+            'The function receives prices and tax_rate as local inputs, calculates a subtotal, then returns the total to its caller. return sends a value back and ends that function; print is only used by the caller here. This separation makes the calculation reusable and easy to test. A default like tax_rate=0.0 is safe because numbers are immutable; mutable defaults such as [] can accidentally be shared across calls.',
+            'A virtual environment creates a project-local Python installation context, so one project’s package versions do not silently affect another project. Install packages through python -m pip to make sure pip belongs to the selected interpreter. requirements.txt records installed versions for repeatable setup, but production projects should review and deliberately update dependency pins rather than blindly trust every upgrade.',
+            'The try block contains only the conversion that may fail. When int receives non-numeric text, Python raises ValueError and the except branch catches that specific problem; the function then raises a clearer message while preserving the original cause with from error. Catch errors at the boundary where you can offer a next step, and avoid except Exception because it can hide unrelated programming mistakes.',
+            'Path objects represent filesystem locations and work across operating systems without manually joining slash characters. JSON converts supported Python data, such as dictionaries and lists, into a text format that another run can read. Encoding UTF-8 keeps text consistent. Parsing success only proves the text is valid JSON; before using loaded values, still check that expected keys exist and their values have appropriate types.',
+            '__init__ runs when Timer(...) creates an instance, and self refers to that particular timer. The label and seconds are stored as instance attributes, so two Timer objects can keep separate state. add checks its input before changing the state; this protects the object from an invalid negative duration. Composition means another object can contain or use a Timer without pretending it is a Timer itself.',
+            'A comprehension reads as “for each number in this range, keep its square,” creating the list immediately in memory. A generator function pauses at yield and resumes only when the next value is requested, which is useful for large files or streams. Lazy does not automatically mean faster: it means values can be processed one at a time. Use the simplest form that makes the transformation easy to understand.',
+            'The annotations tell a reader and type-checking tools that total_minutes expects Lesson objects and returns an integer. Python normally does not enforce those annotations when the program runs, so validate untrusted input separately. The dataclass creates common record behavior from the declared fields; it reduces repetitive code but does not decide whether minutes must be positive, so add explicit validation when that rule matters.',
+            'A decorator receives a function and returns another callable, which lets shared behavior such as timing wrap many functions consistently. A context manager pairs setup with cleanup, even if the work inside the with block raises an error. async/await lets I/O tasks yield while waiting; it helps when many operations spend time waiting on a network or disk, but CPU-heavy calculations still need a different strategy.',
+            'A test is an executable example of expected behavior. The two assertions cover an even and an odd value; good tests also check boundary cases such as zero and negative numbers. Keep tests repeatable and independent of real secrets or production data. A package configuration and README then let another learner create the environment, run the app, and execute the same checks on their own machine.',
+        ];
+        foreach ($pythonDeepDives as $index => $deepDive) {
+            $guides['python']['lessons'][$index]['deepDive'] = $deepDive;
+        }
 
         return array_merge($guides, GitHubCICDGuide::all());
     }
