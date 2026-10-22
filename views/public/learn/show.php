@@ -3,7 +3,7 @@ $h = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, '
 $guides = $guides ?? [];
 $references = [
     'python' => [
-        ['Python 3.15 documentation', 'https://docs.python.org/3.15/'],
+                ['Python 3.15.1 documentation', 'https://docs.python.org/3.15/'],
         ['What’s new in Python 3.15', 'https://docs.python.org/3.15/whatsnew/3.15.html'],
         ['Python downloads and supported releases', 'https://www.python.org/downloads/'],
     ],
@@ -142,7 +142,7 @@ $glossaries = [
   <meta property="og:type" content="article"><meta property="og:site_name" content="TCM One"><meta property="og:url" content="<?= $h($canonical) ?>"><meta property="og:title" content="<?= $h($title) ?>"><meta property="og:description" content="<?= $h($description) ?>"><meta property="og:image" content="<?= $h($ogImage) ?>"><meta property="og:locale" content="en_IN">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="<?= $h($title) ?>"><meta name="twitter:description" content="<?= $h($description) ?>"><meta name="twitter:image" content="<?= $h($ogImage) ?>">
   <meta name="theme-color" content="#101b2c"><link rel="icon" href="<?= $h(base_url('/favicon.svg')) ?>" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=3') ?>">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=4') ?>">
   <script type="application/ld+json"><?= json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
 
 </head>
@@ -158,7 +158,7 @@ $glossaries = [
 <div class="columns"><details class="guide-toc" open><summary>In this guide · <?= count($guide['lessons']) ?> modules</summary><ol><li><a href="#glossary-title">Key terms in simple language</a></li><?php foreach ($guide['lessons'] as $index => $lesson): ?><li><a href="#module-<?= $index + 1 ?>"><?= $h(preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']) ?></a></li><?php endforeach; ?><li><a href="#project">Final project</a></li><li><a href="#references">Official references</a></li></ol></details>
 <div class="lessons">
 <?php foreach ($guide['lessons'] as $index => $lesson): $lessonTitle = preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']; ?>
-  <article class="lesson" id="module-<?= $index + 1 ?>"><div class="lesson-head"><div class="eyebrow">MODULE <?= str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count($guide['lessons']) ?> · CONCEPT EXPLAINED</div><h2><?= $h($lessonTitle) ?></h2><p><?= $h($lesson['explanation']) ?></p></div><div class="lesson-body"><div class="code-label">Follow this example</div><pre class="code"><code><?= $h($lesson['example']) ?></code></pre><div class="task"><strong>Try it yourself:</strong> <?= $h($lesson['practice']) ?></div></div></article>
+  <article class="lesson" id="module-<?= $index + 1 ?>"><div class="lesson-head"><div class="eyebrow">MODULE <?= str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count($guide['lessons']) ?> · CONCEPT EXPLAINED</div><h2><?= $h($lessonTitle) ?></h2><p><?= $h($lesson['explanation']) ?></p></div><?php if (!empty($lesson['deepDive'])): ?><aside class="lesson-deep-dive"><strong>Go a level deeper</strong><?= $h($lesson['deepDive']) ?></aside><?php endif; ?><div class="lesson-body"><div class="code-label">Follow this example</div><pre class="code"><code><?= $h($lesson['example']) ?></code></pre><div class="task"><strong>Try it yourself:</strong> <?= $h($lesson['practice']) ?></div></div></article>
 <?php endforeach; ?>
 <section class="roadmap" id="project"><div class="eyebrow" style="color:#c5f467">PUT THE MODULES TOGETHER</div><h2>Your final project</h2><p><?= $h($project) ?> Write down what the project should do, build it in small steps, and include a README that explains how to run it.</p><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/courses?cat=' . rawurlencode($guide['courseCategory']))) ?>">Find a guided course →</a></section>
 </div></div>

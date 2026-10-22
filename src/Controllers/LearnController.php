@@ -14,8 +14,8 @@ final class LearnController extends Controller
     {
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $guides = LearnGuideCatalog::all();
-        $title = 'Free Coding Tutorials: Python, Java, Web & GitHub CI/CD | TCM One';
-        $description = 'Learn Python, Java, HTML, CSS, SCSS, Bootstrap and GitHub Actions CI/CD step by step with clear explanations, practical examples and projects.';
+        $title = 'Free Python, Java & Web Development Tutorials | TCM One';
+        $description = 'Learn Python, Java, HTML, CSS, SCSS, Bootstrap and GitHub Actions CI/CD from beginner to advanced with plain-language explanations, detailed examples, practice exercises and projects.';
 
         $this->view('public/learn/index', [
             'guides' => $guides,
