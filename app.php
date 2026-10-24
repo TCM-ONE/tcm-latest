@@ -303,6 +303,7 @@ $router->get('/courses/dsa-with-java', static fn () => Response::redirect('/cour
 // Public Shareable Pages & Open Graph Previews (Workshops & Courses)
 // --------------------------------------------------------------------- //
 $router->get('/learn', ['TCM\\Controllers\\LearnController', 'index']);
+$router->get('/learn/interview-preparation', ['TCM\\Controllers\\InterviewPrepController', 'index']);
 $router->get('/learn/{slug}', ['TCM\\Controllers\\LearnController', 'show']);
 $router->get('/locations', [TCM\Controllers\LocationController::class, 'index']);
 $router->get('/locations/{slug}', [TCM\Controllers\LocationController::class, 'show']);

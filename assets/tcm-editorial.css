@@ -417,6 +417,10 @@ html, body {
   display: block;
 }
 
+.tcm-nav-item:focus-within .tcm-dropdown-menu {
+  display: block;
+}
+
 .tcm-dropdown-item {
   display: block;
   padding: 8px 20px;
