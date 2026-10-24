@@ -13,6 +13,7 @@ $today = (new DateTimeImmutable('now', new DateTimeZone('Asia/Kolkata')))->forma
 $urls = [
     ['loc' => '/',                      'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '1.0'],
     ['loc' => '/learn',                 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/learn/interview-preparation', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/python',          'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/html',            'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/css',             'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
