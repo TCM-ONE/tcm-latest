@@ -14,8 +14,8 @@ final class LearnController extends Controller
     {
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $guides = LearnGuideCatalog::all();
-        $title = 'Free Python, Java & Web Development Tutorials | TCM One';
-        $description = 'Learn Python, Java, HTML, CSS, SCSS, Bootstrap and GitHub Actions CI/CD from beginner to advanced with plain-language explanations, detailed examples, practice exercises and projects.';
+        $title = 'Free Python, Java, Spring Boot & Web Development Tutorials | TCM One';
+        $description = 'Learn Python, Java, Spring Boot, HTML, CSS, SCSS, Bootstrap and GitHub Actions CI/CD from beginner to advanced with plain-language explanations, detailed examples, practice exercises and projects.';
 
         $this->view('public/learn/index', [
             'guides' => $guides,
@@ -67,6 +67,10 @@ final class LearnController extends Controller
             'java' => [
                 'title' => 'Java Tutorial for Beginners to Advanced | TCM One',
                 'description' => 'Learn Java with simple explanations and code examples for variables, methods, classes, collections, exceptions, testing and concurrency.',
+            ],
+            'spring-boot' => [
+                'title' => 'Spring Boot Tutorial with Java: Beginner to Advanced | TCM One',
+                'description' => 'Learn Spring Boot with Java step by step. Build REST APIs, validate requests, connect a database, write tests, configure environments and prepare for deployment.',
             ],
             'github-cicd' => [
                 'title' => 'GitHub Actions CI/CD Tutorial: Build, Test & Deploy | TCM One',
