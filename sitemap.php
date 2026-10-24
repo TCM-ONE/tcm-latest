@@ -19,6 +19,7 @@ $urls = [
     ['loc' => '/learn/scss',            'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/bootstrap',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/java',            'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/learn/spring-boot',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learn/github-cicd',      'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations',              'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
     ['loc' => '/locations/bengaluru',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],

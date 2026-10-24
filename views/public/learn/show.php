@@ -32,6 +32,14 @@ $references = [
         ['JDK 27 release notes', 'https://www.oracle.com/java/technologies/javase/27-relnote-issues.html'],
         ['Oracle Java downloads and LTS releases', 'https://www.oracle.com/java/technologies/downloads/'],
     ],
+    'spring-boot' => [
+        ['Spring Boot reference documentation', 'https://docs.spring.io/spring-boot/reference/'],
+        ['Spring Boot system requirements', 'https://docs.spring.io/spring-boot/system-requirements.html'],
+        ['Spring Initializr: create a starter project', 'https://start.spring.io/'],
+        ['Spring guide: Build a REST service', 'https://spring.io/guides/gs/rest-service'],
+        ['Spring Boot testing reference', 'https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html'],
+        ['Spring Boot validation reference', 'https://docs.spring.io/spring-boot/reference/io/validation.html'],
+    ],
     'github-cicd' => [
         ['GitHub Actions quickstart', 'https://docs.github.com/en/actions/get-started/quickstart'],
         ['Workflow syntax for GitHub Actions', 'https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax'],
@@ -48,6 +56,7 @@ $project = [
     'scss' => 'Build a small Sass design system with token modules, reusable component mixins and generated CSS utilities.',
     'bootstrap' => 'Create a responsive course catalogue with a filter form, cards, accessible navigation and one keyboard-friendly dialog.',
     'java' => 'Build a console-based library tracker with validated models, collections, file persistence and unit tests.',
+    'spring-boot' => 'Build a Java study-planner REST API with create/read/update/delete endpoints, request validation, a database, tests, environment-based configuration and a deployment README.',
     'github-cicd' => 'Create a small static website, require GitHub Actions checks on every pull request and automatically publish passing changes from main to GitHub Pages.',
 ][$slug] ?? 'Build a small project that combines the concepts from this guide.';
 $glossaries = [
@@ -118,6 +127,18 @@ $glossaries = [
         ['term' => 'Exception', 'meaning' => 'A signal that an operation failed, which code can catch and handle or pass to its caller.'],
         ['term' => 'Concurrency', 'meaning' => 'Handling more than one task during the same period, for example while waiting for files or network work.'],
     ],
+    'spring-boot' => [
+        ['term' => 'Spring Boot', 'meaning' => 'A Java framework that starts applications with useful defaults, dependency starters and an embedded server.'],
+        ['term' => 'Spring Framework', 'meaning' => 'The underlying Java toolkit for connecting application objects and handling common application work.'],
+        ['term' => 'Bean', 'meaning' => 'An application object that Spring creates, configures and can provide to other objects.'],
+        ['term' => 'Dependency injection', 'meaning' => 'Giving a class the collaborators it needs instead of making it secretly construct them itself.'],
+        ['term' => 'Auto-configuration', 'meaning' => 'Spring Boot’s conditional setup of common infrastructure based on the libraries and settings in a project.'],
+        ['term' => 'Starter', 'meaning' => 'A curated dependency that brings in a related set of libraries for a common job, such as web MVC.'],
+        ['term' => 'REST endpoint', 'meaning' => 'An address and HTTP method that an API uses to read or change a resource.'],
+        ['term' => 'DTO', 'meaning' => 'A data transfer object that defines the information an API accepts or returns.'],
+        ['term' => 'Repository', 'meaning' => 'A component that provides a clear interface for reading and writing persisted data.'],
+        ['term' => 'Profile', 'meaning' => 'A named configuration choice for changing application settings between development, testing and production.'],
+    ],
     'github-cicd' => [
         ['term' => 'CI', 'meaning' => 'Automatically running checks when code changes, so mistakes are found before changes are merged.'],
         ['term' => 'CD', 'meaning' => 'Automatically preparing a release or publishing an approved change for people to use.'],
@@ -142,7 +163,7 @@ $glossaries = [
   <meta property="og:type" content="article"><meta property="og:site_name" content="TCM One"><meta property="og:url" content="<?= $h($canonical) ?>"><meta property="og:title" content="<?= $h($title) ?>"><meta property="og:description" content="<?= $h($description) ?>"><meta property="og:image" content="<?= $h($ogImage) ?>"><meta property="og:locale" content="en_IN">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="<?= $h($title) ?>"><meta name="twitter:description" content="<?= $h($description) ?>"><meta name="twitter:image" content="<?= $h($ogImage) ?>">
   <meta name="theme-color" content="#101b2c"><link rel="icon" href="<?= $h(base_url('/favicon.svg')) ?>" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=4') ?>">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>"><link rel="stylesheet" href="<?= base_url('/assets/tcm-learn.css?v=5') ?>">
   <script type="application/ld+json"><?= json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
 
 </head>
@@ -153,6 +174,7 @@ $glossaries = [
 <main id="mainContent"><section class="intro"><div class="eyebrow"><?= $h($guide['category']) ?> · <?= $h($guide['level']) ?></div><h1 class="tcm-h1">Learn <?= $h($guide['name']) ?> step by step</h1><p class="lede"><?= $h($guide['summary']) ?> Every module explains the idea in plain language, walks through a code example and gives you a small task to try yourself.</p><div class="intro-actions"><a class="tcm-btn tcm-btn-primary" href="#module-1">Start with module 1 ↓</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/courses?cat=' . rawurlencode($guide['courseCategory']))) ?>">Explore related courses</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/learn')) ?>">All learning guides</a></div></section>
 <div class="snapshot"><strong>Version snapshot:</strong> <?= $h($guide['version']) ?>. <?= $h($guide['versionNote']) ?></div>
 <section class="guide-start" aria-label="Before you begin"><article><h2>Before you begin</h2><p><?= $h($guide['prerequisites']) ?></p></article><article><h2>What you’ll be able to do</h2><p><?= $h($guide['outcome']) ?></p></article></section>
+<?php if ($slug === 'spring-boot'): ?><p class="lesson-prompt java-prerequisite">New to Java classes, methods or collections? Start with the <a href="<?= $h(base_url('/learn/java')) ?>">Java foundations guide</a>, then return here to build your backend.</p><?php endif; ?>
 <p class="lesson-prompt">Work through the modules in order if you’re new to <?= $h($guide['name']) ?>. If you already know the basics, use the contents list to jump to a topic. Try each example by changing one value, running it again and explaining the result in your own words.</p>
 <section class="glossary" aria-labelledby="glossary-title"><h2 id="glossary-title"><?= $h($guide['name']) ?> terms in simple language</h2><dl><?php foreach ($glossaries[$slug] ?? [] as $entry): ?><div><dt><?= $h($entry['term']) ?></dt><dd><?= $h($entry['meaning']) ?></dd></div><?php endforeach; ?></dl></section>
 <div class="columns"><details class="guide-toc" open><summary>In this guide · <?= count($guide['lessons']) ?> modules</summary><ol><li><a href="#glossary-title">Key terms in simple language</a></li><?php foreach ($guide['lessons'] as $index => $lesson): ?><li><a href="#module-<?= $index + 1 ?>"><?= $h(preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']) ?></a></li><?php endforeach; ?><li><a href="#project">Final project</a></li><li><a href="#references">Official references</a></li></ol></details>
