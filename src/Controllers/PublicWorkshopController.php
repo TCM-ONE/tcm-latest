@@ -9,6 +9,7 @@ use TCM\Core\Database;
 use TCM\Core\Request;
 use TCM\Core\WorkshopData;
 use TCM\Models\Course;
+use TCM\Services\DiwaliOffer;
 
 /**
  * Public, shareable, SEO-ready landing pages for TCM One workshops and courses.
@@ -170,12 +171,17 @@ SVG;
 
         $appUrl   = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $curriculum = Course::curriculum((int) $course['id']);
+        $course['regular_price'] = (float) ($course['price'] ?? 0);
+        $diwaliOfferActive = DiwaliOffer::isActive() && DiwaliOffer::includes((string) $course['slug'], $course['regular_price']);
+        $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
         $thumbUrl = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug']);
         $canonical = $appUrl . '/courses/' . rawurlencode($course['slug']);
         $desc = $this->metaDescription((string) ($course['subtitle'] ?: $course['description']));
 
         $this->view('public/courses/show', [
             'course'     => $course,
+            'diwaliOfferActive' => $diwaliOfferActive,
+            'diwaliOfferEndsAt' => DiwaliOffer::endsAtIso(),
             'curriculum' => $curriculum,
             'title'      => $course['title'] . ' | Live Tech Course | TCM One',
             'desc'       => $desc,
@@ -357,6 +363,15 @@ SVG;
     {
         $appUrl     = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $courses    = Course::listWithCategory(['status' => 'published']);
+        $diwaliOfferActive = DiwaliOffer::isActive();
+        if ($diwaliOfferActive) {
+            foreach ($courses as &$course) {
+                $course['regular_price'] = (float) ($course['price'] ?? 0);
+                $course['price'] = DiwaliOffer::priceFor((string) ($course['slug'] ?? ''), $course['regular_price']);
+                $course['diwali_offer'] = DiwaliOffer::includes((string) ($course['slug'] ?? ''), $course['regular_price']);
+            }
+            unset($course);
+        }
         $categories = Database::all('
             SELECT cat.id, cat.name, cat.slug, cat.sort_order, COUNT(c.id) as course_count
             FROM categories cat
@@ -371,6 +386,8 @@ SVG;
             'canonical'   => $appUrl . '/courses',
             'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
             'courses'     => $courses,
+            'diwaliOfferActive' => $diwaliOfferActive,
+            'diwaliOfferEndsAt' => DiwaliOffer::endsAtIso(),
             'categories'  => $categories,
             'appUrl'      => $appUrl,
         ], null);

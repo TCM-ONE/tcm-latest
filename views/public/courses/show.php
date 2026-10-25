@@ -59,14 +59,17 @@
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/diwali-offer.css?v=3') ?>">
 
   <?php
     $price = (float)($course['price'] ?? 0);
-    $origPrice = !empty($course['original_price']) ? (float)$course['original_price'] : 0;
+    $isDiwaliOffer = !empty($diwaliOfferActive);
+    $regularPrice = (float)($course['regular_price'] ?? $price);
+    $origPrice = $isDiwaliOffer ? $regularPrice : (!empty($course['original_price']) ? (float)$course['original_price'] : 0);
     $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
-    $isInstallmentEligible = \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
+    $isInstallmentEligible = !$isDiwaliOffer && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -230,6 +233,8 @@
 
   <main id="mainContent" style="padding-bottom: 84px;">
 
+    <?php \TCM\Core\View::partial('partials.diwali-offer', ['diwaliOfferActive' => $isDiwaliOffer, 'diwaliOfferEndsAt' => $diwaliOfferEndsAt ?? '']); ?>
+
     <!-- Course Hero -->
     <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: clamp(24px, 3vw, 32px); border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
@@ -379,11 +384,11 @@
 
               <div style="margin-bottom: 20px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px;">
                 <div style="display: flex; align-items: baseline; gap: 8px;">
-                  <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;">
+                  <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>
                     ₹<?= number_format($price, 0) ?>
                   </span>
                   <?php if ($origPrice > $price): ?>
-                    <span style="font-size: 16px; color: #999; text-decoration: line-through;">
+                    <span style="font-size: 16px; color: #999; text-decoration: line-through;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>
                       ₹<?= number_format($origPrice, 0) ?>
                     </span>
                   <?php endif; ?>
@@ -393,6 +398,9 @@
                     <i class="bi bi-credit-card-2-front" style="color: #111;"></i>
                     Pay in up to 3 interest-free installments.
                   </div>
+                <?php endif; ?>
+                <?php if ($isDiwaliOffer): ?>
+                  <div style="font-size:13px;font-weight:700;color:#9a3412;margin-top:8px"><?= $regularPrice > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? 'Diwali offer: 60% off. ' : 'Diwali special price. ' ?>Full payment only; EMI is unavailable until the offer ends.</div>
                 <?php endif; ?>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
                   All taxes included &middot; Billed in INR
@@ -471,9 +479,9 @@
           <div class="tcm-sticky-bottom-right" style="gap: 8px; width: 100%; justify-content: space-between; min-width: 0;">
             <div class="tcm-sticky-bottom-pricing" style="flex-shrink: 0;">
               <div class="tcm-sticky-bottom-price-row">
-                <span class="tcm-sticky-bottom-price" style="font-size: 17px;">₹<?= number_format($price, 0) ?></span>
+                <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>₹<?= number_format($price, 0) ?></span>
                 <?php if ($origPrice > $price): ?>
-                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;">₹<?= number_format($origPrice, 0) ?></span>
+                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>₹<?= number_format($origPrice, 0) ?></span>
                 <?php endif; ?>
               </div>
               <div class="tcm-sticky-bottom-sub" style="font-size: 10px;">
@@ -1029,6 +1037,7 @@
 
   <!-- Scripts -->
   <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/diwali-offer.js?v=1') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

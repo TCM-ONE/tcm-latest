@@ -12,6 +12,7 @@ use TCM\Core\WhatsApp;
 use TCM\Models\Course;
 use TCM\Models\Enrollment;
 use TCM\Models\Lead;
+use TCM\Services\DiwaliOffer;
 
 final class CourseController extends Controller
 {
@@ -23,6 +24,17 @@ final class CourseController extends Controller
             'audience' => Request::string('audience') ?: null,
             'search'   => Request::string('q') ?: null,
         ]);
+        if (DiwaliOffer::isActive()) {
+            foreach ($courses as &$course) {
+                $course['regular_price'] = (float) ($course['price'] ?? 0);
+                if (DiwaliOffer::includes((string) ($course['slug'] ?? ''), $course['regular_price'])) {
+                    $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
+                    $course['original_price'] = $course['regular_price'];
+                    $course['diwali_offer'] = true;
+                }
+            }
+            unset($course);
+        }
 
         // Mark which courses the student already owns.
         $owned = array_column(Enrollment::forUser((int) $user['id']), 'course_id');
@@ -45,6 +57,14 @@ final class CourseController extends Controller
         if ($course === null) {
             flash('error', 'Course not found.');
             redirect('/student/courses');
+        }
+        if (DiwaliOffer::isActive()) {
+            $course['regular_price'] = (float) ($course['price'] ?? 0);
+            if (DiwaliOffer::includes((string) ($course['slug'] ?? ''), $course['regular_price'])) {
+                $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
+                $course['original_price'] = $course['regular_price'];
+                $course['diwali_offer'] = true;
+            }
         }
         $this->view('student/courses/show', [
             'title'      => $course['title'],

@@ -22,6 +22,7 @@ use TCM\Models\PaymentTransaction;
 use TCM\Models\User;
 use TCM\Models\WorkshopLead;
 use TCM\Services\InstallmentService;
+use TCM\Services\DiwaliOffer;
 
 final class PublicPaymentController extends Controller
 {
@@ -117,7 +118,7 @@ final class PublicPaymentController extends Controller
             $itemId = (int) $course['id'];
             $resolvedSlug = (string) $course['slug'];
             $itemTitle = (string) $course['title'];
-            $amount = (float) $course['price'];
+            $amount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
         }
 
         // 1. Resolve or Create User
@@ -197,6 +198,10 @@ final class PublicPaymentController extends Controller
         if ($isInstallmentPlan) {
             if ($itemType !== 'course') {
                 $this->abortWithError('Installment plans are only available for course enrollments.');
+            }
+
+            if (DiwaliOffer::isActive() && DiwaliOffer::includes($resolvedSlug, (float) $course['price'])) {
+                $this->abortWithError('EMI and installment plans are unavailable during the Diwali offer. Please choose full payment.');
             }
 
             // Strict Eligibility Check (Price > 5000 in INR)
@@ -383,6 +388,11 @@ final class PublicPaymentController extends Controller
         $course = Course::findBySlug($slug);
         if (!$course) {
             Response::error('Course not found', 404);
+            return;
+        }
+
+        if (DiwaliOffer::isActive() && DiwaliOffer::includes((string) $course['slug'], (float) $course['price'])) {
+            Response::success([]);
             return;
         }
 

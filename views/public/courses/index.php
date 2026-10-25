@@ -56,6 +56,7 @@
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/diwali-offer.css?v=3') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
   <!-- Structured Data (JSON-LD) -->
@@ -104,6 +105,8 @@
   <?php \TCM\Core\View::partial('partials.public-header'); ?>
 
   <main id="mainContent">
+
+    <?php \TCM\Core\View::partial('partials.diwali-offer', ['diwaliOfferActive' => $diwaliOfferActive ?? false, 'diwaliOfferEndsAt' => $diwaliOfferEndsAt ?? '']); ?>
 
     <!-- Catalog Hero -->
     <section class="tcm-section" style="padding-top: clamp(36px, 4.5vw, 52px); padding-bottom: 24px; border-bottom: 1px solid var(--tcm-border);">
@@ -215,13 +218,15 @@
           <?php foreach (($courses ?? []) as $c): ?>
             <?php
               $priceInr = (float)($c['price'] ?? 0);
-              $origInr = !empty($c['original_price']) ? (float)$c['original_price'] : 0;
+              $isDiwaliCourse = !empty($c['diwali_offer']);
+              $regularInr = (float)($c['regular_price'] ?? $priceInr);
+              $origInr = $isDiwaliCourse ? $regularInr : (!empty($c['original_price']) ? (float)$c['original_price'] : 0);
               $slug = $c['slug'] ?? '';
               $category = $c['category_name'] ?? $c['category'] ?? 'General';
               $level = !empty($c['level']) ? ucfirst((string)$c['level']) : 'All Levels';
               $duration = $c['duration'] ?? '6 Weeks';
             ?>
-            <div class="tcm-course-card" data-slug="<?= e($slug) ?>" data-cat="<?= e(strtolower($category)) ?>" data-price="<?= $priceInr ?>" data-level="<?= e(strtolower($level)) ?>">
+            <div class="tcm-course-card" data-slug="<?= e($slug) ?>" data-cat="<?= e(strtolower($category)) ?>" data-price="<?= $priceInr ?>" <?= $isDiwaliCourse ? 'data-diwali-card data-regular-price="' . $regularInr . '"' : '' ?> data-level="<?= e(strtolower($level)) ?>">
               <div class="tcm-course-top">
                 <span class="tcm-course-cat"><?= e($category) ?></span>
                 <span class="tcm-course-level"><?= e($level) ?></span>
@@ -237,10 +242,11 @@
               <div class="tcm-course-bottom">
                 <div class="tcm-course-price-wrap">
                   <div>
-                    <span class="tcm-course-price">₹<?= number_format($priceInr, 0) ?></span>
+                    <span class="tcm-course-price" <?= $isDiwaliCourse ? 'data-diwali-price data-regular="' . $regularInr . '"' : '' ?>>₹<?= number_format($priceInr, 0) ?></span>
                     <?php if ($origInr > $priceInr): ?>
-                      <span class="tcm-course-orig-price">₹<?= number_format($origInr, 0) ?></span>
+                      <span class="tcm-course-orig-price" <?= $isDiwaliCourse ? 'data-diwali-original' : '' ?>>₹<?= number_format($origInr, 0) ?></span>
                     <?php endif; ?>
+                    <?php if ($isDiwaliCourse): ?><span class="tcm-badge" data-diwali-badge style="background:#a12518;color:#fff;margin-left:6px;"><?= $regularInr > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? '60% OFF' : 'Diwali Price' ?></span><?php endif; ?>
                   </div>
                   <span class="tcm-course-usd">$<?= round($priceInr / 83.5) ?> USD</span>
                 </div>
@@ -263,5 +269,6 @@
   <!-- Scripts -->
   <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/diwali-offer.js?v=1') ?>"></script>
 </body>
 </html>

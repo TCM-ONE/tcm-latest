@@ -13,6 +13,7 @@ use TCM\Core\Validator;
 use TCM\Core\WhatsApp;
 use TCM\Core\Mailer;
 use TCM\Models\Course;
+use TCM\Services\DiwaliOffer;
 use TCM\Models\Event;
 use TCM\Models\Lead;
 use TCM\Models\Post;
@@ -51,6 +52,11 @@ final class PublicController extends Controller
             'featured' => Request::string('featured') ?: null,
         ]);
         foreach ($courses as &$course) {
+            if (DiwaliOffer::isActive() && DiwaliOffer::includes((string) ($course['slug'] ?? ''), (float) ($course['price'] ?? 0))) {
+                $course['regular_price'] = (float) ($course['price'] ?? 0);
+                $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
+                $course['original_price'] = $course['regular_price'];
+            }
             $course['seats_filled']     = Course::seatsFilled($course);
             $course['discount_percent'] = Course::discountPercent($course);
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
@@ -66,6 +72,11 @@ final class PublicController extends Controller
         $course = Course::findBySlug($params['slug']);
         if ($course === null) {
             Response::error('Course not found.', 404);
+        }
+        if (DiwaliOffer::isActive() && DiwaliOffer::includes((string) ($course['slug'] ?? ''), (float) ($course['price'] ?? 0))) {
+            $course['regular_price'] = (float) ($course['price'] ?? 0);
+            $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
+            $course['original_price'] = $course['regular_price'];
         }
         // Ensure seats_filled is always available
         $course['seats_filled']     = Course::seatsFilled($course);
