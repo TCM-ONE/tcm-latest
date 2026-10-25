@@ -50,7 +50,8 @@ $fl = strtoupper(substr($me['name'] ?? 'S', 0, 1)); // initial — kept for any 
     <aside class="tcm-sidebar" id="sidebar">
 
         <div class="tcm-brand">
-            <i class="bi bi-code-slash"></i> The Code Munk
+            <img src="<?= base_url('/assets/logo-transparent.png') ?>" alt="TCM One" style="width:32px;height:32px;object-fit:contain">
+            TCM One
         </div>
 
         <ul class="tcm-nav" style="flex:1;">

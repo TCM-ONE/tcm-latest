@@ -179,13 +179,26 @@ final class GoogleAuthController extends Controller
 
         flash('success', 'Welcome, ' . $user['name'] . '!');
 
-        if (!empty($returnTo) && str_starts_with($returnTo, '/') && !str_starts_with($returnTo, '//')) {
+        $returnPath = is_string($returnTo) ? (parse_url($returnTo, PHP_URL_PATH) ?: '/') : '/';
+        $role = $user['role'] ?? '';
+        $crossRolePath = ($role === 'admin' && preg_match('#/(student|partner)(?:/|$)#', $returnPath))
+            || (in_array($role, ['partner_owner', 'partner_staff'], true) && preg_match('#/(student|admin)(?:/|$)#', $returnPath))
+            || ($role === 'student' && preg_match('#/(partner|admin)(?:/|$)#', $returnPath));
+        if (
+            is_string($returnTo)
+            && str_starts_with($returnTo, '/')
+            && !str_starts_with($returnTo, '//')
+            && !$crossRolePath
+        ) {
             redirect($returnTo);
         }
 
         // Redirect based on role & onboarding
         if ($user['role'] === 'admin') {
             redirect('/admin');
+        }
+        if (in_array($user['role'], ['partner_owner', 'partner_staff'], true)) {
+            redirect('/partner/dashboard');
         }
         if ((int) $user['onboarded'] === 0) {
             redirect('/student/onboarding');

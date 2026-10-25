@@ -43,6 +43,8 @@ $router->post('/auth/otp/request', ['TCM\Controllers\AuthController', 'otpReques
 $router->post('/auth/otp/verify', ['TCM\Controllers\AuthController', 'otpVerify']);
 $router->post('/auth/password/request', ['TCM\Controllers\AuthController', 'passwordOtpRequest']);
 $router->post('/auth/password/reset', ['TCM\Controllers\AuthController', 'passwordReset']);
+$router->get('/partner/login', ['TCM\Controllers\AuthController', 'showLogin']);
+$router->post('/partner/login', ['TCM\Controllers\AuthController', 'partnerLogin']);
 
 // Google OAuth
 $router->get('/auth/google', ['TCM\Controllers\GoogleAuthController', 'redirect']);
@@ -264,6 +266,48 @@ $router->post('/admin/installments/settings', ['TCM\Controllers\Admin\PaymentCon
 $router->post('/admin/installments/{id}/remind', ['TCM\Controllers\Admin\PaymentController', 'sendInstallmentReminder']);
 
 // --------------------------------------------------------------------- //
+// Partner portal and administration
+$router->get('/partner/dashboard', ['TCM\Controllers\PartnerDashboardController', 'dashboard']);
+$router->get('/partner/students', ['TCM\Controllers\PartnerDashboardController', 'students']);
+$router->post('/partner/students', ['TCM\Controllers\PartnerDashboardController', 'addStudent']);
+$router->get('/partner/batches', ['TCM\Controllers\PartnerDashboardController', 'batches']);
+$router->post('/partner/batches', ['TCM\Controllers\PartnerDashboardController', 'requestBatch']);
+$router->get('/partner/finance', ['TCM\Controllers\PartnerDashboardController', 'finance']);
+$router->get('/partner/courses', ['TCM\Controllers\PartnerDashboardController', 'courses']);
+$router->post('/partner/courses', ['TCM\Controllers\PartnerDashboardController', 'addCourse']);
+$router->get('/partner/certifications', ['TCM\Controllers\PartnerDashboardController', 'requestPage']);
+$router->get('/partner/mentor', ['TCM\Controllers\PartnerDashboardController', 'requestPage']);
+$router->get('/partner/visits', ['TCM\Controllers\PartnerDashboardController', 'requestPage']);
+$router->get('/partner/support', ['TCM\Controllers\PartnerDashboardController', 'requestPage']);
+$router->post('/partner/requests', ['TCM\Controllers\PartnerDashboardController', 'createRequest']);
+$router->get('/partner/profile', ['TCM\Controllers\PartnerDashboardController', 'profile']);
+$router->post('/partner/profile', ['TCM\Controllers\PartnerDashboardController', 'updateProfile']);
+$router->get('/partner/settings', ['TCM\Controllers\PartnerDashboardController', 'settings']);
+$router->post('/partner/settings/invite', ['TCM\Controllers\PartnerDashboardController', 'invite']);
+$router->post('/partner/settings/password', ['TCM\Controllers\PartnerDashboardController', 'changePassword']);
+$router->post('/partner/settings/members/{id}', ['TCM\Controllers\PartnerDashboardController', 'updateMember']);
+$router->get('/partner/invitation/{token}', ['TCM\Controllers\PartnerDashboardController', 'acceptInvitation']);
+$router->post('/partner/invitation/{token}', ['TCM\Controllers\PartnerDashboardController', 'acceptInvitationPost']);
+
+$router->get('/admin/partners', ['TCM\Controllers\Admin\PartnerManagementController', 'index']);
+$router->get('/admin/partners/create', ['TCM\Controllers\Admin\PartnerManagementController', 'create']);
+$router->post('/admin/partners', ['TCM\Controllers\Admin\PartnerManagementController', 'store']);
+$router->get('/admin/partners/requests', ['TCM\Controllers\Admin\PartnerManagementController', 'requests']);
+$router->post('/admin/partners/requests/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'updateRequest']);
+$router->get('/admin/partners/courses', ['TCM\Controllers\Admin\PartnerManagementController', 'courses']);
+$router->get('/admin/partners/students', ['TCM\Controllers\Admin\PartnerManagementController', 'students']);
+$router->post('/admin/partners/students/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'reviewStudent']);
+$router->get('/admin/partners/finance', ['TCM\Controllers\Admin\PartnerManagementController', 'finance']);
+$router->post('/admin/partners/finance/payments/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'recordVerifiedPayment']);
+$router->post('/admin/partners/finance/settlements', ['TCM\Controllers\Admin\PartnerManagementController', 'createSettlement']);
+$router->post('/admin/partners/finance/settlements/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'updateSettlement']);
+$router->post('/admin/partners/courses/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'reviewCourse']);
+$router->post('/admin/partners/batches/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'reviewBatch']);
+$router->get('/admin/partners/{id}', ['TCM\Controllers\Admin\PartnerManagementController', 'show']);
+$router->post('/admin/partners/{id}/status', ['TCM\Controllers\Admin\PartnerManagementController', 'updateStatus']);
+$router->post('/admin/partners/{id}/public-status', ['TCM\Controllers\Admin\PartnerManagementController', 'updatePublicStatus']);
+$router->post('/admin/partners/{id}/invite', ['TCM\Controllers\Admin\PartnerManagementController', 'resendInvitation']);
+
 // PayU Online Payment Gateway (Courses & Workshops)
 // --------------------------------------------------------------------- //
 $router->post('/payment/initiate',     ['TCM\Controllers\PublicPaymentController', 'initiate']);
@@ -323,7 +367,9 @@ $router->get('/for-institutions',             ['TCM\Controllers\PublicWorkshopCo
 $router->get('/for-institutions.html',        ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
 $router->get('/partner',                      ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
 $router->get('/partner.html',                 ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
-$router->get('/partners',                     ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
+$router->get('/partners',                     ['TCM\Controllers\PublicPartnerController', 'directory']);
+$router->get('/partners/{slug}',              ['TCM\Controllers\PublicPartnerController', 'show']);
+$router->post('/partners/{slug}/enquiry',     ['TCM\Controllers\PublicPartnerController', 'enquiry']);
 $router->get('/become-a-partner',             ['TCM\Controllers\PublicWorkshopController', 'forInstitutions']);
 $router->get('/about',                        ['TCM\Controllers\PublicWorkshopController', 'about']);
 $router->get('/about.html',                   ['TCM\Controllers\PublicWorkshopController', 'about']);
