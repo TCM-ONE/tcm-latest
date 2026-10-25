@@ -61,6 +61,30 @@ final class LocationController extends Controller
                 'audience' => 'Students and aspiring developers in Bilaspur who want live instruction and hands-on tech learning.',
                 'localNote' => 'You can join a live online cohort from Bilaspur without waiting for an in-person campus. If you are starting out, compare programming foundations and beginner-friendly web courses; if you already code, review focused Full Stack, Python, data or AI options. Confirm the current cohort schedule and delivery details with admissions before planning around any campus-based sessions.',
             ],
+            'nagpur' => [
+                'name' => 'Nagpur', 'region' => 'Maharashtra', 'focus' => 'software development, engineering, data analytics and AI careers',
+                'intro' => 'Learners in Nagpur can build practical technology skills through TCM One’s live online classes, guided projects and structured practice. Join remotely from home or college and compare current course schedules before choosing a cohort.',
+                'audience' => 'Students, graduates and working professionals in Nagpur preparing for software, data or AI roles.',
+                'localNote' => 'For a first software role or internship, compare programming foundations, web development and Full Stack courses by their prerequisites and project work. If you are leaning toward analytics or AI, review the course outline and required tools. Online cohorts let you learn from Nagpur; confirm the current timings, fees and delivery format with admissions.',
+            ],
+            'balaghat' => [
+                'name' => 'Balaghat', 'region' => 'Madhya Pradesh', 'focus' => 'coding foundations, web development and practical technology skills',
+                'intro' => 'Students and aspiring developers in Balaghat can access TCM One’s instructor-led online technology programmes without travelling to another city. Classes combine live sessions with guided practice and project work.',
+                'audience' => 'College learners, graduates and career changers in Balaghat looking for structured online tech learning.',
+                'localNote' => 'Start with the skills you want to practise next. Beginner learners can compare programming and web foundations; learners with coding experience can explore Full Stack, data analytics or AI. Check the prerequisites, weekly schedule and current course details before enrolling in an online cohort from Balaghat.',
+            ],
+            'raipur' => [
+                'name' => 'Raipur', 'region' => 'Chhattisgarh', 'focus' => 'software engineering, web development, data and AI skills',
+                'intro' => 'Build technology skills from Raipur with TCM One’s live online classes, instructor guidance and hands-on projects. Remote cohorts give learners in Raipur access to structured coding and analytics programmes alongside college or work.',
+                'audience' => 'Students, graduates and professionals in Raipur exploring software, web development, analytics or AI.',
+                'localNote' => 'Compare course outcomes as well as titles: web and Full Stack programmes focus on building applications, while analytics and AI courses develop different technical skills. Review each programme’s schedule, prerequisites, fees and project expectations, then contact admissions if you need help selecting an online cohort from Raipur.',
+            ],
+            'durg' => [
+                'name' => 'Durg', 'region' => 'Chhattisgarh', 'focus' => 'coding, software development, data analytics and career preparation',
+                'intro' => 'Learners in Durg and the Durg–Bhilai area can join TCM One’s live online coding and technology classes. Guided projects and structured practice help you build skills remotely around your existing study or work schedule.',
+                'audience' => 'Students and early-career professionals across Durg and Bhilai preparing for technology opportunities.',
+                'localNote' => 'If you are beginning a tech career, compare programming fundamentals and web development with focused options in Full Stack, data analytics and AI. Check course prerequisites and live session timings first. TCM One’s online cohorts are accessible from Durg and Bhilai; ask admissions to confirm the current schedule and delivery format.',
+            ],
         ];
     }
 
@@ -72,7 +96,7 @@ final class LocationController extends Controller
             'appUrl' => $appUrl,
             'canonical' => $appUrl . '/locations',
             'title' => 'Online Coding Classes Across India — TCM One',
-            'description' => 'Explore live online coding, software development, Python, AI and data analytics programmes for learners in Bengaluru, Mumbai, Delhi NCR, Hyderabad, Pune, Chennai, Kolkata and Bilaspur.',
+            'description' => 'Explore live online coding, software development, Python, AI and data analytics programmes for learners in Bengaluru, Mumbai, Delhi NCR, Hyderabad, Pune, Chennai, Kolkata, Bilaspur, Nagpur, Balaghat, Raipur and Durg.',
         ], null);
     }
 
