@@ -25,7 +25,7 @@ $schema = [
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $h($title) ?></title>
   <meta name="description" content="<?= $h($description) ?>">
-  <meta name="keywords" content="online coding classes <?= strtolower($city) ?>, coding course <?= strtolower($city) ?>, full stack course <?= strtolower($city) ?>, Python classes <?= strtolower($city) ?>, tech courses <?= strtolower($city) ?>">
+  <meta name="keywords" content="online coding classes <?= strtolower($city) ?>, coding courses <?= strtolower($city) ?>, software development course <?= strtolower($city) ?>, full stack course <?= strtolower($city) ?>, data analytics course <?= strtolower($city) ?>, AI classes <?= strtolower($city) ?>, Python classes <?= strtolower($city) ?>">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="<?= $h($canonical) ?>">
   <link rel="alternate" hreflang="en-IN" href="<?= $h($canonical) ?>"><link rel="alternate" hreflang="x-default" href="<?= $h($canonical) ?>">
