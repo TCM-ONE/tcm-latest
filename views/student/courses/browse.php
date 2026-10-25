@@ -95,6 +95,7 @@
                     <?php if ($c['original_price'] && $c['original_price'] > $c['price']): ?>
                         <span class="tcm-badge green" style="box-shadow:0 2px 6px rgba(0,0,0,0.25);"><?= Course::discountPercent($c) ?>% off</span>
                     <?php endif; ?>
+                    <?php if (!empty($c['diwali_offer'])): ?><span class="tcm-badge" style="background:#a12518;color:#fff;">Diwali</span><?php endif; ?>
                     <?php if ($isOwned): ?>
                         <span class="tcm-badge green" style="box-shadow:0 2px 6px rgba(0,0,0,0.25);"><i class="bi bi-check2"></i> Enrolled</span>
                     <?php endif; ?>

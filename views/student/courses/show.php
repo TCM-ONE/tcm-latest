@@ -11,6 +11,7 @@ $discPct    = ($course['original_price'] ?? 0) > 0
 .cds-badge { display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600; }
 .cds-badge.cat  { background:#f0f4ff;color:#3b5bdb; }
 .cds-badge.best { background:#fff3e0;color:#e67700; }
+.cds-badge.diwali { background:#a12518;color:#fff; }
 .cds-hero h1 { font-size:1.55rem;font-weight:800;margin:0 0 10px;color:#111;line-height:1.3; }
 .cds-hero-desc { color:#555;font-size:.92rem;line-height:1.65;margin-bottom:18px; }
 .cds-stats { display:flex;flex-wrap:wrap;margin-bottom:18px; }
@@ -138,6 +139,7 @@ $discPct    = ($course['original_price'] ?? 0) > 0
 
     <div class="cds-price-card">
         <div class="cds-price-row">
+        <?php if (!empty($course['diwali_offer'])): ?><span class="cds-badge diwali">Diwali offer</span><?php endif; ?>
             <div class="cds-price"><?= money($course['price'] ?? 0) ?> <span style="font-size:0.65em;color:#2563eb;font-weight:700;">(<?= money_usd($course['price'] ?? 0) ?> USD)</span></div>
             <?php if (!empty($course['original_price']) && (float)$course['original_price'] > 0): ?>
                 <div class="cds-orig"><?= money($course['original_price']) ?></div>
