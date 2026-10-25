@@ -55,10 +55,9 @@ html, body {
 }
 .ln-brand-icon {
     width: 34px; height: 34px;
+    padding: 3px;
     background: #fff;
-    border-radius: 9px;
-    display: grid; place-items: center;
-    font-size: .95rem; color: #111;
+    object-fit: contain;
     flex-shrink: 0;
 }
 .ln-tag {
@@ -411,8 +410,8 @@ html, body {
     <!-- ── Left Panel ──────────────────────────────── -->
     <aside class="ln-left">
         <a href="<?= base_url('/') ?>" class="ln-brand">
-            <div class="ln-brand-icon"><i class="bi bi-code-slash"></i></div>
-            The Code Munk
+            <img class="ln-brand-icon" src="<?= base_url('/assets/logo-transparent.png') ?>" alt="TCM One">
+            TCM One
         </a>
 
         <div class="ln-tag">
@@ -550,6 +549,7 @@ html, body {
                 <div class="ln-form-footer">
                     Don't have an account?
                     <a href="<?= base_url('/auth/register') ?>">Create one free</a>
+                    <br><a href="<?= base_url('/partner/login') ?>">Partner institute? Sign in to your portal</a>
                 </div>
 
             </div>

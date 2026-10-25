@@ -172,7 +172,14 @@
         </div>
 
         <div class="tcm-nav-item">
-          <a href="/for-institutions" class="tcm-nav-link">For Institutions</a>
+          <a href="/for-institutions" class="tcm-nav-link" aria-haspopup="true" aria-controls="institutions-dropdown">
+            <span>For Institutions</span>
+            <i class="bi bi-chevron-down" style="font-size: 10px;" aria-hidden="true"></i>
+          </a>
+          <div class="tcm-dropdown-menu" id="institutions-dropdown" role="menu" aria-label="Institution navigation">
+            <a href="/for-institutions" class="tcm-dropdown-item" role="menuitem">Partner with TCM One</a>
+            <a href="/partners" class="tcm-dropdown-item" role="menuitem">Our partner institutions</a>
+          </div>
         </div>
 
         <div class="tcm-nav-item">
@@ -248,6 +255,7 @@
   <a href="/learn" class="tcm-drawer-link">Learn</a>
   <a href="/tech-updates" class="tcm-drawer-link">Tech Updates</a>
   <a href="/for-institutions" class="tcm-drawer-link">For Institutions</a>
+  <a href="/partners" class="tcm-drawer-link">Our Partners</a>
   <a href="/about" class="tcm-drawer-link">About TCM One</a>
   <a href="/contact" class="tcm-drawer-link">Contact Admissions</a>
   <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--tcm-border);">

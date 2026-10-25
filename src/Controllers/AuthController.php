@@ -21,7 +21,28 @@ final class AuthController extends Controller
         if (Auth::check()) {
             $this->redirectByRole();
         }
+        if (Request::path() === '/partner/login') {
+            $this->view('auth/partner-login', ['title' => 'Partner Sign In'], null);
+            return;
+        }
         $this->view('auth/login', ['title' => 'Sign In'], null);
+    }
+
+    public function partnerLogin(): void
+    {
+        $this->validate(['email'=>'required|email','password'=>'required'], '/partner/login');
+        $user=Auth::attempt(Request::string('email'),Request::string('password'));
+        $hasPartnerRole = $user !== null && in_array($user['role'] ?? '', ['partner_owner', 'partner_staff'], true);
+        $membership = $hasPartnerRole
+            ? \TCM\Core\Database::first("SELECT pm.id FROM partner_memberships pm JOIN partners p ON p.id=pm.partner_id WHERE pm.user_id=? AND pm.status='active' AND p.status IN ('agreement_pending','onboarding','active') LIMIT 1", [$user['id']])
+            : null;
+        if ($user === null || !$hasPartnerRole || $membership === null) {
+            if($user!==null) Auth::logout();
+            flash('error','Invalid partner credentials or this account does not have partner access.');
+            redirect('/partner/login');
+        }
+        flash('success','Welcome back, '.$user['name'].'!');
+        redirect('/partner/dashboard');
     }
 
     public function login(): void
@@ -43,15 +64,15 @@ final class AuthController extends Controller
         }
 
         $returnTo = Request::string('redirect') ?: Request::string('return_to') ?: ($_SESSION['auth_return_to'] ?? null);
-        if ($returnTo !== null && (!str_starts_with($returnTo, '/') || str_starts_with($returnTo, '//'))) {
-            $returnTo = null;
-        }
+        $returnTo = $this->safeReturnTo($returnTo, $user);
 
         if (Request::isJson()) {
             \TCM\Core\Response::success([
                 'redirect' => $returnTo ?: ($user['role'] === 'admin'
                     ? base_url('/admin')
-                    : ((int) $user['onboarded'] === 0 ? base_url('/student/onboarding') : base_url('/student'))),
+                    : (in_array($user['role'], ['partner_owner', 'partner_staff'], true)
+                        ? base_url('/partner/dashboard')
+                        : ((int) $user['onboarded'] === 0 ? base_url('/student/onboarding') : base_url('/student')))),
                 'name' => $user['name'],
             ], 'Welcome back, ' . $user['name'] . '!');
         }
@@ -261,9 +282,7 @@ final class AuthController extends Controller
         }
 
         $returnTo = Request::string('redirect') ?: Request::string('return_to') ?: ($_SESSION['auth_return_to'] ?? null);
-        if ($returnTo !== null && (!str_starts_with($returnTo, '/') || str_starts_with($returnTo, '//'))) {
-            $returnTo = null;
-        }
+        $returnTo = $this->safeReturnTo($returnTo, $user);
         unset($_SESSION['auth_return_to']);
         Auth::login((int) $user['id']);
         Response::success(['redirect' => $returnTo ?: $this->dashboardUrl($user, $isNew)], 'Signed in successfully.');
@@ -327,7 +346,32 @@ final class AuthController extends Controller
         if ($user['role'] === 'admin') {
             return base_url('/admin');
         }
+        if (in_array($user['role'], ['partner_owner', 'partner_staff'], true)) {
+            return base_url('/partner/dashboard');
+        }
         return ($isNew || (int) $user['onboarded'] === 0) ? base_url('/student/onboarding') : base_url('/student');
+    }
+
+    /** Keep login return paths local and within the authenticated user's role area. */
+    private function safeReturnTo(?string $returnTo, array $user): ?string
+    {
+        if ($returnTo === null || !str_starts_with($returnTo, '/') || str_starts_with($returnTo, '//')) {
+            return null;
+        }
+
+        $path = parse_url($returnTo, PHP_URL_PATH) ?: '/';
+        $role = $user['role'] ?? '';
+        if ($role === 'admin' && preg_match('#/(student|partner)(?:/|$)#', $path)) {
+            return null;
+        }
+        if (in_array($role, ['partner_owner', 'partner_staff'], true) && preg_match('#/(student|admin)(?:/|$)#', $path)) {
+            return null;
+        }
+        if ($role === 'student' && preg_match('#/(partner|admin)(?:/|$)#', $path)) {
+            return null;
+        }
+
+        return $returnTo;
     }
 
     private function sendWelcome(string $name, string $email): void
@@ -350,6 +394,9 @@ final class AuthController extends Controller
             redirect('/admin');
         }
         $user = Auth::user();
+        if ($user !== null && in_array($user['role'], ['partner_owner', 'partner_staff'], true)) {
+            redirect('/partner/dashboard');
+        }
         if ($user !== null && (int) $user['onboarded'] === 0) {
             redirect('/student/onboarding');
         }

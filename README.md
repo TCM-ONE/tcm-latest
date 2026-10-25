@@ -108,4 +108,7 @@ flow. Set the business WhatsApp number in Admin → Settings.
   statements, output escaping, secure cookies on HTTPS.
 - No card data is handled (payment settled over WhatsApp), avoiding PCI scope.
 - Set `APP_DEBUG=false` and a strong `APP_KEY` in production; delete `setup.php`.
-```
+
+## Institutional partner portal
+
+An integrated partner portal is available at `/partner/login`, with partner administration inside `/admin` and approved public listings at `/partners`. Before onboarding partners, apply both additive schema migrations in order and follow [the partner ecosystem setup guide](docs/PARTNER_ECOSYSTEM_SETUP.md). Financial records are not backfilled automatically; only approved payments with a reviewed partner student attribution can be reconciled.

@@ -33,11 +33,19 @@ final class PublicController extends Controller
     public function me(): void
     {
         $user = Auth::user();
+        $dashboardUrl = null;
+        if ($user !== null) {
+            $dashboardUrl = match ($user['role'] ?? '') {
+                'admin' => '/admin',
+                'partner_owner', 'partner_staff' => '/partner/dashboard',
+                default => '/student',
+            };
+        }
         Response::success([
             'authenticated'   => $user !== null,
             'name'            => $user['name'] ?? null,
             'role'            => $user['role'] ?? null,
-            'dashboard_url'   => $user === null ? null : ($user['role'] === 'admin' ? '/admin' : '/student'),
+            'dashboard_url'   => $dashboardUrl,
             'whatsapp_number' => WhatsApp::number(),
             'csrf_token'      => \TCM\Core\Csrf::token(),
         ], 'OK');

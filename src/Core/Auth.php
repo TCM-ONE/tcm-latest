@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TCM\Core;
 
 /**
- * Session-based authentication for both admin and student users.
+ * Session-based authentication for admin, student, and institutional partner users.
  */
 final class Auth
 {

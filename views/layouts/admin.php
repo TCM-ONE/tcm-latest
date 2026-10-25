@@ -17,7 +17,8 @@ $nav = [
                    ['/admin/post-comments','bi-chat-square-text',     'Update Comments'],
                    ['/admin/testimonials', 'bi-chat-quote',           'Testimonials'],
                    ['/admin/messages',     'bi-envelope',             'Messages']]],
-    ['People',    [['/admin/students',     'bi-people',               'Students']]],
+    ['People',    [['/admin/students',     'bi-people',               'Students'],
+                   ['/admin/partners',     'bi-buildings',            'Institutional Partners']]],
     ['System',    [['/admin/live-class',   'bi-broadcast',            'Live Class'],
                    ['/admin/wallet',       'bi-wallet2',              'Wallet & Payouts'],
                    ['/admin/settings',     'bi-gear',                 'Settings']]],
@@ -161,7 +162,8 @@ $name = $admin['name'] ?? 'Admin';
     <aside class="tcm-sidebar" id="sidebar">
 
         <div class="tcm-brand">
-            <i class="bi bi-code-slash"></i> TCM Admin
+            <img src="<?= base_url('/assets/logo-transparent.png') ?>" alt="TCM One" style="width:32px;height:32px;object-fit:contain">
+            TCM Admin
         </div>
 
         <nav style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding-bottom:8px;">
