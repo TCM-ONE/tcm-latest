@@ -62,7 +62,7 @@ LIMIT 1;
 
 DROP TEMPORARY TABLE IF EXISTS tmp_diwali_2026_course_modules;
 CREATE TEMPORARY TABLE tmp_diwali_2026_course_modules (
-    course_slug VARCHAR(200) NOT NULL,
+    course_slug VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     position INT NOT NULL,
     title VARCHAR(180) NOT NULL,
     summary VARCHAR(255) NOT NULL,
@@ -91,7 +91,7 @@ WHERE NOT EXISTS (
 
 DROP TEMPORARY TABLE IF EXISTS tmp_diwali_2026_course_lessons;
 CREATE TEMPORARY TABLE tmp_diwali_2026_course_lessons (
-    course_slug VARCHAR(200) NOT NULL,
+    course_slug VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     module_position INT NOT NULL,
     position INT NOT NULL,
     title VARCHAR(220) NOT NULL,
