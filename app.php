@@ -351,6 +351,7 @@ $router->get('/learn/interview-preparation', ['TCM\\Controllers\\InterviewPrepCo
 $router->get('/learn/{slug}', ['TCM\\Controllers\\LearnController', 'show']);
 $router->get('/locations', [TCM\Controllers\LocationController::class, 'index']);
 $router->get('/locations/{slug}', [TCM\Controllers\LocationController::class, 'show']);
+$router->get('/diwali-offer-2026', [TCM\Controllers\DiwaliOfferController::class, 'show']);
 $router->get('/workshops',                    ['TCM\Controllers\PublicWorkshopController', 'index']);
 $router->get('/workshops.html',               ['TCM\Controllers\PublicWorkshopController', 'index']);
 $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopController', 'show']);

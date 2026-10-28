@@ -177,13 +177,33 @@ SVG;
         $thumbUrl = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug']);
         $canonical = $appUrl . '/courses/' . rawurlencode($course['slug']);
         $desc = $this->metaDescription((string) ($course['subtitle'] ?: $course['description']));
+        $seoTitle = $course['title'] . ' | Live Tech Course | TCM One';
+        if ($diwaliOfferActive) {
+            $titleSuffix = ' | Diwali Offer 2026';
+            $titleLimit = max(1, 65 - mb_strlen($titleSuffix));
+            $shortTitle = mb_strlen((string) $course['title']) > $titleLimit
+                ? rtrim(mb_substr((string) $course['title'], 0, $titleLimit - 1)) . '…'
+                : (string) $course['title'];
+            $seoTitle = $shortTitle . $titleSuffix;
+
+            $offerLabel = $course['regular_price'] > DiwaliOffer::MINIMUM_REGULAR_PRICE
+                ? '60% off'
+                : 'special price';
+            $shortCourseName = mb_strlen((string) $course['title']) > 36
+                ? rtrim(mb_substr((string) $course['title'], 0, 33)) . '…'
+                : (string) $course['title'];
+            $desc = $this->metaDescription(
+                'Diwali 2026: ' . $offerLabel . ' on ' . $shortCourseName . '. Now ₹' . number_format((float) $course['price'], 0)
+                . ' (was ₹' . number_format((float) $course['regular_price'], 0) . '). Full payment only, no EMI. Ends 10 November.'
+            );
+        }
 
         $this->view('public/courses/show', [
             'course'     => $course,
             'diwaliOfferActive' => $diwaliOfferActive,
             'diwaliOfferEndsAt' => DiwaliOffer::endsAtIso(),
             'curriculum' => $curriculum,
-            'title'      => $course['title'] . ' | Live Tech Course | TCM One',
+            'title'      => $seoTitle,
             'desc'       => $desc,
             'canonical'  => $canonical,
             'thumbUrl'   => $thumbUrl,
@@ -380,9 +400,16 @@ SVG;
             ORDER BY cat.sort_order ASC, cat.name ASC
         ');
 
+        $catalogTitle = 'All Courses & Career Paths — TCM One';
+        $catalogDescription = 'Explore practical online courses in Full Stack, Python, AI, Data Analytics and Cloud, with live instruction, guided projects and course-specific schedules from TCM One.';
+        if ($diwaliOfferActive) {
+            $catalogTitle = 'Diwali 2026 Course Offers: Up to 60% Off — TCM One';
+            $catalogDescription = 'Diwali 2026: get 60% off eligible TCM One courses above ₹8,000, plus selected Full Stack, Data, DSA and AI offers. Full payment only; ends 10 November.';
+        }
+
         $this->view('public/courses/index', [
-            'title'       => 'All Courses & Career Paths — TCM One',
-            'description' => 'Explore practical tech courses in Full Stack, Python, AI & Machine Learning, Data Analytics, and Cloud with live mentorship at TCM One.',
+            'title'       => $catalogTitle,
+            'description' => $catalogDescription,
             'canonical'   => $appUrl . '/courses',
             'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
             'courses'     => $courses,

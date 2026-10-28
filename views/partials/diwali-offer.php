@@ -3,7 +3,7 @@
   <div class="diwali-offer-copy">
     <span class="diwali-offer-kicker">🪔 DIWALI SPECIAL · 60% OFF ON FEES ABOVE ₹8K</span>
     <h2>Learn today. Build tomorrow.</h2>
-    <p>₹8,000 se zyada fee wale courses par 60% off, saath hi selected Diwali prices. Ends 10 November · full payment only.</p>
+    <p>₹8,000 se zyada fee wale courses par 60% off, saath hi selected Diwali prices. Ends 10 November 2026 · full payment only.</p>
   </div>
   <div class="diwali-offer-right">
     <div class="diwali-offer-timer" aria-live="polite">
@@ -12,7 +12,7 @@
       <span class="diwali-countdown-unit"><strong data-count-minutes>--</strong><small>Min</small></span>
       <span class="diwali-countdown-unit"><strong data-count-seconds>--</strong><small>Sec</small></span>
     </div>
-    <a href="<?= base_url('/courses') ?>" class="diwali-offer-cta">Explore offer <span aria-hidden="true">→</span></a>
+    <a href="<?= base_url('/diwali-offer-2026') ?>" class="diwali-offer-cta">Explore offer <span aria-hidden="true">→</span></a>
   </div>
 </section>
 <?php endif; ?>

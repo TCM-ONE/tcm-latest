@@ -6,6 +6,7 @@ require __DIR__ . '/src/bootstrap.php';
 
 use TCM\Core\Database;
 use TCM\Core\WorkshopData;
+use TCM\Services\DiwaliOffer;
 
 $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
 $today = (new DateTimeImmutable('now', new DateTimeZone('Asia/Kolkata')))->format('Y-m-d');
@@ -30,6 +31,7 @@ $urls = [
     ['loc' => '/locations/pune',          'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations/chennai',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations/kolkata',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/locations/ahmedabad',     'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations/bilaspur',      'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations/nagpur',        'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/locations/balaghat',      'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
@@ -52,6 +54,10 @@ $urls = [
     ['loc' => '/course-information', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.5'],
     ['loc' => '/sitemap.html',           'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.3'],
 ];
+
+if (DiwaliOffer::isActive()) {
+    $urls[] = ['loc' => '/diwali-offer-2026', 'lastmod' => $today, 'changefreq' => 'daily', 'priority' => '0.9'];
+}
 
 // Published Courses from DB (Single source of truth)
 try {
