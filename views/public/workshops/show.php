@@ -10,14 +10,7 @@
   <link rel="shortcut icon" href="<?= base_url('/favicon.ico') ?>">
   <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/logo.png') ?>">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-19F749QEBF');
-  </script>
+
 
   <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
@@ -279,7 +272,7 @@
     <!-- Workshop Detail Hero -->
     <section style="background: var(--tcm-surface); border-bottom: 1px solid var(--tcm-border); padding: clamp(36px, 4.5vw, 48px) 0 clamp(24px, 3vw, 32px); position: relative; overflow: hidden;">
       <div class="tcm-container">
-        
+
         <!-- Breadcrumbs -->
         <div style="font-size: 13px; color: var(--tcm-muted); margin-bottom: 20px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <a href="<?= base_url('/') ?>" style="color: var(--tcm-muted); text-decoration: none;">Home</a>
@@ -330,7 +323,7 @@
 
           <!-- Left Column: Syllabus, Outcomes, Audience -->
           <div>
-            
+
             <!-- Highlights Section -->
             <?php if (!empty($workshop['highlights'])): ?>
               <div class="ws-card-pad" style="background: var(--tcm-surface); border: 1px solid var(--tcm-border); margin-bottom: 36px;">
@@ -432,7 +425,7 @@
           <!-- Right Column: Sticky Enrollment Sidebar -->
           <div>
             <aside class="ws-sticky-panel" aria-label="Workshop Enrollment Panel">
-              
+
               <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 20px; margin-bottom: 20px;">
                 <div class="tcm-eyebrow" style="margin-bottom: 6px;">COHORT PASS</div>
                 <div style="display: flex; align-items: baseline; gap: 10px;">
@@ -596,7 +589,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.20') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

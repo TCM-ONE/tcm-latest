@@ -10,14 +10,7 @@
   <link rel="shortcut icon" href="<?= base_url('/favicon.ico') ?>">
   <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/logo.png') ?>">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-19F749QEBF');
-  </script>
+
 
   <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
@@ -186,7 +179,7 @@
     <section style="padding: clamp(48px, 6vw, 72px) 0; border-bottom: 1px solid var(--tcm-border);">
       <div class="tcm-container">
         <div class="about-story-grid">
-          
+
           <!-- Left: Narrative -->
           <div>
             <div class="tcm-eyebrow">THE FOUNDING CONVICTION</div>
@@ -212,7 +205,7 @@
           <!-- Right: Key Numbers & Credibility -->
           <div>
             <div style="background: #FFFFFF; border: 1px solid var(--tcm-border); padding: 32px; display: flex; flex-direction: column; gap: 24px;">
-              
+
               <div style="border-bottom: 1px solid var(--tcm-border); padding-bottom: 20px;">
                 <div class="font-editorial-serif" style="font-size: 48px; line-height: 1; color: var(--tcm-fg); margin-bottom: 6px;">
                   52+
@@ -371,7 +364,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

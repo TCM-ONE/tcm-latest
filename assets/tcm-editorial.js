@@ -194,6 +194,114 @@
   }
 
   /* ==========================================================================
+     MOBILE QUICK NAVIGATION + COOKIE CONSENT
+     ========================================================================== */
+  function wireMobileQuickNav() {
+    if (document.querySelector('.tcm-mobile-quick-nav')) return;
+
+    var currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    if (BASE && currentPath.indexOf(BASE) === 0) currentPath = currentPath.slice(BASE.length) || '/';
+    var links = [
+      { label: 'Home', href: '/', match: /^\/$/, icon: '<path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9"/><path d="M9 21v-7h6v7"/>' },
+      { label: 'Courses', href: '/courses', match: /^\/courses(?:\/|$)/, icon: '<path d="M12 7v14"/><path d="M3 18V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v13"/><path d="M3 18a3 3 0 0 1 3-3h15"/><path d="M3 18v1a2 2 0 0 0 2 2h16"/>' },
+      { label: 'Workshops', href: '/workshops', match: /^\/workshops(?:\/|$)/, icon: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>' },
+      { label: 'Contact', href: '/contact', match: /^\/contact(?:\/|$)/, icon: '<path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>' }
+    ];
+
+    var nav = document.createElement('nav');
+    nav.className = 'tcm-mobile-quick-nav';
+    nav.setAttribute('aria-label', 'Quick navigation');
+    nav.innerHTML = links.map(function (item) {
+      var active = item.match.test(currentPath);
+      return '<a class="tcm-mobile-quick-nav-link' + (active ? ' is-active' : '') + '" href="' + esc(apiUrl(item.href)) + '"' + (active ? ' aria-current="page"' : '') + '>' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + item.icon + '</svg>' +
+        '<span>' + item.label + '</span></a>';
+    }).join('');
+    document.body.appendChild(nav);
+  }
+
+  function wireCookieConsent() {
+    var consentKey = 'tcm_cookie_consent_v1';
+    var styleHref = apiUrl('/assets/tcm-site-ui.css?v=1');
+    if (!document.querySelector('link[data-tcm-site-ui]')) {
+      var style = document.createElement('link');
+      style.rel = 'stylesheet';
+      style.href = styleHref;
+      style.setAttribute('data-tcm-site-ui', '');
+      document.head.appendChild(style);
+    }
+
+    function readConsent() {
+      try {
+        var saved = JSON.parse(window.localStorage.getItem(consentKey) || 'null');
+        return saved && saved.version === 1 ? saved : null;
+      } catch (e) { return null; }
+    }
+
+    function startAnalytics() {
+      if (window.__TCM_GA_STARTED) return;
+      window.__TCM_GA_STARTED = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-19F749QEBF');
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF';
+      document.head.appendChild(script);
+    }
+
+    function revokeAnalytics() {
+      if (typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      }
+      document.cookie.split(';').forEach(function (entry) {
+        var name = entry.split('=')[0].trim();
+        if (name.indexOf('_ga') === 0) {
+          document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax' + (window.location.protocol === 'https:' ? '; Secure' : '');
+        }
+      });
+    }
+
+    function saveConsent(analyticsAllowed) {
+      var choice = { version: 1, analytics: Boolean(analyticsAllowed), updatedAt: new Date().toISOString() };
+      try { window.localStorage.setItem(consentKey, JSON.stringify(choice)); } catch (e) {}
+      if (choice.analytics) startAnalytics();
+      else revokeAnalytics();
+      var banner = document.querySelector('.tcm-cookie-consent');
+      if (banner) banner.remove();
+    }
+
+    function showBanner() {
+      var existing = document.querySelector('.tcm-cookie-consent');
+      if (existing) { existing.hidden = false; return; }
+      var banner = document.createElement('section');
+      banner.className = 'tcm-cookie-consent';
+      banner.setAttribute('aria-label', 'Cookie preferences');
+      banner.innerHTML = '<div class="tcm-cookie-consent-copy"><span class="tcm-cookie-consent-eyebrow">YOUR PRIVACY</span><h2>Cookies, your choice.</h2><p>Essential cookies keep sign-in and security working. Optional Google Analytics cookies help us understand site visits. Analytics stays off unless you allow it. <a href="' + esc(apiUrl('/privacy.html')) + '">Privacy policy</a></p></div>' +
+        '<div class="tcm-cookie-consent-actions"><button type="button" class="tcm-cookie-essential">Essential only</button><button type="button" class="tcm-cookie-allow">Allow analytics</button></div>';
+      document.body.appendChild(banner);
+      banner.querySelector('.tcm-cookie-essential').addEventListener('click', function () { saveConsent(false); });
+      banner.querySelector('.tcm-cookie-allow').addEventListener('click', function () { saveConsent(true); });
+    }
+
+    var launcher = document.createElement('button');
+    launcher.type = 'button';
+    launcher.className = 'tcm-cookie-settings';
+    launcher.setAttribute('aria-label', 'Change cookie settings');
+    launcher.textContent = 'Cookie settings';
+    launcher.addEventListener('click', showBanner);
+    document.body.appendChild(launcher);
+
+    var consent = readConsent();
+    if (consent && consent.analytics) startAnalytics();
+    else if (!consent) showBanner();
+    else revokeAnalytics();
+  }
+
+  /* ==========================================================================
      COURSE CARD GENERATOR (3 Col Desktop, 2 Col Tablet, 1 Col Mobile)
      ========================================================================== */
   function renderCourseCard(c) {
@@ -2089,6 +2197,8 @@
     normalizeSiteLinks();
     normalizeBrandLogos();
     wireNavigation();
+    wireMobileQuickNav();
+    wireCookieConsent();
     wireLanguageSelector();
     wireDemoModal();
     wireHeroWorkshopDeck();
