@@ -92,12 +92,14 @@
   min-width: 0;
   flex-direction: column;
   padding: clamp(20px, 2.4vw, 28px);
-  border: 1px solid #e8e5dc;
-  border-top: 3px solid #c62b3a;
+  border: 1px solid #deddd8;
   color: #171a17;
-  background: #fffefa;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, .12);
+  background: #fff;
+  font-family: var(--tcm-font-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  transition: border-color .18s ease, transform .18s ease;
 }
+
+.tcm-diwali-course-card:hover { border-color: #a9a69f; transform: translateY(-2px); }
 
 .tcm-diwali-course-topline {
   display: flex;
@@ -126,10 +128,9 @@
   display: inline-flex;
   align-items: center;
   padding: 5px 8px;
-  border: 1px solid rgba(165, 29, 43, .2);
-  border-radius: 999px;
-  color: #941728;
-  background: #fdebed;
+  border: 1px solid rgba(165, 29, 43, .14);
+  color: #a12518;
+  background: #f8e9e4;
   font-size: 9px;
   font-weight: 850;
   letter-spacing: .08em;
@@ -140,10 +141,11 @@
 
 .tcm-diwali-course-card h3 {
   margin: 0 0 10px;
-  font-size: clamp(19px, 2vw, 24px);
-  font-weight: 750;
-  letter-spacing: -.035em;
-  line-height: 1.16;
+  font-family: var(--tcm-font-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.35;
 }
 
 .tcm-diwali-course-card h3 a { color: inherit; text-decoration: none; }
@@ -178,7 +180,7 @@
 .tcm-diwali-course-footer {
   margin-top: auto;
   padding-top: 15px;
-  border-top: 1px solid #e8e5dc;
+  border-top: 1px solid #deddd8;
 }
 
 .tcm-diwali-course-price {
@@ -190,31 +192,32 @@
 }
 
 .tcm-diwali-course-original { color: #7c7b74; font-size: 13px; text-decoration: line-through; }
-.tcm-diwali-course-price strong { color: #17231f; font-size: 30px; font-weight: 850; letter-spacing: -.055em; line-height: 1; }
+.tcm-diwali-course-price strong { color: #171715; font-size: 20px; font-weight: 700; letter-spacing: -.02em; line-height: 1.3; }
 .tcm-diwali-course-offer { color: #a21d2a; font-size: 10px; font-weight: 800; }
 .tcm-diwali-course-payment { margin: 5px 0 13px; color: #77766e; font-size: 10.5px; line-height: 1.4; }
 
 .tcm-diwali-course-cta {
-  display: flex;
-  min-height: 44px;
+  display: inline-flex;
+  min-height: 0;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 0 14px;
-  color: #fff !important;
-  background: #a51d2b;
-  font-size: 12px;
-  font-weight: 750;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 0;
+  color: #171715 !important;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
   text-decoration: none;
-  transition: background-color .18s ease;
+  transition: color .18s ease;
 }
 
-.tcm-diwali-course-cta:hover { background: #7f1420; }
-.tcm-diwali-course-cta span { color: #ffd9dc; font-size: 17px; }
+.tcm-diwali-course-cta:hover { color: #a12518 !important; }
+.tcm-diwali-course-cta span { color: #a12518; font-size: 15px; }
 
 @media (max-width: 900px) {
   .tcm-diwali-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tcm-diwali-course-card:last-child { grid-column: 1 / -1; }
+  .tcm-diwali-course-card h3 { font-size: 19px; }
 }
 
 @media (max-width: 680px) {
@@ -223,6 +226,7 @@
   .tcm-diwali-course-grid { grid-template-columns: minmax(0, 1fr); }
   .tcm-diwali-course-card:last-child { grid-column: auto; }
   .tcm-diwali-course-description { min-height: 0; }
+  .tcm-diwali-course-card { padding: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
