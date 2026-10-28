@@ -81,6 +81,6 @@ foreach ($topics as $topic) {
 </div>
 <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 <script src="<?= base_url('/assets/tcm-interview-prep.js?v=1') ?>" defer></script>
-<script src="<?= base_url('/assets/tcm-editorial.js?v=2.21') ?>" defer></script>
+<script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>" defer></script>
 </body>
 </html>

@@ -10,14 +10,7 @@
   <link rel="shortcut icon" href="<?= base_url('/favicon.ico') ?>">
   <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('/assets/logo.png') ?>">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-19F749QEBF');
-  </script>
+
 
   <meta name="app-base" content="<?= e(base_url('/')) ?>">
 
@@ -1474,7 +1467,7 @@
 
   <!-- Scripts -->
   <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.6') ?>"></script>
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

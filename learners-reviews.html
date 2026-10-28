@@ -10,15 +10,6 @@
   <link rel="shortcut icon" href="./favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-19F749QEBF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-19F749QEBF');
-  </script>
-
   <meta name="description" content="Authentic student reviews and verified feedback from TCM One learners. Real software projects, mentor support, and career acceleration.">
   <meta name="keywords" content="TCM One reviews, student feedback, web development course reviews, live coding reviews">
   <meta name="robots" content="index, follow">
@@ -422,7 +413,7 @@
     <!-- Reviews Filter & List Section -->
     <section style="padding: clamp(36px, 5vw, 64px) 0 80px 0; background: #FAFAFA;">
       <div class="tcm-container">
-        
+
         <!-- Filter Tabs -->
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;">
           <button type="button" class="tcm-pill-btn active" data-filter="all">All Reviews (<span id="count-all">14</span>)</button>
@@ -521,7 +512,7 @@
 </footer>
 
   <!-- Scripts -->
-  <script src="./assets/tcm-editorial.js?v=2.18"></script>
+  <script src="./assets/tcm-editorial.js?v=2.22"></script>
   <script src="./assets/cai-assistant.js?v=2.18"></script>
 
   <script>
@@ -776,16 +767,16 @@
     function displayReviews(reviews) {
       const grid = document.getElementById('reviews-grid');
       const loading = document.getElementById('loading-state');
-      
+
       loading.style.display = 'none';
       grid.style.display = 'grid';
-      
+
       grid.innerHTML = reviews.map(review => createReviewCard(review)).join('');
     }
 
     function createReviewCard(review) {
       const stars = generateStars(review.rating);
-      
+
       return `
         <article class="tcm-review-detailed-card" data-course="${escapeHtml(review.course)}" data-rating="${review.rating}" data-date="${escapeHtml(review.date)}">
           <div>
@@ -796,18 +787,18 @@
                 </div>
                 <span class="tcm-rating-score-pill">${review.rating}/10</span>
               </div>
-              
+
               <!-- Black Verified Badge (No Avatar) -->
               <div class="tcm-review-badge">
                 <i class="bi bi-patch-check-fill"></i>
                 <span>Verified Learner</span>
               </div>
             </div>
-            
+
             <p class="tcm-review-quote-main">
               &ldquo;${escapeHtml(review.bestThing)}&rdquo;
             </p>
-            
+
             <div class="tcm-review-rec-text">
               <strong>Recommendation:</strong> &ldquo;${escapeHtml(review.recommendation)}&rdquo;
             </div>
@@ -853,7 +844,7 @@
       const fullStars = Math.floor(percentage);
       const halfStar = (percentage % 1 >= 0.5) ? 1 : 0;
       const emptyStars = 5 - fullStars - halfStar;
-      
+
       let html = '';
       for (let i = 0; i < fullStars; i++) html += '<i class="bi bi-star-fill"></i>';
       if (halfStar) html += '<i class="bi bi-star-half"></i>';
@@ -871,11 +862,11 @@
     function updateStats(reviews) {
       const totalReviews = reviews.length;
       const avgRating = reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews;
-      
+
       const totalEl = document.getElementById('total-reviews');
       const avgEl = document.getElementById('avg-rating');
       const countAllEl = document.getElementById('count-all');
-      
+
       if (totalEl) totalEl.textContent = totalReviews;
       if (avgEl) avgEl.textContent = avgRating.toFixed(1);
       if (countAllEl) countAllEl.textContent = totalReviews;
@@ -883,12 +874,12 @@
 
     function setupFilters() {
       const filterTabs = document.querySelectorAll('.tcm-pill-btn[data-filter]');
-      
+
       filterTabs.forEach(tab => {
         tab.addEventListener('click', function() {
           filterTabs.forEach(t => t.classList.remove('active'));
           this.classList.add('active');
-          
+
           const filter = this.dataset.filter;
           applyFilter(filter);
         });
@@ -897,7 +888,7 @@
 
     function applyFilter(filter) {
       let filteredReviews = reviewsData;
-      
+
       switch(filter) {
         case 'Web Development':
           filteredReviews = reviewsData.filter(review => review.course === 'Web Development');
@@ -917,7 +908,7 @@
         default:
           filteredReviews = reviewsData;
       }
-      
+
       displayReviews(filteredReviews);
     }
   </script>

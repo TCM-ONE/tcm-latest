@@ -1,0 +1,85 @@
+.tcm-mobile-quick-nav { display: none; }
+.tcm-cookie-settings {
+  position: fixed;
+  z-index: 1300;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 16px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--tcm-border, #deddd8);
+  background: var(--tcm-surface, #fff);
+  color: var(--tcm-fg, #171715);
+  font: 500 11px/1 var(--tcm-font-sans, Inter, sans-serif);
+  cursor: pointer;
+}
+.tcm-cookie-settings:hover { border-color: var(--tcm-fg, #171715); }
+.tcm-cookie-consent {
+  position: fixed;
+  z-index: 1400;
+  right: 18px;
+  bottom: 18px;
+  width: min(510px, calc(100vw - 36px));
+  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  border: 1px solid var(--tcm-border, #deddd8);
+  background: var(--tcm-surface, #fff);
+  color: var(--tcm-fg, #171715);
+  box-shadow: 0 14px 50px rgba(0, 0, 0, .18);
+  font-family: var(--tcm-font-sans, Inter, sans-serif);
+}
+.tcm-cookie-consent[hidden] { display: none; }
+.tcm-cookie-consent-eyebrow { color: #a12518; font-size: 9px; font-weight: 700; letter-spacing: .13em; }
+.tcm-cookie-consent h2 { margin: 4px 0 5px; font: 400 25px/1.1 var(--tcm-font-display, 'Instrument Serif', Georgia, serif); }
+.tcm-cookie-consent p { max-width: 310px; margin: 0; color: var(--tcm-muted, #666); font-size: 11px; line-height: 1.55; }
+.tcm-cookie-consent p a { color: inherit; text-underline-offset: 2px; }
+.tcm-cookie-consent-actions { display: grid; gap: 7px; min-width: 124px; }
+.tcm-cookie-consent-actions button { min-height: 37px; padding: 7px 10px; border: 1px solid #deddd8; background: #fff; color: #171715; font: 600 10px/1.2 var(--tcm-font-sans, Inter, sans-serif); cursor: pointer; }
+.tcm-cookie-consent-actions .tcm-cookie-allow { border-color: #a12518; background: #a12518; color: #fff; }
+.tcm-cookie-consent-actions button:hover { border-color: #171715; }
+.tcm-cookie-consent-actions .tcm-cookie-allow:hover { border-color: #7d1d14; background: #7d1d14; }
+@media (max-width: 760px) {
+  body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+  .tcm-mobile-quick-nav {
+    position: fixed;
+    z-index: 1200;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: calc(62px + env(safe-area-inset-bottom));
+    padding: 5px 8px calc(5px + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    border-top: 1px solid rgba(17, 17, 17, .12);
+    background: rgba(255, 255, 255, .96);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 -7px 28px rgba(17, 17, 17, .07);
+  }
+  .tcm-mobile-quick-nav-link {
+    min-width: 0;
+    min-height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #696964;
+    font: 500 9px/1.15 var(--tcm-font-sans, Inter, sans-serif);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tcm-mobile-quick-nav-link svg { width: 20px; height: 20px; flex: 0 0 auto; }
+  .tcm-mobile-quick-nav-link.is-active { color: #a12518; font-weight: 650; }
+  .tcm-mobile-quick-nav-link:focus-visible, .tcm-cookie-settings:focus-visible, .tcm-cookie-consent button:focus-visible { outline: 2px solid #a12518; outline-offset: 2px; }
+  .tcm-cookie-settings { bottom: calc(73px + env(safe-area-inset-bottom)); left: 12px; min-height: 32px; background: rgba(255,255,255,.96); }
+  .tcm-cookie-consent { right: 10px; bottom: calc(72px + env(safe-area-inset-bottom)); left: 10px; width: auto; max-height: calc(100dvh - 92px - env(safe-area-inset-bottom)); padding: 16px; grid-template-columns: minmax(0,1fr); gap: 12px; overflow-y: auto; }
+  .tcm-cookie-consent p { max-width: none; font-size: 12px; }
+  .tcm-cookie-consent-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tcm-mobile-quick-nav-link, .tcm-cookie-settings, .tcm-cookie-consent button { scroll-behavior: auto; transition: none; }
+}

@@ -21,6 +21,6 @@
     <?= $content ?? '' ?>
 </div>
 <?php require dirname(__DIR__) . '/partials/public-footer.php'; ?>
-<script src="<?= base_url('/assets/tcm-editorial.js?v=2.19') ?>"></script>
+<script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
 </body>
 </html>

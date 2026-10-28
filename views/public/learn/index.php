@@ -60,4 +60,4 @@ $breadcrumbSchema = [
 <?php endforeach; ?>
 </div></section>
 <section class="path-box" aria-labelledby="learning-help"><h2 id="learning-help">What helps you learn faster?</h2><p>Read the explanation, type the example yourself, change one thing and predict what will happen. Then complete the practice task before moving on. Debugging your own small mistakes is part of learning, not a detour.</p><div class="path-links"><a href="<?= $h(base_url('/courses')) ?>">See instructor-led courses</a><a href="<?= $h(base_url('/contact')) ?>">Ask the learning team</a></div></section>
-</main></div><?php \TCM\Core\View::partial('partials.public-footer'); ?><script src="<?= base_url('/assets/tcm-editorial.js?v=2.21') ?>"></script></body></html>
+</main></div><?php \TCM\Core\View::partial('partials.public-footer'); ?><script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script></body></html>
