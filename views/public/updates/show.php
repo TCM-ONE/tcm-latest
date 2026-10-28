@@ -462,7 +462,7 @@ $breadcrumbSchema = [
 <?php endif; ?>
 
 <?php \TCM\Core\View::partial('partials.public-footer'); ?>
-<script src="<?= base_url('/assets/tcm-editorial.js?v=2.18') ?>"></script>
+<script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
 
 <script>
 (function() {

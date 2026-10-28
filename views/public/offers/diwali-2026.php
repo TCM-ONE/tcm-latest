@@ -125,6 +125,6 @@ $schema = [
   </section>
 </main>
 <?php \TCM\Core\View::partial('partials.public-footer'); ?>
-<script src="<?= $h($appUrl . '/assets/tcm-editorial.js?v=2.19') ?>"></script>
+<script src="<?= $h($appUrl . '/assets/tcm-editorial.js?v=2.22') ?>"></script>
 </body>
 </html>
