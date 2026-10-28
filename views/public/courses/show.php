@@ -30,7 +30,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TCM One">
   <meta property="og:url" content="<?= e($canonical) ?>">
-  <meta property="og:title" content="<?= e($course['title']) ?> &mdash; TCM One">
+  <meta property="og:title" content="<?= e($title ?? ($course['title'] . ' | TCM One')) ?>">
   <meta property="og:description" content="<?= e($desc) ?>">
   <meta property="og:image" content="<?= e($thumbUrl) ?>">
   <meta property="og:image:width" content="1200">
@@ -40,7 +40,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@thecodemunk">
-  <meta name="twitter:title" content="<?= e($course['title']) ?> — TCM One">
+  <meta name="twitter:title" content="<?= e($title ?? ($course['title'] . ' | TCM One')) ?>">
   <meta name="twitter:description" content="<?= e($desc) ?>">
   <meta name="twitter:image" content="<?= e($thumbUrl) ?>">
 
@@ -105,6 +105,10 @@
         'url' => $canonical,
       ],
     ];
+
+    if ($isDiwaliOffer) {
+      $courseSchema['offers']['priceValidUntil'] = '2026-11-10';
+    }
 
     $breadcrumbSchema = [
       '@context' => 'https://schema.org',

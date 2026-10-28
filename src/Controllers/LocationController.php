@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TCM\Controllers;
 
 use TCM\Core\Controller;
+use TCM\Services\DiwaliOffer;
 
 /** Search-friendly, truthful location pages for TCM One's online programmes. */
 final class LocationController extends Controller
@@ -55,6 +56,12 @@ final class LocationController extends Controller
                 'audience' => 'College learners, graduates and aspiring developers across Kolkata and West Bengal.',
                 'localNote' => 'If you are exploring a technology career, compare beginner-level programming courses with focused options in web development, data or AI. Look for a clear curriculum and realistic time commitment, then use project work to practise explaining how you approached a problem. Remote cohorts let you join from Kolkata or elsewhere in West Bengal.',
             ],
+            'ahmedabad' => [
+                'name' => 'Ahmedabad', 'region' => 'Gujarat', 'focus' => 'software development, data analytics, AI and digital product careers',
+                'intro' => 'Learners in Ahmedabad can join TCM One’s live online coding and technology programmes, with guided projects and mentor-led practice. Compare the current course outline, fee and cohort schedule before choosing a learning path.',
+                'audience' => 'Students, graduates and working professionals in Ahmedabad building practical technology skills.',
+                'localNote' => 'If you are preparing for a software or analytics role, begin with the skills the role expects and compare them with each course’s prerequisites. Full Stack programmes focus on building web applications; Python, data analytics and AI courses offer other practical paths. Cohorts are online, so confirm the current session timings and project expectations before enrolling.',
+            ],
             'bilaspur' => [
                 'name' => 'Bilaspur', 'region' => 'Chhattisgarh', 'focus' => 'coding, software development and career-oriented tech skills',
                 'intro' => 'Learners in Bilaspur can join TCM One’s live online coding and technology programmes from home or college. The organisation is based in Waraseoni, Madhya Pradesh, and lists a Bilaspur campus as upcoming; current online programmes are available remotely.',
@@ -95,8 +102,8 @@ final class LocationController extends Controller
             'locations' => $this->locations(),
             'appUrl' => $appUrl,
             'canonical' => $appUrl . '/locations',
-            'title' => 'Online Coding Classes Across India — TCM One',
-            'description' => 'Explore live online coding, software development, Python, AI and data analytics programmes for learners in Bengaluru, Mumbai, Delhi NCR, Hyderabad, Pune, Chennai, Kolkata, Bilaspur, Nagpur, Balaghat, Raipur and Durg.',
+            'title' => 'Online Coding Courses in India | TCM One',
+            'description' => 'Join live online coding, Full Stack, Python, AI and data analytics courses from Bengaluru, Mumbai, Delhi NCR and cities across India. Compare programmes and schedules.',
         ], null);
     }
 
@@ -116,7 +123,7 @@ final class LocationController extends Controller
         $location = $locations[$slug];
         $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
         $title = 'Online Coding Classes in ' . $location['name'] . ' | TCM One';
-        $description = 'Explore live online coding classes in ' . $location['name'] . ': Full Stack, Python, AI, data analytics and guided projects with TCM One.';
+        $description = 'Explore live online coding classes in ' . $location['name'] . ' with TCM One. Compare Full Stack, Python, AI and data analytics courses, project work, fees and cohort schedules.';
         $this->view('public/locations/show', [
             'location' => $location,
             'slug' => $slug,
@@ -126,6 +133,7 @@ final class LocationController extends Controller
             'title' => $title,
             'description' => $description,
             'ogImage' => $appUrl . '/assets/tcm-og-share.png',
+            'diwaliOfferActive' => DiwaliOffer::isActive(),
         ], null);
     }
 }
