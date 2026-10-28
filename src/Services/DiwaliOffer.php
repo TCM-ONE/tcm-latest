@@ -16,6 +16,9 @@ final class DiwaliOffer
         'data-analytics-excel-sql-powerbi' => 3999.0,
         'dsa-problem-solving-java' => 4699.0,
         'ai-tools-for-study-work' => 999.0,
+        'full-stack-project-lab-react-node' => 3999.0,
+        'frontend-portfolio-builder-html-css-js' => 3499.0,
+        'data-analysis-dashboard-sprint-excel-powerbi' => 3499.0,
     ];
 
     public const MINIMUM_REGULAR_PRICE = 8000.0;

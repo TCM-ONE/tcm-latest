@@ -1,6 +1,6 @@
 <?php
 /**
- * TCM One: Master Course & Workshop Seeder (24 Courses + 4 Workshops)
+ * TCM One: Master Course & Workshop Seeder (34 Courses + 5 Workshops)
  * Idempotent: Can be run multiple times safely without duplicates or data loss.
  */
 
@@ -13,7 +13,7 @@ use TCM\Core\Database;
 
 date_default_timezone_set('Asia/Kolkata');
 
-echo "=== TCM One Master Seeder: 24 Courses + 4 Workshops ===\n";
+echo "=== TCM One Master Seeder: 34 Courses + 5 Workshops ===\n";
 
 try {
     $pdo = Database::connection();
@@ -62,7 +62,7 @@ try {
     echo "✓ 7 Standard Categories ensured.\n";
 
     // -------------------------------------------------------------
-    // 2. 24 Master Courses Definition
+    // 2. 34 Master Courses Definition
     // -------------------------------------------------------------
     $courses = [
         [
@@ -109,6 +109,69 @@ try {
                 ['title' => 'JavaScript for Modern Frontend', 'lessons' => ['Core JS, Array Methods & Destructuring', 'DOM Manipulation & Event Listeners', 'Async JavaScript & REST API Integration']],
                 ['title' => 'React Core Essentials', 'lessons' => ['JSX & Component Hierarchy', 'State & Props Handling', 'React Hooks: useState, useEffect, useRef']],
                 ['title' => 'Production React Project', 'lessons' => ['Building Reusable Design Systems', 'Performance Tuning & Lazy Loading', 'Deploying to Vercel/Netlify']]
+            ]
+        ],
+        [
+            'title' => 'Full Stack Project Lab: React & Node.js',
+            'slug' => 'full-stack-project-lab-react-node',
+            'subtitle' => 'Build a portfolio-ready React app, Node.js REST API and deployed full-stack project',
+            'cat' => 'web-mobile-development',
+            'level' => 'beginner',
+            'duration' => '4 Weeks',
+            'hours' => 24,
+            'price' => 6999.00,
+            'original_price' => 6999.00,
+            'icon' => 'bi-layers',
+            'thumbnail' => null,
+            'is_featured' => 0,
+            'is_bestseller' => 0,
+            'desc' => 'Build one portfolio-ready full stack web project in a focused online cohort. Connect a responsive React frontend to a Node.js and Express REST API, validate data, handle common errors, test key flows and deploy a working demo. This short project lab complements the longer Full Stack curriculum.',
+            'modules' => [
+                ['title' => 'Plan the App & Build the React Interface', 'lessons' => ['Choose a Small Project Scope and Map User Flows', 'Build Reusable React Screens, Forms and UI States', 'Create a Responsive Layout for Mobile and Desktop']],
+                ['title' => 'Create the Node.js REST API', 'lessons' => ['Set Up Express Routes and Request Validation', 'Implement CRUD Operations and Clear Error Responses', 'Connect the API to Persistent Project Data']],
+                ['title' => 'Integrate, Test & Deploy the Project', 'lessons' => ['Connect React Forms and Views to the REST API', 'Check Main User Flows and Fix Integration Bugs', 'Deploy the Demo and Present the Project Decisions']]
+            ]
+        ],
+        [
+            'title' => 'Frontend Portfolio Builder: HTML, CSS & JavaScript',
+            'slug' => 'frontend-portfolio-builder-html-css-js',
+            'subtitle' => 'Create a responsive web portfolio with semantic HTML, modern CSS and JavaScript',
+            'cat' => 'web-mobile-development',
+            'level' => 'beginner',
+            'duration' => '4 Weeks',
+            'hours' => 24,
+            'price' => 5999.00,
+            'original_price' => 5999.00,
+            'icon' => 'bi-window',
+            'thumbnail' => null,
+            'is_featured' => 0,
+            'is_bestseller' => 0,
+            'desc' => 'Practise frontend development by designing and publishing a personal portfolio site. Use semantic HTML, accessible page structure, CSS Flexbox and Grid, responsive breakpoints and small JavaScript interactions to create a polished project you can share. This project-focused course complements the longer React programme.',
+            'modules' => [
+                ['title' => 'Portfolio Structure & Semantic HTML', 'lessons' => ['Plan Sections, Content and Navigation', 'Build Accessible HTML for Projects and Contact Details', 'Add Responsive Navigation and Useful Page Links']],
+                ['title' => 'Modern CSS & Responsive Design', 'lessons' => ['Style with Typography, Spacing and Colour Tokens', 'Build Layouts with Flexbox and CSS Grid', 'Adapt the Portfolio for Mobile, Tablet and Desktop']],
+                ['title' => 'JavaScript, Quality & Publishing', 'lessons' => ['Add Small Interactions and Form Feedback', 'Check Keyboard Access, Contrast and Browser Layouts', 'Publish the Site and Review the Finished Portfolio']]
+            ]
+        ],
+        [
+            'title' => 'Data Analysis Dashboard Sprint: Excel & Power BI',
+            'slug' => 'data-analysis-dashboard-sprint-excel-powerbi',
+            'subtitle' => 'Practice data analysis with Excel, Power Query and Power BI by building a business dashboard',
+            'cat' => 'data-analytics',
+            'level' => 'beginner',
+            'duration' => '4 Weeks',
+            'hours' => 24,
+            'price' => 5999.00,
+            'original_price' => 5999.00,
+            'icon' => 'bi-bar-chart-line',
+            'thumbnail' => null,
+            'is_featured' => 0,
+            'is_bestseller' => 0,
+            'desc' => 'This beginner data analysis course uses Excel and Power BI to complete one guided dashboard project. Clean and validate a small dataset, summarize it with formulas and PivotTables, shape data with Power Query, define useful business KPIs and present results in an interactive report. It is a focused dashboard sprint, narrower than the full Data Analytics programme.',
+            'modules' => [
+                ['title' => 'Understand & Clean the Dataset in Excel', 'lessons' => ['Read a Business Dataset and Identify Data Quality Issues', 'Clean Values, Dates and Categories with Excel Tools', 'Summarize Records with Formulas and PivotTables']],
+                ['title' => 'Prepare Data & Define Useful KPIs', 'lessons' => ['Transform Tables with Power Query', 'Choose Measures and KPIs That Match the Questions', 'Organize Data for a Clear Report']],
+                ['title' => 'Build & Present the Power BI Dashboard', 'lessons' => ['Create Visuals, Filters and an Interactive Report Page', 'Check Labels, Accessibility and Chart Readability', 'Present the Dashboard and Explain the Findings']]
             ]
         ],
         [
@@ -850,7 +913,7 @@ try {
                 ]);
         }
     }
-    echo "✓ All 24 Courses seeded with modules & active batches.\n";
+    echo "✓ All " . count($courses) . " Courses seeded with modules & active batches.\n";
 
     // -------------------------------------------------------------
     // 3. 5 Workshop Records (Featured & Live Cohorts)
@@ -980,11 +1043,11 @@ try {
                 ]);
         }
     }
-    echo "✓ All 4 Workshops seeded with live batches.\n";
+    echo "✓ All " . count($workshops) . " Workshops seeded with live batches.\n";
 
-    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '24') ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)")
-        ->execute();
-    echo "✓ Site settings updated for 24-course catalogue.\n";
+    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)")
+        ->execute([(string) count($courses)]);
+    echo "✓ Site settings updated for " . count($courses) . "-course catalogue.\n";
 
     echo "\n=== Seeding Completed Successfully! ===\n";
 
