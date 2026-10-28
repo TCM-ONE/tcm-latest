@@ -27,6 +27,7 @@
           return false;
         }
         document.querySelectorAll('[data-diwali-campaign]').forEach(function (banner) { banner.remove(); });
+        document.querySelectorAll('[data-diwali-section]').forEach(function (section) { section.remove(); });
         document.querySelectorAll('[data-diwali-price]').forEach(function (price) {
           price.textContent = formatInr(price.getAttribute('data-regular'));
         });
