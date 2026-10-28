@@ -83,7 +83,7 @@ INSERT INTO tmp_diwali_2026_course_modules (course_slug, position, title, summar
 INSERT INTO course_modules (course_id, title, summary, position)
 SELECT course.id, seed.title, seed.summary, seed.position
 FROM tmp_diwali_2026_course_modules AS seed
-JOIN courses AS course ON course.slug = seed.course_slug
+JOIN courses AS course ON course.slug COLLATE utf8mb4_unicode_ci = seed.course_slug COLLATE utf8mb4_unicode_ci
 WHERE NOT EXISTS (
     SELECT 1 FROM course_modules AS existing
     WHERE existing.course_id = course.id AND existing.position = seed.position
@@ -134,7 +134,7 @@ INSERT INTO tmp_diwali_2026_course_lessons
 INSERT INTO course_lessons (module_id, title, type, duration_minutes, position, is_preview)
 SELECT module.id, seed.title, seed.lesson_type, seed.duration_minutes, seed.position, seed.is_preview
 FROM tmp_diwali_2026_course_lessons AS seed
-JOIN courses AS course ON course.slug = seed.course_slug
+JOIN courses AS course ON course.slug COLLATE utf8mb4_unicode_ci = seed.course_slug COLLATE utf8mb4_unicode_ci
 JOIN course_modules AS module ON module.course_id = course.id AND module.position = seed.module_position
 WHERE NOT EXISTS (
     SELECT 1 FROM course_lessons AS existing
