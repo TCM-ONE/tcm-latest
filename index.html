@@ -81,6 +81,7 @@
   <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.19">
   <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.19">
   <link rel="stylesheet" href="./assets/diwali-offer.css?v=3">
+  <link rel="stylesheet" href="./assets/diwali-courses.css?v=1">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -363,23 +364,23 @@
           </div>
 
           <!-- Hero Visual: Concentric Line Pattern & Swipeable Workshop Card Deck -->
-          <div class="tcm-hero-visual" role="region" aria-roledescription="carousel" aria-label="Featured Diwali Courses, Live Cohorts &amp; Workshops">
+          <div class="tcm-hero-visual" role="region" aria-roledescription="carousel" aria-label="Featured Live Cohorts &amp; Workshops">
             <!-- Concentric Line Pattern Background (decorative) -->
             <div class="tcm-line-pattern" aria-hidden="true" style="top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
               <img src="./assets/tcm-line-pattern.svg" alt="" style="width:100%;height:100%;max-width:440px;opacity:0.35;">
             </div>
 
-            <!-- Swipeable Stacked Course, Cohort & Workshop Deck Container -->
+            <!-- Swipeable Stacked Workshop Deck Container -->
             <div class="tcm-hero-deck-wrapper" id="heroWorkshopDeck">
               <!-- Deck Topbar: Counter & Nav arrows -->
               <div class="tcm-hero-deck-topbar">
                 <div class="tcm-hero-deck-controls">
-                  <span class="tcm-hero-deck-counter" id="heroDeckCounter">1 / 8</span>
+                  <span class="tcm-hero-deck-counter" id="heroDeckCounter">1 / 5</span>
                   <div class="tcm-hero-deck-nav">
-                    <button type="button" class="tcm-deck-btn" id="heroDeckPrevBtn" aria-label="Previous featured card">
+                    <button type="button" class="tcm-deck-btn" id="heroDeckPrevBtn" aria-label="Previous Workshop">
                       <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M13 7H1M1 7L7 1M1 7L7 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
                     </button>
-                    <button type="button" class="tcm-deck-btn" id="heroDeckNextBtn" aria-label="Next featured card">
+                    <button type="button" class="tcm-deck-btn" id="heroDeckNextBtn" aria-label="Next Workshop">
                       <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
                     </button>
                   </div>
@@ -389,66 +390,10 @@
               <!-- Stack of Interactive Cards -->
               <div class="tcm-hero-deck-stack" id="heroDeckStack">
                 <!-- Diwali project courses lead the featured card deck. -->
-                <article class="tcm-deck-card is-active" data-index="0" data-slug="full-stack-project-lab-react-node" data-price="3999" data-diwali-card data-regular-price="6999" role="group" aria-roledescription="slide" aria-label="1 of 8: Full Stack Project Lab">
-                  <div>
-                    <div class="tcm-hero-card-tag"><span data-diwali-badge>Diwali Special &middot; </span>4-Week Project Course</div>
-                    <h3 class="tcm-hero-card-title">Full Stack Project Lab: React &amp; Node.js</h3>
-                    <p class="tcm-hero-card-desc">Build a responsive React app, connect a Node.js and Express REST API, and deploy a project for your portfolio.</p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>React UI, Node.js API and integration</span></li>
-                      <li data-diwali-badge><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>Full payment only during Diwali offer · no EMI</span></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Beginner &middot; 4 Weeks</span></div>
-                      <div class="tcm-hero-card-pricing"><span class="tcm-hero-card-orig" data-diwali-original>₹6,999</span><span class="tcm-hero-card-price" data-diwali-price data-regular="6999">₹3,999</span></div>
-                    </div>
-                    <div class="tcm-hero-card-actions"><a href="/courses/full-stack-project-lab-react-node" class="tcm-btn tcm-btn-primary"><span>View Course</span><svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div>
-                  </div>
-                </article>
-
-                <article class="tcm-deck-card is-next" data-index="1" data-slug="frontend-portfolio-builder-html-css-js" data-price="3499" data-diwali-card data-regular-price="5999" role="group" aria-roledescription="slide" aria-label="2 of 8: Frontend Portfolio Builder">
-                  <div>
-                    <div class="tcm-hero-card-tag"><span data-diwali-badge>Diwali Special &middot; </span>4-Week Project Course</div>
-                    <h3 class="tcm-hero-card-title">Frontend Portfolio Builder: HTML, CSS &amp; JavaScript</h3>
-                    <p class="tcm-hero-card-desc">Create and publish a responsive portfolio with semantic HTML, modern CSS layouts and JavaScript interactions.</p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>Responsive design with CSS Grid and Flexbox</span></li>
-                      <li data-diwali-badge><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>Full payment only during Diwali offer · no EMI</span></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Beginner &middot; 4 Weeks</span></div>
-                      <div class="tcm-hero-card-pricing"><span class="tcm-hero-card-orig" data-diwali-original>₹5,999</span><span class="tcm-hero-card-price" data-diwali-price data-regular="5999">₹3,499</span></div>
-                    </div>
-                    <div class="tcm-hero-card-actions"><a href="/courses/frontend-portfolio-builder-html-css-js" class="tcm-btn tcm-btn-primary"><span>View Course</span><svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div>
-                  </div>
-                </article>
-
-                <article class="tcm-deck-card is-next2" data-index="2" data-slug="data-analysis-dashboard-sprint-excel-powerbi" data-price="3499" data-diwali-card data-regular-price="5999" role="group" aria-roledescription="slide" aria-label="3 of 8: Data Analysis Dashboard Sprint">
-                  <div>
-                    <div class="tcm-hero-card-tag"><span data-diwali-badge>Diwali Special &middot; </span>4-Week Project Course</div>
-                    <h3 class="tcm-hero-card-title">Data Analysis Dashboard Sprint: Excel &amp; Power BI</h3>
-                    <p class="tcm-hero-card-desc">Clean a dataset, explore it with Excel and Power Query, then build an interactive Power BI dashboard.</p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>Excel, PivotTables, Power Query and Power BI</span></li>
-                      <li data-diwali-badge><svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg><span>Full payment only during Diwali offer · no EMI</span></li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Beginner &middot; 4 Weeks</span></div>
-                      <div class="tcm-hero-card-pricing"><span class="tcm-hero-card-orig" data-diwali-original>₹5,999</span><span class="tcm-hero-card-price" data-diwali-price data-regular="5999">₹3,499</span></div>
-                    </div>
-                    <div class="tcm-hero-card-actions"><a href="/courses/data-analysis-dashboard-sprint-excel-powerbi" class="tcm-btn tcm-btn-primary"><span>View Course</span><svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div>
-                  </div>
-                </article>
 
                 <!-- Workshop/cohort cards follow the three new courses. -->
-                <!-- Card 4 (Active workshop after the three courses) -->
-                <article class="tcm-deck-card is-hidden" data-index="3" data-slug="python-starter-workshop" role="group" aria-roledescription="slide" aria-label="4 of 8: Python Starter Workshop">
+                <!-- Card 1 (Active) -->
+                <article class="tcm-deck-card is-active" data-index="0" data-slug="python-starter-workshop" role="group" aria-roledescription="slide" aria-label="1 of 5: Python Starter Workshop">
                   <div>
                     <div class="tcm-hero-card-tag">Upcoming Live Cohort</div>
                     <h3 class="tcm-hero-card-title">Python Starter Workshop: APIs &amp; Scraping</h3>
@@ -486,8 +431,8 @@
                   </div>
                 </article>
 
-                <!-- Card 5 -->
-                <article class="tcm-deck-card is-hidden" data-index="4" data-slug="frontend-website-challenge-7-days" role="group" aria-roledescription="slide" aria-label="5 of 8: 7-Day Frontend Website Challenge">
+                <!-- Card 2 (Stacked behind Card 1) -->
+                <article class="tcm-deck-card is-next" data-index="1" data-slug="frontend-website-challenge-7-days" role="group" aria-roledescription="slide" aria-label="2 of 5: 7-Day Frontend Website Challenge">
                   <div>
                     <div class="tcm-hero-card-tag">7-Day Live Bootcamp</div>
                     <h3 class="tcm-hero-card-title">7-Day Frontend Website Challenge</h3>
@@ -525,8 +470,8 @@
                   </div>
                 </article>
 
-                <!-- Card 6 (Dussehra Special: Data Analysis) -->
-                <article class="tcm-deck-card is-hidden" data-index="5" data-slug="data-analysis-workshop" role="group" aria-roledescription="slide" aria-label="6 of 8: Data Analysis Masterclass">
+                <!-- Card 3 (Dussehra Special: Data Analysis) -->
+                <article class="tcm-deck-card is-next2" data-index="2" data-slug="data-analysis-workshop" role="group" aria-roledescription="slide" aria-label="3 of 5: Data Analysis Masterclass">
                   <div>
                     <div class="tcm-hero-card-tag">Dussehra Special &middot; 2-Week Bootcamp</div>
                     <h3 class="tcm-hero-card-title">Data Analysis Masterclass: Excel, SQL &amp; Python</h3>
@@ -564,8 +509,8 @@
                   </div>
                 </article>
 
-                <!-- Card 7 -->
-                <article class="tcm-deck-card is-hidden" data-index="6" data-slug="ai-tools-everyday-work-workshop" role="group" aria-roledescription="slide" aria-label="7 of 8: AI Tools for Everyday Work">
+                <!-- Card 4 (Stacked behind Card 3) -->
+                <article class="tcm-deck-card is-hidden" data-index="3" data-slug="ai-tools-everyday-work-workshop" role="group" aria-roledescription="slide" aria-label="4 of 5: AI Tools for Everyday Work">
                   <div>
                     <div class="tcm-hero-card-tag">Hands-on AI Workshop</div>
                     <h3 class="tcm-hero-card-title">AI Tools for Everyday Work &amp; Coding</h3>
@@ -603,8 +548,8 @@
                   </div>
                 </article>
 
-                <!-- Card 8 -->
-                <article class="tcm-deck-card is-hidden" data-index="7" data-slug="find-your-tech-career-path-workshop" role="group" aria-roledescription="slide" aria-label="8 of 8: Find Your Tech Career Path">
+                <!-- Card 5 (Stacked behind Card 4) -->
+                <article class="tcm-deck-card is-hidden" data-index="4" data-slug="find-your-tech-career-path-workshop" role="group" aria-roledescription="slide" aria-label="5 of 5: Find Your Tech Career Path">
                   <div>
                     <div class="tcm-hero-card-tag">Live Career Masterclass</div>
                     <h3 class="tcm-hero-card-title">Find Your Tech Career Path &amp; Roadmap</h3>
@@ -651,14 +596,69 @@
                   <button type="button" class="tcm-deck-dot" data-index="2" aria-label="Go to slide 3"></button>
                   <button type="button" class="tcm-deck-dot" data-index="3" aria-label="Go to slide 4"></button>
                   <button type="button" class="tcm-deck-dot" data-index="4" aria-label="Go to slide 5"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="5" aria-label="Go to slide 6"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="6" aria-label="Go to slide 7"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="7" aria-label="Go to slide 8"></button>
                 </div>
 
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FEATURED DIWALI PROJECT COURSES
+         ======================================================================== -->
+    <section class="tcm-diwali-courses" id="diwali-courses" aria-labelledby="diwaliCoursesTitle">
+      <div class="tcm-container">
+        <div class="tcm-diwali-courses-heading">
+          <div>
+            <div class="tcm-diwali-courses-kicker">Featured project courses <span data-diwali-badge>· Diwali prices through 10 November</span></div>
+            <h2 id="diwaliCoursesTitle">Choose a project.<br><span>Build your portfolio.</span></h2>
+            <p>Short, guided programs in Full Stack, Frontend and Data Analysis—with a practical project to show for your work.</p>
+          </div>
+          <a href="/diwali-offer-2026" class="tcm-diwali-courses-deadline" data-diwali-badge>
+            <span aria-hidden="true">🪔</span>
+            <span><strong>Diwali special prices</strong><small>Full payment only · No EMI</small></span>
+            <span class="tcm-diwali-courses-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="tcm-diwali-course-grid">
+          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="6999" data-price="3999">
+            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">FULL STACK</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
+            <h3><a href="/courses/full-stack-project-lab-react-node">Full Stack Project Lab: React &amp; Node.js</a></h3>
+            <p class="tcm-diwali-course-description">Build a responsive React app, connect a Node.js and Express REST API, and deploy a project for your portfolio.</p>
+            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>React</li><li>Node.js</li><li>REST API</li><li>Deployment</li></ul>
+            <div class="tcm-diwali-course-footer">
+              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹6,999</span><strong data-diwali-price data-regular="6999">₹3,999</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
+              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <a href="/courses/full-stack-project-lab-react-node" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="5999" data-price="3499">
+            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">FRONTEND</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
+            <h3><a href="/courses/frontend-portfolio-builder-html-css-js">Frontend Portfolio Builder: HTML, CSS &amp; JavaScript</a></h3>
+            <p class="tcm-diwali-course-description">Create and publish a responsive portfolio with semantic HTML, modern CSS layouts and JavaScript interactions.</p>
+            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>HTML</li><li>CSS Grid</li><li>JavaScript</li><li>Responsive UI</li></ul>
+            <div class="tcm-diwali-course-footer">
+              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹3,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
+              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <a href="/courses/frontend-portfolio-builder-html-css-js" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="5999" data-price="3499">
+            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">DATA ANALYSIS</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
+            <h3><a href="/courses/data-analysis-dashboard-sprint-excel-powerbi">Data Analysis Dashboard Sprint: Excel &amp; Power BI</a></h3>
+            <p class="tcm-diwali-course-description">Clean a dataset, explore it with Excel and Power Query, then build an interactive Power BI dashboard.</p>
+            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>Excel</li><li>PivotTables</li><li>Power Query</li><li>Power BI</li></ul>
+            <div class="tcm-diwali-course-footer">
+              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹3,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
+              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <a href="/courses/data-analysis-dashboard-sprint-excel-powerbi" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
