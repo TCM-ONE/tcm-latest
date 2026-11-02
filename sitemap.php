@@ -41,6 +41,7 @@ $urls = [
     ['loc' => '/workshops',              'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.9'],
     ['loc' => '/tech-updates',           'lastmod' => $today, 'changefreq' => 'daily',   'priority' => '0.8'],
     ['loc' => '/for-institutions',       'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.8'],
+    ['loc' => '/partners',               'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.7'],
     ['loc' => '/about',                  'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/contact',                'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/learners-reviews.html',  'lastmod' => $today, 'changefreq' => 'weekly',  'priority' => '0.6'],
@@ -75,6 +76,24 @@ try {
     }
 } catch (Throwable) {
     // Graceful fallback if database connection is temporarily unavailable
+}
+
+// Public institution profiles
+try {
+    $partners = Database::all("SELECT slug, updated_at FROM partners WHERE status='active' AND public_status='published' ORDER BY display_name");
+    foreach ($partners as $partner) {
+        $slug = (string) ($partner['slug'] ?? '');
+        if ($slug === '') continue;
+        $mod = substr((string) ($partner['updated_at'] ?? $today), 0, 10) ?: $today;
+        $urls[] = [
+            'loc' => '/partners/' . rawurlencode($slug),
+            'lastmod' => $mod,
+            'changefreq' => 'monthly',
+            'priority' => '0.6',
+        ];
+    }
+} catch (Throwable) {
+    // Keep the static sitemap URLs available if partner tables are unavailable.
 }
 
 // Live Workshops from WorkshopData

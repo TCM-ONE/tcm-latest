@@ -31,7 +31,20 @@ final class PublicPartnerController extends Controller
         $partner=Database::first("SELECT * FROM partners WHERE slug=? AND status='active' AND public_status='published'",[(string)$params['slug']]);
         if (!$partner) { http_response_code(404); $this->view('errors/404',[], 'public'); return; }
         $courses=Database::all("SELECT * FROM partner_courses WHERE partner_id=? AND review_status='approved' AND admissions_status IN ('open','upcoming') ORDER BY title",[$partner['id']]);
-        $this->view('public/partners/show',['title'=>$partner['display_name'],'partner'=>$partner,'courses'=>$courses],'public');
+        $isJmk = $partner['slug'] === 'jmk-computer-education-center';
+        $mapEmbedUrl = 'https://www.google.com/maps?q=' . rawurlencode((string)($partner['address'] ?? (($partner['city'] ?? '') . ', ' . ($partner['state'] ?? '')))) . '&output=embed';
+        $googleReviewsUrl = $isJmk
+            ? 'https://www.google.com/maps/place/jmk+computer+education+center/data=!4m2!3m1!1s0x0:0x6a1b0bfa7e567bdd'
+            : 'https://www.google.com/search?q=' . rawurlencode($partner['display_name'] . ' ' . ($partner['city'] ?? '') . ' reviews');
+        $this->view('public/partners/show',[
+            'title'=>$isJmk ? 'JMK Computer Education Centre in Bilaspur' : $partner['display_name'],
+            'description'=>$isJmk ? 'Explore tuition for Classes 1–12 and computer education at JMK Computer Education Centre in Ashok Nagar, Sarkanda, Bilaspur. View courses, contact details, and map.' : mb_strimwidth((string)($partner['description'] ?? ''),0,155,'…'),
+            'partner'=>$partner,
+            'courses'=>$courses,
+            'mapEmbedUrl'=>$mapEmbedUrl,
+            'googleReviewsUrl'=>$googleReviewsUrl,
+            'isJmk'=>$isJmk,
+        ],'public');
     }
 
     public function enquiry(array $params): void
