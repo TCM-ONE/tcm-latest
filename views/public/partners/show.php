@@ -26,12 +26,14 @@
 <script type="application/ld+json"><?php
 $partnerSchema = [
     '@context' => 'https://schema.org',
-    '@type' => 'EducationalOrganization',
+    '@type' => ['EducationalOrganization', 'LocalBusiness'],
     'name' => $partner['display_name'],
     'url' => base_url('/partners/' . rawurlencode($partner['slug'])),
     'logo' => base_url('/' . ltrim((string)$partner['logo_path'], '/')),
     'description' => $partner['description'],
     'telephone' => '+' . preg_replace('/\D/', '', (string)$partner['whatsapp']),
+    'areaServed' => ['@type' => 'City', 'name' => 'Bilaspur, Chhattisgarh'],
+    'sameAs' => [$googleReviewsUrl],
     'address' => [
         '@type' => 'PostalAddress',
         'streetAddress' => 'Near DLS College Road, Ashok Nagar, Sarkanda',
