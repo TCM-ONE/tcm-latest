@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">JMK Computer Education Centre</title>
+  <desc id="desc">JMK lettermark for the partner institution</desc>
+  <rect width="240" height="240" rx="38" fill="#f8f7f4"/>
+  <circle cx="120" cy="100" r="68" fill="#fff" stroke="#a41f2d" stroke-width="5"/>
+  <path d="M76 132V82h13v39c0 12-6 18-17 18-7 0-13-3-17-8l9-9c2 3 5 5 8 5s4-2 4-5Zm30-50h15l18 27 18-27h15v54h-14V104l-19 27h-1l-19-27v32h-13Zm76 0h14v21l20-21h17l-22 23 23 31h-17l-16-22-5 5v17h-14Z" fill="#12345a"/>
+  <path d="M48 187h144" stroke="#d7bf79" stroke-width="3"/>
+  <text x="120" y="211" text-anchor="middle" fill="#27384a" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2">COMPUTER EDUCATION</text>
+</svg>
