@@ -7,6 +7,7 @@ namespace TCM\Controllers;
 use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\Request;
+use TCM\Core\WhatsApp;
 use TCM\Models\Lead;
 
 final class PublicPartnerController extends Controller
@@ -58,18 +59,29 @@ final class PublicPartnerController extends Controller
     {
         $partner=Database::first("SELECT id,display_name FROM partners WHERE slug=? AND status='active' AND public_status='published'",[(string)$params['slug']]);
         if (!$partner) { http_response_code(404); exit('Partner not found.'); }
-        $name=Request::string('name'); $email=strtolower(Request::string('email')); $phone=Request::string('phone');
+        $name=Request::string('name'); $email=strtolower(Request::string('email')); $phone=Request::string('phone'); $message=Request::string('message');
         $courseId=Request::int('course_id') ?: null;
         if ($name==='' || !filter_var($email,FILTER_VALIDATE_EMAIL) || Request::int('consent')!==1) {flash('error','Name, valid email, and consent are required to submit an enquiry.');redirect('/partners/'.rawurlencode((string)$params['slug']));}
-        if ($courseId && !Database::first("SELECT id FROM partner_courses WHERE id=? AND partner_id=? AND review_status='approved'",[$courseId,$partner['id']])) {http_response_code(400);exit('Invalid course selection.');}
+        $selectedCourse = $courseId ? Database::first("SELECT id,title FROM partner_courses WHERE id=? AND partner_id=? AND review_status='approved'",[$courseId,$partner['id']]) : null;
+        if ($courseId && !$selectedCourse) {http_response_code(400);exit('Invalid course selection.');}
         $duplicate=Database::first('SELECT id FROM partner_public_enquiries WHERE partner_id=? AND partner_course_id <=> ? AND LOWER(email)=LOWER(?) AND created_at>DATE_SUB(NOW(),INTERVAL 24 HOUR) LIMIT 1',[$partner['id'],$courseId,$email]);
         if (!$duplicate) {
-            Database::transaction(function()use($partner,$courseId,$name,$email,$phone):void {
-                Database::insert('partner_public_enquiries',['partner_id'=>$partner['id'],'partner_course_id'=>$courseId,'name'=>$name,'email'=>$email,'phone'=>$phone?:null,'message'=>Request::string('message')?:null,'consent_at'=>date('Y-m-d H:i:s')]);
-                try { Lead::capture(['name'=>$name,'email'=>$email,'phone'=>$phone,'interest_type'=>'general','interest_title'=>'Partner enquiry: '.$partner['display_name'],'message'=>Request::string('message'),'source'=>'partner_directory']); } catch (\Throwable $e) { error_log('Partner enquiry lead sync failed: '.$e->getMessage()); }
+            Database::transaction(function()use($partner,$courseId,$name,$email,$phone,$message):void {
+                Database::insert('partner_public_enquiries',['partner_id'=>$partner['id'],'partner_course_id'=>$courseId,'name'=>$name,'email'=>$email,'phone'=>$phone?:null,'message'=>$message?:null,'consent_at'=>date('Y-m-d H:i:s')]);
+                try { Lead::capture(['name'=>$name,'email'=>$email,'phone'=>$phone,'interest_type'=>'general','interest_title'=>'Partner enquiry: '.$partner['display_name'],'message'=>$message,'source'=>'partner_directory']); } catch (\Throwable $e) { error_log('Partner enquiry lead sync failed: '.$e->getMessage()); }
             });
         }
-        flash('success',$duplicate?'Your recent enquiry is already with the institution.':'Enquiry sent. The institution can now follow up with you.');
-        redirect('/partners/'.rawurlencode((string)$params['slug']));
+        $courseTitle = $selectedCourse['title'] ?? 'General enquiry';
+        $whatsappMessage = implode("\n", [
+            'New partner enquiry · ' . $partner['display_name'],
+            'Name: ' . $name,
+            'Email: ' . $email,
+            'Phone: ' . ($phone !== '' ? $phone : 'Not provided'),
+            'Course: ' . $courseTitle,
+            'Message: ' . ($message !== '' ? $message : 'No message provided'),
+            'Profile: ' . base_url('/partners/' . rawurlencode((string)$params['slug'])),
+            $duplicate ? 'Note: recent matching enquiry already exists in the site inbox.' : '',
+        ]);
+        redirect(WhatsApp::link($whatsappMessage, '919238695500'));
     }
 }

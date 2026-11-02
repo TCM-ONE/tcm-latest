@@ -9,12 +9,13 @@ Back up the database, then apply these migrations in order through the same MySQ
 1. `database/migrations/2026_10_25_partner_ecosystem.sql`
 2. `database/migrations/2026_10_25_partner_existing_accounts.sql`
 3. `database/migrations/2026_11_02_add_jmk_computer_education_partner.sql`
+4. `database/migrations/2026_11_02_add_jmk_course_catalog.sql`
 
 The migrations are additive. They add partner directory and membership records, agreement versions, partner batches and student attribution, independent courses, service requests, financial ledger, settlements, activity history, and partner membership roles. Existing user accounts and passwords are preserved when partner access is linked.
 
 The repository does not include an automatic migration runner. Do not rerun the `ALTER TABLE users ... MODIFY role` statement against a modified role enum without reviewing the current schema first. `CREATE TABLE IF NOT EXISTS` statements may safely be rerun after that role update.
 
-The JMK seed adds its Bilaspur public listing and two course enquiry categories. It is safe to re-run and does not create a partner login because the centre's owner email and account details were not provided. The JMK public profile appears after this third migration is applied.
+The JMK partner seed adds its Bilaspur public listing and two initial course enquiry categories. The course catalog migration adds the additional courses from the supplied signboard. Both are safe to re-run and do not create a partner login because the centre's owner email and account details were not provided.
 
 ## Initial onboarding
 
