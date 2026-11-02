@@ -36,13 +36,20 @@ final class PublicPartnerController extends Controller
         $googleReviewsUrl = $isJmk
             ? 'https://www.google.com/maps/place/jmk+computer+education+center/data=!4m2!3m1!1s0x0:0x6a1b0bfa7e567bdd'
             : 'https://www.google.com/search?q=' . rawurlencode($partner['display_name'] . ' ' . ($partner['city'] ?? '') . ' reviews');
+        $canonicalUrl = base_url('/partners/' . rawurlencode((string)$partner['slug']));
+        $pageDescription = $isJmk ? 'Explore tuition for Classes 1–12 and computer education at JMK Computer Education Centre in Ashok Nagar, Sarkanda, Bilaspur. View courses, contact details, and map.' : mb_strimwidth((string)($partner['description'] ?? ''),0,155,'…');
         $this->view('public/partners/show',[
             'title'=>$isJmk ? 'JMK Computer Education Centre in Bilaspur' : $partner['display_name'],
-            'description'=>$isJmk ? 'Explore tuition for Classes 1–12 and computer education at JMK Computer Education Centre in Ashok Nagar, Sarkanda, Bilaspur. View courses, contact details, and map.' : mb_strimwidth((string)($partner['description'] ?? ''),0,155,'…'),
+            'description'=>$pageDescription,
+            'canonicalUrl'=>$canonicalUrl,
+            'socialTitle'=>$isJmk ? 'JMK Computer Education Centre · Bilaspur' : $partner['display_name'],
+            'socialDescription'=>$pageDescription,
+            'socialImage'=>!empty($partner['logo_path']) ? base_url('/'.ltrim((string)$partner['logo_path'],'/')) : base_url('/assets/tcm-og-share.png'),
             'partner'=>$partner,
             'courses'=>$courses,
             'mapEmbedUrl'=>$mapEmbedUrl,
             'googleReviewsUrl'=>$googleReviewsUrl,
+            'shareUrl'=>$canonicalUrl,
             'isJmk'=>$isJmk,
         ],'public');
     }
