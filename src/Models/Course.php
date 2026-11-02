@@ -51,7 +51,7 @@ final class Course extends Model
      */
     public static function listWithCategory(array $filters = []): array
     {
-        $sql = 'SELECT c.*, cat.name AS category_name, cat.audience
+        $sql = 'SELECT c.*, cat.name AS category_name, cat.slug AS category_slug, cat.audience
                 FROM courses c
                 LEFT JOIN categories cat ON cat.id = c.category_id
                 WHERE 1';

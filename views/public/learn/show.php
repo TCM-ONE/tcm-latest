@@ -1,6 +1,16 @@
 <?php
 $h = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 $guides = $guides ?? [];
+$courseTrackSlug = match ((string) ($guide['courseCategory'] ?? '')) {
+    'Programming Foundations' => 'programming-foundations',
+    'Web & Mobile Development' => 'web-mobile-development',
+    'AI & Automation' => 'ai-automation',
+    'Data & Analytics' => 'data-analytics',
+    'Cloud & DevOps' => 'cloud-devops',
+    'Career & DSA' => 'career-dsa',
+    'Design & Business' => 'design-business',
+    default => '',
+};
 $references = [
     'python' => [
                 ['Python 3.15.1 documentation', 'https://docs.python.org/3.15/'],
@@ -171,7 +181,7 @@ $glossaries = [
 <a class="skip" href="#mainContent">Skip to guide</a>
 <?php \TCM\Core\View::partial('partials.public-header'); ?>
 <div class="shell"><nav class="crumb" aria-label="Breadcrumb"><a href="<?= $h(base_url('/')) ?>">Home</a> / <a href="<?= $h(base_url('/learn')) ?>">Learn</a> / <?= $h($guide['name']) ?></nav>
-<main id="mainContent"><section class="intro"><div class="eyebrow"><?= $h($guide['category']) ?> · <?= $h($guide['level']) ?></div><h1 class="tcm-h1">Learn <?= $h($guide['name']) ?> step by step</h1><p class="lede"><?= $h($guide['summary']) ?> Every module explains the idea in plain language, walks through a code example and gives you a small task to try yourself.</p><div class="intro-actions"><a class="tcm-btn tcm-btn-primary" href="#module-1">Start with module 1 ↓</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/courses?cat=' . rawurlencode($guide['courseCategory']))) ?>">Explore related courses</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/learn')) ?>">All learning guides</a></div></section>
+<main id="mainContent"><section class="intro"><div class="eyebrow"><?= $h($guide['category']) ?> · <?= $h($guide['level']) ?></div><h1 class="tcm-h1">Learn <?= $h($guide['name']) ?> step by step</h1><p class="lede"><?= $h($guide['summary']) ?> Every module explains the idea in plain language, walks through a code example and gives you a small task to try yourself.</p><div class="intro-actions"><a class="tcm-btn tcm-btn-primary" href="#module-1">Start with module 1 ↓</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url($courseTrackSlug !== '' ? '/courses/tracks/' . $courseTrackSlug : '/courses')) ?>">Explore related courses</a><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/learn')) ?>">All learning guides</a></div></section>
 <div class="snapshot"><strong>Version snapshot:</strong> <?= $h($guide['version']) ?>. <?= $h($guide['versionNote']) ?></div>
 <section class="guide-start" aria-label="Before you begin"><article><h2>Before you begin</h2><p><?= $h($guide['prerequisites']) ?></p></article><article><h2>What you’ll be able to do</h2><p><?= $h($guide['outcome']) ?></p></article></section>
 <?php if ($slug === 'spring-boot'): ?><p class="lesson-prompt java-prerequisite">New to Java classes, methods or collections? Start with the <a href="<?= $h(base_url('/learn/java')) ?>">Java foundations guide</a>, then return here to build your backend.</p><?php endif; ?>
@@ -182,7 +192,7 @@ $glossaries = [
 <?php foreach ($guide['lessons'] as $index => $lesson): $lessonTitle = preg_replace('/^\d+\.\s*/', '', $lesson['title']) ?? $lesson['title']; ?>
   <article class="lesson" id="module-<?= $index + 1 ?>"><div class="lesson-head"><div class="eyebrow">MODULE <?= str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) ?> / <?= count($guide['lessons']) ?> · CONCEPT EXPLAINED</div><h2><?= $h($lessonTitle) ?></h2><p><?= $h($lesson['explanation']) ?></p></div><?php if (!empty($lesson['deepDive'])): ?><aside class="lesson-deep-dive"><strong>Go a level deeper</strong><?= $h($lesson['deepDive']) ?></aside><?php endif; ?><div class="lesson-body"><div class="code-label">Follow this example</div><pre class="code"><code><?= $h($lesson['example']) ?></code></pre><div class="task"><strong>Try it yourself:</strong> <?= $h($lesson['practice']) ?></div></div></article>
 <?php endforeach; ?>
-<section class="roadmap" id="project"><div class="eyebrow" style="color:#c5f467">PUT THE MODULES TOGETHER</div><h2>Your final project</h2><p><?= $h($project) ?> Write down what the project should do, build it in small steps, and include a README that explains how to run it.</p><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url('/courses?cat=' . rawurlencode($guide['courseCategory']))) ?>">Find a guided course →</a></section>
+<section class="roadmap" id="project"><div class="eyebrow" style="color:#c5f467">PUT THE MODULES TOGETHER</div><h2>Your final project</h2><p><?= $h($project) ?> Write down what the project should do, build it in small steps, and include a README that explains how to run it.</p><a class="tcm-btn tcm-btn-secondary" href="<?= $h(base_url($courseTrackSlug !== '' ? '/courses/tracks/' . $courseTrackSlug : '/courses')) ?>">Find a guided course →</a></section>
 </div></div>
 <section class="refs" id="references"><h2>Official documentation and further reading</h2><p>Use primary documentation for current language rules and version changes. The examples in this guide are learning starting points; verify details for the exact runtime and browser support your project needs.</p><ul><?php foreach ($references[$slug] ?? [] as [$label, $url]): ?><li><a href="<?= $h($url) ?>" target="_blank" rel="noopener noreferrer"><?= $h($label) ?></a></li><?php endforeach; ?></ul></section>
 <section class="faq-section"><h2>Frequently asked questions</h2><?php foreach ($guide['faq'] as $item): ?><article class="faq"><h3><?= $h($item['q']) ?></h3><p><?= $h($item['a']) ?></p></article><?php endforeach; ?></section>

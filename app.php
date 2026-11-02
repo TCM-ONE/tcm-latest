@@ -358,6 +358,7 @@ $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopCo
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
 $router->get('/courses',                      ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
 $router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
+$router->get('/courses/tracks/{slug}',        ['TCM\Controllers\PublicWorkshopController', 'courseTrack']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
 $router->get('/tech-updates',                 ['TCM\Controllers\PublicUpdatesController', 'index']);
