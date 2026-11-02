@@ -9,6 +9,7 @@
 .pp-heading h1{font-family:var(--font-display,"Instrument Serif",Georgia,serif);font-size:clamp(2.5rem,5vw,4.6rem);line-height:.98;font-weight:400;letter-spacing:-.03em;margin:9px 0 10px}
 .pp-location{color:var(--pp-muted);font-size:.95rem}.pp-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .pp-share-status{align-self:center;min-height:1.2em;color:var(--pp-muted);font-size:.78rem}
+.pp-whatsapp-note{font-size:.76rem!important;line-height:1.55!important;margin:10px 0!important}
 .pp-content{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.8fr);gap:24px;padding-top:32px}
 .pp-main,.pp-aside{min-width:0}.pp-panel{background:#fff;border:1px solid var(--pp-line);padding:clamp(20px,3vw,30px);margin-bottom:18px}
 .pp-panel h2{font-family:var(--font-display,"Instrument Serif",Georgia,serif);font-size:clamp(1.7rem,3vw,2.2rem);font-weight:400;margin:0 0 12px}
@@ -93,7 +94,7 @@ echo json_encode($partnerSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
       <form method="post" action="<?= base_url('/partners/'.rawurlencode($partner['slug']).'/enquiry') ?>"><?= csrf_field() ?>
         <label>Your name<input name="name" autocomplete="name" required></label><label>Email<input type="email" name="email" autocomplete="email" required></label><label>Phone<input name="phone" autocomplete="tel"></label>
         <label>Course<select name="course_id"><option value="">General enquiry</option><?php foreach($courses as $course): ?><option value="<?= (int)$course['id'] ?>"><?= e($course['title']) ?></option><?php endforeach ?></select></label>
-        <label>Message<textarea name="message" rows="3" placeholder="What would you like to know?"></textarea></label><label class="pp-consent"><input type="checkbox" name="consent" value="1" required><span>I consent to share these details with this institution.</span></label><button class="tcm-btn tcm-btn-primary" type="submit">Send enquiry <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+        <label>Message<textarea name="message" rows="3" maxlength="1000" placeholder="What would you like to know?"></textarea></label><label class="pp-consent"><input type="checkbox" name="consent" value="1" required><span>I agree that TCM One may share these enquiry details with admissions on WhatsApp at +91 92386 95500 for follow-up.</span></label><p class="pp-whatsapp-note">After saving, WhatsApp opens with your enquiry filled in. Tap Send to share it with admissions.</p><button class="tcm-btn tcm-btn-primary" type="submit">Continue to WhatsApp <i class="bi bi-whatsapp" aria-hidden="true"></i></button>
       </form>
     </div></aside>
   </div>

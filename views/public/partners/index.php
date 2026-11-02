@@ -19,7 +19,7 @@
 .partner-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .partner-card{min-width:0;background:#fff;border:1px solid #deddd8;padding:22px;display:flex;flex-direction:column;min-height:270px;transition:border-color .16s,transform .16s}
 .partner-card:hover{border-color:#aaa;transform:translateY(-2px)}
-.partner-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:22px}
+.partner-card-top{display:flex;align-items:flex-start;justify-content:flex-start;gap:12px;margin-bottom:22px}
 .partner-mark{width:58px;height:58px;display:grid;place-items:center;background:#f4f3ef;border:1px solid #ebe9e4;object-fit:contain;padding:6px;color:#555;font-size:1.3rem}
 .partner-verified{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#456719}
 .partner-card h2{font-size:1.15rem;line-height:1.35;letter-spacing:-.02em;margin:0 0 5px}
@@ -67,7 +67,6 @@
         <?php foreach ($partners as $p): ?>
           <article class="partner-card">
             <div class="partner-card-top">
-              <?php if (!empty($p['logo_path'])): ?><img class="partner-mark" src="<?= e(base_url('/' . ltrim($p['logo_path'], '/'))) ?>" alt="<?= e($p['display_name']) ?> logo" loading="lazy"><?php else: ?><div class="partner-mark" aria-hidden="true"><i class="bi bi-building"></i></div><?php endif ?>
               <span class="partner-verified"><i class="bi bi-patch-check-fill" aria-hidden="true"></i> Approved</span>
             </div>
             <h2><?= e($p['display_name']) ?></h2>
