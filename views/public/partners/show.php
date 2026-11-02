@@ -8,6 +8,7 @@
 .pp-kicker,.pp-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#686762}
 .pp-heading h1{font-family:var(--font-display,"Instrument Serif",Georgia,serif);font-size:clamp(2.5rem,5vw,4.6rem);line-height:.98;font-weight:400;letter-spacing:-.03em;margin:9px 0 10px}
 .pp-location{color:var(--pp-muted);font-size:.95rem}.pp-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pp-share-status{align-self:center;min-height:1.2em;color:var(--pp-muted);font-size:.78rem}
 .pp-content{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,.8fr);gap:24px;padding-top:32px}
 .pp-main,.pp-aside{min-width:0}.pp-panel{background:#fff;border:1px solid var(--pp-line);padding:clamp(20px,3vw,30px);margin-bottom:18px}
 .pp-panel h2{font-family:var(--font-display,"Instrument Serif",Georgia,serif);font-size:clamp(1.7rem,3vw,2.2rem);font-weight:400;margin:0 0 12px}
@@ -64,6 +65,8 @@ echo json_encode($partnerSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
       <div class="pp-actions">
         <?php if (!empty($partner['public_phone'])): ?><a class="tcm-btn tcm-btn-primary" href="tel:<?= e(preg_replace('/[^0-9+]/','',(string)$partner['public_phone'])) ?>"><i class="bi bi-telephone" aria-hidden="true"></i> Call the centre</a><?php endif ?>
         <a class="tcm-btn tcm-btn-secondary" href="#location"><i class="bi bi-map" aria-hidden="true"></i> View map</a>
+        <button class="tcm-btn tcm-btn-secondary" type="button" data-share-partner data-share-url="<?= e($shareUrl) ?>" data-share-title="<?= e($socialTitle) ?>"><i class="bi bi-share" aria-hidden="true"></i> Share profile</button>
+        <span class="pp-share-status" data-share-status role="status" aria-live="polite"></span>
       </div>
     </div>
   </header>
@@ -95,3 +98,27 @@ echo json_encode($partnerSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
     </div></aside>
   </div>
 </main>
+<script>
+(() => {
+  const button = document.querySelector('[data-share-partner]');
+  const status = document.querySelector('[data-share-status]');
+  if (!button || !status) return;
+  button.addEventListener('click', async () => {
+    const url = button.dataset.shareUrl || window.location.href;
+    const title = button.dataset.shareTitle || document.title;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text: 'View this partner profile on TCM One.', url });
+        status.textContent = 'Profile shared.';
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        status.textContent = 'Share link copied.';
+      } else {
+        window.prompt('Copy this partner profile link:', url);
+      }
+    } catch (error) {
+      if (error?.name !== 'AbortError') status.textContent = 'Copy this page address to share the profile.';
+    }
+  });
+})();
+</script>
