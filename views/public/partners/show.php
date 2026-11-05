@@ -20,18 +20,50 @@
 .pp-map{margin-top:18px;border:0;width:100%;height:270px;display:block;background:#f2f0eb}.pp-review{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;padding:16px;background:#f8f7f4;border:1px solid var(--pp-line)}.pp-review strong{display:block;margin-bottom:3px}.pp-review span{font-size:.82rem;color:var(--pp-muted)}
 .pp-enquiry{position:sticky;top:18px}.pp-enquiry label{display:grid;gap:6px;margin:12px 0;font-size:.78rem;font-weight:700}.pp-enquiry input,.pp-enquiry textarea,.pp-enquiry select{width:100%;padding:11px 12px;border:1px solid #d8d5cf;background:#fff;font:inherit;font-size:.9rem}.pp-enquiry button{width:100%;justify-content:center;margin-top:8px}.pp-consent{display:flex!important;grid-template-columns:auto 1fr!important;align-items:flex-start;gap:8px!important;font-weight:400!important;line-height:1.5}.pp-consent input{width:auto;margin-top:3px}
 @media(max-width:760px){.pp-content{grid-template-columns:1fr}.pp-aside{order:-1}.pp-enquiry{position:static}.pp-logo{width:78px;height:78px}.pp-brand{align-items:flex-start;gap:15px}}
-@media(max-width:480px){.pp-wrap{width:calc(100% - 30px)}.pp-brand{display:grid;grid-template-columns:66px 1fr;gap:13px}.pp-logo{width:66px;height:66px}.pp-heading h1{font-size:2.4rem}.pp-actions .tcm-btn{flex:1;justify-content:center}.pp-courses{grid-template-columns:1fr}.pp-review{align-items:flex-start;flex-direction:column}.pp-review .tcm-btn{width:100%;justify-content:center}}
+@media(max-width:600px){
+  .partner-profile{padding-bottom:34px;overflow-x:clip}
+  .pp-wrap{width:calc(100% - 32px)}
+  .pp-hero{padding:28px 0 24px}
+  .pp-breadcrumb{font-size:.72rem;line-height:1.5;margin-bottom:20px;overflow-wrap:anywhere}
+  .pp-brand{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:start;gap:12px;min-width:0}
+  .pp-logo{width:54px;height:54px;padding:4px}
+  .pp-heading{min-width:0}
+  .pp-kicker{font-size:.61rem;letter-spacing:.1em;line-height:1.4}
+  .pp-heading h1{font-size:clamp(1.95rem,7.2vw,2.35rem);line-height:1.03;letter-spacing:-.035em;margin:5px 0 8px;overflow-wrap:anywhere}
+  .pp-location{font-size:.84rem;line-height:1.4;overflow-wrap:anywhere}
+  .pp-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:20px;width:100%}
+  .pp-actions .tcm-btn{display:flex;min-width:0;min-height:48px;justify-content:center;align-items:center;gap:7px;padding:9px 8px;font-size:.83rem;line-height:1.2;text-align:center;white-space:normal;overflow-wrap:anywhere}
+  .pp-actions .pp-action-call{grid-column:1/-1}
+  .pp-share-status{grid-column:1/-1;text-align:center;font-size:.72rem}
+  .pp-content{gap:14px;padding-top:18px}
+  .pp-panel{padding:19px 16px;margin-bottom:14px}
+  .pp-panel h2{font-size:1.8rem;line-height:1.05}
+  .pp-panel p{font-size:.92rem;overflow-wrap:anywhere}
+  .pp-enquiry label{font-size:.8rem}
+  .pp-enquiry input,.pp-enquiry textarea,.pp-enquiry select{min-width:0;font-size:16px}
+  .pp-enquiry button{min-height:48px;white-space:normal;line-height:1.25}
+  .pp-courses{grid-template-columns:1fr;gap:9px;margin-top:14px}
+  .pp-course{padding:15px}
+  .pp-map{height:230px}
+  .pp-review{align-items:flex-start;flex-direction:column;gap:10px;padding:13px}
+  .pp-review .tcm-btn{width:100%;justify-content:center}
+  body:has(.partner-profile) .tcm-cookie-settings{left:auto;right:12px;bottom:calc(73px + env(safe-area-inset-bottom));width:36px;height:36px;min-height:36px;padding:0;display:grid;place-items:center;font-size:0;border-radius:50%;box-shadow:0 3px 14px rgba(0,0,0,.12)}
+  body:has(.partner-profile) .tcm-cookie-settings::before{content:"⚙";font:18px/1 sans-serif}
+}
+@media(max-width:360px){.pp-wrap{width:calc(100% - 26px)}.pp-brand{grid-template-columns:48px minmax(0,1fr);gap:10px}.pp-logo{width:48px;height:48px}.pp-heading h1{font-size:1.85rem}.pp-actions .tcm-btn{font-size:.78rem;padding:8px 6px}}
 </style>
 <?php if ($isJmk): ?>
 <script type="application/ld+json"><?php
 $partnerSchema = [
     '@context' => 'https://schema.org',
-    '@type' => 'EducationalOrganization',
+    '@type' => ['EducationalOrganization', 'LocalBusiness'],
     'name' => $partner['display_name'],
     'url' => base_url('/partners/' . rawurlencode($partner['slug'])),
     'logo' => base_url('/' . ltrim((string)$partner['logo_path'], '/')),
     'description' => $partner['description'],
     'telephone' => '+' . preg_replace('/\D/', '', (string)$partner['whatsapp']),
+    'areaServed' => ['@type' => 'City', 'name' => 'Bilaspur, Chhattisgarh'],
+    'sameAs' => [$googleReviewsUrl],
     'address' => [
         '@type' => 'PostalAddress',
         'streetAddress' => 'Near DLS College Road, Ashok Nagar, Sarkanda',
@@ -64,9 +96,9 @@ echo json_encode($partnerSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         <div class="pp-heading"><div class="pp-kicker"><i class="bi bi-patch-check-fill" aria-hidden="true"></i> TCM One Partner</div><h1><?= e($partner['display_name']) ?></h1><div class="pp-location"><i class="bi bi-geo-alt" aria-hidden="true"></i> <?= e($partner['city']??'') ?><?= !empty($partner['state'])?', '.e($partner['state']):'' ?></div></div>
       </div>
       <div class="pp-actions">
-        <?php if (!empty($partner['public_phone'])): ?><a class="tcm-btn tcm-btn-primary" href="tel:<?= e(preg_replace('/[^0-9+]/','',(string)$partner['public_phone'])) ?>"><i class="bi bi-telephone" aria-hidden="true"></i> Call the centre</a><?php endif ?>
-        <a class="tcm-btn tcm-btn-secondary" href="#location"><i class="bi bi-map" aria-hidden="true"></i> View map</a>
-        <button class="tcm-btn tcm-btn-secondary" type="button" data-share-partner data-share-url="<?= e($shareUrl) ?>" data-share-title="<?= e($socialTitle) ?>"><i class="bi bi-share" aria-hidden="true"></i> Share profile</button>
+        <?php if (!empty($partner['public_phone'])): ?><a class="tcm-btn tcm-btn-primary pp-action-call" href="tel:<?= e(preg_replace('/[^0-9+]/','',(string)$partner['public_phone'])) ?>"><i class="bi bi-telephone" aria-hidden="true"></i> Call the centre</a><?php endif ?>
+        <a class="tcm-btn tcm-btn-secondary pp-action-map" href="#location"><i class="bi bi-map" aria-hidden="true"></i> View map</a>
+        <button class="tcm-btn tcm-btn-secondary pp-action-share" type="button" data-share-partner data-share-url="<?= e($shareUrl) ?>" data-share-title="<?= e($socialTitle) ?>"><i class="bi bi-share" aria-hidden="true"></i> Share profile</button>
         <span class="pp-share-status" data-share-status role="status" aria-live="polite"></span>
       </div>
     </div>

@@ -421,6 +421,55 @@ SVG;
     }
 
     /**
+     * GET /courses/tracks/{slug}
+     * Dedicated, shareable landing pages for each course category.
+     */
+    public function courseTrack(array $params): void
+    {
+        $slug = strtolower((string) ($params['slug'] ?? ''));
+        $tracks = [
+            'web-mobile-development' => ['title' => 'Full Stack & Web Development Courses | TCM One', 'description' => 'Explore Full Stack, frontend, backend and mobile development courses with practical projects, live online sessions and mentor guidance.', 'intro' => 'Build web and mobile applications step by step. Compare current frontend, backend, Full Stack and mobile development courses by curriculum, project work and cohort schedule.'],
+            'programming-foundations' => ['title' => 'Programming Courses for Beginners | TCM One', 'description' => 'Start with programming foundations, Python, Java and software development basics through live online lessons and guided practice.', 'intro' => 'Develop core programming skills through structured lessons and practice. Review each course’s language, prerequisites, exercises and project expectations before choosing a starting point.'],
+            'ai-automation' => ['title' => 'AI & Automation Courses | TCM One', 'description' => 'Explore AI, machine learning, generative AI and workflow automation courses with practical online learning and project work.', 'intro' => 'Compare introductory AI, machine learning, generative AI and automation programmes. Each course page explains its curriculum, prerequisites and current cohort details.'],
+            'data-analytics' => ['title' => 'Data Analytics & Data Science Courses | TCM One', 'description' => 'Explore data analytics, SQL, Excel, Power BI, Python and machine learning courses with guided projects and live instruction.', 'intro' => 'Build practical data skills with courses that cover analytics tools, programming or machine learning. Compare the published syllabus and expected experience to find a suitable path.'],
+            'cloud-devops' => ['title' => 'Cloud & DevOps Courses | TCM One', 'description' => 'Learn cloud deployment, AWS, Docker, DevOps and CI/CD fundamentals through practical online courses and guided exercises.', 'intro' => 'Explore cloud and DevOps learning paths covering deployment, containers and delivery workflows. Check each course’s required tools, prerequisites and schedule.'],
+            'career-dsa' => ['title' => 'DSA & Software Career Preparation Courses | TCM One', 'description' => 'Explore data structures, algorithms, coding problem solving and career preparation courses with structured practice.', 'intro' => 'Strengthen your programming problem-solving foundations and explore career preparation. Course pages outline the topics, level and current learning format.'],
+            'design-business' => ['title' => 'UI/UX Design & Digital Business Courses | TCM One', 'description' => 'Explore UI/UX design, Figma and digital business courses with practical exercises, guided learning and current course details.', 'intro' => 'Compare product design and digital business courses by tools, skill level and project work. Review course outlines to understand what each programme covers.'],
+        ];
+
+        if (!isset($tracks[$slug])) {
+            http_response_code(404);
+            $this->view('errors/404', ['title' => 'Course Track Not Found — TCM One', 'message' => 'This course category is unavailable. Browse all courses and learning tracks instead.'], null);
+            return;
+        }
+
+        $track = Database::first('SELECT id, name, slug FROM categories WHERE slug = ? LIMIT 1', [$slug]);
+        if (!$track) {
+            http_response_code(404);
+            $this->view('errors/404', ['title' => 'Course Track Not Found — TCM One', 'message' => 'This course category is unavailable. Browse all courses and learning tracks instead.'], null);
+            return;
+        }
+
+        $courses = Course::listWithCategory(['status' => 'published', 'category_id' => (int) $track['id']]);
+        $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+        $canonicalUrl = $appUrl . '/courses/tracks/' . rawurlencode($slug);
+        $this->view('public/courses/track', [
+            'title' => $tracks[$slug]['title'],
+            'description' => $tracks[$slug]['description'],
+            'canonicalUrl' => $canonicalUrl,
+            'socialTitle' => $tracks[$slug]['title'],
+            'socialDescription' => $tracks[$slug]['description'],
+            'socialImage' => $appUrl . '/assets/tcm-og-share.png',
+            'track' => $track,
+            'trackIntro' => $tracks[$slug]['intro'],
+            'courses' => $courses,
+            'tracks' => $tracks,
+            'currentSlug' => $slug,
+            'appUrl' => $appUrl,
+        ], 'public');
+    }
+
+    /**
      * GET /for-institutions
      * B2B college & institutional partnerships page.
      */

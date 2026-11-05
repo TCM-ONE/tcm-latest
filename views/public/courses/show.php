@@ -499,6 +499,12 @@
       </div>
     </div>
 
+    <section class="container mt-5" aria-labelledby="regional-learning-heading">
+      <div class="border-top pt-4">
+        <h2 id="regional-learning-heading" class="tcm-h3">Join online courses from Chhattisgarh</h2>
+        <p class="text-muted">TCM One’s online cohorts can be joined remotely from Chhattisgarh. Review the course schedule and format, or explore our <a href="/locations/chhattisgarh">Chhattisgarh learner guide</a> for city-specific information.</p>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->

@@ -110,8 +110,17 @@
             All Courses &amp; <span class="font-editorial-serif">Career Paths</span>
           </h1>
           <p class="tcm-lead" style="margin: 0;">
-            Practical, project-based engineering curricula with live mentored sessions, hands-on repositories, and verified portfolio outcomes.
+            Explore course outlines, live class formats, guided projects, prerequisites and current cohort details.
           </p>
+          <nav aria-label="Browse professional course categories" style="display:flex;flex-wrap:wrap;gap:9px;margin-top:20px">
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/web-mobile-development')) ?>">Full Stack &amp; Web Development</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/programming-foundations')) ?>">Programming Foundations</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/ai-automation')) ?>">AI &amp; Automation</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/data-analytics')) ?>">Data Analytics &amp; Data Science</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/cloud-devops')) ?>">Cloud &amp; DevOps</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/career-dsa')) ?>">DSA &amp; Career Preparation</a>
+            <a class="tcm-btn tcm-btn-secondary tcm-btn-sm" href="<?= e(base_url('/courses/tracks/design-business')) ?>">UI/UX Design &amp; Digital Business</a>
+          </nav>
         </div>
 
         <!-- Search toolbar and collapsed filters -->

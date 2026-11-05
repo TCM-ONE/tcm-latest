@@ -3,6 +3,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://thecodemunk.in/partners/jmk-computer-education-center</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://thecodemunk.in/locations</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/locations/chhattisgarh</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://thecodemunk.in/locations/bengaluru</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://thecodemunk.in/locations/mumbai</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://thecodemunk.in/locations/delhi-ncr</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -16,6 +17,13 @@
   <url><loc>https://thecodemunk.in/locations/balaghat</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://thecodemunk.in/locations/raipur</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://thecodemunk.in/locations/durg</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/web-mobile-development</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/programming-foundations</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/ai-automation</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/data-analytics</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/cloud-devops</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/career-dsa</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://thecodemunk.in/courses/tracks/design-business</loc><lastmod>2026-11-02</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url>
     <loc>https://thecodemunk.in/</loc>
     <lastmod>2026-10-16</lastmod>

@@ -24,7 +24,8 @@ final class PublicPartnerController extends Controller
         $sql .= ' ORDER BY p.display_name';
         $partners=Database::all($sql,$args);
         $cities=Database::all("SELECT DISTINCT city FROM partners WHERE status='active' AND public_status='published' AND city IS NOT NULL ORDER BY city");
-        $this->view('public/partners/index',['title'=>'Our Institutional Partners','partners'=>$partners,'cities'=>$cities,'city'=>$city,'search'=>$search,'type'=>$type,'courseFilter'=>$courseFilter],'public');
+        $directoryDescription = 'Explore TCM One’s institutional partners, local education centres and current partner courses, including JMK Computer Education Centre in Bilaspur, Chhattisgarh.';
+        $this->view('public/partners/index',['title'=>'Education Partners in India | TCM One','description'=>$directoryDescription,'canonicalUrl'=>base_url('/partners'),'socialTitle'=>'TCM One Education Partners','socialDescription'=>$directoryDescription,'socialImage'=>base_url('/assets/tcm-og-share.png'),'partners'=>$partners,'cities'=>$cities,'city'=>$city,'search'=>$search,'type'=>$type,'courseFilter'=>$courseFilter],'public');
     }
 
     public function show(array $params): void
@@ -38,7 +39,7 @@ final class PublicPartnerController extends Controller
             ? 'https://www.google.com/maps/place/jmk+computer+education+center/data=!4m2!3m1!1s0x0:0x6a1b0bfa7e567bdd'
             : 'https://www.google.com/search?q=' . rawurlencode($partner['display_name'] . ' ' . ($partner['city'] ?? '') . ' reviews');
         $canonicalUrl = base_url('/partners/' . rawurlencode((string)$partner['slug']));
-        $pageDescription = $isJmk ? 'Explore tuition for Classes 1–12 and computer education at JMK Computer Education Centre in Ashok Nagar, Sarkanda, Bilaspur. View courses, contact details, and map.' : mb_strimwidth((string)($partner['description'] ?? ''),0,155,'…');
+        $pageDescription = $isJmk ? 'Explore JMK Education Centre in Ashok Nagar, Sarkanda, Bilaspur: Classes 1–12 tuition, ADCA, PGDCA, Tally, programming, typing and other listed courses, with map and contact details.' : mb_strimwidth((string)($partner['description'] ?? ''),0,155,'…');
         $this->view('public/partners/show',[
             'title'=>$isJmk ? 'JMK Computer Education Centre in Bilaspur' : $partner['display_name'],
             'description'=>$pageDescription,
