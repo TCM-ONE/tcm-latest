@@ -271,6 +271,6 @@
   <!-- Scripts -->
   <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
-  <script src="<?= base_url('/assets/diwali-offer.js?v=1') ?>"></script>
+  <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
 </body>
 </html>

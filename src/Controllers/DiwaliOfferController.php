@@ -34,7 +34,7 @@ final class DiwaliOfferController extends Controller
             ? 'Diwali 2026 Course Offer: Up to 60% Off | TCM One'
             : 'Diwali 2026 Course Offer Has Ended | TCM One';
         $description = $active
-            ? 'Explore TCM One’s Diwali 2026 coding course offer: save 60% on eligible courses above ₹8,000, plus selected special prices. Full payment only; ends 10 November.'
+            ? 'Explore TCM One’s Diwali 2026 coding course offer: save 60% on eligible courses above ₹8,000, plus selected special prices. EMI unavailable; ends 8 November.'
             : 'TCM One’s Diwali 2026 course offer has ended. Browse current Full Stack, Python, AI, data analytics and DSA course fees and schedules.';
 
         $this->view('public/offers/diwali-2026', [

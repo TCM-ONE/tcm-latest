@@ -7,7 +7,7 @@ namespace TCM\Services;
 final class DiwaliOffer
 {
     public const STARTS_AT = '2026-10-25 00:00:00';
-    public const ENDS_AT = '2026-11-11 00:00:00';
+    public const ENDS_AT = '2026-11-09 00:00:00';
     public const TIMEZONE = 'Asia/Kolkata';
 
     /** Keep the supplied poster prices for its courses that fall below the new threshold. */

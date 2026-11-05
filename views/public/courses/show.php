@@ -62,7 +62,9 @@
     $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
-    $isInstallmentEligible = !$isDiwaliOffer && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
+    $isSeatBookingAvailable = \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
+    $seatBookingAmount = \TCM\Services\CourseSeatBooking::AMOUNT;
+    $isInstallmentEligible = !$isDiwaliOffer && !$isSeatBookingAvailable && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -100,7 +102,7 @@
     ];
 
     if ($isDiwaliOffer) {
-      $courseSchema['offers']['priceValidUntil'] = '2026-11-10';
+      $courseSchema['offers']['priceValidUntil'] = '2026-11-08';
     }
 
     $breadcrumbSchema = [
@@ -220,6 +222,16 @@
     @media (min-width: 992px) {
       .cd-floating-mobile-bar { display: none !important; }
     }
+    .course-seat-booking-note { display:grid; gap:4px; margin-top:12px; padding:12px 14px; border-left:3px solid #a41f2d; background:#fbf3f2; color:#171717; font-size:13px; line-height:1.5; }
+    .course-seat-booking-note span { color:var(--tcm-muted); font-size:12px; }
+    .course-booking-options { display:grid; gap:8px; margin:0 0 16px; padding:12px; border:1px solid var(--tcm-border); }
+    .course-booking-options[hidden] { display:none!important; }
+    .course-booking-options legend { padding:0 5px; font-size:12px; font-weight:700; }
+    .course-booking-options label { display:grid; grid-template-columns:18px minmax(0,1fr); gap:9px; align-items:start; padding:10px; border:1px solid var(--tcm-border); cursor:pointer; }
+    .course-booking-options input { margin:3px 0 0; accent-color:#a41f2d; }
+    .course-booking-options span { display:grid; gap:3px; }
+    .course-booking-options strong { font-size:13px; line-height:1.4; }
+    .course-booking-options small { color:var(--tcm-muted); font-size:11px; line-height:1.5; }
   </style>
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
 </head>
@@ -397,7 +409,10 @@
                   </div>
                 <?php endif; ?>
                 <?php if ($isDiwaliOffer): ?>
-                  <div style="font-size:13px;font-weight:700;color:#9a3412;margin-top:8px"><?= $regularPrice > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? 'Diwali offer: 60% off. ' : 'Diwali special price. ' ?>Full payment only; EMI is unavailable until the offer ends.</div>
+                  <div style="font-size:13px;font-weight:700;color:#9a3412;margin-top:8px"><?= $regularPrice > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? 'Diwali offer: 60% off. ' : 'Diwali special price. ' ?>EMI is unavailable until 8 November.</div>
+                <?php endif; ?>
+                <?php if ($isSeatBookingAvailable): ?>
+                  <div class="course-seat-booking-note"><strong>Reserve this seat for ₹<?= number_format($seatBookingAmount, 0) ?></strong><span>Pay the remaining balance before classes start on 12 November 2026. Booking stays open through 11 November.</span></div>
                 <?php endif; ?>
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 4px;">
                   All taxes included &middot; Billed in INR
@@ -428,8 +443,8 @@
               <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
 <!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" style="width: 100%; height: 50px;">
-                  <span>Enroll Now &mdash; ₹<?= number_format($price, 0) ?></span>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
+                  <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ₹' . number_format($price, 0) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
@@ -489,8 +504,8 @@
               <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp" style="flex-shrink: 0; padding: 0; width: 36px; height: 38px; justify-content: center; min-width: 36px;">
                 <i class="bi bi-whatsapp"></i>
               </a>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" style="flex: 1; max-width: 170px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none">Enroll Now</span><span class="d-none d-sm-inline">Enroll Now &middot; ₹<?= number_format($price, 0) ?></span></span>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ₹' . number_format($price, 0) ?></span></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; width: 12px; height: 12px;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -519,6 +534,13 @@
       <div id="tcmCoursePrice" style="font-size: 14.5px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;">
         Tuition Fee: ₹<?= number_format($price, 0) ?> (All Taxes Included)
       </div>
+      <?php if ($isSeatBookingAvailable): ?>
+      <fieldset id="tcmSeatBookingChoice" class="course-booking-options">
+        <legend>Choose how you want to pay</legend>
+        <label><input type="radio" name="course-payment-choice" value="seat_booking" checked><span><strong>Reserve your seat · ₹1,000 today</strong><small>Remaining balance due before the first class on 12 November 2026.</small></span></label>
+        <label><input type="radio" name="course-payment-choice" value="full"><span><strong>Pay full tuition · ₹<?= number_format($price, 0) ?></strong><small>Complete the course payment now.</small></span></label>
+      </fieldset>
+      <?php endif; ?>
       <div id="tcmCourseFeedback" style="display: none;"></div>
 
       <form id="tcmCourseForm" novalidate>
@@ -1039,8 +1061,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
-  <script src="<?= base_url('/assets/diwali-offer.js?v=1') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.23') ?>"></script>
+  <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

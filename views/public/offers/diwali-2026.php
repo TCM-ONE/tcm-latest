@@ -63,7 +63,7 @@ $schema = [
       <span class="kicker"><span aria-hidden="true">✦</span> Diwali 2026 · Limited-time learning offer</span>
       <h1>Make this Diwali the start of <em>what’s next.</em></h1>
       <p>Build practical skills in Full Stack, Data Analytics, DSA, AI and more with TCM One’s live online programmes. The Diwali offer gives 60% off eligible courses whose regular fee is above ₹8,000, plus selected special prices.</p>
-      <div class="hero-actions"><time class="date" datetime="<?= $h($endsAt) ?>"><span aria-hidden="true">◷</span> Ends 10 November 2026 · IST</time>
+      <div class="hero-actions"><time class="date" datetime="<?= $h($endsAt) ?>"><span aria-hidden="true">◷</span> Ends 8 November 2026 · IST</time>
       <a class="cta" href="<?= $h($appUrl . '/courses') ?>">Explore courses <span aria-hidden="true">→</span></a></div>
     <?php else: ?>
       <span class="kicker"><span aria-hidden="true">✦</span> Diwali 2026 offer</span>
@@ -103,14 +103,14 @@ $schema = [
 
   <section class="section" aria-labelledby="offer-terms">
     <h2 id="offer-terms">Diwali offer dates and payment terms</h2>
-    <p>The offer ends at 11:59 PM IST on 10 November 2026. During the offer, eligible discounted courses require full payment; EMI and instalment plans are unavailable. At expiry, course prices return automatically to their regular rates.</p>
+    <p>The offer ends at 11:59 PM IST on 8 November 2026. During the offer, EMI and instalment plans are unavailable. At expiry, course prices return automatically to their regular rates. Featured project courses keep a separate ₹1,000 seat-booking option through 11 November, with the remaining balance due before classes start on 12 November.</p>
   </section>
 
   <section class="section" aria-labelledby="offer-faq">
     <h2 id="offer-faq">Diwali course offer questions</h2>
     <article class="faq"><h3>Which courses get 60% off?</h3><p>Published courses with a regular fee above ₹8,000 are eligible for 60% off while the offer is active. Selected lower-priced courses may have a separate Diwali special price.</p></article>
-    <article class="faq"><h3>Can I pay by EMI during the offer?</h3><p>No. EMI and instalments are unavailable for courses on the Diwali offer; the offer price requires full payment.</p></article>
-    <article class="faq"><h3>When does the Diwali offer end?</h3><p>The offer is available through 10 November 2026, India Standard Time. After the countdown ends, the offer price is removed automatically.</p></article>
+    <article class="faq"><h3>Can I pay by EMI during the offer?</h3><p>No. EMI and instalment plans are unavailable. The three featured November project courses have a separate ₹1,000 seat reservation; pay their remaining balance before classes start on 12 November.</p></article>
+    <article class="faq"><h3>When does the Diwali offer end?</h3><p>The offer is available through 8 November 2026, India Standard Time. After the countdown ends, the offer price is removed automatically.</p></article>
   </section>
   <?php endif; ?>
 
