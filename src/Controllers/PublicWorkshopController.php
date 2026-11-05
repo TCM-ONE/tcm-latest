@@ -194,7 +194,7 @@ SVG;
                 : (string) $course['title'];
             $desc = $this->metaDescription(
                 'Diwali 2026: ' . $offerLabel . ' on ' . $shortCourseName . '. Now ₹' . number_format((float) $course['price'], 0)
-                . ' (was ₹' . number_format((float) $course['regular_price'], 0) . '). Full payment only, no EMI. Ends 10 November.'
+                . ' (was ₹' . number_format((float) $course['regular_price'], 0) . '). EMI unavailable during the offer. Ends 8 November.'
             );
         }
 
@@ -404,7 +404,7 @@ SVG;
         $catalogDescription = 'Explore practical online courses in Full Stack, Python, AI, Data Analytics and Cloud, with live instruction, guided projects and course-specific schedules from TCM One.';
         if ($diwaliOfferActive) {
             $catalogTitle = 'Diwali 2026 Course Offers: Up to 60% Off — TCM One';
-            $catalogDescription = 'Diwali 2026: get 60% off eligible TCM One courses above ₹8,000, plus selected Full Stack, Data, DSA and AI offers. Full payment only; ends 10 November.';
+            $catalogDescription = 'Diwali 2026: get 60% off eligible TCM One courses above ₹8,000, plus selected Full Stack, Data, DSA and AI offers. EMI unavailable; ends 8 November.';
         }
 
         $this->view('public/courses/index', [

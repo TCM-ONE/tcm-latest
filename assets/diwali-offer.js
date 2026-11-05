@@ -3,6 +3,17 @@
     return '₹' + Math.round(Number(value) || 0).toLocaleString('en-IN');
   }
 
+  function initExpiringSection(node) {
+    var hideAt = new Date(node.getAttribute('data-hide-at')).getTime();
+    if (!Number.isFinite(hideAt)) return;
+    var remaining = hideAt - Date.now();
+    if (remaining <= 0) {
+      node.remove();
+      return;
+    }
+    window.setTimeout(function () { node.remove(); }, remaining);
+  }
+
   function initCampaign(node) {
     var endsAt = new Date(node.getAttribute('data-ends-at')).getTime();
     if (!Number.isFinite(endsAt)) return;
@@ -27,7 +38,7 @@
           return false;
         }
         document.querySelectorAll('[data-diwali-campaign]').forEach(function (banner) { banner.remove(); });
-        document.querySelectorAll('[data-diwali-section]').forEach(function (section) { section.remove(); });
+        document.querySelectorAll('[data-diwali-section]:not([data-hide-at])').forEach(function (section) { section.remove(); });
         document.querySelectorAll('[data-diwali-price]').forEach(function (price) {
           price.textContent = formatInr(price.getAttribute('data-regular'));
         });
@@ -45,4 +56,5 @@
   }
 
   document.querySelectorAll('[data-diwali-campaign]').forEach(initCampaign);
+  document.querySelectorAll('[data-hide-at]').forEach(initExpiringSection);
 })();

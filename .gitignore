@@ -5,6 +5,7 @@
 
 # Firebase service account — NEVER commit this
 storage/firebase-service-account.json
+storage/course-catalog-backups/
 
 # Utility scripts (delete after use)
 reseed.php

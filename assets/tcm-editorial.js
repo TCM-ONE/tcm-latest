@@ -957,16 +957,40 @@
     var phoneInput = document.getElementById('tcmCoursePhone');
     var feedback = document.getElementById('tcmCourseFeedback');
     var submitBtn = document.getElementById('tcmCourseSubmitBtn');
+    var bookingChoice = document.getElementById('tcmSeatBookingChoice');
+    var bookingAvailable = false;
+    var bookingAmount = 1000;
 
-    function openModal(slug, title, price) {
+    function updateCoursePaymentChoice(price) {
+      var selected = document.querySelector('input[name="course-payment-choice"]:checked');
+      var reserve = bookingAvailable && selected && selected.value === 'seat_booking';
+      var amount = reserve ? bookingAmount : Number(price || 0);
+      if (priceEl) {
+        priceEl.textContent = reserve
+          ? 'Seat booking: ₹' + amount.toLocaleString('en-IN') + ' today · balance due before 12 November 2026.'
+          : 'Tuition Fee: ₹' + Number(price || 0).toLocaleString('en-IN') + ' (All Taxes Included)';
+      }
+      if (submitBtn) {
+        var label = reserve ? 'Reserve Seat · ₹' + amount.toLocaleString('en-IN') : 'Proceed to Pay · ₹' + Number(price || 0).toLocaleString('en-IN');
+        var span = submitBtn.querySelector('span');
+        if (span) span.textContent = label;
+      }
+    }
+
+    function openModal(slug, title, price, canBook, deposit) {
+      bookingAvailable = canBook === true;
+      bookingAmount = Number(deposit || 1000);
+      if (bookingChoice) bookingChoice.hidden = !bookingAvailable;
+      document.querySelectorAll('input[name="course-payment-choice"]').forEach(function (input) {
+        input.checked = input.value === (bookingAvailable ? 'seat_booking' : 'full');
+      });
       if (slugInput) slugInput.value = slug || '';
-      if (titleEl) titleEl.textContent = title ? ('Enroll in ' + title) : 'Course Enrollment';
-      if (priceEl && price) priceEl.textContent = 'Tuition Fee: ₹' + Number(price).toLocaleString('en-IN') + ' (All Taxes Included)';
+      if (titleEl) titleEl.textContent = title ? (bookingAvailable ? ('Reserve a seat in ' + title) : ('Enroll in ' + title)) : 'Course Enrollment';
       if (submitBtn) {
         submitBtn.disabled = false;
-        var pText = price ? (' · ₹' + Number(price).toLocaleString('en-IN')) : '';
-        submitBtn.innerHTML = '<span>Proceed to Pay' + pText + '</span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
+        submitBtn.innerHTML = '<span></span> <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>';
       }
+      updateCoursePaymentChoice(price);
 
       if (feedback) {
         feedback.style.display = 'none';
@@ -1010,11 +1034,20 @@
       var slug = btn.getAttribute('data-slug') || '';
       var title = btn.getAttribute('data-title') || '';
       var price = btn.getAttribute('data-price') || '0';
+      var canBook = btn.getAttribute('data-booking-available') === '1';
+      var deposit = btn.getAttribute('data-booking-amount') || '1000';
 
-      openModal(slug, title, price);
+      openModal(slug, title, price, canBook, deposit);
       trackEvent('course_checkout_started', {
         course_slug: slug,
         price: Number(price || 0)
+      });
+    });
+
+    document.querySelectorAll('input[name="course-payment-choice"]').forEach(function (input) {
+      input.addEventListener('change', function () {
+        var activeButton = document.querySelector('.tcm-trigger-course-enroll[data-booking-available="1"]');
+        updateCoursePaymentChoice(activeButton ? activeButton.getAttribute('data-price') : 0);
       });
     });
 
@@ -1025,6 +1058,8 @@
         var email = (emailInput ? emailInput.value : '').trim();
         var phone = (phoneInput ? phoneInput.value : '').trim();
         var slug = (slugInput ? slugInput.value : '').trim();
+        var selectedPayment = document.querySelector('input[name="course-payment-choice"]:checked');
+        var paymentPlan = bookingAvailable && selectedPayment && selectedPayment.value === 'seat_booking' ? 'seat_booking' : 'full';
 
         if (!name) {
           showFeedback('Please enter your full name.', false);
@@ -1059,7 +1094,8 @@
           slug: slug,
           name: name,
           email: email,
-          phone: phone
+          phone: phone,
+          payment_plan: paymentPlan
         }).then(function (res) {
           if (res && res.success && res.data && res.data.action && res.data.params) {
             trackEvent('course_checkout_initiated', { course_slug: slug, order: res.data.order_number });

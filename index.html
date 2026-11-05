@@ -71,7 +71,7 @@
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.19">
   <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.19">
-  <link rel="stylesheet" href="./assets/partners-home.css?v=2">
+  <link rel="stylesheet" href="./assets/partners-home.css?v=4">
   <link rel="stylesheet" href="./assets/diwali-offer.css?v=4">
   <link rel="stylesheet" href="./assets/diwali-courses.css?v=4">
 
@@ -312,11 +312,11 @@
 
   <main id="mainContent">
 
-    <section class="diwali-offer" data-diwali-campaign data-ends-at="2026-11-11T00:00:00+05:30" aria-label="Diwali course offer">
+    <section class="diwali-offer" data-diwali-campaign data-ends-at="2026-11-09T00:00:00+05:30" aria-label="Diwali course offer">
       <div class="diwali-offer-copy">
         <span class="diwali-offer-kicker">🪔 DIWALI SPECIAL · 60% OFF ON FEES ABOVE ₹8K</span>
         <h2>Learn today. Build tomorrow.</h2>
-        <p>₹8,000 se zyada fee wale courses par 60% off, saath hi selected Diwali prices. Ends 10 November 2026 · full payment only.</p>
+        <p>₹8,000 se zyada fee wale courses par 60% off, saath hi selected Diwali prices. Ends 8 November · EMI unavailable.</p>
       </div>
       <div class="diwali-offer-right">
         <div class="diwali-offer-timer" aria-live="polite">
@@ -598,20 +598,43 @@
       </div>
     </section>
 
+    <!-- SECTION 4: FEATURED PARTNER -->
+    <section class="tcm-section tcm-partner-showcase" aria-labelledby="partner-showcase-title">
+      <div class="tcm-container">
+        <div class="tcm-partner-showcase-head">
+          <div>
+            <div class="tcm-eyebrow">OUR PARTNERS</div>
+            <h2 class="tcm-h2" id="partner-showcase-title">Meet our learning partner.</h2>
+          </div>
+          <a class="tcm-btn tcm-btn-secondary" href="/partners">Explore all partners <span aria-hidden="true">→</span></a>
+        </div>
+        <article class="tcm-partner-feature">
+          <a class="tcm-partner-feature-link" href="/partners/jmk-computer-education-center" aria-label="View JMK Computer Education Centre partner profile">
+            <span class="tcm-partner-logo"><img src="./assets/partners/jmk-logo.svg" alt="" width="56" height="56" loading="lazy"></span>
+            <span class="tcm-partner-feature-copy">
+              <span class="tcm-partner-feature-copy-title">JMK Computer Education Centre</span>
+            </span>
+            <i class="bi bi-arrow-up-right tcm-partner-arrow" aria-hidden="true"></i>
+          </a>
+        </article>
+        <p style="margin:14px 0 0;color:var(--tcm-muted);font-size:.9rem">Learning from Chhattisgarh? <a href="/locations/chhattisgarh">Explore online coding courses across the state</a>.</p>
+      </div>
+    </section>
+
     <!-- ========================================================================
          FEATURED DIWALI PROJECT COURSES
          ======================================================================== -->
-    <section class="tcm-diwali-courses" id="diwali-courses" data-diwali-section aria-labelledby="diwaliCoursesTitle">
+    <section class="tcm-diwali-courses" id="diwali-courses" data-diwali-section data-hide-at="2026-11-12T00:00:00+05:30" aria-labelledby="diwaliCoursesTitle">
       <div class="tcm-container">
         <div class="tcm-diwali-courses-heading">
           <div>
-            <div class="tcm-diwali-courses-kicker">Featured project courses <span data-diwali-badge>· Diwali prices through 10 November</span></div>
+            <div class="tcm-diwali-courses-kicker">Featured project courses <span data-diwali-badge>· Diwali prices through 8 November</span></div>
             <h2 id="diwaliCoursesTitle">Choose a project.<br><span>Build your portfolio.</span></h2>
             <p>Short, guided programs in Full Stack, Frontend and Data Analysis—with a practical project to show for your work.</p>
           </div>
           <a href="/diwali-offer-2026" class="tcm-diwali-courses-deadline" data-diwali-badge>
             <span aria-hidden="true">🪔</span>
-            <span><strong>Diwali special prices</strong><small>Full payment only · No EMI</small></span>
+            <span><strong>Diwali prices through 8 Nov</strong><small>₹1,000 seat booking · balance due 12 Nov</small></span>
             <span class="tcm-diwali-courses-arrow" aria-hidden="true">↗</span>
           </a>
         </div>
@@ -624,7 +647,7 @@
             <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>React</li><li>Node.js</li><li>REST API</li><li>Deployment</li></ul>
             <div class="tcm-diwali-course-footer">
               <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹6,999</span><strong data-diwali-price data-regular="6999">₹2,999</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
               <a href="/courses/full-stack-project-lab-react-node" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
             </div>
           </article>
@@ -636,7 +659,7 @@
             <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>HTML</li><li>CSS Grid</li><li>JavaScript</li><li>Responsive UI</li></ul>
             <div class="tcm-diwali-course-footer">
               <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹2,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
               <a href="/courses/frontend-portfolio-builder-html-css-js" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
             </div>
           </article>
@@ -648,7 +671,7 @@
             <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>Excel</li><li>PivotTables</li><li>Power Query</li><li>Power BI</li></ul>
             <div class="tcm-diwali-course-footer">
               <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹2,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment" data-diwali-badge>Full payment only during the offer · no EMI</p>
+              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
               <a href="/courses/data-analysis-dashboard-sprint-excel-powerbi" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
             </div>
           </article>
@@ -1964,30 +1987,6 @@
       </div>
     </section>
 
-    <!-- ========================================================================
-         SECTION 11: FEATURED PARTNER
-         ======================================================================== -->
-    <section class="tcm-section tcm-partner-showcase" aria-labelledby="partner-showcase-title">
-      <div class="tcm-container">
-        <div class="tcm-partner-showcase-head">
-          <div>
-            <div class="tcm-eyebrow">OUR PARTNERS</div>
-            <h2 class="tcm-h2" id="partner-showcase-title">Learning, together.</h2>
-          </div>
-          <a class="tcm-btn tcm-btn-secondary" href="/partners">Explore all partners <span aria-hidden="true">→</span></a>
-        </div>
-        <article class="tcm-partner-feature">
-          <a class="tcm-partner-feature-link" href="/partners/jmk-computer-education-center" aria-label="View JMK Computer Education Centre partner profile">
-            <span class="tcm-partner-logo"><img src="./assets/partners/jmk-logo.svg" alt="" width="56" height="56" loading="lazy"></span>
-            <span class="tcm-partner-feature-copy">
-              <span class="tcm-partner-feature-copy-title">JMK Computer Education Centre</span>
-            </span>
-            <i class="bi bi-arrow-up-right tcm-partner-arrow" aria-hidden="true"></i>
-          </a>
-        </article>
-        <p style="margin:14px 0 0;color:var(--tcm-muted);font-size:.9rem">Learning from Chhattisgarh? <a href="/locations/chhattisgarh">Explore online coding courses across the state</a>.</p>
-      </div>
-    </section>
 
     <!-- ========================================================================
          SECTION 12: FOR COLLEGES AND INSTITUTIONS
@@ -2263,6 +2262,6 @@
 
   <!-- Client-side Scripts -->
   <script src="./assets/tcm-editorial.js?v=2.22"></script>
-  <script src="./assets/diwali-offer.js?v=2"></script>
+  <script src="./assets/diwali-offer.js?v=3"></script>
 </body>
 </html>

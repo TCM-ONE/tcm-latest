@@ -23,6 +23,7 @@ use TCM\Models\User;
 use TCM\Models\WorkshopLead;
 use TCM\Services\InstallmentService;
 use TCM\Services\DiwaliOffer;
+use TCM\Services\CourseSeatBooking;
 
 final class PublicPaymentController extends Controller
 {
@@ -192,25 +193,32 @@ final class PublicPaymentController extends Controller
             return;
         }
 
-        // Check if Installment Plan Requested
-        $isInstallmentPlan = ($paymentPlan === '2_installments' || $paymentPlan === '3_installments' || $instCount > 1);
+        // A fixed seat deposit is separate from the regular EMI/installment offers.
+        $isSeatBooking = $paymentPlan === 'seat_booking';
+        $isInstallmentPlan = $isSeatBooking || $paymentPlan === '2_installments' || $paymentPlan === '3_installments' || $instCount > 1;
 
         if ($isInstallmentPlan) {
             if ($itemType !== 'course') {
                 $this->abortWithError('Installment plans are only available for course enrollments.');
             }
 
-            if (DiwaliOffer::isActive() && DiwaliOffer::includes($resolvedSlug, (float) $course['price'])) {
+            if ($isSeatBooking && !CourseSeatBooking::isAvailable($resolvedSlug)) {
+                $this->abortWithError('Seat booking is available only for the November project-course cohort before classes start on 12 November 2026.');
+            }
+
+            if (!$isSeatBooking && DiwaliOffer::isActive() && DiwaliOffer::includes($resolvedSlug, (float) $course['price'])) {
                 $this->abortWithError('EMI and installment plans are unavailable during the Diwali offer. Please choose full payment.');
             }
 
-            // Strict Eligibility Check (Price > 5000 in INR)
-            if (!InstallmentService::isEligible($amount, 'INR', $itemId)) {
+            // Regular installment eligibility remains strict; seat booking uses a fixed, single-deposit schedule.
+            if (!$isSeatBooking && !InstallmentService::isEligible($amount, 'INR', $itemId)) {
                 $this->abortWithError('Installment payment is only available for eligible courses with tuition fee greater than ₹5,000.');
             }
 
-            $numInstallments = ($paymentPlan === '2_installments' || $instCount === 2) ? 2 : 3;
-            $milestones = InstallmentService::calculateSchedule($amount, $numInstallments);
+            $numInstallments = $isSeatBooking ? 2 : (($paymentPlan === '2_installments' || $instCount === 2) ? 2 : 3);
+            $milestones = $isSeatBooking
+                ? CourseSeatBooking::schedule($amount)
+                : InstallmentService::calculateSchedule($amount, $numInstallments);
 
             // Create Parent Order
             $parentOrderNumber = Order::generateNumber();
@@ -219,7 +227,7 @@ final class PublicPaymentController extends Controller
                 'order_number'       => $parentOrderNumber,
                 'item_type'          => 'course',
                 'item_id'            => $itemId,
-                'item_title'         => $itemTitle,
+                'item_title'         => $isSeatBooking ? 'Seat booking: ' . $itemTitle : $itemTitle,
                 'amount'             => $amount,
                 'paid_amount'        => 0.00,
                 'remaining_amount'   => $amount,
@@ -248,7 +256,9 @@ final class PublicPaymentController extends Controller
                 'order_number'       => $milestoneOrderNumber,
                 'item_type'          => 'course',
                 'item_id'            => $itemId,
-                'item_title'         => sprintf('%s (Installment 1 of %d)', $itemTitle, $numInstallments),
+                'item_title'         => $isSeatBooking
+                    ? 'Seat booking deposit · ' . $itemTitle
+                    : sprintf('%s (Installment 1 of %d)', $itemTitle, $numInstallments),
                 'amount'             => $chargeAmount,
                 'paid_amount'        => 0.00,
                 'remaining_amount'   => $chargeAmount,
@@ -277,7 +287,7 @@ final class PublicPaymentController extends Controller
                 'key'         => PayU::key(),
                 'txnid'       => $txnid,
                 'amount'      => number_format($chargeAmount, 2, '.', ''),
-                'productinfo' => substr(sprintf('Installment 1/%d - %s', $numInstallments, $itemTitle), 0, 95),
+                'productinfo' => substr($isSeatBooking ? 'Seat booking deposit - ' . $itemTitle : sprintf('Installment 1/%d - %s', $numInstallments, $itemTitle), 0, 95),
                 'firstname'   => $name,
                 'email'       => $email,
                 'phone'       => $cleanPhone,
@@ -298,7 +308,7 @@ final class PublicPaymentController extends Controller
                     'action'       => PayU::endpoint(),
                     'params'       => $payuParams,
                     'order_number' => $milestoneOrderNumber,
-                ], 'Redirecting to secure PayU gateway for Installment 1...');
+                ], $isSeatBooking ? 'Redirecting to secure PayU gateway for your ₹1,000 seat booking...' : 'Redirecting to secure PayU gateway for Installment 1...');
             }
 
             echo PayU::renderAutoSubmitForm($payuParams);
@@ -563,6 +573,7 @@ final class PublicPaymentController extends Controller
                     '<h2>Payment Confirmed! Welcome to %s</h2>' .
                     '<p>Hi %s,</p>' .
                     '<p>Thank you for enrolling with <strong>The Code Munk (TCM One)</strong>. We have received your payment of <strong>₹%s</strong>.</p>' .
+                    (str_starts_with((string) $order['item_title'], 'Seat booking deposit ·') ? '<p>This is your ₹1,000 seat booking deposit for the cohort starting 12 November 2026. The remaining course balance is due before classes start.</p>' : '') .
                     '<table style="width:100%%;max-width:500px;border-collapse:collapse;margin:20px 0;">' .
                     '<tr><td style="padding:8px 0;border-bottom:1px solid #EEE;"><strong>Order Number:</strong></td><td style="padding:8px 0;border-bottom:1px solid #EEE;text-align:right;">%s</td></tr>' .
                     '<tr><td style="padding:8px 0;border-bottom:1px solid #EEE;"><strong>Program / Item:</strong></td><td style="padding:8px 0;border-bottom:1px solid #EEE;text-align:right;">%s</td></tr>' .
