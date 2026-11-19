@@ -39,7 +39,6 @@
 
   <!-- International Hreflang Tags -->
   <link rel="alternate" hreflang="en-IN" href="<?= e($canonical) ?>">
-  <link rel="alternate" hreflang="en-US" href="<?= e($canonical) ?>">
   <link rel="alternate" hreflang="x-default" href="<?= e($canonical) ?>">
 
   <!-- Typography & Icons -->

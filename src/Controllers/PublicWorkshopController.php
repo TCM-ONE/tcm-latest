@@ -176,8 +176,9 @@ SVG;
         $course['price'] = DiwaliOffer::priceFor((string) $course['slug'], $course['regular_price']);
         $thumbUrl = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug']);
         $canonical = $appUrl . '/courses/' . rawurlencode($course['slug']);
-        $desc = $this->metaDescription((string) ($course['subtitle'] ?: $course['description']));
-        $seoTitle = $course['title'] . ' | Live Tech Course | TCM One';
+        $courseSummary = (string) ($course['subtitle'] ?: $course['description']);
+        $desc = $this->metaDescription('Live online training in India: ' . $courseSummary);
+        $seoTitle = $course['title'] . ' | TCM One';
         if ($diwaliOfferActive) {
             $titleSuffix = ' | Diwali Offer 2026';
             $titleLimit = max(1, 65 - mb_strlen($titleSuffix));
@@ -400,8 +401,8 @@ SVG;
             ORDER BY cat.sort_order ASC, cat.name ASC
         ');
 
-        $catalogTitle = 'All Courses & Career Paths — TCM One';
-        $catalogDescription = 'Explore practical online courses in Full Stack, Python, AI, Data Analytics and Cloud, with live instruction, guided projects and course-specific schedules from TCM One.';
+        $catalogTitle = 'Software Development Courses in India | TCM One';
+        $catalogDescription = 'Compare online IT training courses in India from TCM One: Full Stack, Python, AI and machine learning, data analytics, cloud and DevOps. Review course details, fees and schedules.';
         if ($diwaliOfferActive) {
             $catalogTitle = 'Diwali 2026 Course Offers: Up to 60% Off — TCM One';
             $catalogDescription = 'Diwali 2026: get 60% off eligible TCM One courses above ₹8,000, plus selected Full Stack, Data, DSA and AI offers. EMI unavailable; ends 8 November.';
@@ -436,6 +437,11 @@ SVG;
             'career-dsa' => ['title' => 'DSA & Software Career Preparation Courses | TCM One', 'description' => 'Explore data structures, algorithms, coding problem solving and career preparation courses with structured practice.', 'intro' => 'Strengthen your programming problem-solving foundations and explore career preparation. Course pages outline the topics, level and current learning format.'],
             'design-business' => ['title' => 'UI/UX Design & Digital Business Courses | TCM One', 'description' => 'Explore UI/UX design, Figma and digital business courses with practical exercises, guided learning and current course details.', 'intro' => 'Compare product design and digital business courses by tools, skill level and project work. Review course outlines to understand what each programme covers.'],
         ];
+
+        foreach ($tracks as &$trackSeo) {
+            $trackSeo['title'] = preg_replace('/ \| TCM One$/', ' in India | TCM One', $trackSeo['title']) ?? $trackSeo['title'];
+        }
+        unset($trackSeo);
 
         if (!isset($tracks[$slug])) {
             http_response_code(404);
