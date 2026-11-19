@@ -40,7 +40,6 @@
 
   <!-- International Hreflang Tags -->
   <link rel="alternate" hreflang="en-IN" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
-  <link rel="alternate" hreflang="en-US" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
   <link rel="alternate" hreflang="x-default" href="<?= e($canonical ?? 'https://thecodemunk.in/for-institutions') ?>">
 
   <!-- Structured Data (JSON-LD) -->
