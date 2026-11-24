@@ -109,8 +109,8 @@
   function formatUsd(n) {
     var inr = Number(n || 0);
     if (!inr) return '$0 USD';
-    var usd = Math.round(inr / 83.5);
-    return '$' + usd.toLocaleString('en-US') + ' USD';
+    var usd = Math.ceil((inr / 93 * 1.30) / 5) * 5;
+    return 'Approx. $' + usd.toLocaleString('en-US') + ' USD';
   }
 
   function getJSON(url) {

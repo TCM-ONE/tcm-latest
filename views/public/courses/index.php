@@ -186,10 +186,10 @@
               <label for="catalogPrice" class="tcm-filter-label">Pricing</label>
               <select id="catalogPrice" class="tcm-form-select">
                   <option value="">All Pricing</option>
-                  <option value="under-2k">Under ₹2,000 (&lt;$25 USD)</option>
-                  <option value="2k-5k">₹2,000 – ₹5,000 ($25–$60 USD)</option>
-                  <option value="5k-10k">₹5,000 – ₹10,000 ($60–$120 USD)</option>
-                  <option value="above-10k">Above ₹10,000 ($120+ USD)</option>
+                  <option value="under-2k">Under ₹2,000 (≈$15–$30 USD)</option>
+                  <option value="2k-5k">₹2,000 – ₹5,000 (≈$30–$70 USD)</option>
+                  <option value="5k-10k">₹5,000 – ₹10,000 (≈$70–$140 USD)</option>
+                  <option value="above-10k">Above ₹10,000 (≈$140+ USD)</option>
                 </select>
             </div>
             <div class="tcm-catalog-filter-actions">
@@ -249,7 +249,7 @@
                     <?php endif; ?>
                     <?php if ($isDiwaliCourse): ?><span class="tcm-badge" data-diwali-badge style="background:#a12518;color:#fff;margin-left:6px;"><?= $regularInr > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? '60% OFF' : 'Diwali Price' ?></span><?php endif; ?>
                   </div>
-                  <span class="tcm-course-usd">$<?= round($priceInr / 83.5) ?> USD</span>
+                  <span class="tcm-course-usd">Approx. <?= e(money_usd($priceInr)) ?> USD</span>
                 </div>
                 <a href="<?= base_url('/courses/' . rawurlencode($slug)) ?>" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
                   <span>View Course</span>

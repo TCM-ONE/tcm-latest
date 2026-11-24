@@ -133,14 +133,22 @@ if (!function_exists('money')) {
     }
 }
 
+if (!function_exists('usd_price')) {
+    function usd_price(float|int|string $amountInr, float $rate = 93.0): int
+    {
+        $amount = max(0, (float) $amountInr);
+        return $amount > 0 ? (int) (ceil(($amount / $rate * 1.30) / 5) * 5) : 0;
+    }
+}
+
 if (!function_exists('money_usd')) {
     /**
-     * Format an amount in USD currency (approx. converted from INR).
+     * Show an indicative international USD price with a 30% price buffer.
+     * Checkout remains billed in INR; round up to a clean $5 increment.
      */
-    function money_usd(float|int|string $amountInr, float $rate = 83.5): string
+    function money_usd(float|int|string $amountInr, float $rate = 93.0): string
     {
-        $usd = round(((float)$amountInr) / $rate);
-        return '$' . number_format($usd, 0);
+        return '$' . number_format(usd_price($amountInr, $rate), 0);
     }
 }
 
