@@ -493,6 +493,23 @@ SVG;
     }
 
     /**
+     * GET /online-coding-courses-usa
+     * U.S.-specific information for prospective online learners.
+     */
+    public function usLearners(): void
+    {
+        $appUrl = rtrim((string) config('app.url', 'https://thecodemunk.in'), '/');
+
+        $this->view('public/international/us-learners', [
+            'title'       => 'Online Coding Courses for U.S. Learners | TCM One',
+            'description' => 'Explore online Python, Full Stack, AI and data courses for U.S. learners. TCM One is India-based; confirm cohort times and INR billing.',
+            'canonical'   => $appUrl . '/online-coding-courses-usa',
+            'ogImage'     => $appUrl . '/assets/tcm-og-share.png',
+            'appUrl'      => $appUrl,
+        ], null);
+    }
+
+    /**
      * GET /about
      * TCM One story, mission, philosophy & credibility.
      */
