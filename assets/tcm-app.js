@@ -419,7 +419,9 @@
         return api('/assets/' + filename);
     }
 
-    var USD_EXCHANGE_RATE = 83.5;
+    // Indicative display price: 30% buffer over the INR/USD reference, rounded up to $5.
+    var USD_EXCHANGE_RATE = 93;
+    var USD_DISPLAY_BUFFER = 1.30;
     var activeCurrency = "inr";
     try {
         var savedCurr = localStorage.getItem("tcm_currency");
@@ -429,7 +431,7 @@
     function inrToUsd(amount) {
         var inr = Number(amount || 0);
         if (!inr || inr <= 0) return 0;
-        return Math.round(inr / USD_EXCHANGE_RATE);
+        return Math.ceil((inr / USD_EXCHANGE_RATE * USD_DISPLAY_BUFFER) / 5) * 5;
     }
 
     function renderCardPriceHtml(priceInr, origInr) {
@@ -439,12 +441,12 @@
         var oUsd = oInr ? inrToUsd(oInr) : 0;
 
         if (activeCurrency === "usd") {
-            return '<strong class="price-val">$' + pUsd.toLocaleString("en-US") + ' USD</strong>' +
+            return '<strong class="price-val">Approx. $' + pUsd.toLocaleString("en-US") + ' USD</strong>' +
                 ' <span class="course-price-inr-tag">(₹' + pInr.toLocaleString("en-IN") + ')</span>' +
                 (oUsd ? ' <span class="course-price-orig">$' + oUsd.toLocaleString("en-US") + '</span>' : '');
         }
         return '<strong class="price-val">₹' + pInr.toLocaleString("en-IN") + '</strong>' +
-            ' <span class="course-price-usd-tag">($' + pUsd.toLocaleString("en-US") + ' USD)</span>' +
+            ' <span class="course-price-usd-tag">(approx. $' + pUsd.toLocaleString("en-US") + ' USD)</span>' +
             (oInr ? ' <span class="course-price-orig">₹' + oInr.toLocaleString("en-IN") + '</span>' : '');
     }
 
@@ -481,10 +483,10 @@
 
     var coursePriceLabels = {
         all: "All Pricing",
-        "under-2k": "Under ₹2,000 (<$25)",
-        "2k-5k": "₹2,000 – ₹5,000 ($25–$60)",
-        "5k-10k": "₹5,000 – ₹10,000 ($60–$120)",
-        "above-10k": "Above ₹10,000 ($120+)"
+        "under-2k": "Under ₹2,000 (≈$15–$30)",
+        "2k-5k": "₹2,000 – ₹5,000 (≈$30–$70)",
+        "5k-10k": "₹5,000 – ₹10,000 (≈$70–$140)",
+        "above-10k": "Above ₹10,000 (≈$140+)"
     };
     var activeCoursePrice = "all";
 

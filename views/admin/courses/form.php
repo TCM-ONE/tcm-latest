@@ -337,7 +337,10 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
             <div class="tcm-field">
                 <label>Price (₹) *</label>
                 <input class="tcm-input" type="number" step="0.01" name="price"
-                       value="<?= $val('price', '0') ?>" required>
+                       id="coursePriceInr" value="<?= $val('price', '0') ?>" required>
+                <div id="coursePriceUsdPreview" style="font-size:.78rem;color:var(--muted);margin-top:6px;">
+                    Public display: approx. <?= e(money_usd($course['price'] ?? 0)) ?> USD · checkout remains in INR.
+                </div>
             </div>
             <div class="tcm-field">
                 <label>Original Price (₹)</label>
@@ -346,6 +349,21 @@ $val    = static fn(string $k, $d = '') => e((string)($course[$k] ?? $d));
                        placeholder="Leave blank if no discount">
             </div>
         </div>
+
+        <script>
+        (function () {
+            var priceInput = document.getElementById('coursePriceInr');
+            var preview = document.getElementById('coursePriceUsdPreview');
+            if (!priceInput || !preview) return;
+            function updateUsdPreview() {
+                var inr = Math.max(0, Number(priceInput.value || 0));
+                var usd = inr > 0 ? Math.ceil((inr / 93 * 1.30) / 5) * 5 : 0;
+                preview.textContent = 'Public display: approx. $' + usd.toLocaleString('en-US') + ' USD · checkout remains in INR.';
+            }
+            priceInput.addEventListener('input', updateUsdPreview);
+            updateUsdPreview();
+        })();
+        </script>
 
         <div class="tcm-grid-2" style="gap:12px;">
             <div class="tcm-field">

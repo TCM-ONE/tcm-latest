@@ -401,6 +401,7 @@
                     </span>
                   <?php endif; ?>
                 </div>
+                <div class="tcm-course-usd" style="font-size: 13px; margin-top: 4px;">Approx. <?= e(money_usd($price)) ?> USD <span>(checkout billed in INR)</span></div>
                 <?php if ($isInstallmentEligible): ?>
                   <div style="font-size: 13px; font-weight: 600; color: #111; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
                     <i class="bi bi-credit-card-2-front" style="color: #111;"></i>
@@ -491,6 +492,7 @@
             <div class="tcm-sticky-bottom-pricing" style="flex-shrink: 0;">
               <div class="tcm-sticky-bottom-price-row">
                 <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>₹<?= number_format($price, 0) ?></span>
+                <span class="tcm-course-usd">≈ <?= e(money_usd($price)) ?> USD</span>
                 <?php if ($origPrice > $price): ?>
                   <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>₹<?= number_format($origPrice, 0) ?></span>
                 <?php endif; ?>

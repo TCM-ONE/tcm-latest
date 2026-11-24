@@ -69,8 +69,8 @@ final class PublicController extends Controller
             $course['discount_percent'] = Course::discountPercent($course);
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['thumbnail']        = $course['thumbnail_url'];
-            $course['price_usd']        = round(((float)($course['price'] ?? 0)) / 83.5);
-            $course['original_price_usd'] = !empty($course['original_price']) ? round(((float)$course['original_price']) / 83.5) : 0;
+            $course['price_usd']        = usd_price($course['price'] ?? 0);
+            $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
         }
         Response::success($courses, 'Courses fetched.');
     }
@@ -91,8 +91,8 @@ final class PublicController extends Controller
         $course['discount_percent'] = Course::discountPercent($course);
         $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
         $course['thumbnail']        = $course['thumbnail_url'];
-        $course['price_usd']        = round(((float)($course['price'] ?? 0)) / 83.5);
-        $course['original_price_usd'] = !empty($course['original_price']) ? round(((float)$course['original_price']) / 83.5) : 0;
+        $course['price_usd']        = usd_price($course['price'] ?? 0);
+        $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
         $course['curriculum']       = Course::curriculum((int) $course['id']);
         $course['reviews'] = Database::all(
             "SELECT cr.rating, cr.comment, cr.created_at, u.name

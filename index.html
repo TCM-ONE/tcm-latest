@@ -112,11 +112,7 @@
   <!-- ========================================================================
        SECTION 1: ANNOUNCEMENT BAR
        ======================================================================== -->
-  <div class="tcm-announcement-bar" role="region" aria-label="Announcement">
-    <a href="#workshops">
-      <span>NEW WORKSHOP &mdash; EXPLORE LIVE LEARNING FROM ₹99 &rarr;</span>
-    </a>
-  </div>
+
 
   <!-- ========================================================================
        SECTION 2: NAVIGATION
@@ -347,251 +343,16 @@
                 <span>Explore Courses</span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </a>
-              <a href="#workshops" class="tcm-btn tcm-btn-secondary">
-                <span>Join a Workshop</span>
+              <a href="#hero-video" class="tcm-btn tcm-btn-secondary">
+                <span>Watch Our Video</span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </a>
             </div>
           </div>
 
-          <!-- Hero Visual: Concentric Line Pattern & Swipeable Workshop Card Deck -->
-          <div class="tcm-hero-visual" role="region" aria-roledescription="carousel" aria-label="Featured Live Cohorts &amp; Workshops">
-            <!-- Concentric Line Pattern Background (decorative) -->
-            <div class="tcm-line-pattern" aria-hidden="true" style="top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-              <img src="./assets/tcm-line-pattern.svg" alt="" style="width:100%;height:100%;max-width:440px;opacity:0.35;">
-            </div>
-
-            <!-- Swipeable Stacked Workshop Deck Container -->
-            <div class="tcm-hero-deck-wrapper" id="heroWorkshopDeck">
-              <!-- Deck Topbar: Counter & Nav arrows -->
-              <div class="tcm-hero-deck-topbar">
-                <div class="tcm-hero-deck-controls">
-                  <span class="tcm-hero-deck-counter" id="heroDeckCounter">1 / 5</span>
-                  <div class="tcm-hero-deck-nav">
-                    <button type="button" class="tcm-deck-btn" id="heroDeckPrevBtn" aria-label="Previous Workshop">
-                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M13 7H1M1 7L7 1M1 7L7 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                    </button>
-                    <button type="button" class="tcm-deck-btn" id="heroDeckNextBtn" aria-label="Next Workshop">
-                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Stack of Interactive Cards -->
-              <div class="tcm-hero-deck-stack" id="heroDeckStack">
-                <!-- Diwali project courses lead the featured card deck. -->
-
-                <!-- Workshop/cohort cards follow the three new courses. -->
-                <!-- Card 1 (Active) -->
-                <article class="tcm-deck-card is-active" data-index="0" data-slug="python-starter-workshop" role="group" aria-roledescription="slide" aria-label="1 of 5: Python Starter Workshop">
-                  <div>
-                    <div class="tcm-hero-card-tag">Upcoming Live Cohort</div>
-                    <h3 class="tcm-hero-card-title">Python Starter Workshop: APIs &amp; Scraping</h3>
-                    <p class="tcm-hero-card-desc">
-                      3 intensive live sessions covering OOP, requests, BeautifulSoup4, and automated alert bots.
-                    </p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Live scraping lab with BeautifulSoup4</span>
-                      </li>
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Capstone: Automated price alert bot</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Next Batch &middot; 3 Days</span>
-                      </div>
-                      <div class="tcm-hero-card-pricing">
-                        <span class="tcm-hero-card-orig">₹499</span>
-                        <span class="tcm-hero-card-price">₹99</span>
-                      </div>
-                    </div>
-                    <div class="tcm-hero-card-actions">
-                      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="python-starter-workshop" data-title="Python Starter Workshop" data-price="99">
-                        <span>Reserve Seat &middot; ₹99</span>
-                        <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <!-- Card 2 (Stacked behind Card 1) -->
-                <article class="tcm-deck-card is-next" data-index="1" data-slug="frontend-website-challenge-7-days" role="group" aria-roledescription="slide" aria-label="2 of 5: 7-Day Frontend Website Challenge">
-                  <div>
-                    <div class="tcm-hero-card-tag">7-Day Live Bootcamp</div>
-                    <h3 class="tcm-hero-card-title">7-Day Frontend Website Challenge</h3>
-                    <p class="tcm-hero-card-desc">
-                      Build and deploy your first responsive portfolio website with semantic HTML5, modern CSS3 Flexbox/Grid, and JavaScript.
-                    </p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Code responsive layout with CSS Grid &amp; Flexbox</span>
-                      </li>
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Deploy your portfolio website on GitHub Pages &amp; Vercel</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Live Challenge &middot; 7 Days</span>
-                      </div>
-                      <div class="tcm-hero-card-pricing">
-                        <span class="tcm-hero-card-orig">₹1,999</span>
-                        <span class="tcm-hero-card-price">₹999</span>
-                      </div>
-                    </div>
-                    <div class="tcm-hero-card-actions">
-                      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="frontend-website-challenge-7-days" data-title="7-Day Frontend Website Challenge" data-price="999">
-                        <span>Reserve Seat &middot; ₹999</span>
-                        <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <!-- Card 3 (Dussehra Special: Data Analysis) -->
-                <article class="tcm-deck-card is-next2" data-index="2" data-slug="data-analysis-workshop" role="group" aria-roledescription="slide" aria-label="3 of 5: Data Analysis Masterclass">
-                  <div>
-                    <div class="tcm-hero-card-tag">Dussehra Special &middot; 2-Week Bootcamp</div>
-                    <h3 class="tcm-hero-card-title">Data Analysis Masterclass: Excel, SQL &amp; Python</h3>
-                    <p class="tcm-hero-card-desc">
-                      2 weeks of live classes mastering Excel pivot tables, relational SQL joins, Python Pandas, and executive Power BI dashboards.
-                    </p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Advanced Excel, SQL Queries &amp; Python Pandas</span>
-                      </li>
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Capstone: Interactive Power BI Executive Dashboard</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Live Cohort &middot; 2 Weeks</span>
-                      </div>
-                      <div class="tcm-hero-card-pricing">
-                        <span class="tcm-hero-card-orig">₹2,499</span>
-                        <span class="tcm-hero-card-price">₹999</span>
-                      </div>
-                    </div>
-                    <div class="tcm-hero-card-actions">
-                      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="data-analysis-workshop" data-title="Data Analysis Masterclass: Excel, SQL, Python &amp; Power BI | Dussehra Special" data-price="999">
-                        <span>Reserve Seat &middot; ₹999</span>
-                        <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <!-- Card 4 (Stacked behind Card 3) -->
-                <article class="tcm-deck-card is-hidden" data-index="3" data-slug="ai-tools-everyday-work-workshop" role="group" aria-roledescription="slide" aria-label="4 of 5: AI Tools for Everyday Work">
-                  <div>
-                    <div class="tcm-hero-card-tag">Hands-on AI Workshop</div>
-                    <h3 class="tcm-hero-card-title">AI Tools for Everyday Work &amp; Coding</h3>
-                    <p class="tcm-hero-card-desc">
-                      Master practical prompt engineering, research summarization, document pipelines, and AI coding assistants with live labs.
-                    </p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>High-accuracy prompt engineering frameworks</span>
-                      </li>
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>AI coding assistance &amp; automated research labs</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Weekend Cohort &middot; 2 Days</span>
-                      </div>
-                      <div class="tcm-hero-card-pricing">
-                        <span class="tcm-hero-card-orig">₹499</span>
-                        <span class="tcm-hero-card-price">₹199</span>
-                      </div>
-                    </div>
-                    <div class="tcm-hero-card-actions">
-                      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="ai-tools-everyday-work-workshop" data-title="AI Tools for Everyday Work" data-price="199">
-                        <span>Reserve Seat &middot; ₹199</span>
-                        <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-
-                <!-- Card 5 (Stacked behind Card 4) -->
-                <article class="tcm-deck-card is-hidden" data-index="4" data-slug="find-your-tech-career-path-workshop" role="group" aria-roledescription="slide" aria-label="5 of 5: Find Your Tech Career Path">
-                  <div>
-                    <div class="tcm-hero-card-tag">Live Career Masterclass</div>
-                    <h3 class="tcm-hero-card-title">Find Your Tech Career Path &amp; Roadmap</h3>
-                    <p class="tcm-hero-card-desc">
-                      Compare Web Development, Data, AI, Cloud &amp; DSA engineering paths with 1-on-1 industry mentor guidance before enrolling.
-                    </p>
-                    <ul class="tcm-hero-card-highlights">
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>Compare Web, Data, AI, Cloud &amp; DSA tracks</span>
-                      </li>
-                      <li>
-                        <svg class="check-icon" width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5L5.5 11L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
-                        <span>1-on-1 engineering roadmap &amp; portfolio review</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div class="tcm-hero-card-meta">
-                      <div class="tcm-hero-card-batch">
-                        <i class="bi bi-calendar3"></i>
-                        <span>Orientation &middot; 1 Day</span>
-                      </div>
-                      <div class="tcm-hero-card-pricing">
-                        <span class="tcm-hero-card-orig">₹499</span>
-                        <span class="tcm-hero-card-price">FREE</span>
-                      </div>
-                    </div>
-                    <div class="tcm-hero-card-actions">
-                      <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="find-your-tech-career-path-workshop" data-title="Find Your Tech Career Path" data-price="0">
-                        <span>Join Free Session</span>
-                        <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </div>
-
-              <!-- Deck Footer: Progress Dots & Swipe Hint -->
-              <div class="tcm-hero-deck-footer">
-                <div class="tcm-hero-deck-dots" id="heroDeckDots">
-                  <button type="button" class="tcm-deck-dot is-active" data-index="0" aria-label="Go to slide 1"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="1" aria-label="Go to slide 2"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="2" aria-label="Go to slide 3"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="3" aria-label="Go to slide 4"></button>
-                  <button type="button" class="tcm-deck-dot" data-index="4" aria-label="Go to slide 5"></button>
-                </div>
-
-              </div>
-            </div>
-          </div>
+          <div class="tcm-hero-visual tcm-hero-video" id="hero-video">
+            <iframe src="https://www.youtube-nocookie.com/embed/KZwKFz-ZJDU?rel=0" title="TCM One training courses in India" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>          </div>
         </div>
       </div>
     </section>
@@ -619,59 +380,25 @@
       </div>
     </section>
 
-    <!-- ========================================================================
-         FEATURED DIWALI PROJECT COURSES
-         ======================================================================== -->
-    <section class="tcm-diwali-courses" id="diwali-courses" data-diwali-section data-hide-at="2026-11-12T00:00:00+05:30" aria-labelledby="diwaliCoursesTitle">
+    <section class="tcm-section" aria-labelledby="starterCoursesTitle">
       <div class="tcm-container">
-        <div class="tcm-diwali-courses-heading">
-          <div>
-            <div class="tcm-diwali-courses-kicker">Featured project courses <span data-diwali-badge>· Diwali prices through 8 November</span></div>
-            <h2 id="diwaliCoursesTitle">Choose a project.<br><span>Build your portfolio.</span></h2>
-            <p>Short, guided programs in Full Stack, Frontend and Data Analysis—with a practical project to show for your work.</p>
-          </div>
-          <a href="/diwali-offer-2026" class="tcm-diwali-courses-deadline" data-diwali-badge>
-            <span aria-hidden="true">🪔</span>
-            <span><strong>Diwali prices through 8 Nov</strong><small>₹1,000 seat booking · balance due 12 Nov</small></span>
-            <span class="tcm-diwali-courses-arrow" aria-hidden="true">↗</span>
-          </a>
+        <div style="max-width: 680px; margin-bottom: 26px;">
+          <div class="tcm-eyebrow">START WITH THE BASICS</div>
+          <h2 class="tcm-h2" id="starterCoursesTitle">Short courses to get started</h2>
+          <p class="tcm-body-muted">Build a practical foundation with a focused course, then explore the full catalog when you are ready.</p>
         </div>
-
         <div class="tcm-diwali-course-grid">
-          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="6999" data-price="2999">
-            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">FULL STACK</span><span class="tcm-diwali-offer-label" data-diwali-badge>Diwali offer</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
-            <h3><a href="/courses/full-stack-project-lab-react-node">Full Stack Project Lab: React &amp; Node.js</a></h3>
-            <p class="tcm-diwali-course-description">Build a responsive React app, connect a Node.js and Express REST API, and deploy a project for your portfolio.</p>
-            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>React</li><li>Node.js</li><li>REST API</li><li>Deployment</li></ul>
-            <div class="tcm-diwali-course-footer">
-              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹6,999</span><strong data-diwali-price data-regular="6999">₹2,999</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
-              <a href="/courses/full-stack-project-lab-react-node" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
-            </div>
+          <article class="tcm-diwali-course-card">
+            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">WEB DEVELOPMENT</span><span class="tcm-diwali-course-duration">Beginner · 4 weeks</span></div>
+            <h3><a href="/courses/build-your-first-website">Build Your First Website</a></h3>
+            <p class="tcm-diwali-course-description">Learn the essentials of HTML, CSS and responsive design by building and publishing your first website.</p>
+            <div class="tcm-diwali-course-footer"><div class="tcm-diwali-course-price"><strong>₹2,499</strong><span class="tcm-course-usd">Approx. $35 USD</span></div><a href="/courses/build-your-first-website" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a></div>
           </article>
-
-          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="5999" data-price="2499">
-            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">FRONTEND</span><span class="tcm-diwali-offer-label" data-diwali-badge>Diwali offer</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
-            <h3><a href="/courses/frontend-portfolio-builder-html-css-js">Frontend Portfolio Builder: HTML, CSS &amp; JavaScript</a></h3>
-            <p class="tcm-diwali-course-description">Create and publish a responsive portfolio with semantic HTML, modern CSS layouts and JavaScript interactions.</p>
-            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>HTML</li><li>CSS Grid</li><li>JavaScript</li><li>Responsive UI</li></ul>
-            <div class="tcm-diwali-course-footer">
-              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹2,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
-              <a href="/courses/frontend-portfolio-builder-html-css-js" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
-            </div>
-          </article>
-
-          <article class="tcm-diwali-course-card" data-diwali-card data-regular-price="5999" data-price="2499">
-            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">DATA ANALYSIS</span><span class="tcm-diwali-offer-label" data-diwali-badge>Diwali offer</span><span class="tcm-diwali-course-duration">4 weeks · Beginner</span></div>
-            <h3><a href="/courses/data-analysis-dashboard-sprint-excel-powerbi">Data Analysis Dashboard Sprint: Excel &amp; Power BI</a></h3>
-            <p class="tcm-diwali-course-description">Clean a dataset, explore it with Excel and Power Query, then build an interactive Power BI dashboard.</p>
-            <ul class="tcm-diwali-course-skills" aria-label="Course topics"><li>Excel</li><li>PivotTables</li><li>Power Query</li><li>Power BI</li></ul>
-            <div class="tcm-diwali-course-footer">
-              <div class="tcm-diwali-course-price"><span class="tcm-diwali-course-original" data-diwali-original>₹5,999</span><strong data-diwali-price data-regular="5999">₹2,499</strong><span class="tcm-diwali-course-offer" data-diwali-badge>Diwali price</span></div>
-              <p class="tcm-diwali-course-payment">Reserve your seat for ₹1,000 · balance due before class starts</p>
-              <a href="/courses/data-analysis-dashboard-sprint-excel-powerbi" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a>
-            </div>
+          <article class="tcm-diwali-course-card">
+            <div class="tcm-diwali-course-topline"><span class="tcm-diwali-course-label">AI PRODUCTIVITY</span><span class="tcm-diwali-course-duration">Beginner · 3 weeks</span></div>
+            <h3><a href="/courses/ai-tools-for-study-work">AI Tools for Study &amp; Work</a></h3>
+            <p class="tcm-diwali-course-description">Use modern AI tools for research, writing and everyday study or work tasks with guided practice.</p>
+            <div class="tcm-diwali-course-footer"><div class="tcm-diwali-course-price"><strong>₹1,999</strong><span class="tcm-course-usd">Approx. $30 USD</span></div><a href="/courses/ai-tools-for-study-work" class="tcm-diwali-course-cta">Explore course <span aria-hidden="true">→</span></a></div>
           </article>
         </div>
       </div>
@@ -857,7 +584,7 @@
             </p>
           </div>
           <a href="/courses" class="tcm-btn tcm-btn-secondary d-none d-sm-inline-flex">
-            <span>Browse Full Catalog (52 Courses)</span>
+            <span>Browse All Courses</span>
             <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </a>
         </div>
@@ -883,7 +610,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹999</span>
+              <span>From ₹999 · ≈ $15 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -907,7 +634,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹2,499</span>
+              <span>From ₹2,499 · Approx. $35 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -930,7 +657,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹1,999</span>
+              <span>From ₹1,999 · Approx. $30 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -954,7 +681,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹2,999</span>
+              <span>From ₹2,999 · ≈ $45 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -978,7 +705,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹5,999</span>
+              <span>From ₹5,999 · ≈ $85 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -1001,7 +728,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹5,999</span>
+              <span>From ₹5,999 · ≈ $85 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -1024,7 +751,7 @@
               </div>
             </div>
             <div class="tcm-track-bottom">
-              <span>From ₹5,999</span>
+              <span>From ₹5,999 · ≈ $85 USD</span>
               <span class="tcm-track-arrow">Explore Track &rarr;</span>
             </div>
           </a>
@@ -1032,209 +759,7 @@
 
         <!-- Mobile Browse All CTA -->
         <div style="margin-top: 36px; text-align: center;" class="d-sm-none">
-          <a href="/courses" class="tcm-btn tcm-btn-secondary" style="width: 100%;">Browse Full Catalog (52 Courses)</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================================
-         SECTION 6: LIVE WORKSHOPS (Verified Offers: ₹99 & ₹999)
-         ======================================================================== -->
-    <section class="tcm-section tcm-workshop-section" id="workshops">
-      <div class="tcm-container">
-        <div style="max-width: 680px; margin-bottom: 30px;">
-          <div class="tcm-eyebrow">LIVE SHORT COHORTS</div>
-          <h2 class="tcm-h2" style="margin: 6px 0 12px 0;">Live Workshops</h2>
-          <p class="tcm-body-muted">
-            High-intensity, practical weekend and multi-day live cohorts with real-time mentor code reviews and capstone builds.
-          </p>
-        </div>
-
-        <div class="tcm-workshop-grid">
-          <!-- Workshop 1: Python Starter Workshop (₹99) -->
-          <div class="tcm-workshop-card">
-            <div class="tcm-workshop-badge">LIVE 3-DAY COHORT</div>
-            <h3 class="tcm-workshop-title">
-              <a href="/workshops/python-starter-workshop" style="color: inherit; text-decoration: none;">
-                Python Starter Workshop: Advanced Coding &amp; Scraping
-              </a>
-            </h3>
-            <p class="tcm-workshop-desc">
-              Take Python beyond syntax. Learn OOP, live REST API integration, web scraping with BeautifulSoup, and building automated price trackers.
-            </p>
-            <ul class="tcm-workshop-highlights">
-              <li>3 live coding sessions with real-time debugging</li>
-              <li>Hands-on web scraping &amp; multi-page catalog harvesting</li>
-              <li>Capstone Project: Build an automated alert bot</li>
-              <li>Verified Certificate of Completion</li>
-            </ul>
-            <div class="tcm-workshop-footer">
-              <div class="tcm-workshop-pricing">
-                <div class="tcm-workshop-price-row">
-                  <span class="tcm-workshop-price-tag">₹99</span>
-                  <span class="tcm-workshop-price-orig">₹499</span>
-                </div>
-                <div class="tcm-workshop-batch-meta">Next Batch Starting Soon</div>
-              </div>
-              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
-                <a href="/workshops/python-starter-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
-                  Details
-                </a>
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="python-starter-workshop" data-title="Python Starter Workshop | Advanced Live Coding &amp; Web Scraping" data-price="99">
-                  <span>Reserve Seat &middot; ₹99</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Workshop 2: 7-Day Frontend Website Challenge (₹999) -->
-          <div class="tcm-workshop-card">
-            <div class="tcm-workshop-badge">7-DAY PROJECT CHALLENGE</div>
-            <h3 class="tcm-workshop-title">
-              <a href="/workshops/frontend-website-challenge-7-days" style="color: inherit; text-decoration: none;">
-                7-Day Frontend Website Challenge
-              </a>
-            </h3>
-            <p class="tcm-workshop-desc">
-              Build and publish a production-ready responsive website with HTML5, modern CSS3 Flexbox/Grid, and interactive JavaScript DOM scripting.
-            </p>
-            <ul class="tcm-workshop-highlights">
-              <li>7 intensive live evening sessions with code reviews</li>
-              <li>Semantic HTML5, CSS Grid &amp; mobile-first responsiveness</li>
-              <li>JavaScript interactive menus, modals &amp; forms</li>
-              <li>Deploy live to GitHub Pages / Vercel with your domain</li>
-            </ul>
-            <div class="tcm-workshop-footer">
-              <div class="tcm-workshop-pricing">
-                <div class="tcm-workshop-price-row">
-                  <span class="tcm-workshop-price-tag">₹999</span>
-                  <span class="tcm-workshop-price-orig">₹1,999</span>
-                </div>
-                <div class="tcm-workshop-batch-meta">Evening Live Cohort</div>
-              </div>
-              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
-                <a href="/workshops/frontend-website-challenge-7-days" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
-                  Details
-                </a>
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="frontend-website-challenge-7-days" data-title="7-Day Frontend Website Challenge | TCM One" data-price="999">
-                  <span>Reserve Seat &middot; ₹999</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Workshop 3: Data Analysis Masterclass (₹999 - Dussehra Special) -->
-          <div class="tcm-workshop-card">
-            <div class="tcm-workshop-badge">DUSSEHRA SPECIAL &middot; 2 WEEKS</div>
-            <h3 class="tcm-workshop-title">
-              <a href="/workshops/data-analysis-workshop" style="color: inherit; text-decoration: none;">
-                Data Analysis Masterclass: Excel, SQL, Python &amp; Power BI
-              </a>
-            </h3>
-            <p class="tcm-workshop-desc">
-              Master end-to-end data processing: from raw Excel spreadsheets and relational SQL queries to Python Pandas wrangling and interactive Power BI executive dashboards.
-            </p>
-            <ul class="tcm-workshop-highlights">
-              <li>2 weeks of intensive live evening classes with direct mentor guidance</li>
-              <li>Advanced Excel formulas, XLOOKUP, pivot tables &amp; KPI scorecards</li>
-              <li>Production SQL queries, complex multi-table joins &amp; aggregations</li>
-              <li>Python data wrangling with Pandas &amp; executive Power BI dashboards</li>
-            </ul>
-            <div class="tcm-workshop-footer">
-              <div class="tcm-workshop-pricing">
-                <div class="tcm-workshop-price-row">
-                  <span class="tcm-workshop-price-tag">₹999</span>
-                  <span class="tcm-workshop-price-orig">₹2,499</span>
-                </div>
-                <div class="tcm-workshop-batch-meta">Dussehra Special Cohort</div>
-              </div>
-              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
-                <a href="/workshops/data-analysis-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
-                  Details
-                </a>
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="data-analysis-workshop" data-title="Data Analysis Masterclass: Excel, SQL, Python &amp; Power BI | Dussehra Special" data-price="999">
-                  <span>Reserve Seat &middot; ₹999</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Workshop 4: AI Tools for Everyday Work (₹199) -->
-          <div class="tcm-workshop-card">
-            <div class="tcm-workshop-badge">2-DAY HANDS-ON AI</div>
-            <h3 class="tcm-workshop-title">
-              <a href="/workshops/ai-tools-everyday-work-workshop" style="color: inherit; text-decoration: none;">
-                AI Tools for Everyday Work &amp; Coding
-              </a>
-            </h3>
-            <p class="tcm-workshop-desc">
-              Master prompt engineering, research synthesis, document generation, and AI coding assistants (Claude, ChatGPT, Copilot) in practical labs.
-            </p>
-            <ul class="tcm-workshop-highlights">
-              <li>2 actionable live sessions covering modern AI tools</li>
-              <li>Prompt templates and frameworks for repeatable results</li>
-              <li>Live demonstrations for literature review and coding</li>
-              <li>Avoid costly hallucination and verification errors</li>
-            </ul>
-            <div class="tcm-workshop-footer">
-              <div class="tcm-workshop-pricing">
-                <div class="tcm-workshop-price-row">
-                  <span class="tcm-workshop-price-tag">₹199</span>
-                  <span class="tcm-workshop-price-orig">₹499</span>
-                </div>
-                <div class="tcm-workshop-batch-meta">Weekend Live Cohort</div>
-              </div>
-              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
-                <a href="/workshops/ai-tools-everyday-work-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
-                  Details
-                </a>
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="ai-tools-everyday-work-workshop" data-title="AI Tools for Everyday Work | TCM One Workshop" data-price="199">
-                  <span>Reserve Seat &middot; ₹199</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Workshop 4: Find Your Tech Career Path (FREE) -->
-          <div class="tcm-workshop-card">
-            <div class="tcm-workshop-badge">LIVE ORIENTATION</div>
-            <h3 class="tcm-workshop-title">
-              <a href="/workshops/find-your-tech-career-path-workshop" style="color: inherit; text-decoration: none;">
-                Find Your Tech Career Path &amp; Roadmap
-              </a>
-            </h3>
-            <p class="tcm-workshop-desc">
-              Understand web development, Python, data analytics, AI, cloud, DSA, and portfolio building roadmaps before committing to any course.
-            </p>
-            <ul class="tcm-workshop-highlights">
-              <li>Compare web, data, AI, cloud, and DSA career tracks</li>
-              <li>Understand prerequisites and realistic timelines</li>
-              <li>Live review of industry student portfolios</li>
-              <li>Interactive 1-on-1 Q&amp;A roadmap consultation</li>
-            </ul>
-            <div class="tcm-workshop-footer">
-              <div class="tcm-workshop-pricing">
-                <div class="tcm-workshop-price-row">
-                  <span class="tcm-workshop-price-tag" style="color: #10B981;">FREE</span>
-                  <span class="tcm-workshop-price-orig">₹499</span>
-                </div>
-                <div class="tcm-workshop-batch-meta">1-Day Live Masterclass</div>
-              </div>
-              <div class="tcm-workshop-actions" style="display: flex; gap: 8px; align-items: center;">
-                <a href="/workshops/find-your-tech-career-path-workshop" class="tcm-btn tcm-btn-secondary tcm-btn-sm">
-                  Details
-                </a>
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-btn-sm tcm-trigger-workshop" data-slug="find-your-tech-career-path-workshop" data-title="Find Your Tech Career Path | TCM One Workshop" data-price="0">
-                  <span>Join Free Session</span>
-                  <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
+          <a href="/courses" class="tcm-btn tcm-btn-secondary" style="width: 100%;">Browse All Courses</a>
         </div>
       </div>
     </section>

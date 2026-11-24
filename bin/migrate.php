@@ -461,9 +461,13 @@ try {
     foreach ($exactCourses as $ec) {
         $syncCourseStmt->execute([$ec['price'], $ec['orig'], $ec['duration'], $ec['featured'], $ec['slug'], $ec['id']]);
     }
-    echo "✓ Synchronized exact prices, durations and featured priority for 31 approved master courses\n";
+    echo "✓ Synchronized approved course prices, durations and featured priority\n";
 
-    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '31') ON DUPLICATE KEY UPDATE `value` = '31'")->execute();
+    // Preserve the selected starter courses; archive other published courses below ₹4,999.
+    $pdo->exec("UPDATE courses SET status = 'archived', is_featured = 0 WHERE status = 'published' AND price < 4999.00 AND slug IN ('ai-machine-learning-fundamentals', 'prompt-engineering-generative-ai', 'python-for-ai-ml', 'ai-agents-workflow-automation', 'chatgpt-gemini-ai-productivity-tools', 'machine-learning-python-projects', 'sql-database-fundamentals', 'digital-skills-computer-fundamentals')");
+    echo "✓ Archived eight below-threshold courses; retained two starter courses.\n";
+
+    $pdo->prepare("INSERT INTO settings (`key`, `value`) VALUES ('courses_count', '23') ON DUPLICATE KEY UPDATE `value` = '23'")->execute();
 
     // -----------------------------------------------------------------
     // 8. Synchronize Editorial Blog Posts (Tech Updates)
