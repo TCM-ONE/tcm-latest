@@ -1,3 +1,4 @@
+<?php \TCM\Services\RegionalPricing::preventSharedCaching(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +56,7 @@
 
   <?php
     $price = (float)($workshop['price'] ?? 0);
+    $isBankTransfer = $price > 0 && \TCM\Services\RegionalPricing::isInternational();
     $origPrice = !empty($workshop['original_price']) ? (float)$workshop['original_price'] : 0;
     $duration = $workshop['duration'] ?? 'Live Cohort';
     $schedule = $workshop['schedule'] ?? 'Evening live sessions';
@@ -94,7 +96,7 @@
       ],
       'offers' => [
         '@type' => 'Offer',
-        'price' => (string) $price,
+        'price' => (string) \TCM\Services\RegionalPricing::charge($price),
         'priceCurrency' => 'INR',
         'availability' => 'https://schema.org/InStock',
         'url' => $canonical,
@@ -117,7 +119,7 @@
     gtag('event', 'workshop_view', {
       workshop_slug: <?= json_encode((string) $workshop['slug']) ?>,
       workshop_title: <?= json_encode((string) $workshop['title']) ?>,
-      value: <?= json_encode($price) ?>,
+      value: <?= json_encode(\TCM\Services\RegionalPricing::charge($price)) ?>,
       currency: 'INR'
     });
   </script>
@@ -429,17 +431,22 @@
                 <div class="tcm-eyebrow" style="margin-bottom: 6px;">COHORT PASS</div>
                 <div style="display: flex; align-items: baseline; gap: 10px;">
                   <span style="font-size: 34px; font-weight: 800; color: var(--tcm-fg); letter-spacing: -0.02em;">
-                    ₹<?= number_format($price, 0) ?>
+                    <?= e(\TCM\Services\RegionalPricing::display($price)) ?>
                   </span>
                   <?php if ($origPrice > $price): ?>
                     <span style="font-size: 16px; color: var(--tcm-muted); text-decoration: line-through;">
-                      ₹<?= number_format($origPrice, 0) ?>
+                      <?= e(\TCM\Services\RegionalPricing::display($origPrice)) ?>
                     </span>
                     <span style="font-size: 11px; font-weight: 700; background: #EAE9E4; color: var(--tcm-fg); padding: 2px 6px;">
                       <?= round((($origPrice - $price) / $origPrice) * 100) ?>% OFF
                     </span>
                   <?php endif; ?>
                 </div>
+                <?php if (\TCM\Services\RegionalPricing::isInternational() && $price > 0): ?>
+                  <div class="tcm-course-usd" style="margin-top: 4px;">
+                    Bank transfer in INR · <?= e(\TCM\Services\RegionalPricing::formatInr(\TCM\Services\RegionalPricing::charge($price))) ?>
+                  </div>
+                <?php endif; ?>
 
                 <div style="font-size: 12px; color: var(--tcm-muted); margin-top: 6px;">
                   One-time cohort registration fee. Zero hidden charges.
@@ -472,13 +479,13 @@
 
               <!-- CTA Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>" style="width: 100%; height: 50px;">
-                  <span>Book Seat &mdash; ₹<?= number_format($price, 0) ?></span>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price) ?>" style="width: 100%; height: 50px;">
+                  <span>Book Seat &mdash; <?= e(\TCM\Services\RegionalPricing::display($price)) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
                 <?php
-                  $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me.";
+                  $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']}. Please guide me.";
                   $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
                 ?>
                 <a href="<?= $waUrl ?>" target="_blank" rel="noopener noreferrer" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center; height: 44px;">
@@ -518,9 +525,9 @@
           <div class="tcm-sticky-bottom-right">
             <div class="tcm-sticky-bottom-pricing">
               <div class="tcm-sticky-bottom-price-row">
-                <span class="tcm-sticky-bottom-price">₹<?= number_format($price, 0) ?></span>
+                <span class="tcm-sticky-bottom-price"><?= e(\TCM\Services\RegionalPricing::display($price)) ?></span>
                 <?php if ($origPrice > $price): ?>
-                  <span class="tcm-sticky-bottom-orig">₹<?= number_format($origPrice, 0) ?></span>
+                  <span class="tcm-sticky-bottom-orig"><?= e(\TCM\Services\RegionalPricing::display($origPrice)) ?></span>
                 <?php endif; ?>
               </div>
               <div class="tcm-sticky-bottom-sub">
@@ -529,15 +536,15 @@
             </div>
             <div class="tcm-sticky-bottom-actions">
               <?php
-                $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']} (₹{$workshop['price']}). Please guide me.";
+                $waMsg = "Hi TCM One team! I have questions regarding the {$workshop['short_title']}. Please guide me.";
                 $waUrl = "https://wa.me/919238695500?text=" . rawurlencode($waMsg);
               ?>
               <a href="<?= $waUrl ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp">
                 <i class="bi bi-whatsapp"></i>
                 <span class="d-none d-sm-inline" style="margin-left: 2px;">Chat</span>
               </a>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= $price ?>">
-                <span>Book Seat &middot; ₹<?= number_format($price, 0) ?></span>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-workshop" data-slug="<?= e($workshop['slug']) ?>" data-title="<?= e($workshop['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price) ?>">
+                <span>Book Seat &middot; <?= e(\TCM\Services\RegionalPricing::display($price)) ?></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -557,6 +564,10 @@
       <button type="button" class="tcm-modal-close" id="tcmWsCloseBtn" aria-label="Close modal">&times;</button>
       <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT SEAT RESERVATION</div>
       <h3 id="tcmWsTitle" class="tcm-h3" style="margin-bottom: 4px;">Reserve Your Workshop Seat</h3>
+      <?php if ($isBankTransfer): ?>
+        <p>Pay by bank transfer. Sign in to see the account details and submit your transfer receipt for verification.</p>
+        <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/student/payments/submit?type=event&slug=' . rawurlencode($workshop['slug']))) ?>">View Bank Transfer Instructions</a>
+      <?php else: ?>
       <div id="tcmWsPrice" style="font-size: 14px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;"></div>
       <div id="tcmWsFeedback" style="display: none;"></div>
 
@@ -584,11 +595,12 @@
         <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
         Instant confirmation via WhatsApp &amp; Email upon payment.
       </div>
+      <?php endif; ?>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.24') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
 </html>

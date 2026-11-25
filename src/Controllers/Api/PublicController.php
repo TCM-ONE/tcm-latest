@@ -53,6 +53,7 @@ final class PublicController extends Controller
 
     public function courses(): void
     {
+        \TCM\Services\RegionalPricing::preventSharedCaching();
         $courses = Course::listWithCategory([
             'status'   => 'published',
             'audience' => Request::string('audience') ?: null,
@@ -70,6 +71,8 @@ final class PublicController extends Controller
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['thumbnail']        = $course['thumbnail_url'];
             $course['price_usd']        = usd_price($course['price'] ?? 0);
+            $course['display_price'] = \TCM\Services\RegionalPricing::display((float) ($course['price'] ?? 0));
+            $course['display_original_price'] = \TCM\Services\RegionalPricing::display((float) ($course['original_price'] ?? 0));
             $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
         }
         Response::success($courses, 'Courses fetched.');

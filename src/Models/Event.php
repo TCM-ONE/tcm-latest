@@ -42,6 +42,24 @@ final class Event extends Model
         return self::findBy(['slug' => $slug]);
     }
 
+    /** Create the event record for a workshop listed in the public catalog. */
+    public static function registerCatalogWorkshop(array $workshop): ?array
+    {
+        Database::run("
+            INSERT INTO events (title, slug, description, category, type, status, price, mode, total_seats, seats_filled)
+            VALUES (?, ?, ?, 'general', ?, 'upcoming', ?, 'online', 50, 0)
+            ON DUPLICATE KEY UPDATE slug = VALUES(slug)
+        ", [
+            $workshop['title'],
+            $workshop['slug'],
+            $workshop['description'] ?? '',
+            ((float) $workshop['price'] > 0 ? 'paid' : 'free'),
+            (float) $workshop['price'],
+        ]);
+
+        return self::findBySlug($workshop['slug']);
+    }
+
     public static function seatsLeft(array $event): int
     {
         // Support both seats_filled column and calculated from total-seats_filled

@@ -48,9 +48,33 @@ final class PaymentController extends Controller
      */
     public function showForm(): void
     {
+        \TCM\Services\RegionalPricing::preventSharedCaching();
+        if (Auth::user() === null) {
+            $target = '/student/payments/submit?' . http_build_query([
+                'type' => Request::string('type'),
+                'id' => Request::int('id'),
+                'slug' => Request::string('slug'),
+            ]);
+            $_SESSION['auth_return_to'] = $target;
+            redirect('/auth/login');
+        }
         $user = Auth::require('student');
         $type = Request::string('type');
         $id   = Request::int('id');
+
+        $slug = Request::string('slug');
+        if ($type === 'event' && $id <= 0 && $slug !== '') {
+            $event = Event::findBySlug($slug);
+            $workshop = \TCM\Core\WorkshopData::find($slug);
+            if ($event === null && $workshop !== null && \TCM\Services\RegionalPricing::isInternational()) {
+                $event = Event::registerCatalogWorkshop($workshop);
+            }
+            $id = (int) ($event['id'] ?? 0);
+            if ($id <= 0) {
+                flash('error', 'This workshop is unavailable for bank transfer. Contact admissions before sending payment.');
+                redirect('/student/payments');
+            }
+        }
 
         $item = null;
         if ($type !== '' && $id > 0) {
@@ -69,6 +93,7 @@ final class PaymentController extends Controller
             'item'     => $item,
             'itemType' => $type,
             'itemId'   => $id,
+            'transferDue' => $this->internationalTransferDue($type, $item),
             'courses'  => Database::all("SELECT id, title, price FROM courses  WHERE status='published' ORDER BY title"),
             'events'   => Database::all("SELECT id, title, price FROM events   WHERE status!='past'    ORDER BY title"),
             'programs' => Database::all("SELECT id, title, price FROM programs WHERE status='published' ORDER BY title"),
@@ -86,6 +111,15 @@ final class PaymentController extends Controller
             $itemTitle = $item['title'] ?? Request::string('item_title_manual', 'Manual Payment');
 
             if ($item === null && $itemId > 0) { $itemId = 0; }
+
+            $transferDue = $this->internationalTransferDue($type, $item);
+            if ($transferDue !== null && (Request::string('payment_method') !== 'bank_transfer'
+                || !Upload::present($_FILES['screenshot'] ?? null)
+                || trim(Request::string('transaction_ref')) === ''
+                || (float) Request::string('amount') !== $transferDue)) {
+                flash('error', 'Submit the exact INR amount shown, enter your bank transfer reference, and upload your receipt.');
+                redirect('/student/payments/submit?type=' . rawurlencode($type) . '&id=' . $itemId);
+            }
 
             // Auto-create payment_submissions table if migration hasn't run yet
             $tableExists = (bool) Database::scalar(
@@ -333,6 +367,20 @@ final class PaymentController extends Controller
     }
 
     /** @return array<string,mixed>|null */
+    private function internationalTransferDue(string $type, ?array $item): ?float
+    {
+        if (!\TCM\Services\RegionalPricing::isInternational() || $item === null || !in_array($type, ['course', 'event'], true)) {
+            return null;
+        }
+
+        $price = (float) ($item['price'] ?? 0);
+        if ($type === 'course') {
+            $price = \TCM\Services\DiwaliOffer::priceFor((string) $item['slug'], $price);
+        }
+
+        return $price > 0 ? \TCM\Services\RegionalPricing::charge($price) : null;
+    }
+
     private function resolveItem(string $type, int $id): ?array
     {
         return match ($type) {
