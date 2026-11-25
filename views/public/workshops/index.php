@@ -1,3 +1,4 @@
+<?php \TCM\Services\RegionalPricing::preventSharedCaching(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,10 +142,10 @@
               <div class="tcm-workshop-footer">
                 <div class="tcm-workshop-pricing">
                   <div class="tcm-workshop-price-row">
-                    <span class="tcm-workshop-price-tag">₹<?= number_format($price, 0) ?></span>
+                    <span class="tcm-workshop-price-tag"><?= e(\TCM\Services\RegionalPricing::display($price)) ?></span>
                     <?php if ($origPrice > $price): ?>
                       <span class="tcm-workshop-price-orig">
-                        ₹<?= number_format($origPrice, 0) ?>
+                        <?= e(\TCM\Services\RegionalPricing::display($origPrice)) ?>
                       </span>
                     <?php endif; ?>
                   </div>

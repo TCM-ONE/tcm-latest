@@ -74,18 +74,7 @@ final class PublicPaymentController extends Controller
                     $wsDef = WorkshopData::find($resolvedSlug);
                     if ($wsDef !== null) {
                         try {
-                            Database::run("
-                                INSERT INTO events (title, slug, description, category, type, status, price, mode, total_seats, seats_filled)
-                                VALUES (?, ?, ?, 'general', ?, 'upcoming', ?, 'online', 50, 0)
-                                ON DUPLICATE KEY UPDATE title = VALUES(title), price = VALUES(price)
-                            ", [
-                                $wsDef['title'],
-                                $resolvedSlug,
-                                $wsDef['description'] ?? '',
-                                ((float) $wsDef['price'] > 0 ? 'paid' : 'free'),
-                                (float) $wsDef['price']
-                            ]);
-                            $workshop = Event::findBySlug($resolvedSlug);
+                            $workshop = Event::registerCatalogWorkshop($wsDef);
                         } catch (\Throwable $e) {
                             $workshop = [
                                 'id'    => 9999,
@@ -120,6 +109,10 @@ final class PublicPaymentController extends Controller
             $resolvedSlug = (string) $course['slug'];
             $itemTitle = (string) $course['title'];
             $amount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
+        }
+
+        if ($amount > 0 && \TCM\Services\RegionalPricing::isInternational()) {
+            $this->abortWithError('International checkout uses bank transfer. Open the payment instructions on the course or workshop page.');
         }
 
         // 1. Resolve or Create User
@@ -394,6 +387,7 @@ final class PublicPaymentController extends Controller
      */
     public function getInstallmentPlans(array $params): void
     {
+        \TCM\Services\RegionalPricing::preventSharedCaching();
         $slug = (string) ($params['slug'] ?? '');
         $course = Course::findBySlug($slug);
         if (!$course) {
@@ -407,6 +401,11 @@ final class PublicPaymentController extends Controller
         }
 
         $price = (float) $course['price'];
+        if (\TCM\Services\RegionalPricing::isInternational()) {
+            Response::success([]);
+            return;
+        }
+
         $plans = InstallmentService::getAvailablePlansForCourse($price, (int) $course['id']);
         Response::success($plans);
     }

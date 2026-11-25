@@ -3,7 +3,8 @@ use TCM\Models\PaymentSubmission;
 use TCM\Models\Setting;
 
 $isPreFilled = ($item !== null);
-$prePrice    = $item ? (float)($item['price'] ?? 0) : 0;
+$isBankTransfer = $transferDue !== null;
+$prePrice = $transferDue ?? ($item ? (float)($item['price'] ?? 0) : 0);
 $preType     = $itemType ?: 'course';
 $preId       = $itemId   ?: 0;
 
@@ -224,8 +225,8 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
         <div class="tcm-grid-2">
             <div class="tcm-field" style="margin-bottom:10px;">
                 <label>Amount Paid (₹) *</label>
-                <input class="tcm-input" type="number" step="1" name="amount" id="ps2Amount"
-                       value="<?= $prePrice>0 ? (int)$prePrice : '' ?>"
+                <input class="tcm-input" type="number" step="<?= $isBankTransfer ? '0.01' : '1' ?>" name="amount" id="ps2Amount"
+                       value="<?= $prePrice > 0 ? ($isBankTransfer ? number_format($prePrice, 2, '.', '') : (int)$prePrice) : '' ?>" <?= $isBankTransfer ? 'readonly' : '' ?>
                        required placeholder="999" style="font-size:1rem;font-weight:700;">
             </div>
             <div class="tcm-field" style="margin-bottom:10px;">
@@ -234,6 +235,10 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
                        value="<?= date('Y-m-d') ?>" required max="<?= date('Y-m-d') ?>">
             </div>
         </div>
+        <?php if ($isBankTransfer): ?>
+            <p>Payment method · International bank transfer</p>
+            <input type="hidden" name="payment_method" value="bank_transfer">
+        <?php else: ?>
         <!-- Method tiles -->
         <div style="margin-bottom:10px;">
             <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#aaa;margin-bottom:7px;">Method</div>
@@ -257,9 +262,10 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
             </div>
             <input type="hidden" name="payment_method" id="ps2MethodVal" value="upi">
         </div>
+        <?php endif; ?>
         <div class="tcm-field" style="margin-bottom:10px;">
-            <label>Transaction ID / UTR <span id="ps2RefReq" style="font-weight:400;color:#aaa;font-size:.75em;">(required for UPI)</span></label>
-            <input class="tcm-input" name="transaction_ref" id="ps2Ref" placeholder="e.g. T2506161234ABCXYZ">
+            <label>Transaction ID / UTR <span id="ps2RefReq" style="font-weight:400;color:#aaa;font-size:.75em;"><?= $isBankTransfer ? '(required)' : '(required for UPI)' ?></span></label>
+            <input class="tcm-input" name="transaction_ref" id="ps2Ref" maxlength="120" <?= $isBankTransfer ? 'required' : '' ?> placeholder="e.g. T2506161234ABCXYZ">
         </div>
         <div class="tcm-field" style="margin-bottom:10px;">
             <label>Referral Code <span style="font-weight:400;color:#aaa;font-size:.75em;">(optional)</span></label>
@@ -290,6 +296,9 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
     <div class="ps2-card" style="border-color:#d1fae5;background:#f9fffe;">
         <div class="ps2-label" style="color:#15803d;border-color:#d1fae5;"><i class="bi bi-cash-stack" style="color:#16a34a;"></i> Pay To</div>
 
+        <?php if ($isBankTransfer): ?>
+            <?php \TCM\Core\View::partial('partials.international-bank-transfer', ['prePrice' => $prePrice]); ?>
+        <?php else: ?>
         <?php if ($upiId): ?>
         <div class="ps2-payto" style="border-color:#bbf7d0;background:#f0fdf4;">
             <div class="ps2-payto-label">📱 UPI / GPay / PhonePe</div>
@@ -324,6 +333,7 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
         <div style="margin-top:12px;font-size:.75rem;color:#555;line-height:1.6;padding-top:10px;border-top:1px solid #e5e5e5;">
             <i class="bi bi-info-circle" style="color:#3b82f6;"></i> <?= nl2br(e($payNote)) ?>
         </div>
+        <?php endif; ?>
         <?php endif; ?>
     </div>
 

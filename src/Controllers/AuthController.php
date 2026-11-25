@@ -147,12 +147,15 @@ final class AuthController extends Controller
             base_url('/admin/students')
         );
 
+        $returnTo = $this->safeReturnTo($_SESSION['auth_return_to'] ?? null, ['role' => 'student']);
+        unset($_SESSION['auth_return_to']);
+
         if (Request::isJson()) {
-            \TCM\Core\Response::success(['redirect' => base_url('/student/onboarding')], 'Account created.');
+            \TCM\Core\Response::success(['redirect' => $returnTo ? base_url($returnTo) : base_url('/student/onboarding')], 'Account created.');
         }
 
         flash('success', 'Account created. Let\'s set up your profile.');
-        redirect('/student/onboarding');
+        redirect($returnTo ?? '/student/onboarding');
     }
 
     public function showOnboarding(): void

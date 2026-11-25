@@ -106,13 +106,6 @@
     return '₹' + val.toLocaleString('en-IN');
   }
 
-  function formatUsd(n) {
-    var inr = Number(n || 0);
-    if (!inr) return '$0 USD';
-    var usd = Math.ceil((inr / 93 * 1.30) / 5) * 5;
-    return 'Approx. $' + usd.toLocaleString('en-US') + ' USD';
-  }
-
   function getJSON(url) {
     return fetch(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
       .then(function (r) { return r.json(); });
@@ -330,10 +323,9 @@
         '<div class="tcm-course-bottom">' +
           '<div class="tcm-course-price-wrap">' +
             '<div>' +
-              '<span class="tcm-course-price">' + formatMoney(priceInr) + '</span>' +
-              (origInr ? '<span class="tcm-course-orig-price">' + formatMoney(origInr) + '</span>' : '') +
+              '<span class="tcm-course-price">' + esc(c.display_price || formatMoney(priceInr)) + '</span>' +
+              (origInr ? '<span class="tcm-course-orig-price">' + esc(c.display_original_price || formatMoney(origInr)) + '</span>' : '') +
             '</div>' +
-            '<span class="tcm-course-usd">' + formatUsd(priceInr) + '</span>' +
           '</div>' +
           '<a href="' + esc(courseUrl) + '" class="tcm-btn tcm-btn-secondary tcm-btn-sm">' +
             '<span>View Course</span>' +

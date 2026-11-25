@@ -1,3 +1,4 @@
+<?php \TCM\Services\RegionalPricing::preventSharedCaching(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,9 +62,10 @@
     $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
-    $isSeatBookingAvailable = \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
+    $isBankTransfer = $price > 0 && \TCM\Services\RegionalPricing::isInternational();
+    $isSeatBookingAvailable = !$isBankTransfer && \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
     $seatBookingAmount = \TCM\Services\CourseSeatBooking::AMOUNT;
-    $isInstallmentEligible = !$isDiwaliOffer && !$isSeatBookingAvailable && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
+    $isInstallmentEligible = !$isBankTransfer && !$isDiwaliOffer && !$isSeatBookingAvailable && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -93,7 +95,7 @@
       ],
       'offers' => [
         '@type' => 'Offer',
-        'price' => (string) $price,
+        'price' => (string) \TCM\Services\RegionalPricing::charge($price),
         'priceCurrency' => 'INR',
         'availability' => 'https://schema.org/InStock',
         'url' => $canonical,
@@ -135,7 +137,7 @@
     gtag('event', 'course_view', {
       course_slug: <?= json_encode((string) $course['slug']) ?>,
       course_title: <?= json_encode((string) $course['title']) ?>,
-      value: <?= json_encode($price) ?>,
+      value: <?= json_encode(\TCM\Services\RegionalPricing::charge($price)) ?>,
       currency: 'INR'
     });
   </script>
@@ -393,15 +395,19 @@
               <div style="margin-bottom: 20px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px;">
                 <div style="display: flex; align-items: baseline; gap: 8px;">
                   <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>
-                    ₹<?= number_format($price, 0) ?>
+                    <?= e(\TCM\Services\RegionalPricing::display($price)) ?>
                   </span>
                   <?php if ($origPrice > $price): ?>
                     <span style="font-size: 16px; color: #999; text-decoration: line-through;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>
-                      ₹<?= number_format($origPrice, 0) ?>
+                      <?= e(\TCM\Services\RegionalPricing::display($origPrice)) ?>
                     </span>
                   <?php endif; ?>
                 </div>
-                <div class="tcm-course-usd" style="font-size: 13px; margin-top: 4px;">Approx. <?= e(money_usd($price)) ?> USD <span>(checkout billed in INR)</span></div>
+                <?php if (\TCM\Services\RegionalPricing::isInternational() && $price > 0): ?>
+                  <div class="tcm-course-usd" style="margin-top: 4px;">
+                    Bank transfer in INR · <?= e(\TCM\Services\RegionalPricing::formatInr(\TCM\Services\RegionalPricing::charge($price))) ?>
+                  </div>
+                <?php endif; ?>
                 <?php if ($isInstallmentEligible): ?>
                   <div style="font-size: 13px; font-weight: 600; color: #111; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
                     <i class="bi bi-credit-card-2-front" style="color: #111;"></i>
@@ -443,8 +449,8 @@
               <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
 <!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
-                  <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ₹' . number_format($price, 0) ?></span>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
+                  <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ' . \TCM\Services\RegionalPricing::display($price) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
@@ -491,10 +497,9 @@
           <div class="tcm-sticky-bottom-right" style="gap: 8px; width: 100%; justify-content: space-between; min-width: 0;">
             <div class="tcm-sticky-bottom-pricing" style="flex-shrink: 0;">
               <div class="tcm-sticky-bottom-price-row">
-                <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>₹<?= number_format($price, 0) ?></span>
-                <span class="tcm-course-usd">≈ <?= e(money_usd($price)) ?> USD</span>
+                <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($price)) ?></span>
                 <?php if ($origPrice > $price): ?>
-                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>₹<?= number_format($origPrice, 0) ?></span>
+                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($origPrice)) ?></span>
                 <?php endif; ?>
               </div>
               <div class="tcm-sticky-bottom-sub" style="font-size: 10px;">
@@ -505,8 +510,8 @@
               <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp" style="flex-shrink: 0; padding: 0; width: 36px; height: 38px; justify-content: center; min-width: 36px;">
                 <i class="bi bi-whatsapp"></i>
               </a>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= $price ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ₹' . number_format($price, 0) ?></span></span>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ' . \TCM\Services\RegionalPricing::display($price) ?></span></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; width: 12px; height: 12px;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -526,20 +531,25 @@
   <!-- Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
+  <?php $price = \TCM\Services\RegionalPricing::charge($price); ?>
   <!-- Course Enrollment Modal -->
   <div class="tcm-modal-overlay" id="tcmCourseModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmCourseModalTitle">
     <div class="tcm-modal">
       <button type="button" class="tcm-modal-close" id="tcmCourseCloseBtn" aria-label="Close modal">&times;</button>
       <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT ENROLLMENT</div>
       <h3 id="tcmCourseModalTitle" class="tcm-h3" style="margin-bottom: 4px;">Enroll in <?= e($course['title']) ?></h3>
+      <?php if ($isBankTransfer): ?>
+        <p>Pay by bank transfer. Sign in to see the account details and submit your transfer receipt for verification.</p>
+        <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/student/payments/submit?type=course&id=' . (int)$course['id'])) ?>">View Bank Transfer Instructions</a>
+      <?php else: ?>
       <div id="tcmCoursePrice" style="font-size: 14.5px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;">
-        Tuition Fee: ₹<?= number_format($price, 0) ?> (All Taxes Included)
+        Tuition Fee: <?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?> (All Taxes Included)
       </div>
       <?php if ($isSeatBookingAvailable): ?>
       <fieldset id="tcmSeatBookingChoice" class="course-booking-options">
         <legend>Choose how you want to pay</legend>
         <label><input type="radio" name="course-payment-choice" value="seat_booking" checked><span><strong>Reserve your seat · ₹1,000 today</strong><small>Remaining balance due before the first class on 12 November 2026.</small></span></label>
-        <label><input type="radio" name="course-payment-choice" value="full"><span><strong>Pay full tuition · ₹<?= number_format($price, 0) ?></strong><small>Complete the course payment now.</small></span></label>
+        <label><input type="radio" name="course-payment-choice" value="full"><span><strong>Pay full tuition · <?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?></strong><small>Complete the course payment now.</small></span></label>
       </fieldset>
       <?php endif; ?>
       <div id="tcmCourseFeedback" style="display: none;"></div>
@@ -559,7 +569,7 @@
           <input type="tel" id="tcmCoursePhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
         </div>
         <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmCourseSubmitBtn" style="width: 100%; height: 50px;">
-          <span>Proceed to Pay &middot; ₹<?= number_format($price, 0) ?></span>
+          <span>Proceed to Pay &middot; <?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?></span>
           <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
         </button>
       </form>
@@ -568,6 +578,7 @@
         <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
         UPI (GPay / PhonePe / Paytm), Credit/Debit Cards, NetBanking supported.
       </div>
+      <?php endif; ?>
     </div>
   </div>
 
@@ -655,7 +666,7 @@
             <?= e($course['title']) ?>
           </h3>
           <div style="font-size: 11.5px; color: var(--tcm-muted); margin-top: 2px;">
-            Total Tuition: <strong style="color: #111;">₹<?= number_format($price, 0) ?></strong> <span style="font-size: 10.5px;">(All Taxes Included)</span>
+            Total Tuition: <strong style="color: #111;"><?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?></strong> <span style="font-size: 10.5px;">(All Taxes Included)</span>
           </div>
         </div>
         <button type="button" class="tcm-modal-close" id="tcmInstallmentCloseBtn" aria-label="Close modal" style="position: static; width: 28px; height: 28px; border-radius: 0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; border: 1px solid #111; color: #111; background: transparent; cursor: pointer;">&times;</button>
@@ -688,11 +699,11 @@
                         <span style="font-size: 8px; font-weight: 800; background: #111; color: #FFF; padding: 1px 4px; text-transform: uppercase; letter-spacing: 0.03em;">RECOMMENDED</span>
                       </div>
                       <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px; line-height: 1.3;">
-                        Pay ₹<?= number_format(round($s3[0]['amount']), 0) ?> now &middot; 2 parts of ₹<?= number_format(round($s3[1]['amount']), 0) ?>
+                        Pay <?= e(\TCM\Services\RegionalPricing::formatInr($s3[0]['amount'])) ?> now &middot; 2 parts of <?= e(\TCM\Services\RegionalPricing::formatInr($s3[1]['amount'])) ?>
                       </div>
                     </div>
                     <div style="text-align: right; flex-shrink: 0;">
-                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format(round($s3[0]['amount']), 0) ?></div>
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;"><?= e(\TCM\Services\RegionalPricing::formatInr($s3[0]['amount'])) ?></div>
                       <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
                     </div>
                   </div>
@@ -707,11 +718,11 @@
                     <div style="min-width: 0; flex: 1;">
                       <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #111; white-space: nowrap;">2 Installments</span>
                       <div style="font-size: 11px; color: var(--tcm-muted); margin-top: 2px; line-height: 1.3;">
-                        Pay ₹<?= number_format(round($s2[0]['amount']), 0) ?> now &middot; ₹<?= number_format(round($s2[1]['amount']), 0) ?> in 15 days
+                        Pay <?= e(\TCM\Services\RegionalPricing::formatInr($s2[0]['amount'])) ?> now &middot; <?= e(\TCM\Services\RegionalPricing::formatInr($s2[1]['amount'])) ?> in 15 days
                       </div>
                     </div>
                     <div style="text-align: right; flex-shrink: 0;">
-                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format(round($s2[0]['amount']), 0) ?></div>
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;"><?= e(\TCM\Services\RegionalPricing::formatInr($s2[0]['amount'])) ?></div>
                       <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
                     </div>
                   </div>
@@ -730,7 +741,7 @@
                       </div>
                     </div>
                     <div style="text-align: right; flex-shrink: 0;">
-                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;">₹<?= number_format($price, 0) ?></div>
+                      <div style="font-size: 13.5px; font-weight: 800; color: #111; line-height: 1.1;"><?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?></div>
                       <div style="font-size: 9.5px; color: var(--tcm-muted); font-weight: 600; margin-top: 1px;">today</div>
                     </div>
                   </div>
@@ -743,14 +754,14 @@
           <div style="background: #F8F9FA; border: 1px solid #E5E7EB; padding: 8px 11px; margin-bottom: 12px; font-size: 11px; border-radius: 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
               <span style="color: var(--tcm-muted);">Amount Due Today:</span>
-              <strong id="planPayToday" style="color: #111; font-size: 12.5px; font-weight: 800;">₹<?= number_format(round($s3[0]['amount']), 0) ?></strong>
+              <strong id="planPayToday" style="color: #111; font-size: 12.5px; font-weight: 800;"><?= e(\TCM\Services\RegionalPricing::formatInr($s3[0]['amount'])) ?></strong>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
               <span style="color: var(--tcm-muted);">Remaining Balance:</span>
-              <strong id="planRemaining" style="color: #111; font-weight: 700;">₹<?= number_format(round($price - $s3[0]['amount']), 0) ?></strong>
+              <strong id="planRemaining" style="color: #111; font-weight: 700;"><?= e(\TCM\Services\RegionalPricing::formatInr($price - $s3[0]['amount'])) ?></strong>
             </div>
             <div id="planScheduleDates" style="border-top: 1px dashed #D1D5DB; padding-top: 4px; margin-top: 4px; font-size: 10.5px; color: var(--tcm-muted); line-height: 1.35;">
-              Milestone 1: Today (₹<?= number_format(round($s3[0]['amount']), 0) ?>) &middot; Milestone 2: <?= date('d M Y', strtotime($s3[1]['due_date'])) ?> (₹<?= number_format(round($s3[1]['amount']), 0) ?>) &middot; Milestone 3: <?= date('d M Y', strtotime($s3[2]['due_date'])) ?> (₹<?= number_format(round($s3[2]['amount']), 0) ?>)
+              Milestone 1: Today (<?= e(\TCM\Services\RegionalPricing::formatInr($s3[0]['amount'])) ?>) &middot; Milestone 2: <?= date('d M Y', strtotime($s3[1]['due_date'])) ?> (<?= e(\TCM\Services\RegionalPricing::formatInr($s3[1]['amount'])) ?>) &middot; Milestone 3: <?= date('d M Y', strtotime($s3[2]['due_date'])) ?> (<?= e(\TCM\Services\RegionalPricing::formatInr($s3[2]['amount'])) ?>)
             </div>
           </div>
 
@@ -779,7 +790,7 @@
         <!-- Pinned Modal Footer with CTA (Always visible, never cut off!) -->
         <div class="tcm-plan-modal-footer">
           <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmInstSubmitBtn" style="width: 100%; height: 44px; border-radius: 0; font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em;">
-            <span>PROCEED TO PAY ₹<?= number_format(round($s3[0]['amount']), 0) ?></span>
+            <span>PROCEED TO PAY <?= e(\TCM\Services\RegionalPricing::formatInr($s3[0]['amount'])) ?></span>
             <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
           </button>
           <div style="margin-top: 6px; font-size: 10px; color: var(--tcm-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px;">
@@ -821,7 +832,7 @@
     var s3_due3 = '<?= date('d M Y', strtotime($s3[2]['due_date'])) ?>';
 
     function roundInr(val) {
-      return Math.round(Number(val) || 0);
+      return Math.round((Number(val) || 0) * 100) / 100;
     }
     function formatInr(val) {
       return roundInr(val).toLocaleString('en-IN');
@@ -1062,7 +1073,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.23') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.24') ?>"></script>
   <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>
