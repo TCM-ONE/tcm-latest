@@ -875,12 +875,16 @@ body {
 
 .tcm-hero-video {
   min-width: 0;
-  scroll-margin-top: 100px;
+}
+
+.tcm-hero-actions [hidden] {
+  display: none;
 }
 
 .tcm-hero-video iframe {
   display: block;
   width: 100%;
+  min-height: 200px;
   aspect-ratio: 16 / 9;
   border: 0;
 }
