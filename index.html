@@ -68,7 +68,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.19">
-  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.20">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.21">
   <link rel="stylesheet" href="./assets/partners-home.css?v=4">
 
   <!-- Structured Data (JSON-LD) -->
@@ -323,15 +323,16 @@
                 <span>Explore Courses</span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </a>
-              <a href="#hero-video" class="tcm-btn tcm-btn-secondary">
-                <span>Watch the Intro</span>
+              <a href="https://www.youtube.com/watch?v=KZwKFz-ZJDU" class="tcm-btn tcm-btn-secondary" id="hero-video-fallback">
+                <span>Play Video</span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </a>
+              <button type="button" class="tcm-btn tcm-btn-secondary" id="hero-video-toggle" aria-controls="hero-video-player" hidden>Play Video</button>
             </div>
           </div>
 
           <div class="tcm-hero-video" id="hero-video">
-            <iframe src="https://www.youtube-nocookie.com/embed/KZwKFz-ZJDU?rel=0" title="Introduction to TCM One online coding courses" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe id="hero-video-player" src="https://www.youtube-nocookie.com/embed/KZwKFz-ZJDU?enablejsapi=1&amp;controls=0&amp;playsinline=1&amp;fs=0&amp;disablekb=1&amp;rel=0" title="Introduction to TCM One online coding courses" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         </div>
       </div>
@@ -1741,5 +1742,6 @@
 
   <!-- Client-side Scripts -->
   <script src="./assets/tcm-editorial.js?v=2.24"></script>
+  <script src="./assets/hero-video.js" defer></script>
 </body>
 </html>
