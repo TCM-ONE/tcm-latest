@@ -946,7 +946,7 @@ try {
             'desc' => 'Learn HTML, CSS and JavaScript through practical live sessions. Build and publish your first responsive mini website from scratch with expert mentor guidance.'
         ],
         [
-            'title' => 'Data Analysis Masterclass | Dussehra Special',
+            'title' => 'Data Analysis Masterclass',
             'slug' => 'data-analysis-workshop',
             'subtitle' => 'Excel, SQL, Python & Power BI in 2 Weeks',
             'price' => 999.00,
