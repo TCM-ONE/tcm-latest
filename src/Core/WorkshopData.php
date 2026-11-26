@@ -265,20 +265,20 @@ final class WorkshopData
 
             'data-analysis-workshop' => [
                 'slug'              => 'data-analysis-workshop',
-                'title'             => 'Data Analysis Masterclass: Excel, SQL, Python & Power BI | Dussehra Special',
+                'title'             => 'Data Analysis Masterclass: Excel, SQL, Python & Power BI',
                 'short_title'       => 'Data Analysis Workshop',
                 'tagline'           => 'Master Excel, SQL, Python & Power BI in 2 weeks of live classes with real-world business datasets.',
-                'description'       => 'Join the 2-week Data Analysis Workshop from TCM One for ₹999 (Dussehra Special). Learn Excel analytics, SQL querying, Python Pandas, and Power BI dashboards with live mentor guidance.',
-                'full_description'  => 'Kickstart your data career with our intensive 2-Week Dussehra Special Data Analysis Workshop. Over 2 weeks of live hands-on classes, you\'ll learn end-to-end data processing: from raw spreadsheets in Microsoft Excel, to relational database querying with SQL, data manipulation with Python & Pandas, and creating interactive executive dashboards in Power BI.',
+                'description'       => 'Join the 2-week Data Analysis Workshop from TCM One for ₹999. Learn Excel analytics, SQL querying, Python Pandas, and Power BI dashboards with live mentor guidance.',
+                'full_description'  => 'Kickstart your data career with our intensive 2-week Data Analysis Workshop. Over 2 weeks of live hands-on classes, you\'ll learn end-to-end data processing: from raw spreadsheets in Microsoft Excel, to relational database querying with SQL, data manipulation with Python & Pandas, and creating interactive executive dashboards in Power BI.',
                 'price'             => 999.00,
                 'original_price'    => 2499.00,
                 'duration'          => '2 Weeks',
                 'schedule'          => 'Evening live sessions (Mon–Fri)',
-                'starts_at'         => 'Dussehra Special Cohort Starting Soon',
+                'starts_at'         => 'Next Batch Coming Soon',
                 'mode'              => 'Live Online Cohort',
                 'category'          => 'Data Analytics',
                 'icon'              => 'bi-bar-chart-line',
-                'badge'             => 'Dussehra Special &middot; 2 Weeks Live',
+                'badge'             => '2 Weeks Live',
                 'curriculum'        => [
                     [
                         'day' => 'Day 01',
@@ -390,7 +390,7 @@ final class WorkshopData
                     'Write production SQL queries with complex multi-table joins and aggregations',
                     'Data manipulation and exploratory analysis with Python, Pandas, and Seaborn',
                     'Build and publish interactive executive dashboards using Microsoft Power BI',
-                    'Dussehra Special Festive Cohort with mentor feedback, doubt clearing, and verified certificate',
+                    'Live cohort with mentor feedback, doubt clearing, and verified certificate',
                 ],
                 'target_audience'   => [
                     'College Students & Freshers: Build job-ready Data Analyst and Business Analyst portfolio projects.',
