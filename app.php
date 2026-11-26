@@ -358,7 +358,8 @@ $router->get('/workshops/{slug}',             ['TCM\Controllers\PublicWorkshopCo
 $router->get('/workshops/{slug}/og-image',    ['TCM\Controllers\PublicWorkshopController', 'ogImage']);
 $router->get('/courses',                      ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
 $router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
-$router->get('/online-coding-courses-usa',    ['TCM\Controllers\PublicWorkshopController', 'usLearners']);
+$router->get('/online-coding-courses-usa', [TCM\Controllers\UsLearningController::class, 'show']);
+$router->get('/online-coding-courses-usa/{topic}', [TCM\Controllers\UsLearningController::class, 'show']);
 $router->get('/courses/tracks/{slug}',        ['TCM\Controllers\PublicWorkshopController', 'courseTrack']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);

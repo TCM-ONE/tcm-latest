@@ -38,9 +38,14 @@
       'itemListElement' => [
         ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $appUrl . '/'],
         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Courses', 'item' => $appUrl . '/courses'],
-        ['@type' => 'ListItem', 'position' => 3, 'name' => 'U.S. Learners', 'item' => $canonical],
+        ['@type' => 'ListItem', 'position' => 3, 'name' => 'U.S. Learners', 'item' => $appUrl . $hubPath],
       ],
     ];
+    if ($topic !== null) {
+      $breadcrumbSchema['itemListElement'][] = [
+        '@type' => 'ListItem', 'position' => 4, 'name' => $topic['label'], 'item' => $canonical,
+      ];
+    }
   ?>
   <script type="application/ld+json"><?= json_encode($pageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
   <script type="application/ld+json"><?= json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
@@ -86,18 +91,54 @@
   <main id="mainContent" class="us-learning-page">
     <div class="us-learning-wrap">
       <nav aria-label="Breadcrumb" style="font-size:.84rem;color:var(--tcm-muted,#686762);margin-bottom:26px">
-        <a href="<?= e(base_url('/')) ?>">Home</a> / <a href="<?= e(base_url('/courses')) ?>">Courses</a> / U.S. learners
+        <a href="<?= e(base_url('/')) ?>">Home</a> / <a href="<?= e(base_url('/courses')) ?>">Courses</a> / <?php if ($topic === null): ?>U.S. learners<?php else: ?><a href="<?= e(base_url($hubPath)) ?>">U.S. learners</a> / <?= e($topic['label']) ?><?php endif; ?>
       </nav>
 
+      <?php if ($topic !== null): ?>
       <header class="us-learning-hero">
-        <div class="tcm-eyebrow">ONLINE LEARNING FOR THE UNITED STATES</div>
+        <h1><?= e($topic['heading']) ?></h1>
+        <p><?= e($topic['intro']) ?></p>
+        <div class="us-learning-actions">
+          <a class="tcm-btn tcm-btn-primary" href="#compare-courses">Compare courses</a>
+          <a class="tcm-btn tcm-btn-secondary" href="<?= e(base_url('/contact')) ?>">Ask about cohort times</a>
+        </div>
+      </header>
+
+      <section class="us-learning-section" aria-labelledby="compare-courses">
+        <h2 id="compare-courses">Compare the courses</h2>
+        <div class="us-learning-grid">
+          <?php foreach ($topic['courses'] as [$courseSlug, $courseName, $courseSummary]): ?>
+          <a class="us-learning-card" href="<?= e(base_url('/courses/' . $courseSlug)) ?>">
+            <h3><?= e($courseName) ?></h3>
+            <p><?= e($courseSummary) ?></p>
+          </a>
+          <?php endforeach; ?>
+        </div>
+      </section>
+
+      <section class="us-learning-section" aria-labelledby="sample-project">
+        <h2 id="sample-project"><?= e($topic['practiceHeading']) ?></h2>
+        <p><?= e($topic['practice']) ?></p>
+      </section>
+
+      <section class="us-learning-section" aria-labelledby="topic-faq">
+        <h2 id="topic-faq">Questions before you enroll</h2>
+        <div class="us-learning-faq">
+          <?php foreach ($topic['faq'] as [$question, $answer]): ?>
+          <details><summary><?= e($question) ?></summary><p><?= e($answer) ?></p></details>
+          <?php endforeach; ?>
+        </div>
+      </section>
+      <?php else: ?>
+
+      <header class="us-learning-hero">
         <h1>Mentor-led online coding courses for U.S. learners</h1>
-        <p>Explore practical online courses in Full Stack development, Python, AI, data analytics, cloud and programming foundations. Review the curriculum and current cohort details before choosing a course.</p>
+        <p>Compare live online courses in Python, data analysis, and AI and machine learning. See what each path teaches, try a sample project, and check whether the cohort fits your schedule.</p>
         <div class="us-learning-actions">
           <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/courses')) ?>">Browse courses <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           <a class="tcm-btn tcm-btn-secondary" href="<?= e(base_url('/contact')) ?>">Ask about schedule and payment</a>
         </div>
-        <p class="us-learning-note">TCM One is an India-based online education provider, not a U.S. campus or in-person U.S. training institute. Online access is remote; ask admissions to confirm cohort timings for your U.S. time zone.</p>
+        <p class="us-learning-note">TCM One teaches online from India. Ask admissions to confirm the cohort time and teaching language before enrolling from the United States.</p>
       </header>
 
       <section class="us-learning-section" aria-labelledby="us-course-paths">
@@ -105,35 +146,52 @@
         <h2 id="us-course-paths">Online programming courses and technology tracks</h2>
         <p>Start with the subject you want to learn. Course pages show the available curriculum, prerequisites, delivery format, fee and schedule.</p>
         <div class="us-learning-grid">
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/web-mobile-development')) ?>"><h3>Full Stack &amp; web development</h3><p>Explore frontend and full-stack web development courses.</p></a>
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/programming-foundations')) ?>"><h3>Python &amp; programming foundations</h3><p>Build core programming skills and learn practical tools.</p></a>
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/ai-automation')) ?>"><h3>Artificial intelligence &amp; automation</h3><p>Compare courses covering AI tools, machine learning and automation.</p></a>
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/data-analytics')) ?>"><h3>Data analytics &amp; data science</h3><p>Review learning paths in analytics, SQL, Python and data science.</p></a>
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/cloud-devops')) ?>"><h3>Cloud &amp; DevOps</h3><p>Explore cloud, deployment and software delivery fundamentals.</p></a>
-          <a class="us-learning-card" href="<?= e(base_url('/courses/tracks/career-dsa')) ?>"><h3>DSA &amp; career preparation</h3><p>Find problem-solving and interview-preparation courses.</p></a>
+          <?php foreach ($topics as $slug => $guide): ?>
+          <a class="us-learning-card" href="<?= e(base_url($hubPath . '/' . $slug)) ?>">
+            <h3><?= e($guide['label']) ?></h3>
+            <p><?= e($guide['description']) ?></p>
+          </a>
+          <?php endforeach; ?>
         </div>
+        <p>Also explore <a href="<?= e(base_url('/courses/tracks/web-mobile-development')) ?>">full-stack web development</a>, <a href="<?= e(base_url('/courses/tracks/cloud-devops')) ?>">cloud and DevOps</a>, and <a href="<?= e(base_url('/courses/tracks/career-dsa')) ?>">data structures and algorithms</a>.</p>
       </section>
+
+      <?php endif; ?>
 
       <section class="us-learning-section" aria-labelledby="us-how-to-start">
         <div class="tcm-eyebrow">HOW TO GET STARTED</div>
         <h2 id="us-how-to-start">Check the course, cohort time and payment details</h2>
         <ol class="us-learning-steps">
           <li><strong>Compare the course pages.</strong> Check the curriculum, prerequisites and teaching format for the subject you want to learn.</li>
-          <li><strong>Confirm the class time.</strong> Cohorts are coordinated from India. Contact admissions to verify the current schedule in Eastern, Central, Mountain or Pacific Time.</li>
-          <li><strong>Confirm the amount and payment method.</strong> Displayed USD prices are estimates; checkout and the final charge are in INR. Ask admissions which payment methods work for you before enrolling.</li>
+          <li><strong>Confirm the class time.</strong> Cohorts are coordinated from India. Ask admissions for the next session in your U.S. time zone, the teaching language, and whether recordings are available.</li>
+          <li><strong>Confirm the amount and payment method.</strong> USD prices shown on the site are estimates. Ask admissions for the exact INR amount and the available international payment method before enrolling.</li>
         </ol>
       </section>
 
+      <?php if ($topic === null): ?>
       <section class="us-learning-section" aria-labelledby="us-faq">
         <div class="tcm-eyebrow">COMMON QUESTIONS</div>
         <h2 id="us-faq">Questions from U.S. learners</h2>
         <div class="us-learning-faq">
-          <details><summary>Can I take a TCM One course from the United States?</summary><p>Courses are delivered online, so you can review and join remotely. TCM One is based in India and does not operate a U.S. campus. Confirm the format and cohort availability on the course page.</p></details>
+          <details><summary>Can I take a TCM One course from the United States?</summary><p>TCM One is based in India and teaches online. You can join remotely from the United States after confirming the cohort details.</p></details>
           <details><summary>Are live class times scheduled for U.S. time zones?</summary><p>Schedules vary by cohort. Contact admissions before enrolling to confirm the current class time converted to your local U.S. time zone.</p></details>
-          <details><summary>Do I pay the displayed USD amount in dollars?</summary><p>No. The USD figure is an estimate based on the INR course fee. Checkout and the final charge remain in INR. Contact admissions to confirm an available payment method for your situation.</p></details>
+          <details><summary>Do I pay the displayed USD amount in dollars?</summary><p>The displayed USD figure is an estimate based on the INR course fee. Ask admissions to confirm the INR amount and payment instructions before sending payment.</p></details>
           <details><summary>Which online coding courses can I compare?</summary><p>The catalog includes courses and tracks in Full Stack development, Python, AI, data analytics, cloud and programming foundations. Availability and details can change by cohort, so check the current course pages.</p></details>
         </div>
       </section>
+
+      <?php else: ?>
+      <section class="us-learning-section" aria-labelledby="related-us-guides">
+        <h2 id="related-us-guides">Related U.S. learning guides</h2>
+        <ul>
+          <?php foreach ($topics as $slug => $guide): ?>
+            <?php if ($slug !== $topicSlug): ?>
+          <li><a href="<?= e(base_url($hubPath . '/' . $slug)) ?>"><?= e($guide['label']) ?></a></li>
+            <?php endif; ?>
+          <?php endforeach; ?>
+        </ul>
+      </section>
+      <?php endif; ?>
 
       <section class="us-learning-section" aria-label="Browse TCM One courses">
         <h2>Compare the current online courses</h2>
