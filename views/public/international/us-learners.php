@@ -30,7 +30,8 @@
       'description' => $description,
       'url' => $canonical,
       'inLanguage' => 'en-US',
-      'isPartOf' => ['@type' => 'WebSite', 'name' => 'TCM One', 'url' => $appUrl],
+      'isPartOf' => ['@id' => $appUrl . '/#website'],
+      'publisher' => ['@id' => $appUrl . '/#organization'],
     ];
     $breadcrumbSchema = [
       '@context' => 'https://schema.org',
@@ -55,7 +56,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.22') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <style>
@@ -111,6 +112,7 @@
           <a class="us-learning-card" href="<?= e(base_url('/courses/' . $courseSlug)) ?>">
             <h3><?= e($courseName) ?></h3>
             <p><?= e($courseSummary) ?></p>
+            <p>View the syllabus, duration, and fee.</p>
           </a>
           <?php endforeach; ?>
         </div>
@@ -133,7 +135,7 @@
 
       <header class="us-learning-hero">
         <h1>Mentor-led online coding courses for U.S. learners</h1>
-        <p>Compare live online courses in Python, data analysis, and AI and machine learning. See what each path teaches, try a sample project, and check whether the cohort fits your schedule.</p>
+        <p>Compare live online courses in Python, data analysis, AI and machine learning, and web development. See what each path teaches, try a sample project, and check whether the cohort fits your schedule.</p>
         <div class="us-learning-actions">
           <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/courses')) ?>">Browse courses <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
           <a class="tcm-btn tcm-btn-secondary" href="<?= e(base_url('/contact')) ?>">Ask about schedule and payment</a>
@@ -164,7 +166,7 @@
         <ol class="us-learning-steps">
           <li><strong>Compare the course pages.</strong> Check the curriculum, prerequisites and teaching format for the subject you want to learn.</li>
           <li><strong>Confirm the class time.</strong> Cohorts are coordinated from India. Ask admissions for the next session in your U.S. time zone, the teaching language, and whether recordings are available.</li>
-          <li><strong>Confirm the amount and payment method.</strong> USD prices shown on the site are estimates. Ask admissions for the exact INR amount and the available international payment method before enrolling.</li>
+          <li><strong>Confirm the amount and payment method.</strong> Select USD in the header for an estimate. International bank transfers settle in INR. Review the <a href="<?= e(base_url('/refund-policy')) ?>">refund policy</a> and confirm the INR amount and any transfer fees before sending payment.</li>
         </ol>
       </section>
 
@@ -202,6 +204,7 @@
   </main>
 
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

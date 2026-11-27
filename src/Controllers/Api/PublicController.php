@@ -14,6 +14,7 @@ use TCM\Core\WhatsApp;
 use TCM\Core\Mailer;
 use TCM\Models\Course;
 use TCM\Services\DiwaliOffer;
+use TCM\Services\RegionalPricing;
 use TCM\Models\Event;
 use TCM\Models\Lead;
 use TCM\Models\Post;
@@ -27,6 +28,12 @@ use TCM\Models\Batch;
  */
 final class PublicController extends Controller
 {
+    public function currency(): void
+    {
+        RegionalPricing::preventSharedCaching();
+        Response::success(['currency' => RegionalPricing::currency()], 'OK');
+    }
+
     /**
      * Auth state + site config for the static front-end (auth-aware nav, WhatsApp).
      */
@@ -71,8 +78,8 @@ final class PublicController extends Controller
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['thumbnail']        = $course['thumbnail_url'];
             $course['price_usd']        = usd_price($course['price'] ?? 0);
-            $course['display_price'] = \TCM\Services\RegionalPricing::display((float) ($course['price'] ?? 0));
-            $course['display_original_price'] = \TCM\Services\RegionalPricing::display((float) ($course['original_price'] ?? 0));
+            $course['display_price'] = \TCM\Services\RegionalPricing::display((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
+            $course['display_original_price'] = \TCM\Services\RegionalPricing::display((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
             $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
         }
         Response::success($courses, 'Courses fetched.');
@@ -80,6 +87,7 @@ final class PublicController extends Controller
 
     public function course(array $params): void
     {
+        RegionalPricing::preventSharedCaching();
         $course = Course::findBySlug($params['slug']);
         if ($course === null) {
             Response::error('Course not found.', 404);
@@ -96,6 +104,8 @@ final class PublicController extends Controller
         $course['thumbnail']        = $course['thumbnail_url'];
         $course['price_usd']        = usd_price($course['price'] ?? 0);
         $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
+        $course['display_price'] = RegionalPricing::display((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
+        $course['display_original_price'] = RegionalPricing::display((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
         $course['curriculum']       = Course::curriculum((int) $course['id']);
         $course['reviews'] = Database::all(
             "SELECT cr.rating, cr.comment, cr.created_at, u.name
@@ -112,6 +122,7 @@ final class PublicController extends Controller
      */
     public function categories(): void
     {
+        RegionalPricing::preventSharedCaching();
         $categories = Database::all('
             SELECT 
                 cat.id, 
@@ -144,6 +155,7 @@ final class PublicController extends Controller
             $cat['course_count'] = (int) $cat['course_count'];
             $cat['min_price']    = (float) $cat['min_price'];
             $cat['formatted_min_price'] = '₹' . number_format($cat['min_price'], 0);
+            $cat['display_min_price'] = RegionalPricing::display($cat['min_price'], (int) $cat['id']);
             $cat['tags']         = $tagMap[$cat['slug']] ?? ['Practical Projects', 'Live Sessions', 'Industry Mentored'];
             $cat['url']          = base_url('/courses?cat=' . rawurlencode((string)$cat['name']));
         }
@@ -207,11 +219,17 @@ final class PublicController extends Controller
             Response::error('Please check your details.', 422, $validator->errors());
         }
 
+        $message = Request::string('message');
+        $discovery = Request::string('discovery');
+        if (in_array($discovery, ['Google', 'ChatGPT', 'Gemini', 'Perplexity', 'Instagram', 'Facebook', 'Referral', 'Other'], true)) {
+            $message .= "\n\nDiscovery source: " . $discovery;
+        }
+
         Database::insert('contact_messages', [
             'name'    => Request::string('name'),
             'email'   => Request::string('email'),
             'subject' => Request::string('subject'),
-            'message' => Request::string('message'),
+            'message' => $message,
             'status'  => 'new',
         ]);
         Lead::capture([
@@ -219,7 +237,7 @@ final class PublicController extends Controller
             'email'         => Request::string('email'),
             'phone'         => Request::string('phone') ?: null,
             'interest_type' => 'contact',
-            'message'       => Request::string('message'),
+            'message'       => $message,
             'source'        => 'contact-form',
         ]);
 
@@ -234,7 +252,7 @@ final class PublicController extends Controller
                     '<p><strong>%s</strong> &lt;%s&gt; %s</p><p><em>%s</em></p><p>%s</p>',
                     e($name), e($email), e(Request::string('phone') ?: ''),
                     e(Request::string('subject') ?: 'General'),
-                    nl2br(e(Request::string('message')))
+                    nl2br(e($message))
                 ))
             );
         }
@@ -434,6 +452,7 @@ final class PublicController extends Controller
      */
     public function featuredWorkshops(): void
     {
+        RegionalPricing::preventSharedCaching();
         $workshops = Database::all(
             "SELECT * FROM events 
              WHERE is_featured_home = 1 AND status != 'cancelled'
@@ -454,6 +473,7 @@ final class PublicController extends Controller
                 'description'     => $ws['description'] ?? '',
                 'price'           => (float)$ws['price'],
                 'formatted_price' => '₹' . number_format((float)$ws['price']),
+                'display_price'   => RegionalPricing::display((float) $ws['price']),
                 'duration'        => $ws['duration'] ?? 'Live Workshop',
                 'level'           => ucfirst((string)($ws['level'] ?? 'Beginner')),
                 'event_date'      => $ws['event_date'],

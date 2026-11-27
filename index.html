@@ -68,7 +68,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="./assets/tcm-design-system.css?v=2.19">
-  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.21">
+  <link rel="stylesheet" href="./assets/tcm-editorial.css?v=2.25">
   <link rel="stylesheet" href="./assets/partners-home.css?v=4">
 
   <!-- Structured Data (JSON-LD) -->
@@ -76,8 +76,9 @@
   {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
+    "@id": "https://thecodemunk.in/#organization",
     "name": "TCM One",
-    "alternateName": "The Code Munk",
+    "alternateName": ["TCMOne", "The Code Munk"],
     "url": "https://thecodemunk.in",
     "logo": "https://thecodemunk.in/assets/logo.png",
     "description": "Practical tech education through live classes, guided projects, and industry-focused learning.",
@@ -101,6 +102,17 @@
       "https://www.linkedin.com/company/thecodemunk",
       "https://www.youtube.com/@thecodemunk"
     ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://thecodemunk.in/#website",
+    "url": "https://thecodemunk.in/",
+    "name": "TCM One",
+    "alternateName": ["TCMOne", "The Code Munk"],
+    "publisher": {"@id": "https://thecodemunk.in/#organization"}
   }
   </script>
   <link rel="stylesheet" href="./assets/tcm-footer.css?v=2.18">
@@ -339,6 +351,14 @@
     </section>
 
     <!-- SECTION 4: FEATURED PARTNER -->
+    <section class="tcm-section" aria-labelledby="new-year-learning">
+      <div class="tcm-container">
+        <h2 class="tcm-display" id="new-year-learning">New Year. New Skills. New Opportunities.</h2>
+        <p>Start your 2027 tech journey with TCM One. Explore live online courses in Python, data analytics, and AI, and ask admissions about upcoming batches.</p>
+        <a class="tcm-btn tcm-btn-primary" href="/courses">Explore courses</a>
+      </div>
+    </section>
+
     <section class="tcm-section tcm-partner-showcase" aria-labelledby="partner-showcase-title">
       <div class="tcm-container">
         <div class="tcm-partner-showcase-head">
@@ -897,6 +917,7 @@
                 <span>Ask About Enrollment</span>
               </a>
             </div>
+            <p><a href="/online-coding-courses-usa">Compare online courses for U.S. learners</a></p>
           </div>
 
           <aside class="tcm-global-editorial" aria-label="How global learning works at TCM One">
@@ -1530,7 +1551,7 @@
               <i class="bi bi-plus-lg"></i>
             </summary>
             <div class="tcm-faq-body">
-              You can select any course or workshop, click Reserve Seat or Enroll, and complete registration securely. For courses above ₹5,000, flexible installment arrangements are available upon request.
+              You can select a course or workshop and click Enroll to review your payment options. In India, eligible courses may offer installments. International enrollment uses full payment.
             </div>
           </details>
 
@@ -1741,7 +1762,7 @@
   </div>
 
   <!-- Client-side Scripts -->
-  <script src="./assets/tcm-editorial.js?v=2.24"></script>
+  <script src="./assets/tcm-editorial.js?v=2.25"></script>
   <script src="./assets/hero-video.js" defer></script>
 </body>
 </html>

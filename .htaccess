@@ -67,6 +67,7 @@ Options -Indexes
     # Block direct access to application internals and secrets
     RewriteRule ^(src|config|database|storage|views|bin|docs|artifacts)(/|$) - [F,L]
     RewriteRule (^|/)\.(env|git) - [F,L]
+    RewriteRule \.sql(?:\.(?:gz|zip))?$ - [F,L,NC]
 
     # ------------------------------------------------------------------
     # Canonical 301 URL Consolidation

@@ -475,6 +475,21 @@ html, body {
   background: rgba(0, 0, 0, 0.05);
 }
 
+.tcm-currency-select {
+  min-height: 36px;
+  padding-inline: 6px;
+  border: 1px solid var(--tcm-border, #deddd8);
+  border-radius: 4px;
+  background: var(--tcm-bg, #fff);
+  color: var(--tcm-fg, #111);
+  font: 600 14px var(--tcm-font-sans, sans-serif);
+}
+
+.tcm-mobile-drawer .tcm-currency-select {
+  min-height: 44px;
+  width: 100%;
+}
+
 .tcm-lang-btn i.bi-translate {
   font-size: 14px;
   color: var(--tcm-fg);

@@ -6,6 +6,7 @@ namespace TCM\Models;
 
 use TCM\Core\Database;
 use TCM\Core\FirebaseNotification;
+use TCM\Core\Mailer;
 use TCM\Models\Notification;
 use TCM\Models\Wallet;
 
@@ -39,6 +40,15 @@ final class PaymentSubmission extends Model
             ) > 0;
         }
         return $exists;
+    }
+
+    public static function supportsInternationalDetails(): bool
+    {
+        static $available = null;
+        return $available ??= (bool) Database::scalar(
+            "SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE()
+             AND table_name = 'payment_submissions' AND column_name = 'international_details'"
+        );
     }
 
     /**
@@ -97,6 +107,22 @@ final class PaymentSubmission extends Model
             $params[] = $like;
         }
 
+        $residence = $filters['residence'] ?? '';
+        $discovery = $filters['discovery'] ?? '';
+        if (($residence !== '' || $discovery !== '') && self::supportsInternationalDetails()) {
+            $residenceField = "JSON_UNQUOTE(JSON_EXTRACT(ps.international_details, '$.Residence'))";
+            if (in_array($residence, ['IN', 'US', 'AE'], true)) {
+                $sql .= " AND $residenceField = ?";
+                $params[] = $residence;
+            } elseif ($residence === 'other') {
+                $sql .= " AND $residenceField NOT IN ('IN','US','AE')";
+            }
+            if (in_array($discovery, ['Google Search', 'ChatGPT', 'Gemini', 'Perplexity', 'Microsoft Copilot'], true)) {
+                $sql .= " AND JSON_UNQUOTE(JSON_EXTRACT(ps.international_details, '$.Discovery')) = ?";
+                $params[] = $discovery;
+            }
+        }
+
         $sql .= ' ORDER BY FIELD(ps.status,\'pending\',\'approved\',\'rejected\'), ps.created_at DESC';
         return Database::all($sql, $params);
     }
@@ -114,25 +140,55 @@ final class PaymentSubmission extends Model
 
         $receiptNo = 'TCM-RCP-' . date('Ymd') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
 
-        Database::update('payment_submissions', [
+        $approval = [
             'status'         => 'approved',
             'admin_note'     => $note,
             'receipt_number' => $receiptNo,
             'reviewed_by'    => $adminId,
             'reviewed_at'    => date('Y-m-d H:i:s'),
-        ], ['id' => $id]);
+        ];
+        $isInternationalEnrollment = !empty($sub['international_details']);
+        $complete = static function () use ($sub, $approval, $id, $isInternationalEnrollment): bool {
+            $where = ['id' => $id];
+            if ($isInternationalEnrollment) {
+                $where['status'] = 'pending';
+            }
+            if (!Database::update('payment_submissions', $approval, $where)) {
+                return false;
+            }
+            $orderId = Order::place(
+                (int) $sub['user_id'],
+                $sub['item_type'],
+                (int) $sub['item_id'],
+                $sub['item_title'],
+                (float) $sub['amount'],
+                'paid',
+                $sub['payment_method']
+            );
+            if ($isInternationalEnrollment) {
+                Enrollment::enroll((int) $sub['user_id'], (int) $sub['item_id'], $orderId);
+            } else {
+                self::enrollStudent($sub);
+            }
+            return true;
+        };
+        if (!($isInternationalEnrollment ? Database::transaction($complete) : $complete())) {
+            return;
+        }
 
-        Order::place(
-            (int) $sub['user_id'],
-            $sub['item_type'],
-            (int) $sub['item_id'],
-            $sub['item_title'],
-            (float) $sub['amount'],
-            'paid',
-            $sub['payment_method']
-        );
-
-        self::enrollStudent($sub);
+        if ($isInternationalEnrollment) {
+            $student = Database::first('SELECT name, email FROM users WHERE id = ?', [(int) $sub['user_id']]);
+            if ($student && Mailer::isConfigured()) {
+                Mailer::send($student['email'], 'Welcome to TCMOne — Your Enrollment Is Confirmed', Mailer::template(
+                    'Welcome to TCMOne!',
+                    '<p>Hi ' . e($student['name']) . ', your payment of INR ' . e(number_format((float) $sub['amount'], 2))
+                    . ' for ' . e($sub['item_title']) . ' has been verified. Course access is active. Admissions will confirm your live cohort separately.</p>'
+                    . '<p><a href="' . e(base_url('/student')) . '">Student dashboard</a> · <a href="'
+                    . e(base_url('/student/payments/' . $id . '/receipt')) . '">Payment receipt</a> · <a href="'
+                    . e(base_url('/contact')) . '">Student support</a></p>'
+                ));
+            }
+        }
 
         // 🎁 Credit referral wallet if referral code was used
         Wallet::ensureTables();
@@ -163,15 +219,19 @@ final class PaymentSubmission extends Model
     {
         if (!self::tableExists()) return;
         $sub = self::find($id);
-        Database::update('payment_submissions', [
+        $where = ['id' => $id];
+        if (!empty($sub['international_details'])) {
+            $where['status'] = 'pending';
+        }
+        $updated = Database::update('payment_submissions', [
             'status'      => 'rejected',
             'admin_note'  => $note,
             'reviewed_by' => $adminId,
             'reviewed_at' => date('Y-m-d H:i:s'),
-        ], ['id' => $id]);
+        ], $where);
 
         // 🔔 In-app: notify student their payment was rejected
-        if ($sub !== null) {
+        if ($sub !== null && ($updated || empty($sub['international_details']))) {
             Notification::ensureTable();
             Notification::forUser(
                 (int) $sub['user_id'],

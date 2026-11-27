@@ -37,6 +37,18 @@
                 </tr>
                 <?php endforeach; ?>
             </table>
+            <?php $international = json_decode((string) ($payment['international_details'] ?? ''), true); ?>
+            <?php if (is_array($international)): ?>
+              <h3>International enrollment</h3>
+              <dl>
+                <?php foreach ($international as $label => $value): ?>
+                  <?php if ($value !== null && $value !== ''): ?>
+                    <dt><?= e($label) ?></dt><dd><?= e((string) $value) ?></dd>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </dl>
+              <p>Confirm the preferred cohort with the student separately from payment approval.</p>
+            <?php endif; ?>
 
             <?php if ($payment['reason']): ?>
                 <div style="margin-top:14px;padding:12px 14px;background:#f9f9f9;border:1px solid #ececec;border-radius:10px;">

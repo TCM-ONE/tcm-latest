@@ -106,7 +106,7 @@
   <!-- Design System & Partner Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/partner.css?v=2.2.1') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
@@ -1466,7 +1466,7 @@
 
   <!-- Scripts -->
   <script src="<?= base_url('/assets/partner-upgrade.js?v=2.2.6') ?>"></script>
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

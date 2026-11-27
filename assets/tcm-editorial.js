@@ -385,7 +385,7 @@
           '<div class="tcm-track-tags">' + tagsHtml + '</div>' +
         '</div>' +
         '<div class="tcm-track-bottom">' +
-          '<span>From ' + esc(cat.formatted_min_price || ('₹' + Number(cat.min_price || 0))) + '</span>' +
+          '<span>From ' + esc(cat.display_min_price || cat.formatted_min_price || ('₹' + Number(cat.min_price || 0))) + '</span>' +
           '<span class="tcm-track-arrow">Explore Track &rarr;</span>' +
         '</div>' +
       '</a>'
@@ -1290,6 +1290,7 @@
       var email = ((document.getElementById('ctEmail') || {}).value || '').trim();
       var phone = ((document.getElementById('ctPhone') || {}).value || '').trim();
       var subject = ((document.getElementById('ctSubject') || {}).value || '').trim();
+      var discovery = ((document.getElementById('ctDiscovery') || {}).value || '').trim();
       var message = ((document.getElementById('ctMessage') || {}).value || '').trim();
       var notice = document.getElementById('ctNotice');
       var submitBtn = document.getElementById('ctSubmitBtn');
@@ -1320,10 +1321,11 @@
         email: email,
         phone: phone,
         subject: subject,
+        discovery: discovery,
         message: message
       }).then(function (res) {
         if (res && res.success) {
-          trackEvent('contact_lead_created', { subject: subject });
+          trackEvent('contact_lead_created', { discovery: discovery });
           showNotice(res.message || 'Thank you! Your message has been sent. We reply within 24 hours.', true);
           form.reset();
         } else {
@@ -2218,16 +2220,51 @@
     });
   }
 
+  function wireCurrencySelector() {
+    var pickers = document.querySelectorAll('.tcm-lang-picker');
+    if (!pickers.length) return;
+
+    var codes = ['INR', 'USD', 'AED', 'GBP', 'EUR', 'CAD', 'AUD'];
+    getJSON(apiUrl('/api/currency')).then(function (result) {
+      var currency = result && result.data && result.data.currency;
+      if (codes.indexOf(currency) === -1) return;
+
+      pickers.forEach(function (picker) {
+        var select = document.createElement('select');
+        select.className = 'tcm-currency-select notranslate';
+        select.setAttribute('aria-label', 'Display currency');
+        select.title = 'Display currency. Payments are in INR.';
+        codes.forEach(function (code) {
+          select.add(new Option(code, code, false, code === currency));
+        });
+        select.addEventListener('change', function () {
+          var path = BASE ? BASE.replace(/\/+$/, '') + '/' : '/';
+          var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+          document.cookie = 'tcm_currency=' + select.value + '; Path=' + path +
+            '; Max-Age=31536000; SameSite=Lax' + secure;
+          trackEvent('currency_switch', { from_currency: currency, to_currency: select.value });
+          window.location.reload();
+        });
+        picker.after(select);
+      });
+    }).catch(function () {});
+  }
+
   /* ==========================================================================
      GLOBAL BOOT
      ========================================================================== */
   function boot() {
+    if (document.querySelector('[data-international-enrollment]')) {
+      wireCookieConsent();
+      return;
+    }
     normalizeSiteLinks();
     normalizeBrandLogos();
     wireNavigation();
     wireMobileQuickNav();
     wireCookieConsent();
     wireLanguageSelector();
+    wireCurrencySelector();
     wireDemoModal();
     wireHeroWorkshopDeck();
     wirePlacementReportModal();

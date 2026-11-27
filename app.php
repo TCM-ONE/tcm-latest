@@ -21,7 +21,8 @@ require __DIR__ . '/src/bootstrap.php';
 // CSRF protection for state-changing web requests.
 // JSON/AJAX requests from the frontend modal are exempt (same-origin fetch).
 // PayU hosted checkout callbacks are external POST requests.
-if (!str_starts_with(Request::path(), '/api') && !str_starts_with(Request::path(), '/payment/payu') && !Request::isJson()) {
+if (!str_starts_with(Request::path(), '/api') && !str_starts_with(Request::path(), '/payment/payu')
+    && !preg_match('#^/enrollment/international/[^/]+$#D', Request::path()) && !Request::isJson()) {
     Csrf::check();
 }
 
@@ -245,6 +246,7 @@ $router->get('/student/notes/{id}/{slug}',         ['TCM\Controllers\Student\Not
 $router->get('/student/payments', ['TCM\Controllers\Student\PaymentController', 'history']);
 $router->get('/student/payments/submit', ['TCM\Controllers\Student\PaymentController', 'showForm']);
 $router->post('/student/payments/submit', ['TCM\Controllers\Student\PaymentController', 'store']);
+$router->get('/student/payments/{id}/enrollment-status', ['TCM\Controllers\Student\PaymentController', 'enrollmentStatus']);
 $router->get('/student/payments/{id}/receipt', ['TCM\Controllers\Student\PaymentController', 'receipt']);
 $router->get('/student/orders/{id}/receipt', ['TCM\Controllers\Student\PaymentController', 'orderReceipt']);
 $router->post('/student/installments/{id}/pay', ['TCM\Controllers\Student\PaymentController', 'payInstallment']);
@@ -360,6 +362,8 @@ $router->get('/courses',                      ['TCM\Controllers\PublicWorkshopCo
 $router->get('/courses.html',                 ['TCM\Controllers\PublicWorkshopController', 'coursesCatalog']);
 $router->get('/online-coding-courses-usa', [TCM\Controllers\UsLearningController::class, 'show']);
 $router->get('/online-coding-courses-usa/{topic}', [TCM\Controllers\UsLearningController::class, 'show']);
+$router->get('/enrollment/international/{slug}', [TCM\Controllers\InternationalEnrollmentController::class, 'show']);
+$router->post('/enrollment/international/{slug}', [TCM\Controllers\InternationalEnrollmentController::class, 'prepare']);
 $router->get('/courses/tracks/{slug}',        ['TCM\Controllers\PublicWorkshopController', 'courseTrack']);
 $router->get('/courses/{slug}',               ['TCM\Controllers\PublicWorkshopController', 'showCourse']);
 $router->get('/courses/{slug}/brochure',      ['TCM\Controllers\PublicWorkshopController', 'showCourseBrochure']);
@@ -398,6 +402,7 @@ $router->get('/download-partner-proposal',    ['TCM\Controllers\PartnerControlle
 // Public JSON API (consumed by the static marketing site via tcm-app.js)
 // --------------------------------------------------------------------- //
 $router->get('/api/me', ['TCM\Controllers\Api\PublicController', 'me']);
+$router->get('/api/currency', ['TCM\Controllers\Api\PublicController', 'currency']);
 $router->get('/api/categories', ['TCM\Controllers\Api\PublicController', 'categories']);
 $router->get('/api/courses', ['TCM\Controllers\Api\PublicController', 'courses']);
 $router->get('/api/courses/{slug}', ['TCM\Controllers\Api\PublicController', 'course']);

@@ -42,6 +42,8 @@ final class PublicPaymentController extends Controller
         $phone       = trim(Request::string('phone'));
         $paymentPlan = strtolower(trim(Request::string('payment_plan') ?: Request::string('plan')));
         $instCount   = Request::int('installments');
+        $isSeatBooking = $paymentPlan === 'seat_booking';
+        $isInstallmentPlan = $isSeatBooking || $paymentPlan === '2_installments' || $paymentPlan === '3_installments' || $instCount > 1;
 
         if ($name === '') {
             $this->abortWithError('Please provide your full name.');
@@ -113,6 +115,9 @@ final class PublicPaymentController extends Controller
 
         if ($amount > 0 && \TCM\Services\RegionalPricing::isInternational()) {
             $this->abortWithError('International checkout uses bank transfer. Open the payment instructions on the course or workshop page.');
+        }
+        if ($amount > 0 && $isInstallmentPlan && !\TCM\Services\RegionalPricing::allowsNewInstallments()) {
+            $this->abortWithError('Installment plans are available only in India. Please choose full payment.');
         }
 
         // 1. Resolve or Create User
@@ -187,9 +192,6 @@ final class PublicPaymentController extends Controller
         }
 
         // A fixed seat deposit is separate from the regular EMI/installment offers.
-        $isSeatBooking = $paymentPlan === 'seat_booking';
-        $isInstallmentPlan = $isSeatBooking || $paymentPlan === '2_installments' || $paymentPlan === '3_installments' || $instCount > 1;
-
         if ($isInstallmentPlan) {
             if ($itemType !== 'course') {
                 $this->abortWithError('Installment plans are only available for course enrollments.');
@@ -401,7 +403,7 @@ final class PublicPaymentController extends Controller
         }
 
         $price = (float) $course['price'];
-        if (\TCM\Services\RegionalPricing::isInternational()) {
+        if (!\TCM\Services\RegionalPricing::allowsNewInstallments()) {
             Response::success([]);
             return;
         }

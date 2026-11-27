@@ -757,6 +757,20 @@
     <div class="tcm-card">
         <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
             <input type="hidden" name="tab" value="manual">
+            <?php if (!empty($internationalFiltersAvailable)): ?>
+                <select class="tcm-select" name="residence" aria-label="Declared country of residence" onchange="this.form.submit()">
+                    <option value="">All residences</option>
+                    <?php foreach (['IN' => 'India', 'US' => 'United States', 'AE' => 'UAE', 'other' => 'Other recorded countries'] as $code => $label): ?>
+                        <option value="<?= e($code) ?>" <?= ($_GET['residence'] ?? '') === $code ? 'selected' : '' ?>><?= e($label) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <select class="tcm-select" name="discovery" aria-label="Self-reported discovery" onchange="this.form.submit()">
+                    <option value="">All discovery sources</option>
+                    <?php foreach (['Google Search', 'ChatGPT', 'Gemini', 'Perplexity', 'Microsoft Copilot'] as $source): ?>
+                        <option <?= ($_GET['discovery'] ?? '') === $source ? 'selected' : '' ?>><?= e($source) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
             <input class="tcm-input" name="q" placeholder="Search student, item..."
                    value="<?= e($_GET['q'] ?? '') ?>" style="flex:1;min-width:200px;">
             <select class="tcm-select" name="status" style="width:170px;" onchange="this.form.submit()">

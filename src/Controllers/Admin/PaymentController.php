@@ -31,6 +31,8 @@ final class PaymentController extends Controller
         $payments = PaymentSubmission::adminList([
             'status' => Request::string('status') ?: 'all',
             'search' => Request::string('q') ?: null,
+            'residence' => Request::string('residence'),
+            'discovery' => Request::string('discovery'),
         ]);
 
         $onlineOrders = PaymentTransaction::listForAdmin(100);
@@ -60,6 +62,7 @@ final class PaymentController extends Controller
         $this->view('admin/payments/index', [
             'title'               => 'Payments & Billing Management',
             'payments'            => $payments,
+            'internationalFiltersAvailable' => PaymentSubmission::supportsInternationalDetails(),
             'counts'              => PaymentSubmission::counts(),
             'onlineOrders'        => $onlineOrders,
             'installments'        => $installments,

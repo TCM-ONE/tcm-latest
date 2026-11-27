@@ -22,6 +22,7 @@ use TCM\Models\Order;
 use TCM\Models\PaymentSubmission;
 use TCM\Models\Program;
 use TCM\Services\InstallmentService;
+use TCM\Services\InternationalEnrollmentQuote;
 
 final class PaymentController extends Controller
 {
@@ -54,6 +55,7 @@ final class PaymentController extends Controller
                 'type' => Request::string('type'),
                 'id' => Request::int('id'),
                 'slug' => Request::string('slug'),
+                'quote' => Request::string('quote'),
             ]);
             $_SESSION['auth_return_to'] = $target;
             redirect('/auth/login');
@@ -82,6 +84,8 @@ final class PaymentController extends Controller
             if ($item === null) { $type = ''; $id = 0; }
         }
 
+        $quote = $this->enrollmentQuote($type, $id, $user);
+
         if ($item !== null && PaymentSubmission::hasPendingOrApproved((int) $user['id'], $type, $id)) {
             flash('error', 'You already have a pending or approved payment for this item.');
             redirect('/student/payments');
@@ -93,7 +97,8 @@ final class PaymentController extends Controller
             'item'     => $item,
             'itemType' => $type,
             'itemId'   => $id,
-            'transferDue' => $this->internationalTransferDue($type, $item),
+            'transferDue' => $quote['amount'] ?? $this->internationalTransferDue($type, $item),
+            'enrollmentQuote' => $quote,
             'courses'  => Database::all("SELECT id, title, price FROM courses  WHERE status='published' ORDER BY title"),
             'events'   => Database::all("SELECT id, title, price FROM events   WHERE status!='past'    ORDER BY title"),
             'programs' => Database::all("SELECT id, title, price FROM programs WHERE status='published' ORDER BY title"),
@@ -112,13 +117,18 @@ final class PaymentController extends Controller
 
             if ($item === null && $itemId > 0) { $itemId = 0; }
 
-            $transferDue = $this->internationalTransferDue($type, $item);
+            $quote = $this->enrollmentQuote($type, $itemId, $user);
+            $transferDue = $quote['amount'] ?? $this->internationalTransferDue($type, $item);
+            if ($quote !== null && ((string) env('INTL_BANK_ACCOUNT', '') === '' || !PaymentSubmission::supportsInternationalDetails())) {
+                flash('error', 'Bank transfer instructions are unavailable. Contact student support before sending payment.');
+                redirect('/student/payments');
+            }
             if ($transferDue !== null && (Request::string('payment_method') !== 'bank_transfer'
                 || !Upload::present($_FILES['screenshot'] ?? null)
                 || trim(Request::string('transaction_ref')) === ''
                 || (float) Request::string('amount') !== $transferDue)) {
                 flash('error', 'Submit the exact INR amount shown, enter your bank transfer reference, and upload your receipt.');
-                redirect('/student/payments/submit?type=' . rawurlencode($type) . '&id=' . $itemId);
+                redirect('/student/payments/submit?' . http_build_query(['type' => $type, 'id' => $itemId, 'quote' => $quote['token'] ?? '']));
             }
 
             // Auto-create payment_submissions table if migration hasn't run yet
@@ -176,12 +186,12 @@ final class PaymentController extends Controller
                 }
             }
 
-            PaymentSubmission::create([
+            $submission = [
                 'user_id'         => (int) $user['id'],
                 'item_type'       => $finalType,
                 'item_id'         => $finalId,
                 'item_title'      => $itemTitle,
-                'amount'          => (float) Request::string('amount', '0'),
+                'amount'          => $transferDue ?? (float) Request::string('amount', '0'),
                 'payment_method'  => Request::string('payment_method', 'upi'),
                 'payment_date'    => Request::string('payment_date') ?: date('Y-m-d'),
                 'screenshot'      => $screenshotPath,
@@ -190,18 +200,35 @@ final class PaymentController extends Controller
                 'referral_code'   => $referralCode !== '' ? $referralCode : null,
                 'referrer_id'     => $referrerId,
                 'status'          => 'pending',
-            ]);
+            ];
+            if ($quote === null) {
+                PaymentSubmission::create($submission);
+            } else {
+                $submission['international_details'] = json_encode($quote['details'], JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+                $submissionId = Database::transaction(static function () use ($submission): ?int {
+                    Database::first('SELECT id FROM users WHERE id = ? FOR UPDATE', [$submission['user_id']]);
+                    if (PaymentSubmission::hasPendingOrApproved($submission['user_id'], 'course', $submission['item_id'])) {
+                        return null;
+                    }
+                    return PaymentSubmission::create($submission);
+                });
+                if ($submissionId === null) {
+                    flash('error', 'You already have a pending or approved payment for this course.');
+                    redirect('/student/payments');
+                }
+            }
 
             Lead::capture([
                 'user_id'        => (int) $user['id'],
                 'name'           => $user['name'],
                 'email'          => $user['email'],
-                'phone'          => $user['phone'] ?? null,
+                'phone'          => $quote['phone'] ?? $user['phone'] ?? null,
                 'interest_type'  => $finalType,
                 'interest_id'    => $finalId ?: null,
                 'interest_title' => $itemTitle,
-                'message'        => 'Payment submitted — pending approval.',
-                'source'         => 'payment-submission',
+                'message'        => 'Payment submitted — pending approval.'
+                    . ($quote !== null ? "\n" . InternationalEnrollmentQuote::notes($quote['details']) : ''),
+                'source'         => $quote !== null ? 'international-enrollment' : 'payment-submission',
             ]);
 
             // 🔔 In-app + push: notify admins about new payment waiting for review
@@ -220,8 +247,10 @@ final class PaymentController extends Controller
                 base_url('/admin/payments')
             );
 
-            flash('success', 'Payment submitted! Our team will verify and activate your access within 24 hours.');
-            redirect('/student/payments');
+            flash('success', $quote !== null
+                ? 'Transfer proof received. Payment and cohort assignment are pending verification.'
+                : 'Payment submitted! Our team will verify and activate your access within 24 hours.');
+            redirect(isset($submissionId) ? '/student/payments/' . $submissionId . '/enrollment-status' : '/student/payments');
             
         } catch (\Throwable $e) {
             // Log error for debugging
@@ -234,8 +263,33 @@ final class PaymentController extends Controller
             } else {
                 flash('error', 'Payment submission failed. Please try again or contact support.');
             }
-            redirect('/student/payments/submit' . ($type && $itemId ? "?type={$type}&id={$itemId}" : ''));
+            redirect('/student/payments/submit?' . http_build_query(['type' => $type ?? '', 'id' => $itemId ?? 0, 'quote' => $quote['token'] ?? '']));
         }
+    }
+
+    /** Download receipt for an approved payment. */
+    public function enrollmentStatus(array $params): void
+    {
+        header('Cache-Control: private, no-store');
+        header('X-Robots-Tag: noindex, nofollow');
+        $user = Auth::require('student');
+        $submission = PaymentSubmission::find((int) $params['id']);
+        if (!$submission || (int) $submission['user_id'] !== (int) $user['id'] || empty($submission['international_details'])) {
+            http_response_code(404);
+            return;
+        }
+        $details = json_decode($submission['international_details'], true, flags: JSON_THROW_ON_ERROR);
+        $enrollmentId = $submission['status'] === 'approved' ? Database::scalar(
+            'SELECT id FROM enrollments WHERE user_id = ? AND course_id = ?',
+            [(int) $user['id'], (int) $submission['item_id']]
+        ) : null;
+        $this->view('student/payments/enrollment-status', [
+            'title' => 'Enrollment status',
+            'user' => $user,
+            'submission' => $submission,
+            'details' => $details,
+            'enrollmentId' => $enrollmentId,
+        ], 'student');
     }
 
     /** Download receipt for an approved payment. */
@@ -361,12 +415,26 @@ final class PaymentController extends Controller
             );
         } catch (\RuntimeException $e) {
             flash('error', 'Screenshot upload failed: ' . $e->getMessage());
-            redirect('/student/payments/submit?type=' . $type . '&id=' . $itemId);
+            redirect('/student/payments/submit?' . http_build_query(['type' => $type, 'id' => $itemId, 'quote' => Request::string('quote')]));
             return false;
         }
     }
 
     /** @return array<string,mixed>|null */
+    private function enrollmentQuote(string $type, int $id, array $user): ?array
+    {
+        $token = Request::string('quote');
+        if ($token === '') {
+            return null;
+        }
+        $quote = $type === 'course' ? InternationalEnrollmentQuote::find($token, $id, (string) $user['email']) : null;
+        if ($quote === null) {
+            flash('error', 'This enrollment quote is unavailable. Sign in with the checkout email or start a new quote from the course page.');
+            redirect('/student/payments');
+        }
+        return $quote;
+    }
+
     private function internationalTransferDue(string $type, ?array $item): ?float
     {
         if (!\TCM\Services\RegionalPricing::isInternational() || $item === null || !in_array($type, ['course', 'event'], true)) {
@@ -378,7 +446,7 @@ final class PaymentController extends Controller
             $price = \TCM\Services\DiwaliOffer::priceFor((string) $item['slug'], $price);
         }
 
-        return $price > 0 ? \TCM\Services\RegionalPricing::charge($price) : null;
+        return $price > 0 ? \TCM\Services\RegionalPricing::charge($price, (int) ($item['category_id'] ?? 0)) : null;
     }
 
     private function resolveItem(string $type, int $id): ?array
