@@ -140,9 +140,9 @@ $discPct    = ($course['original_price'] ?? 0) > 0
     <div class="cds-price-card">
         <div class="cds-price-row">
         <?php if (!empty($course['diwali_offer'])): ?><span class="cds-badge diwali">Diwali offer</span><?php endif; ?>
-            <div class="cds-price"><?= e(\TCM\Services\RegionalPricing::display((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0))) ?></div>
+            <div class="cds-price"><?= e(\TCM\Services\RegionalPricing::displayCourse((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0))) ?></div>
             <?php if (!empty($course['original_price']) && (float)$course['original_price'] > 0): ?>
-                <div class="cds-orig"><?= e(\TCM\Services\RegionalPricing::display((float) $course['original_price'], (int) ($course['category_id'] ?? 0))) ?></div>
+                <div class="cds-orig"><?= e(\TCM\Services\RegionalPricing::displayCourse((float) $course['original_price'], (int) ($course['category_id'] ?? 0))) ?></div>
                 <?php if ($discPct > 0): ?><div class="cds-disc"><?= $discPct ?>% Off</div><?php endif; ?>
             <?php endif; ?>
         </div>

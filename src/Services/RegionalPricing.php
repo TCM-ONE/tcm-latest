@@ -57,6 +57,20 @@ final class RegionalPricing
         return self::internationalCharge($baseInr, $categoryId);
     }
 
+    public static function courseCharge(float $baseInr, int $categoryId = 0): float
+    {
+        return $baseInr > 0 && self::currency() === 'USD'
+            ? self::internationalCharge($baseInr, $categoryId)
+            : self::charge($baseInr, $categoryId);
+    }
+
+    public static function displayCourse(float $baseInr, int $categoryId = 0): string
+    {
+        return $baseInr > 0 && self::currency() === 'USD'
+            ? self::displayInternational($baseInr, $categoryId, 'USD')
+            : self::display($baseInr, $categoryId);
+    }
+
     public static function internationalCharge(float $baseInr, int $categoryId = 0): float
     {
         $basePaise = (int) round($baseInr * 100);

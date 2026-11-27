@@ -78,8 +78,8 @@ final class PublicController extends Controller
             $course['thumbnail_url']    = course_thumbnail_url($course['thumbnail'] ?? null, $course['slug'] ?? null);
             $course['thumbnail']        = $course['thumbnail_url'];
             $course['price_usd']        = usd_price($course['price'] ?? 0);
-            $course['display_price'] = \TCM\Services\RegionalPricing::display((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
-            $course['display_original_price'] = \TCM\Services\RegionalPricing::display((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
+            $course['display_price'] = \TCM\Services\RegionalPricing::displayCourse((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
+            $course['display_original_price'] = \TCM\Services\RegionalPricing::displayCourse((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
             $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
         }
         Response::success($courses, 'Courses fetched.');
@@ -104,8 +104,8 @@ final class PublicController extends Controller
         $course['thumbnail']        = $course['thumbnail_url'];
         $course['price_usd']        = usd_price($course['price'] ?? 0);
         $course['original_price_usd'] = !empty($course['original_price']) ? usd_price($course['original_price']) : 0;
-        $course['display_price'] = RegionalPricing::display((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
-        $course['display_original_price'] = RegionalPricing::display((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
+        $course['display_price'] = RegionalPricing::displayCourse((float) ($course['price'] ?? 0), (int) ($course['category_id'] ?? 0));
+        $course['display_original_price'] = RegionalPricing::displayCourse((float) ($course['original_price'] ?? 0), (int) ($course['category_id'] ?? 0));
         $course['curriculum']       = Course::curriculum((int) $course['id']);
         $course['reviews'] = Database::all(
             "SELECT cr.rating, cr.comment, cr.created_at, u.name
@@ -155,7 +155,7 @@ final class PublicController extends Controller
             $cat['course_count'] = (int) $cat['course_count'];
             $cat['min_price']    = (float) $cat['min_price'];
             $cat['formatted_min_price'] = '₹' . number_format($cat['min_price'], 0);
-            $cat['display_min_price'] = RegionalPricing::display($cat['min_price'], (int) $cat['id']);
+            $cat['display_min_price'] = RegionalPricing::displayCourse($cat['min_price'], (int) $cat['id']);
             $cat['tags']         = $tagMap[$cat['slug']] ?? ['Practical Projects', 'Live Sessions', 'Industry Mentored'];
             $cat['url']          = base_url('/courses?cat=' . rawurlencode((string)$cat['name']));
         }

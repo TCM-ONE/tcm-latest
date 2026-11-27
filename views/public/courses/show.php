@@ -88,7 +88,7 @@
       ],
       'offers' => [
         '@type' => 'Offer',
-        'price' => (string) \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0)),
+        'price' => (string) \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)),
         'priceCurrency' => 'INR',
         'url' => $canonical,
       ],
@@ -136,7 +136,7 @@
     gtag('event', 'course_view', {
       course_slug: <?= json_encode((string) $course['slug']) ?>,
       course_title: <?= json_encode((string) $course['title']) ?>,
-      value: <?= json_encode(\TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0))) ?>,
+      value: <?= json_encode(\TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0))) ?>,
       currency: 'INR'
     });
   </script>
@@ -394,17 +394,17 @@
               <div style="margin-bottom: 20px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px;">
                 <div style="display: flex; align-items: baseline; gap: 8px;">
                   <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>
-                    <?= e(\TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0))) ?>
+                    <?= e(\TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0))) ?>
                   </span>
                   <?php if ($origPrice > $price): ?>
                     <span style="font-size: 16px; color: #999; text-decoration: line-through;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>
-                      <?= e(\TCM\Services\RegionalPricing::display($origPrice, (int) ($course['category_id'] ?? 0))) ?>
+                      <?= e(\TCM\Services\RegionalPricing::displayCourse($origPrice, (int) ($course['category_id'] ?? 0))) ?>
                     </span>
                   <?php endif; ?>
                 </div>
                 <?php if (\TCM\Services\RegionalPricing::isInternational() && $price > 0): ?>
                   <div class="tcm-course-usd" style="margin-top: 4px;">
-                    Bank transfer in INR · <?= e(\TCM\Services\RegionalPricing::formatInr(\TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0)))) ?>
+                    Bank transfer in INR · <?= e(\TCM\Services\RegionalPricing::formatInr(\TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)))) ?>
                   </div>
                 <?php endif; ?>
                 <?php if ($isInstallmentEligible): ?>
@@ -461,8 +461,8 @@
               <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
 <!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
-                  <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ' . \TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0)) ?></span>
+                <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
+                  <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ' . \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0)) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
                 </button>
 
@@ -509,9 +509,9 @@
           <div class="tcm-sticky-bottom-right" style="gap: 8px; width: 100%; justify-content: space-between; min-width: 0;">
             <div class="tcm-sticky-bottom-pricing" style="flex-shrink: 0;">
               <div class="tcm-sticky-bottom-price-row">
-                <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0))) ?></span>
+                <span class="tcm-sticky-bottom-price" style="font-size: 17px;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0))) ?></span>
                 <?php if ($origPrice > $price): ?>
-                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($origPrice, (int) ($course['category_id'] ?? 0))) ?></span>
+                  <span class="tcm-sticky-bottom-orig" style="font-size: 11px;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::displayCourse($origPrice, (int) ($course['category_id'] ?? 0))) ?></span>
                 <?php endif; ?>
               </div>
               <div class="tcm-sticky-bottom-sub" style="font-size: 10px;">
@@ -522,8 +522,8 @@
               <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp" style="flex-shrink: 0; padding: 0; width: 36px; height: 38px; justify-content: center; min-width: 36px;">
                 <i class="bi bi-whatsapp"></i>
               </a>
-              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
-                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ' . \TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0)) ?></span></span>
+              <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ' . \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0)) ?></span></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; width: 12px; height: 12px;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
             </div>
@@ -553,8 +553,8 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <?php
-    $modalPrice = \TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0));
-    $price = \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0));
+    $modalPrice = \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0));
+    $price = \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0));
   ?>
   <!-- Course Enrollment Modal -->
   <div class="tcm-modal-overlay" id="tcmCourseModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmCourseModalTitle">

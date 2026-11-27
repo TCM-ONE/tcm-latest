@@ -110,7 +110,8 @@ final class PublicPaymentController extends Controller
             $itemId = (int) $course['id'];
             $resolvedSlug = (string) $course['slug'];
             $itemTitle = (string) $course['title'];
-            $amount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
+            $baseAmount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
+            $amount = \TCM\Services\RegionalPricing::courseCharge($baseAmount, (int) ($course['category_id'] ?? 0));
         }
 
         if ($amount > 0 && \TCM\Services\RegionalPricing::isInternational()) {
