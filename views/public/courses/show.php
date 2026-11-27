@@ -552,14 +552,21 @@
   <!-- Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
-  <?php $price = \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0)); ?>
+  <?php
+    $modalPrice = \TCM\Services\RegionalPricing::display($price, (int) ($course['category_id'] ?? 0));
+    $price = \TCM\Services\RegionalPricing::charge($price, (int) ($course['category_id'] ?? 0));
+  ?>
   <!-- Course Enrollment Modal -->
   <div class="tcm-modal-overlay" id="tcmCourseModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmCourseModalTitle">
     <div class="tcm-modal">
       <button type="button" class="tcm-modal-close" id="tcmCourseCloseBtn" aria-label="Close modal">&times;</button>
       <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT ENROLLMENT</div>
       <h3 id="tcmCourseModalTitle" class="tcm-h3" style="margin-bottom: 4px;">Enroll in <?= e($course['title']) ?></h3>
+      <?php if (str_starts_with($modalPrice, '≈ ')): ?>
+        <p>Tuition estimate <strong><?= e($modalPrice) ?></strong>. Payment is charged in INR.</p>
+      <?php endif; ?>
       <?php if ($isBankTransfer): ?>
+        <p>Full payment by bank transfer <strong><?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?> INR</strong></p>
         <p>Choose a cohort and review the fee before continuing to the bank transfer instructions.</p>
         <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/enrollment/international/' . rawurlencode($course['slug']))) ?>">Continue to enrollment</a>
       <?php else: ?>

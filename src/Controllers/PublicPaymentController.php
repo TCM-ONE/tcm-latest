@@ -117,7 +117,7 @@ final class PublicPaymentController extends Controller
             $this->abortWithError('International checkout uses bank transfer. Open the payment instructions on the course or workshop page.');
         }
         if ($amount > 0 && $isInstallmentPlan && !\TCM\Services\RegionalPricing::allowsNewInstallments()) {
-            $this->abortWithError('Installment plans are available only in India. Please choose full payment.');
+            $this->abortWithError('Installments are available only for eligible India checkout in INR. Please choose full payment.');
         }
 
         // 1. Resolve or Create User
