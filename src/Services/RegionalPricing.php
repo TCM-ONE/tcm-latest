@@ -39,7 +39,8 @@ final class RegionalPricing
 
     public static function allowsNewInstallments(): bool
     {
-        return self::country() === 'IN';
+        // Preserve the existing INR checkout when no trusted country is available.
+        return !self::isInternational();
     }
 
     public static function preventSharedCaching(): void
