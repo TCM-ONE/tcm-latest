@@ -444,6 +444,7 @@ final class PaymentController extends Controller
         $price = (float) ($item['price'] ?? 0);
         if ($type === 'course') {
             $price = \TCM\Services\DiwaliOffer::priceFor((string) $item['slug'], $price);
+            return $price > 0 ? \TCM\Services\RegionalPricing::courseCharge($price, (int) ($item['category_id'] ?? 0)) : null;
         }
 
         return $price > 0 ? \TCM\Services\RegionalPricing::charge($price, (int) ($item['category_id'] ?? 0)) : null;

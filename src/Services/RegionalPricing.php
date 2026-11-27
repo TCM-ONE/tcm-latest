@@ -5,6 +5,7 @@ namespace TCM\Services;
 final class RegionalPricing
 {
     public const CURRENCIES = ['INR', 'USD', 'AED', 'GBP', 'EUR', 'CAD', 'AUD'];
+    private const USD_COURSE_MARKUP = 30;
     private const EUROZONE = ['AT', 'BE', 'BG', 'HR', 'CY', 'EE', 'FI', 'FR', 'DE', 'GR', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PT', 'SK', 'SI', 'ES'];
 
     public static function currency(): string
@@ -60,21 +61,41 @@ final class RegionalPricing
     public static function courseCharge(float $baseInr, int $categoryId = 0): float
     {
         return $baseInr > 0 && self::currency() === 'USD'
-            ? self::internationalCharge($baseInr, $categoryId)
+            ? self::internationalCourseCharge($baseInr, $categoryId, 'USD')
             : self::charge($baseInr, $categoryId);
     }
 
     public static function displayCourse(float $baseInr, int $categoryId = 0): string
     {
         return $baseInr > 0 && self::currency() === 'USD'
-            ? self::displayInternational($baseInr, $categoryId, 'USD')
+            ? self::displayInternationalCourse($baseInr, $categoryId, 'USD')
             : self::display($baseInr, $categoryId);
     }
 
     public static function internationalCharge(float $baseInr, int $categoryId = 0): float
     {
+        return self::applyMarkup($baseInr, self::internationalMarkup($categoryId));
+    }
+
+    public static function internationalCourseCharge(float $baseInr, int $categoryId, string $currency): float
+    {
+        return self::applyMarkup($baseInr, self::internationalCourseMarkup($categoryId, $currency));
+    }
+
+    public static function internationalCourseMarkup(int $categoryId, string $currency): int
+    {
+        return $currency === 'USD' ? self::USD_COURSE_MARKUP : self::internationalMarkup($categoryId);
+    }
+
+    public static function displayInternationalCourse(float $baseInr, int $categoryId, string $currency): string
+    {
+        return self::displayCharge(self::internationalCourseCharge($baseInr, $categoryId, $currency), $currency);
+    }
+
+    private static function applyMarkup(float $baseInr, int $markup): float
+    {
         $basePaise = (int) round($baseInr * 100);
-        return intdiv($basePaise * (100 + self::internationalMarkup($categoryId)) + 99, 100) / 100;
+        return intdiv($basePaise * (100 + $markup) + 99, 100) / 100;
     }
 
     public static function internationalMarkup(int $categoryId = 0): int

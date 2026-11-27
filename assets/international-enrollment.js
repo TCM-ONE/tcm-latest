@@ -33,7 +33,10 @@
   }
   timezone.addEventListener('change', formatBatches);
   currency.addEventListener('change', () => {
-    estimate.textContent = currency.value === 'INR' ? '' : currency.selectedOptions[0].dataset.estimate;
+    const { estimate: display, inr, inrLabel } = currency.selectedOptions[0].dataset;
+    estimate.textContent = currency.value === 'INR' ? '' : display;
+    form.elements.reviewed_amount.value = inr;
+    document.querySelector('#enrollment-inr-total').textContent = inrLabel;
   });
   form.addEventListener('input', () => track('international_enrollment_started'), { once: true });
   batch.addEventListener('change', () => {
