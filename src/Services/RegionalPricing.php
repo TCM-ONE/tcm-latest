@@ -39,6 +39,7 @@ final class RegionalPricing
 
     public static function allowsNewInstallments(): bool
     {
+        // Keep the INR fallback for unknown countries without offering EMI in foreign display currencies.
         return !self::isInternational() && self::currency() === 'INR';
     }
 
