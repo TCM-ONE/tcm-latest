@@ -63,9 +63,10 @@
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
     $isBankTransfer = $price > 0 && \TCM\Services\RegionalPricing::isInternational();
-    $isSeatBookingAvailable = !$isBankTransfer && \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
+    $allowsNewInstallments = \TCM\Services\RegionalPricing::allowsNewInstallments();
+    $isSeatBookingAvailable = $allowsNewInstallments && \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
     $seatBookingAmount = \TCM\Services\CourseSeatBooking::AMOUNT;
-    $isInstallmentEligible = !$isBankTransfer && !$isDiwaliOffer && !$isSeatBookingAvailable && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
+    $isInstallmentEligible = $allowsNewInstallments && !$isDiwaliOffer && !$isSeatBookingAvailable && \TCM\Services\InstallmentService::isEligible($price, 'INR', (int)($course['id'] ?? 0));
 
     $courseSchema = [
       '@context' => 'https://schema.org',
@@ -413,7 +414,7 @@
                   </div>
                 <?php endif; ?>
                 <?php if ($isDiwaliOffer): ?>
-                  <div style="font-size:13px;font-weight:700;color:#9a3412;margin-top:8px"><?= $regularPrice > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? 'Diwali offer: 60% off. ' : 'Diwali special price. ' ?>EMI is unavailable until 8 November.</div>
+                  <div style="font-size:13px;font-weight:700;color:#9a3412;margin-top:8px"><?= $regularPrice > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? 'Diwali offer: 60% off.' : 'Diwali special price.' ?><?= $allowsNewInstallments ? ' EMI is unavailable until 8 November.' : '' ?></div>
                 <?php endif; ?>
                 <?php if ($isSeatBookingAvailable): ?>
                   <div class="course-seat-booking-note"><strong>Reserve this seat for ₹<?= number_format($seatBookingAmount, 0) ?></strong><span>Pay the remaining balance before classes start on 12 November 2026. Booking stays open through 11 November.</span></div>

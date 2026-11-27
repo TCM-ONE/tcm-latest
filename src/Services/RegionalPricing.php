@@ -37,6 +37,11 @@ final class RegionalPricing
         return !in_array($country, ['IN', 'XX', 'ZZ', 'T1'], true) && preg_match('/^[A-Z]{2}$/D', $country) === 1;
     }
 
+    public static function allowsNewInstallments(): bool
+    {
+        return self::country() === 'IN';
+    }
+
     public static function preventSharedCaching(): void
     {
         header('Cache-Control: private, no-store');
