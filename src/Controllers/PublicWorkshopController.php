@@ -8,8 +8,10 @@ use TCM\Core\Controller;
 use TCM\Core\Database;
 use TCM\Core\Request;
 use TCM\Core\WorkshopData;
+use TCM\Models\Batch;
 use TCM\Models\Course;
 use TCM\Services\DiwaliOffer;
+use TCM\Services\RegionalPricing;
 
 /**
  * Public, shareable, SEO-ready landing pages for TCM One workshops and courses.
@@ -199,6 +201,23 @@ SVG;
             );
         }
 
+        $cohortStart = null;
+        $usStartTimes = [];
+        try {
+            $batch = Batch::activeFor('course', (int) $course['id']);
+            if (!empty($batch['starts_at']) && empty($batch['is_started']) && empty($batch['is_closed']) && empty($batch['is_sold_out'])
+                && in_array($batch['status'], ['registration_open', 'upcoming'], true)) {
+                $cohortStart = new \DateTimeImmutable($batch['starts_at'], new \DateTimeZone('Asia/Kolkata'));
+                if (RegionalPricing::isInternational()) {
+                    foreach (['Eastern' => 'New_York', 'Central' => 'Chicago', 'Mountain' => 'Denver', 'Pacific' => 'Los_Angeles'] as $name => $city) {
+                        $usStartTimes[$name] = $cohortStart->setTimezone(new \DateTimeZone('America/' . $city))->format('M j, g:i A T');
+                    }
+                }
+            }
+        } catch (\PDOException $exception) {
+            error_log('Course cohort lookup failed: ' . $exception->getCode());
+        }
+
         $this->view('public/courses/show', [
             'course'     => $course,
             'diwaliOfferActive' => $diwaliOfferActive,
@@ -209,6 +228,8 @@ SVG;
             'canonical'  => $canonical,
             'thumbUrl'   => $thumbUrl,
             'appUrl'     => $appUrl,
+            'usStartTimes' => $usStartTimes,
+            'cohortStart' => $cohortStart,
         ], null);
     }
 

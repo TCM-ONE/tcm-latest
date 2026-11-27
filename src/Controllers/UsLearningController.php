@@ -60,6 +60,23 @@ final class UsLearningController extends Controller
                 ['How is machine learning training different from an AI tools course?', 'Machine learning courses teach you to prepare data, train a model, and test its performance. An AI tools course typically focuses on using existing assistants for tasks such as research, writing, and workflow automation.'],
             ],
         ],
+        'web-development' => [
+            'label' => 'Web development',
+            'heading' => 'Live online web development courses for U.S. learners',
+            'description' => 'Compare full stack, React frontend, and Node.js backend training. Review the curriculum and practice building an application that calls a web API.',
+            'intro' => 'Start with a full stack course if you want to build both the interface and the server. Choose a frontend or backend course if you already know which part of the application you want to focus on.',
+            'courses' => [
+                ['full-stack-web-development', 'Full Stack Web Development', 'Compare the browser, server, database, and deployment modules if you want to build an application end to end.'],
+                ['frontend-development-with-react', 'Frontend Development with React', 'Focus on component design and user interfaces. Check what JavaScript knowledge the syllabus expects.'],
+                ['backend-development-nodejs-apis', 'Backend Development with Node.js & APIs', 'Focus on routes, API design, and server-side development. Review which database and deployment tools the course covers.'],
+            ],
+            'practiceHeading' => 'Build a small application that calls an API',
+            'practice' => 'Build a reading list with a form and a list view. Add an API endpoint that validates a new entry. Handle an empty list, invalid input, and a network error in the browser. Write a README that shows how another learner can run the app and test those cases.',
+            'faq' => [
+                ['Should I start with frontend or full stack?', 'Frontend is a practical starting point if you want to focus on browser interfaces. Choose full stack when your goal includes designing an API, storing data, and connecting those parts to your interface.'],
+                ['What should I compare before choosing a live web development course?', 'Compare the JavaScript prerequisites, how much time you will spend building, whether the instructor reviews code, and whether you can deploy the project yourself.'],
+            ],
+        ],
     ];
 
     public function show(array $params = []): void

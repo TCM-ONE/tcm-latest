@@ -46,7 +46,7 @@ $schema = [
   <link rel="icon" type="image/svg+xml" href="<?= $h($appUrl . '/favicon.svg') ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="<?= $h($appUrl . '/assets/tcm-design-system.css?v=2.19') ?>">
-  <link rel="stylesheet" href="<?= $h($appUrl . '/assets/tcm-editorial.css?v=2.19') ?>">
+  <link rel="stylesheet" href="<?= $h($appUrl . '/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= $h($appUrl . '/assets/tcm-footer.css?v=1') ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,6 +125,6 @@ $schema = [
   </section>
 </main>
 <?php \TCM\Core\View::partial('partials.public-footer'); ?>
-<script src="<?= $h($appUrl . '/assets/tcm-editorial.js?v=2.22') ?>"></script>
+<script src="<?= $h($appUrl . '/assets/tcm-editorial.js?v=2.25') ?>"></script>
 </body>
 </html>

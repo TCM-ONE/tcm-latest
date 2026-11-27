@@ -45,8 +45,9 @@
   {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
+    "@id": "https://thecodemunk.in/#organization",
     "name": "TCM One",
-    "alternateName": "The Code Munk",
+    "alternateName": ["TCMOne", "The Code Munk"],
     "url": "https://thecodemunk.in",
     "logo": "https://thecodemunk.in/assets/logo.png",
     "description": "Practical tech education through live classes, guided projects, and industry-focused learning in software engineering, AI, and data.",
@@ -104,7 +105,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
@@ -171,6 +172,14 @@
             </a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="tcm-section" aria-labelledby="about-learning">
+      <div class="tcm-container">
+        <h2 class="tcm-h2" id="about-learning">How learning works at TCM One</h2>
+        <p>TCM One, also known as TCMOne and The Code Munk, is a technology education provider based in Madhya Pradesh, India. Its online catalog includes software development, data analytics, Python, and artificial intelligence courses.</p>
+        <p>Use the course page to check prerequisites, curriculum and practical work. For a live cohort, confirm the class schedule, instructor availability and how to get feedback before enrolling. U.S. learners can compare courses and payment details in the <a href="<?= e(base_url('/online-coding-courses-usa')) ?>">U.S. learning guides</a>.</p>
       </div>
     </section>
 
@@ -363,7 +372,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>

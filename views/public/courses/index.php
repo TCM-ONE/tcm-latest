@@ -48,7 +48,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/diwali-offer.css?v=3') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
@@ -244,9 +244,9 @@
               <div class="tcm-course-bottom">
                 <div class="tcm-course-price-wrap">
                   <div>
-                    <span class="tcm-course-price" <?= $isDiwaliCourse ? 'data-diwali-price data-regular="' . $regularInr . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($priceInr)) ?></span>
+                    <span class="tcm-course-price" <?= $isDiwaliCourse ? 'data-diwali-price data-regular="' . $regularInr . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($priceInr, (int) ($c['category_id'] ?? 0))) ?></span>
                     <?php if ($origInr > $priceInr): ?>
-                      <span class="tcm-course-orig-price" <?= $isDiwaliCourse ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($origInr)) ?></span>
+                      <span class="tcm-course-orig-price" <?= $isDiwaliCourse ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($origInr, (int) ($c['category_id'] ?? 0))) ?></span>
                     <?php endif; ?>
                     <?php if ($isDiwaliCourse): ?><span class="tcm-badge" data-diwali-badge style="background:#a12518;color:#fff;margin-left:6px;"><?= $regularInr > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? '60% OFF' : 'Diwali Price' ?></span><?php endif; ?>
                   </div>
@@ -268,7 +268,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.24') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
   <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
 </body>

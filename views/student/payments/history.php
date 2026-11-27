@@ -830,6 +830,9 @@ $standaloneInstallments = array_filter($installments ?? [], fn($i) => !in_array(
 
     <!-- Actions -->
     <div class="ph-card-actions">
+        <?php if (!empty($p['international_details'])): ?>
+            <a class="tcm-btn sm" href="<?= e(base_url('/student/payments/' . (int) $p['id'] . '/enrollment-status')) ?>">Enrollment status</a>
+        <?php endif; ?>
         <?php if ($p['status'] === 'approved' && $p['receipt_number']): ?>
             <a href="<?= base_url('/student/payments/' . (int)$p['id'] . '/receipt') ?>"
                target="_blank" class="tcm-btn sm primary">

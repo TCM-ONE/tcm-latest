@@ -43,6 +43,7 @@ $urls = [
     ['loc' => '/online-coding-courses-usa/python', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/online-coding-courses-usa/data-analysis', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/online-coding-courses-usa/ai-machine-learning', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
+    ['loc' => '/online-coding-courses-usa/web-development', 'lastmod' => $today, 'changefreq' => 'monthly', 'priority' => '0.7'],
     ['loc' => '/courses/tracks/web-mobile-development', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '0.8'],
     ['loc' => '/courses/tracks/programming-foundations', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '0.8'],
     ['loc' => '/courses/tracks/ai-automation', 'lastmod' => $today, 'changefreq' => 'weekly', 'priority' => '0.8'],

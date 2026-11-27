@@ -7,6 +7,7 @@ $isBankTransfer = $transferDue !== null;
 $prePrice = $transferDue ?? ($item ? (float)($item['price'] ?? 0) : 0);
 $preType     = $itemType ?: 'course';
 $preId       = $itemId   ?: 0;
+$enrollmentQuote ??= null;
 
 // Load payment settings (set by admin)
 $upiId      = Setting::get('payment_upi_id',      'thecodemunk@upi');
@@ -133,7 +134,11 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
     </div>
     <?php if ($prePrice > 0): ?>
     <div style="text-align:right;flex-shrink:0;">
-        <div style="font-size:1.1rem;font-weight:800;color:#fff;"><?= money($prePrice) ?></div>
+        <div style="font-size:1.1rem;font-weight:800;color:#fff;"><?= e(\TCM\Services\RegionalPricing::formatInr($prePrice)) ?></div>
+        <?php $transferDisplay = $enrollmentQuote['display'] ?? ($isBankTransfer ? \TCM\Services\RegionalPricing::displayCharge($prePrice) : null); ?>
+        <?php if ($transferDisplay !== null && str_starts_with($transferDisplay, '≈ ')): ?>
+        <div><?= e($transferDisplay) ?> · Transfer in INR</div>
+        <?php endif; ?>
         <div style="font-size:.68rem;color:rgba(255,255,255,.4);">to pay</div>
     </div>
     <?php endif; ?>
@@ -148,6 +153,10 @@ $waNumber   = Setting::get('whatsapp_number',      '919999999999');
     <?= csrf_field() ?>
     <input type="hidden" name="item_type" id="ps2ItemType" value="<?= e($preType) ?>">
     <input type="hidden" name="item_id"   id="ps2ItemId"   value="<?= e((string)$preId) ?>">
+    <?php if ($enrollmentQuote !== null): ?>
+      <input type="hidden" name="quote" value="<?= e($enrollmentQuote['token']) ?>">
+      <p>Cohort preference recorded. Your batch assignment and enrollment are confirmed after payment review.</p>
+    <?php endif; ?>
 
     <?php if (!$isPreFilled): ?>
     <!-- What are you paying for -->

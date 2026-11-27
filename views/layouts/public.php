@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.19') ?>">
-    <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.19') ?>">
+    <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
     <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
     <style>body{min-height:100vh;display:flex;flex-direction:column}.tcm-site-main{flex:1;width:100%}</style>
 </head>
@@ -33,6 +33,6 @@
     <?= $content ?? '' ?>
 </div>
 <?php require dirname(__DIR__) . '/partials/public-footer.php'; ?>
-<script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
+<script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
 </body>
 </html>

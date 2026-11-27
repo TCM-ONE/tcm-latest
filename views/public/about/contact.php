@@ -105,7 +105,7 @@
 
   <!-- Design System Stylesheets -->
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-design-system.css?v=2.18') ?>">
-  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.18') ?>">
+  <link rel="stylesheet" href="<?= base_url('/assets/tcm-editorial.css?v=2.25') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/tcm-footer.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('/assets/cai-assistant.css?v=2.18') ?>">
 
@@ -287,6 +287,14 @@
               <div id="ctNotice" role="status" aria-live="polite" style="display: none;"></div>
 
               <form id="tcmContactForm" novalidate>
+                <div class="mb-3">
+                  <label for="ctDiscovery">How did you discover TCMOne? (optional)</label>
+                  <select id="ctDiscovery" name="discovery" class="tcm-form-select" style="width:100%;min-height:44px">
+                    <option value="">Select an option</option>
+                    <option>Google</option><option>ChatGPT</option><option>Gemini</option><option>Perplexity</option>
+                    <option>Instagram</option><option>Facebook</option><option>Referral</option><option>Other</option>
+                  </select>
+                </div>
                 <div class="tcm-form-group" style="margin-bottom: 18px;">
                   <label for="ctName" class="tcm-form-label" style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;">Full Name *</label>
                   <input type="text" id="ctName" name="name" autocomplete="name" class="tcm-form-input" placeholder="e.g. Rahul Sharma" required style="width: 100%; height: 44px; padding: 10px 14px; border: 1px solid var(--tcm-border); background: #FFFFFF; font-size: 14px;">
@@ -386,7 +394,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.22') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.18') ?>"></script>
 </body>
 </html>
