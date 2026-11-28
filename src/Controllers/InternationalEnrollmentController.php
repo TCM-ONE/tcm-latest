@@ -14,7 +14,6 @@ use TCM\Models\Course;
 use TCM\Models\Lead;
 use TCM\Models\PaymentSubmission;
 use TCM\Services\DiwaliOffer;
-use TCM\Services\ExchangeRates;
 use TCM\Services\InternationalEnrollmentQuote;
 use TCM\Services\RegionalPricing;
 
@@ -67,7 +66,7 @@ final class InternationalEnrollmentController extends Controller
         $base = DiwaliOffer::priceFor((string) $course['slug'], (float) $course['price']);
         $category = (int) ($course['category_id'] ?? 0);
         $pricingCurrency = in_array($fields['currency'], RegionalPricing::CURRENCIES, true) ? $fields['currency'] : 'INR';
-        $amount = RegionalPricing::internationalCourseCharge($base, $category, $pricingCurrency);
+        $amount = RegionalPricing::internationalCourseCharge($base, $category);
         $batches = [];
         try {
             $availableBatches = Batch::listFor('course', $courseId);
@@ -117,7 +116,7 @@ final class InternationalEnrollmentController extends Controller
                     'Discovery' => $fields['discovery'], 'Batch ID' => $batchId ?: null,
                     'Cohort start' => $batches[$batchId] ?? null, 'Preferred timing' => $requestTiming ? $fields['timing'] : null,
                     'Catalog INR' => (float) $course['price'], 'Applicable base INR' => $base,
-                    'Markup (%)' => RegionalPricing::internationalCourseMarkup($category, $pricingCurrency),
+                    'Markup (%)' => round(($amount / $base - 1) * 100, 2),
                     'Payable INR' => $amount,
                 ];
                 if ($requestTiming) {
@@ -129,7 +128,6 @@ final class InternationalEnrollmentController extends Controller
                     flash('success', 'Your preferred timing was sent to admissions. No payment has been requested.');
                     redirect('/enrollment/international/' . rawurlencode($course['slug']));
                 }
-                $details['INR reference rate'] = $fields['currency'] === 'INR' ? 1 : ExchangeRates::fromInr($fields['currency']);
                 $display = RegionalPricing::displayInternationalCourse($base, $category, $pricingCurrency);
                 $details['Displayed estimate'] = $display;
                 $quote = InternationalEnrollmentQuote::issue(
@@ -149,7 +147,7 @@ final class InternationalEnrollmentController extends Controller
         $amounts = [];
         foreach (RegionalPricing::CURRENCIES as $currency) {
             $estimates[$currency] = RegionalPricing::displayInternationalCourse($base, $category, $currency);
-            $amounts[$currency] = RegionalPricing::internationalCourseCharge($base, $category, $currency);
+            $amounts[$currency] = $amount;
         }
         $notice = flash('success');
         $this->view('public/enrollment/international', [

@@ -287,7 +287,7 @@ final class DashboardController extends Controller
             ['id' => 63, 'slug' => 'core-java-object-oriented-programming', 'title' => 'Core Java & Object-Oriented Programming', 'price' => 4999.00, 'orig' => 7499.00, 'duration' => '6 Weeks', 'featured' => 0],
             ['id' => 39, 'slug' => 'python-for-ai-ml', 'title' => 'Python for AI & ML', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '30 Days', 'featured' => 0],
             ['id' => 49, 'slug' => 'digital-skills-computer-fundamentals', 'title' => 'Digital Skills & Computer Fundamentals', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '4 Weeks', 'featured' => 0],
-            ['id' => 54, 'slug' => 'data-analytics-excel-sql-powerbi', 'title' => 'Data Analytics with Excel, SQL & Power BI', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 1],
+            ['id' => 54, 'slug' => 'data-analytics-with-excel-sql-power-bi-python', 'title' => 'Data Analytics with Excel, SQL & Power BI, Python', 'price' => 4999.00, 'orig' => 11999.00, 'duration' => '10 Weeks', 'featured' => 1],
             ['id' => 64, 'slug' => 'data-science-machine-learning-foundations', 'title' => 'Data Science & Machine Learning Foundations', 'price' => 12999.00, 'orig' => 18999.00, 'duration' => '14 Weeks', 'featured' => 1],
             ['id' => 42, 'slug' => 'machine-learning-python-projects', 'title' => 'Machine Learning with Python Projects', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '40 Days', 'featured' => 1],
             ['id' => 67, 'slug' => 'artificial-intelligence-machine-learning', 'title' => 'Artificial Intelligence & Machine Learning (AI & ML) Masterclass', 'price' => 14999.00, 'orig' => 22999.00, 'duration' => '16 Weeks', 'featured' => 1],

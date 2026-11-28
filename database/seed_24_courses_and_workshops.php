@@ -73,7 +73,7 @@ try {
             'level' => 'intermediate',
             'duration' => '16 Weeks',
             'hours' => 120,
-            'price' => 12999.00,
+            'price' => 7499.00,
             'original_price' => 19999.00,
             'icon' => 'bi-layers',
             'thumbnail' => 'coding-fullstack.gif',

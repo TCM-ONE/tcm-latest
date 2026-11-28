@@ -304,7 +304,8 @@
     var courseUrl = apiUrl('/courses/' + encodeURIComponent(slug));
     var category = c.category_name || c.category || 'General';
     var level = c.level ? (c.level.charAt(0).toUpperCase() + c.level.slice(1)) : 'All Levels';
-    var duration = c.duration || '6 Weeks';
+    var duration = c.duration || 'Confirm duration with admissions';
+    var displayPrice = c.display_price || formatMoney(priceInr);
 
     return (
       '<div class="tcm-course-card" data-slug="' + esc(slug) + '" data-cat="' + esc(category.toLowerCase()) + '" data-price="' + priceInr + '" data-level="' + esc(level.toLowerCase()) + '">' +
@@ -323,9 +324,10 @@
         '<div class="tcm-course-bottom">' +
           '<div class="tcm-course-price-wrap">' +
             '<div>' +
-              '<span class="tcm-course-price">' + esc(c.display_price || formatMoney(priceInr)) + '</span>' +
+              '<span class="tcm-course-price">' + esc(displayPrice) + '</span>' +
               (origInr ? '<span class="tcm-course-orig-price">' + esc(c.display_original_price || formatMoney(origInr)) + '</span>' : '') +
             '</div>' +
+            (displayPrice.startsWith('≈ ') ? '<span class="tcm-course-usd">Estimated conversion · Payment in INR</span>' : '') +
           '</div>' +
           '<a href="' + esc(courseUrl) + '" class="tcm-btn tcm-btn-secondary tcm-btn-sm">' +
             '<span>View Course</span>' +
@@ -957,13 +959,14 @@
       var selected = document.querySelector('input[name="course-payment-choice"]:checked');
       var reserve = bookingAvailable && selected && selected.value === 'seat_booking';
       var amount = reserve ? bookingAmount : Number(price || 0);
+      var displayPrice = (priceEl && priceEl.dataset.displayPrice) || '₹' + Number(price || 0).toLocaleString('en-IN');
       if (priceEl) {
         priceEl.textContent = reserve
           ? 'Seat booking: ₹' + amount.toLocaleString('en-IN') + ' today · balance due before 12 November 2026.'
-          : 'Tuition Fee: ₹' + Number(price || 0).toLocaleString('en-IN') + ' (All Taxes Included)';
+          : 'Tuition Fee: ' + displayPrice + ' (All Taxes Included)';
       }
       if (submitBtn) {
-        var label = reserve ? 'Reserve Seat · ₹' + amount.toLocaleString('en-IN') : 'Proceed to Pay · ₹' + Number(price || 0).toLocaleString('en-IN');
+        var label = reserve ? 'Reserve Seat · ₹' + amount.toLocaleString('en-IN') : 'Proceed to Pay · ' + displayPrice;
         var span = submitBtn.querySelector('span');
         if (span) span.textContent = label;
       }

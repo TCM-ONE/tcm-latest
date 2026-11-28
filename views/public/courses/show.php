@@ -59,10 +59,12 @@
     $isDiwaliOffer = !empty($diwaliOfferActive);
     $regularPrice = (float)($course['regular_price'] ?? $price);
     $origPrice = $isDiwaliOffer ? $regularPrice : (!empty($course['original_price']) ? (float)$course['original_price'] : 0);
+    $displayPrice = \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0));
     $duration = !empty($course['duration']) ? $course['duration'] : 'Confirm duration with admissions';
     $level = !empty($course['level']) ? ucfirst((string)$course['level']) : 'Beginner';
     $category = $course['category_name'] ?? $course['category'] ?? 'Engineering';
     $isBankTransfer = $price > 0 && \TCM\Services\RegionalPricing::isInternational();
+    $internationalEnrollmentUrl = base_url('/enrollment/international/' . rawurlencode($course['slug']));
     $allowsNewInstallments = \TCM\Services\RegionalPricing::allowsNewInstallments();
     $isSeatBookingAvailable = $allowsNewInstallments && \TCM\Services\CourseSeatBooking::isAvailable((string) $course['slug']);
     $seatBookingAmount = \TCM\Services\CourseSeatBooking::AMOUNT;
@@ -394,7 +396,7 @@
               <div style="margin-bottom: 20px; border-bottom: 1px solid var(--tcm-border); padding-bottom: 16px;">
                 <div style="display: flex; align-items: baseline; gap: 8px;">
                   <span style="font-size: 32px; font-weight: 700; color: var(--tcm-fg); letter-spacing: -0.02em;" <?= $isDiwaliOffer ? 'data-diwali-price data-regular="' . $regularPrice . '"' : '' ?>>
-                    <?= e(\TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0))) ?>
+                    <?= e($displayPrice) ?>
                   </span>
                   <?php if ($origPrice > $price): ?>
                     <span style="font-size: 16px; color: #999; text-decoration: line-through;" <?= $isDiwaliOffer ? 'data-diwali-original' : '' ?>>
@@ -402,6 +404,9 @@
                     </span>
                   <?php endif; ?>
                 </div>
+                <?php if (str_starts_with($displayPrice, '≈ ')): ?>
+                  <div class="tcm-course-usd">Estimated conversion · Payment in INR</div>
+                <?php endif; ?>
                 <?php if (\TCM\Services\RegionalPricing::isInternational() && $price > 0): ?>
                   <div class="tcm-course-usd" style="margin-top: 4px;">
                     Bank transfer in INR · <?= e(\TCM\Services\RegionalPricing::formatInr(\TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)))) ?>
@@ -461,6 +466,11 @@
               <div style="font-size:12px;line-height:1.8;margin-bottom:20px"><p>Online course access is activated after payment verification, usually within 24 hours of complete payment details. Live classes follow the agreed batch timetable. No physical shipping applies.</p><a href="<?= base_url('/course-information') ?>">Fees &amp; delivery details</a> · <a href="<?= base_url('/refund-policy') ?>">Refund &amp; cancellation</a> · <a href="<?= base_url('/certificate-policy') ?>">Certificate requirements</a><p>Career assistance does not guarantee employment. <a href="<?= base_url('/internship-placement-policy') ?>">Read the career policy</a>.</p></div>
 <!-- Actions -->
               <div style="display: flex; flex-direction: column; gap: 10px;">
+                <?php if ($isBankTransfer): ?>
+                <a class="tcm-btn tcm-btn-primary" href="<?= e($internationalEnrollmentUrl) ?>" style="width: 100%; height: 50px;">
+                  Enroll Now — <?= e(\TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0))) ?>
+                </a>
+                <?php else: ?>
                 <button type="button" class="tcm-btn tcm-btn-primary tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="width: 100%; height: 50px;">
                   <span><?= $isSeatBookingAvailable ? 'Reserve Seat · ₹' . number_format($seatBookingAmount, 0) : 'Enroll Now — ' . \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0)) ?></span>
                   <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
@@ -471,6 +481,7 @@
                     <i class="bi bi-calendar3" style="color: #111;"></i>
                     <span>Up to 3 interest-free installments available</span>
                   </div>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary" style="width: 100%; justify-content: center; height: 44px;">
@@ -522,10 +533,14 @@
               <a href="https://wa.me/919238695500?text=<?= rawurlencode('Hello TCM One! I have questions regarding enrollment for ' . $course['title']) ?>" target="_blank" rel="noopener" class="tcm-btn tcm-btn-secondary tcm-sticky-bottom-btn" aria-label="Chat on WhatsApp" style="flex-shrink: 0; padding: 0; width: 36px; height: 38px; justify-content: center; min-width: 36px;">
                 <i class="bi bi-whatsapp"></i>
               </a>
+              <?php if ($isBankTransfer): ?>
+              <a class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn" href="<?= e($internationalEnrollmentUrl) ?>" style="flex: 1; max-width: 190px; height: 38px; justify-content: center; font-size: 13px;">Enroll Now</a>
+              <?php else: ?>
               <button type="button" class="tcm-btn tcm-btn-primary tcm-sticky-bottom-btn tcm-trigger-course-enroll" data-slug="<?= e($course['slug']) ?>" data-title="<?= e($course['title']) ?>" data-price="<?= \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0)) ?>" data-booking-available="<?= $isSeatBookingAvailable ? '1' : '0' ?>" data-booking-amount="<?= number_format($seatBookingAmount, 2, '.', '') ?>" style="flex: 1; max-width: 190px; min-width: 0; padding: 0 12px; height: 38px; justify-content: center; font-size: 13px;">
                 <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="d-inline d-sm-none"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now' ?></span><span class="d-none d-sm-inline"><?= $isSeatBookingAvailable ? 'Book Seat · ₹1,000' : 'Enroll Now · ' . \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0)) ?></span></span>
                 <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; width: 12px; height: 12px;"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
               </button>
+              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -543,7 +558,7 @@
       <div class="border-top pt-4">
         <h2 id="international-learning-heading" class="tcm-h3">Can I take this course from outside India?</h2>
         <p class="text-muted">Review the cohort time and teaching language before enrolling from abroad. The international enrollment page lets you request a time zone and review the applicable fee and payment options.</p>
-        <p><a href="<?= e(base_url('/enrollment/international/' . rawurlencode($course['slug']))) ?>">Review international enrollment</a> · <a href="<?= e(base_url('/online-coding-courses-usa')) ?>">Compare courses for U.S. learners</a></p>
+        <p><a href="<?= e($internationalEnrollmentUrl) ?>">Review international enrollment</a> · <a href="<?= e(base_url('/online-coding-courses-usa')) ?>">Compare courses for U.S. learners</a></p>
       </div>
     </section>
     <?php endif; ?>
@@ -552,9 +567,10 @@
   <!-- Footer -->
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
+  <?php if (!$isBankTransfer): ?>
   <?php
-    $modalPrice = \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0));
-    $price = \TCM\Services\RegionalPricing::courseCharge($price, (int) ($course['category_id'] ?? 0));
+    $modalDisplayPrice = \TCM\Services\RegionalPricing::displayCourse($price, (int) ($course['category_id'] ?? 0));
+    $modalPayableInr = \TCM\Services\RegionalPricing::formatInr($price);
   ?>
   <!-- Course Enrollment Modal -->
   <div class="tcm-modal-overlay" id="tcmCourseModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tcmCourseModalTitle">
@@ -562,17 +578,12 @@
       <button type="button" class="tcm-modal-close" id="tcmCourseCloseBtn" aria-label="Close modal">&times;</button>
       <div class="tcm-eyebrow" style="margin-bottom: 8px;">LIVE COHORT ENROLLMENT</div>
       <h3 id="tcmCourseModalTitle" class="tcm-h3" style="margin-bottom: 4px;">Enroll in <?= e($course['title']) ?></h3>
-      <?php if (str_starts_with($modalPrice, '≈ ')): ?>
-        <p>Tuition estimate <strong><?= e($modalPrice) ?></strong>. Payment is charged in INR.</p>
-      <?php endif; ?>
-      <?php if ($isBankTransfer): ?>
-        <p>Full payment by bank transfer <strong><?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?> INR</strong></p>
-        <p>Choose a cohort and review the fee before continuing to the bank transfer instructions.</p>
-        <a class="tcm-btn tcm-btn-primary" href="<?= e(base_url('/enrollment/international/' . rawurlencode($course['slug']))) ?>">Continue to enrollment</a>
-      <?php else: ?>
-      <div id="tcmCoursePrice" style="font-size: 14.5px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;">
-        Tuition Fee: <?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?> (All Taxes Included)
+      <div id="tcmCoursePrice" data-display-price="<?= e($modalDisplayPrice) ?>" style="font-size: 14.5px; font-weight: 700; color: var(--tcm-fg); margin-bottom: 16px;">
+        Tuition Fee: <?= e($modalDisplayPrice) ?> (All Taxes Included)
       </div>
+      <?php if ($modalDisplayPrice !== $modalPayableInr): ?>
+        <p>PayU will charge <?= e($modalPayableInr) ?> in INR.</p>
+      <?php endif; ?>
       <?php if ($isSeatBookingAvailable): ?>
       <fieldset id="tcmSeatBookingChoice" class="course-booking-options">
         <legend>Choose how you want to pay</legend>
@@ -597,7 +608,7 @@
           <input type="tel" id="tcmCoursePhone" class="tcm-form-input" placeholder="e.g. 9876543210" maxlength="14" required>
         </div>
         <button type="submit" class="tcm-btn tcm-btn-primary" id="tcmCourseSubmitBtn" style="width: 100%; height: 50px;">
-          <span>Proceed to Pay &middot; <?= e(\TCM\Services\RegionalPricing::formatInr($price)) ?></span>
+          <span>Proceed to Pay &middot; <?= e($modalDisplayPrice) ?></span>
           <svg class="arrow-icon" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
         </button>
       </form>
@@ -606,9 +617,9 @@
         <i class="bi bi-shield-lock-fill" style="color: #10B981;"></i> 256-Bit SSL Encrypted &middot; Powered by PayU India<br>
         UPI (GPay / PhonePe / Paytm), Credit/Debit Cards, NetBanking supported.
       </div>
-      <?php endif; ?>
     </div>
   </div>
+  <?php endif; ?>
 
   <!-- Custom Installment Payment Plan Modal -->
   <?php if ($isInstallmentEligible): 
@@ -1101,7 +1112,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.27') ?>"></script>
   <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
 </body>

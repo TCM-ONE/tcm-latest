@@ -268,7 +268,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.27') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
   <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
 </body>
