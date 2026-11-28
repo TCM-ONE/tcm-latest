@@ -420,7 +420,7 @@ try {
     // 7. Master Approved 31-Course Pricing & Durations Sync
     // -----------------------------------------------------------------
     $exactCourses = [
-        ['id' => 13, 'slug' => 'full-stack-web-development', 'price' => 12999.00, 'orig' => 19999.00, 'duration' => '16 Weeks', 'featured' => 1],
+        ['id' => 13, 'slug' => 'full-stack-web-development', 'price' => 7499.00, 'orig' => 19999.00, 'duration' => '16 Weeks', 'featured' => 1],
         ['id' => 14, 'slug' => 'frontend-development-with-react', 'price' => 6999.00, 'orig' => 9999.00, 'duration' => '8 Weeks', 'featured' => 1],
         ['id' => 55, 'slug' => 'react-nextjs-frontend-engineering', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
         ['id' => 56, 'slug' => 'backend-development-nodejs-apis', 'price' => 7999.00, 'orig' => 11999.00, 'duration' => '8 Weeks', 'featured' => 0],
@@ -432,7 +432,7 @@ try {
         ['id' => 63, 'slug' => 'core-java-object-oriented-programming', 'price' => 4999.00, 'orig' => 7499.00, 'duration' => '6 Weeks', 'featured' => 0],
         ['id' => 39, 'slug' => 'python-for-ai-ml', 'price' => 2499.00, 'orig' => 3999.00, 'duration' => '30 Days', 'featured' => 0],
         ['id' => 49, 'slug' => 'digital-skills-computer-fundamentals', 'price' => 1999.00, 'orig' => 3499.00, 'duration' => '4 Weeks', 'featured' => 0],
-        ['id' => 54, 'slug' => 'data-analytics-excel-sql-powerbi', 'price' => 9999.00, 'orig' => 14999.00, 'duration' => '10 Weeks', 'featured' => 1],
+        ['id' => 54, 'slug' => 'data-analytics-with-excel-sql-power-bi-python', 'price' => 4999.00, 'orig' => 11999.00, 'duration' => '10 Weeks', 'featured' => 1],
         ['id' => 64, 'slug' => 'data-science-machine-learning-foundations', 'price' => 12999.00, 'orig' => 18999.00, 'duration' => '14 Weeks', 'featured' => 1],
         ['id' => 42, 'slug' => 'machine-learning-python-projects', 'price' => 2999.00, 'orig' => 4999.00, 'duration' => '40 Days', 'featured' => 1],
         ['id' => 67, 'slug' => 'artificial-intelligence-machine-learning', 'price' => 14999.00, 'orig' => 22999.00, 'duration' => '16 Weeks', 'featured' => 1],

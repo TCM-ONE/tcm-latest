@@ -110,14 +110,15 @@ final class PublicPaymentController extends Controller
             $itemId = (int) $course['id'];
             $resolvedSlug = (string) $course['slug'];
             $itemTitle = (string) $course['title'];
-            $amount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
+            $baseAmount = DiwaliOffer::priceFor((string) $resolvedSlug, (float) $course['price']);
+            $amount = \TCM\Services\RegionalPricing::courseCharge($baseAmount, (int) ($course['category_id'] ?? 0));
         }
 
         if ($amount > 0 && \TCM\Services\RegionalPricing::isInternational()) {
             $this->abortWithError('International checkout uses bank transfer. Open the payment instructions on the course or workshop page.');
         }
         if ($amount > 0 && $isInstallmentPlan && !\TCM\Services\RegionalPricing::allowsNewInstallments()) {
-            $this->abortWithError('Installment plans are available only in India. Please choose full payment.');
+            $this->abortWithError('Installments are available only for eligible India checkout in INR. Please choose full payment.');
         }
 
         // 1. Resolve or Create User

@@ -55,7 +55,7 @@
         <label>Country of residence (2-letter code)<input name="residence" autocomplete="country" maxlength="2" pattern="[A-Za-z]{2}" placeholder="US" value="<?= e($fields['residence']) ?>" required></label>
         <label>Billing country (2-letter code)<input name="billing" autocomplete="billing country" maxlength="2" pattern="[A-Za-z]{2}" placeholder="US" value="<?= e($fields['billing']) ?>" required></label>
         <label>Display currency<select name="currency" id="enrollment-currency">
-          <?php foreach ($estimates as $code => $value): ?><option value="<?= e($code) ?>" data-estimate="<?= e($value) ?>" <?= $fields['currency'] === $code ? 'selected' : '' ?>><?= e($code) ?></option><?php endforeach; ?>
+          <?php foreach ($estimates as $code => $value): ?><option value="<?= e($code) ?>" data-estimate="<?= e($value) ?>" data-inr="<?= e(number_format($amounts[$code], 2, '.', '')) ?>" data-inr-label="INR <?= e(number_format($amounts[$code], 2)) ?>" <?= $fields['currency'] === $code ? 'selected' : '' ?>><?= e($code) ?></option><?php endforeach; ?>
         </select></label>
         <label>Time zone<select name="timezone" id="enrollment-timezone" data-detect="<?= $fields['name'] === '' ? '1' : '0' ?>">
           <?php $zoneLabels = ['America/New_York' => 'Eastern · New York', 'America/Chicago' => 'Central · Chicago', 'America/Denver' => 'Mountain · Denver', 'America/Los_Angeles' => 'Pacific · Los Angeles', 'Asia/Kolkata' => 'India · Kolkata']; ?>
@@ -85,7 +85,7 @@
       <p><?= e($course['duration'] ?: 'Confirm duration with admissions') ?> · Online</p>
       <?php if (!$batches): ?><p>There are currently no selectable cohorts. You can request a preferred time.</p><?php endif; ?>
       <p><?= $canTransfer ? 'Pay in full by bank transfer' : 'Tuition estimate · Contact admissions for payment availability' ?></p>
-      <p class="checkout-price">INR <?= e(number_format($amount, 2)) ?></p>
+      <p class="checkout-price" id="enrollment-inr-total" aria-live="polite">INR <?= e(number_format($amount, 2)) ?></p>
       <p id="enrollment-estimate" aria-live="polite"><?= $fields['currency'] !== 'INR' ? e($estimates[$fields['currency']] ?? '') : '' ?></p>
       <?php if ($canTransfer): ?>
         <p>Your bank may apply conversion or transfer fees. Sign in with the email above to view transfer instructions and submit proof. Admissions confirms payment and cohort assignment after review.</p>
@@ -95,6 +95,6 @@
   </div>
 </main>
 <script src="<?= e(base_url('/assets/tcm-editorial.js?v=2.26')) ?>" defer></script>
-<script src="<?= e(base_url('/assets/international-enrollment.js?v=2')) ?>" defer></script>
+<script src="<?= e(base_url('/assets/international-enrollment.js?v=3')) ?>" defer></script>
 </body>
 </html>

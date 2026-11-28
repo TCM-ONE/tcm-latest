@@ -187,10 +187,10 @@
               <label for="catalogPrice" class="tcm-filter-label">Pricing</label>
               <select id="catalogPrice" class="tcm-form-select">
                   <option value="">All Pricing</option>
-                  <option value="under-2k">Under <?= e(\TCM\Services\RegionalPricing::display(2000)) ?></option>
-                  <option value="2k-5k"><?= e(\TCM\Services\RegionalPricing::display(2000)) ?> – <?= e(\TCM\Services\RegionalPricing::display(5000)) ?></option>
-                  <option value="5k-10k"><?= e(\TCM\Services\RegionalPricing::display(5000)) ?> – <?= e(\TCM\Services\RegionalPricing::display(10000)) ?></option>
-                  <option value="above-10k">Above <?= e(\TCM\Services\RegionalPricing::display(10000)) ?></option>
+                  <option value="under-2k">Under <?= e(\TCM\Services\RegionalPricing::displayCourse(2000)) ?></option>
+                  <option value="2k-5k"><?= e(\TCM\Services\RegionalPricing::displayCourse(2000)) ?> – <?= e(\TCM\Services\RegionalPricing::displayCourse(5000)) ?></option>
+                  <option value="5k-10k"><?= e(\TCM\Services\RegionalPricing::displayCourse(5000)) ?> – <?= e(\TCM\Services\RegionalPricing::displayCourse(10000)) ?></option>
+                  <option value="above-10k">Above <?= e(\TCM\Services\RegionalPricing::displayCourse(10000)) ?></option>
                 </select>
             </div>
             <div class="tcm-catalog-filter-actions">
@@ -244,9 +244,9 @@
               <div class="tcm-course-bottom">
                 <div class="tcm-course-price-wrap">
                   <div>
-                    <span class="tcm-course-price" <?= $isDiwaliCourse ? 'data-diwali-price data-regular="' . $regularInr . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($priceInr, (int) ($c['category_id'] ?? 0))) ?></span>
+                    <span class="tcm-course-price" <?= $isDiwaliCourse ? 'data-diwali-price data-regular="' . $regularInr . '"' : '' ?>><?= e(\TCM\Services\RegionalPricing::displayCourse($priceInr, (int) ($c['category_id'] ?? 0))) ?></span>
                     <?php if ($origInr > $priceInr): ?>
-                      <span class="tcm-course-orig-price" <?= $isDiwaliCourse ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::display($origInr, (int) ($c['category_id'] ?? 0))) ?></span>
+                      <span class="tcm-course-orig-price" <?= $isDiwaliCourse ? 'data-diwali-original' : '' ?>><?= e(\TCM\Services\RegionalPricing::displayCourse($origInr, (int) ($c['category_id'] ?? 0))) ?></span>
                     <?php endif; ?>
                     <?php if ($isDiwaliCourse): ?><span class="tcm-badge" data-diwali-badge style="background:#a12518;color:#fff;margin-left:6px;"><?= $regularInr > \TCM\Services\DiwaliOffer::MINIMUM_REGULAR_PRICE ? '60% OFF' : 'Diwali Price' ?></span><?php endif; ?>
                   </div>
@@ -268,7 +268,7 @@
   <?php \TCM\Core\View::partial('partials.public-footer'); ?>
 
   <!-- Scripts -->
-  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.25') ?>"></script>
+  <script src="<?= base_url('/assets/tcm-editorial.js?v=2.27') ?>"></script>
   <script src="<?= base_url('/assets/cai-assistant.js?v=2.20') ?>"></script>
   <script src="<?= base_url('/assets/diwali-offer.js?v=3') ?>"></script>
 </body>

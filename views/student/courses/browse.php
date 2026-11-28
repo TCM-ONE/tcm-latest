@@ -112,10 +112,10 @@
             <!-- Price + rating -->
             <div style="display: flex; justify-content: space-between; margin-bottom: 14px;">
                 <div>
-                    <?php $displayPrice = \TCM\Services\RegionalPricing::display((float) ($c['price'] ?? 0), (int) ($c['category_id'] ?? 0)); ?>
+                    <?php $displayPrice = \TCM\Services\RegionalPricing::displayCourse((float) ($c['price'] ?? 0), (int) ($c['category_id'] ?? 0)); ?>
                     <strong style="font-size:1.05rem;color:#111;"><?= $isPaid ? e($displayPrice) : '<span style="color:#16a34a;font-weight:700;">Free</span>' ?></strong>
                     <?php if ($c['original_price'] && $isPaid): ?>
-                        <span style="color:#bbb;text-decoration:line-through;font-size:.8rem;margin-left:5px;"><?= e(\TCM\Services\RegionalPricing::display((float) $c['original_price'], (int) ($c['category_id'] ?? 0))) ?></span>
+                        <span style="color:#bbb;text-decoration:line-through;font-size:.8rem;margin-left:5px;"><?= e(\TCM\Services\RegionalPricing::displayCourse((float) $c['original_price'], (int) ($c['category_id'] ?? 0))) ?></span>
                     <?php endif; ?>
                 </div>
                 <?php if ((float)$c['rating'] > 0): ?>
